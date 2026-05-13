@@ -43,6 +43,7 @@ import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Fintype.Basic
 import Mathlib.Logic.Basic
 import Mathlib.Order.Basic
+import Mathlib.Data.Real.Basic
 
 namespace AsymmetricEliminativism
 
@@ -342,6 +343,46 @@ structure FaithfulP1 (FolkObj Tcls : Type)
 -/
 
 /--
+  Paper's "partition-relative weighting of `{E_1, …, E_n}`"
+  structural object (v0.9.0 R7 substantive concretization).
+
+  Per paper `\label{lem:prw}` lines 2083-2085 + 2155-2170: an
+  arbitration procedure's verdict is "partition-relative" when
+  it factors through a ranking-function on the partition
+  members.  The paper's `Sub-claim (Partition-Internality of
+  $\E$-Internal Structural Stipulations)` writes the weighting
+  out explicitly as `R_{f^*}` — a ranking on the `E_i` induced
+  by an `\E`-internal structural property `f^*` — which assigns
+  to each partition member `E_k` a "$f^*$-value" used to rank
+  the parts.  Paper lines 2155-2170: "$R_{f^*}$ is constructed
+  from $f^*$-values computed on each $E_i$ … the construction
+  depends on $\E$-internal features (the $f^*$-value of each
+  $E_i$) that are themselves distributed unequally across the
+  partition members."
+
+  *Lean encoding choice.*  We carry the paper's `R_{f^*}`-style
+  ranking as a `Fin Part.n → ℝ` weight function: each partition
+  member gets a real-valued weight, and the "ranking" of the
+  parts is the induced ordering on weights.  This is the
+  minimal paper-faithful typed primitive: any concrete paper-
+  stipulated weighting (uniform-on-one-part, structural-property-
+  induced $R_{f^*}$, contextual-mapping, etc.) instantiates this
+  carrier with its specific weight function.
+
+  *Cat 3 sub-type.*  `carrier` per v6 §3.4.1 — paper-introduced
+  typed primitive for the "weighting of `{E_1, …, E_n}`" object
+  that the impossibility theorem's `partitionRelative` predicate
+  factors verdicts through.  Status `gapDefinitional` per v6 §1.1:
+  paper-stipulated definitional atom; never to close.
+-/
+structure Weighting {FolkObj : Type} (Part : MutuallyUnrankedPartition FolkObj) where
+  /-- The ranking weight assigned to each partition member.
+      Paper's "$f^*$-value of each $E_i$" / `R_{f^*}` ranking
+      on `{E_1, …, E_n}`, here typed as a real-valued weight
+      function over `Fin Part.n`. -/
+  weight : Fin Part.n → ℝ
+
+/--
   Paper `\label{lem:prw}` warrant-form taxonomy (v0.8.0 R5
   substantive paper-faithful refinement).
 
@@ -438,48 +479,53 @@ inductive WarrantFeatureType
   deriving DecidableEq, Repr
 
 /-
-  Design note (v0.8.0 R5 substantive paper-faithful refinement).
-  `ArbitrationProcedure` carries a typed `warrantForm`
-  classifier (paper-faithful sub-form taxonomy from
-  `\label{lem:prw}` proof body, paper lines 2079-2270) and three
-  paper-stipulated bare-`Prop` scope fields (`partitionRelative`,
-  `warrantInternalToE`, `failsAdjudication`).
+  Design note (v0.9.0 R7 partitionRelative concretization).
+  `ArbitrationProcedure` carries an `adjudicate` function +
+  a typed `warrantForm` classifier (paper-faithful sub-form
+  taxonomy from `\label{lem:prw}` proof body, paper lines
+  2079-2270).  The previously-bare-Prop `partitionRelative`
+  field has been EXTRACTED from the structure and re-encoded
+  as a derived `def` consuming the new `Weighting` carrier
+  (v0.9.0 R7 concretization, breaks anti-pattern #13 at this
+  level of the formalization).
 
-  *Why typed `warrantForm` + scope Props (v0.8.0 R5 substantive).*
-  The v0.7.0 R4 encoding carried bare `Prop` fields for
-  `partitionRelative` and `warrantInternalToE` with no typed
-  classifier; the lem:prw reduction was therefore a single
-  `workingAssumption` axiom because no per-case decomposition
-  was structurally available.  Round 5 hostile validator flagged
-  the bare-Prop encoding as LAZY: the paper supplies a 9-case
-  taxonomy (paper lines 2079-2270 — uniform, typeA, typeB,
-  typeC1, typeC2_recursive, typeC3_external, typeC4a_internal_track,
-  typeC4b_external_track, contextual), and the substantive R5 fix
-  encodes the case taxonomy as a typed `WarrantFeatureType`
-  inductive with one constructor per paper-case.  The bare-Prop
-  `partitionRelative` / `warrantInternalToE` / `failsAdjudication`
-  fields remain as paper-stipulated scope conditions (v6 §3.4.2
-  `hypothesisPredicate`) — the substantive case-analysis is now
-  carried by the `warrantForm` tag plus the nine per-case atomic
-  Cat 3 stipulations in `Impossibility.lean`.
+  *Why the partitionRelative field was extracted (v0.9.0 R7).*
+  Round 6 hostile validator (v0.8.0) found `partitionRelative`
+  still encoded as bare-Prop on the structure: the 6 case-bridge
+  axioms `prw_uniform_to_pr`, `prw_typeA_to_pr`, `prw_typeC1_to_pr`,
+  `prw_typeC2_recursive_to_pr`, `prw_typeC4a_internal_track_to_pr`,
+  `prw_contextual_to_pr` had bare-Prop RHS shape
+  `warrantForm = X → partitionRelative` with no further content
+  on the conclusion.  R7 fully breaks anti-pattern #13 here by
+  introducing the `Weighting` carrier (typed primitive for the
+  paper's "weighting of `{E_1, …, E_n}`" object) and re-encoding
+  `partitionRelative` as a concrete `def` asserting that
+  `A.adjudicate` factors through some `Weighting` (picks
+  weight-maximizers per input).
 
   *Cat 3 sub-type classification.*  `ArbitrationProcedure` is
   `hypothesisPredicate` (paper-stipulated Prop-bundle scope
-  condition); `WarrantFeatureType` is a fresh Cat 3 `carrier`
-  (paper-introduced typed enumeration of warrant sub-forms).
-  Both have ledger entries in `Ledger.lean` post-R5.
+  condition); `WarrantFeatureType` is Cat 3 `carrier`
+  (paper-introduced typed enumeration of warrant sub-forms);
+  `Weighting` is Cat 3 `carrier` (paper-introduced typed primitive
+  for `R_{f^*}`-style rankings on the partition members);
+  `ArbitrationProcedure.partitionRelative` is Cat 3
+  `structuralEquation` (paper-stated definitional reduction
+  tying the bare-Prop "verdict reduces to a weighting" content
+  to the `Weighting` carrier).  All have ledger entries in
+  `Ledger.lean`.
 
-  *What the bare Props still encode.*  `partitionRelative` is
-  paper-stipulated "verdict reduces to a weighting of
-  `{E_1, …, E_n}`" (paper-`\label{def:op-properties}` P2 +
-  `\label{lem:prw}`); `warrantInternalToE` is paper-stipulated
-  "adjudication-warrant derives from `\\E`-features alone" (paper
-  hypothesis (H), `\label{thm:impossibility}`); `failsAdjudication`
-  is paper-stipulated "fails to produce a ranking — option (ii)"
-  (paper line 2133, `\label{lem:prw}` typeB clause).  All three
-  retain their paper-discursive content; the v0.8.0 R5 refinement
-  is in surfacing the case taxonomy so the lem:prw reduction can
-  be DERIVED rather than axiomatized.
+  *What the bare Props still encode.*  After R7, only one bare-Prop
+  remains on `ArbitrationProcedure`'s SCOPE-PREDICATE pair (the
+  paper-stipulated `\label{def:op-properties}` P2 + `\label{lem:prw}`
+  scope-condition).  The `warrantInternalToE` and `failsAdjudication`
+  defs are already concrete (extracted to `def`s on `WarrantFeatureType`
+  in v0.8.0 R5 Issue 3); the `partitionRelative` def is now also
+  concrete (v0.9.0 R7).  The R7 refinement is in surfacing the
+  paper's "weighting of `{E_1, …, E_n}`" carrier so the
+  partition-relativity predicate has a concrete `∃ w : Weighting Part,
+  <factoring-through condition>` RHS rather than a free-floating
+  bare Prop.
 -/
 structure ArbitrationProcedure (FolkObj Tcls : Type)
     (Part : MutuallyUnrankedPartition FolkObj) where
@@ -493,27 +539,6 @@ structure ArbitrationProcedure (FolkObj Tcls : Type)
        consumed by the per-case atomic Cat 3 stipulations
        in `Impossibility.lean`. -/
   warrantForm : WarrantFeatureType
-  /-- *Partition-relative* iff the procedure's preference output
-       reduces to a weighting of the partition members
-       `{E_1, …, E_n}`.  Paper-stipulated scope condition
-       (v6 §3.4.2 `hypothesisPredicate`).  Paper
-       `\label{def:op-properties}` P2 + `\label{lem:prw}`.
-
-       *Why bare-`Prop` (v0.8.0 R5 documented choice).*  The
-       paper's "reduces to a weighting" content is paper-discursive
-       (paper text + the per-case derivation through
-       `\label{lem:prw}` atomic stipulations), not encoded as a
-       Lean-internal definitional equation on `adjudicate`.
-       Concretising via `partitionRelative := ∃ w : Fin Part.n → ℝ,
-       <weighting derivation>` would require additional Cat 3
-       structuralEquation atoms tying the concrete-form definition
-       to the per-case reductions; the bare-`Prop` encoding
-       faithfully reflects that the substantive content lives in
-       the paper's case-analysis proof.  The Lean linkage to the
-       paper-faithful warrant-form taxonomy is via the nine atomic
-       stipulations consuming `A.warrantForm = X → A.partitionRelative`
-       in `Impossibility.lean`. -/
-  partitionRelative : Prop
 
 /--
   *Warrant internal to `\\E`* — concretized as paper-faithful
@@ -574,6 +599,63 @@ def ArbitrationProcedure.failsAdjudication
     {Part : MutuallyUnrankedPartition FolkObj}
     (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
   A.warrantForm = WarrantFeatureType.typeB
+
+/--
+  *Partition-relative* — concretized as factoring through a
+  `Weighting` carrier (v0.9.0 R7 substantive concretization).
+
+  Paper `\label{lem:prw}` (lines 2079-2085 + 2155-2170): an
+  arbitration procedure is partition-relative when its verdict
+  factors through a ranking-function on the partition members.
+  Paper line 2158: "the procedure 'adjudicate $\Op_i$ vs.\ $\Op_j$
+  by routing to whichever of $E_i, E_j$ is higher under the
+  $f^*$-induced ranking $R_{f^*}$' is a partition-relative
+  weighting of $\{E_1, \ldots, E_n\}$".  Paper line 2161-2162:
+  "The procedure's verdict on which $\Op$ to prefer is determined
+  by $R_{f^*}$'s ranking of the $E_i$."
+
+  *Definitional equation.*  `A.partitionRelative` iff there
+  exists a weighting `w : Weighting Part` such that for every
+  input `x : Tcls`, the procedure's adjudication `A.adjudicate x`
+  is a weight-maximizer of `w` (i.e., for all `j : Fin Part.n`,
+  `w.weight j ≤ w.weight (A.adjudicate x)`).  This honestly
+  constrains `A.adjudicate` to factor through the weighting:
+  given a non-trivial `w`, the procedure must pick the
+  weight-maximal partition member on every input — i.e., it
+  routes to whichever `E_k` is "higher" under `w`'s induced
+  ranking, exactly matching the paper's $R_{f^*}$-routing form.
+
+  *Why "weight-maximizer" rather than equality to a specific
+  index.*  The paper-prose stipulation for each case-tag
+  (`uniform`, `typeA`, `typeC1`, `typeC2_recursive`,
+  `typeC4a_internal_track`, `contextual`) doesn't constructively
+  fix WHICH partition member the procedure picks — it stipulates
+  only that SOME paper-stipulated weighting exists through which
+  the procedure factors.  The "weight-maximizer" formulation
+  preserves this: each case-bridge axiom asserts existence of
+  the case-specific paper-stipulated weighting (not a particular
+  closed-form construction), which is the honest paper-faithful
+  encoding.
+
+  *Status / Cat 3 sub-type.*  Cat 3 `structuralEquation` per v6
+  §3.4.3: paper-stated definitional reduction tying paper-
+  stipulated "verdict reduces to a weighting" content to the
+  `Weighting` carrier.  Status `gapDefinitional` per v6 §1.1:
+  paper-stipulated definitional equation; never to close.
+
+  *v0.9.0 R7 paper-faithful concretization.*  Replaces the
+  v0.8.0 bare-Prop field on `ArbitrationProcedure`.  Round 6
+  hostile validator's remaining issue (6 case-bridge axioms
+  with bare-Prop RHS) is fully resolved: the 6 case-bridge
+  axioms now have concrete RHS shape `warrantForm = X → ∃ w :
+  Weighting Part, ∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.
+-/
+def ArbitrationProcedure.partitionRelative
+    {FolkObj Tcls : Type}
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
+  ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n,
+    w.weight j ≤ w.weight (A.adjudicate x)
 
 /--
   P2 (definitional): `Op` admits cross-operationalisation

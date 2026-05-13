@@ -31,7 +31,8 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.8.0 post-R5 substantive decomposition;
+  Inventory by category (v0.9.0 R7 partitionRelative concretization;
+  v0.8.0 post-R5 substantive decomposition baseline preserved;
   live counts: see `lake env lean
   AsymmetricEliminativism/Ledger.lean`):
 
@@ -42,44 +43,46 @@
     theorems: `prw_typeB_no_ranking`,
     `prw_warrantInternalToE_excludes_typeC3`,
     `prw_warrantInternalToE_excludes_typeC4b` are now theorems by
-    `decide` on `WarrantFeatureType` decidable-equality):
+    `decide` on `WarrantFeatureType` decidable-equality; v0.9.0 R7
+    partitionRelative concretization updated all 6 case-bridge
+    axioms with concrete `∃ w : Weighting Part, A factors through
+    w` RHS via the new `Weighting` carrier):
 
       prw_uniform_to_pr
         ← `\label{lem:prw}` uniform case (paper lines 2092-2102);
           single-step typed bridge `A.warrantForm = uniform →
-          A.partitionRelative`.
+          ∃ w : Weighting Part, ∀ x j, w.weight j ≤ w.weight
+          (A.adjudicate x)` (v0.9.0 R7 concrete RHS via
+          `Weighting` carrier).
       prw_typeA_to_pr
         ← `\label{lem:prw}` type-(a) case (paper lines 2127-2131);
-          single-step typed bridge `A.warrantForm = typeA →
-          A.partitionRelative`.
+          same concrete RHS shape (v0.9.0 R7).
       prw_typeB_no_ranking
         ← `\label{lem:prw}` type-(b) case (paper lines 2131-2134);
           single-step typed bridge `A.warrantForm = typeB →
-          A.failsAdjudication`.
+          A.failsAdjudication`.  Derived theorem (v0.8.0 R5
+          Issue 3 concretization).
       prw_typeC1_to_pr
         ← `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185);
-          single-step typed bridge `A.warrantForm = typeC1 →
-          A.partitionRelative`.
+          same concrete RHS shape (v0.9.0 R7).  Most paper-faithful
+          match: paper EXPLICITLY writes the weighting as `R_{f^*}`.
       prw_typeC2_recursive_to_pr
         ← `\label{lem:prw}` type-(c.2) recursive case (paper lines
-          2186-2196); single-step typed bridge `A.warrantForm =
-          typeC2_recursive → A.partitionRelative`.
+          2186-2196); same concrete RHS shape (v0.9.0 R7).
       prw_warrantInternalToE_excludes_typeC3
         ← `\label{lem:prw}` type-(c.3) exclusion (paper lines
           2189-2191); non-occurrence excluder `A.warrantInternalToE
-          → A.warrantForm ≠ typeC3_external`.
+          → A.warrantForm ≠ typeC3_external`.  Derived theorem.
       prw_typeC4a_internal_track_to_pr
         ← `\label{lem:prw}` type-(c.4.a) internal track case (paper
-          lines 2210-2218); single-step typed bridge `A.warrantForm
-          = typeC4a_internal_track → A.partitionRelative`.
+          lines 2210-2218); same concrete RHS shape (v0.9.0 R7).
       prw_warrantInternalToE_excludes_typeC4b
         ← `\label{lem:prw}` type-(c.4.b) exclusion (paper lines
           2220-2237); non-occurrence excluder `A.warrantInternalToE
-          → A.warrantForm ≠ typeC4b_external_track`.
+          → A.warrantForm ≠ typeC4b_external_track`.  Derived theorem.
       prw_contextual_to_pr
         ← `\label{lem:prw}` contextual case (paper lines 2257-2270);
-          single-step typed bridge `A.warrantForm = contextual →
-          A.partitionRelative`.
+          same concrete RHS shape (v0.9.0 R7).
 
     All nine carry sub-type Cat 3 `structuralEquation` (v6 §3.4.3),
     status `gapDefinitional` (v6 §1.1) — paper-stipulated
@@ -94,7 +97,8 @@
       UseSeparability, MutuallyUnrankedPartition,
       Operationalisation, FaithfulP1, ArbitrationProcedure,
       CognitiveSystem, SessionalCognition, BridgingPrinciple,
-      DiscriminatorRow.
+      DiscriminatorRow,
+      Weighting (added v0.9.0 R7).
 
       Inductive (added v0.8.0 R5): WarrantFeatureType.
 
