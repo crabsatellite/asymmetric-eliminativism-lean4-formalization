@@ -69,9 +69,21 @@
 
   Gap ledger:
     AsymmetricEliminativism/Ledger.lean — typed record of every
-    atomic axiom and every closed top-level result, with two
-    orthogonal classifications per entry: 5-tier status × 3-input-
-    category × notInput.
+    atomic axiom and every closed top-level result, with TWO
+    orthogonal mandatory classifications per entry plus a Cat 3
+    sub-type tag:
+      * 6-tier status: gapOpen / gapPartial / gapBlocked /
+        gapDeadEnd / gapClosed / gapClosedConditional
+      * 4-input-category: cat1Mathlib / cat2External /
+        cat3PaperNovel / notInput  (Cat 0 = Lean kernel axioms is
+        the always-present system layer, not tracked here per
+        v6 §3.1)
+      * Cat 3 sub-type: carrier / hypothesisPredicate /
+        structuralEquation / workingAssumption /
+        conditionalHypothesis / notCat3
+    `conditionalOn : List String := []` field records broken-link
+    hypothesis predicates per v6 §12; invariant: non-empty iff
+    status = gapClosedConditional.
 -/
 
 import AsymmetricEliminativism.Basic
