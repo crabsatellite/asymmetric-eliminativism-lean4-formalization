@@ -672,33 +672,27 @@ structure SessionalCognition (S : CognitiveSystem) where
   V6_selfReportAsObservable : Prop
 
 /-! ## §sec:discriminator (calibration-section).  Substrate-
-     independence triple-use premise. -/
+     independence triple-use premise — ledger-only entry.
 
-/--
-  *Substrate-independence triple-use premise* (Cat 3 paper-novel
-  hypothesis predicate, paper `\S\ref{sec:discriminator}`
-  `Acknowledgement: Route~2 shares load-bearing premise with E2b
-  transferability AND impossibility-theorem-application`).
+  *v0.6.0 R2 (defect #4 + #5):* the v0.5.0 `axiom
+  SubstrateIndependenceTripleUse : Prop` was deleted.  An
+  unparametrised naked-`Prop` axiom is forbidden by the project's
+  trust policy (`AxiomAudit.lean` §`No (E) custom-scaffolding
+  axioms (naked constants, abstract-type-inhabitation
+  stipulations)`); no downstream theorem consumed it (anti-
+  pattern #7 phantom downstream user).
 
-  *Paper statement.*  "The substrate-independence premise does
-  triple duty for the LLM-elimination verdict: (a) E2b
-  transferability, (b) D1 Route 2, (c) impossibility-theorem
-  application to the novel target.  The framework's verdict on
-  LLMs therefore rests on two empirical premises (substrate-
-  independence doing triple work; calendar-window evidence doing
-  one job for D2 and D3) rather than on three or four
-  independent premises."
-
-  *Lean encoding (v0.5.0 R2 reclassification).*  Declared as a
-  paper-articulated scope-condition `Prop`.  The premise is
-  *available* for downstream consumption but is not currently
-  consumed by any derived theorem in this file; wiring it into
-  the LLM-target-extension theorem is paper-extension work.
-
-  *Sub-type.*  `hypothesisPredicate` per v6 §3.4.2: paper-
-  introduced scope condition; definitional atom (永不 close).
+  The substrate-independence premise remains paper-articulated
+  (paper `\S\ref{sec:discriminator}` `Acknowledgement` paragraph)
+  and is recorded as a Cat 3 `workingAssumption` ledger entry
+  (`AsymmetricEliminativism.Ledger.gap_substrate_independence_
+  triple_use_OPEN`) without an underlying Lean axiom.  Wiring it
+  into a downstream typed theorem (target: LLM-target-extension
+  of the impossibility theorem) is paper-extension work; if and
+  when such a theorem is added, the premise will be re-introduced
+  as a typed hypothesis on the appropriate carrier (not as a
+  naked `Prop` axiom).
 -/
-axiom SubstrateIndependenceTripleUse : Prop
 
 /-! ## §14.  Bridging principle (`\label{def:bridging}`).  -/
 

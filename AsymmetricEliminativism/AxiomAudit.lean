@@ -31,51 +31,25 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.5.0 post-R1 decomposition; live counts:
+  Inventory by category (v0.6.0 post-R2 honest revert; live counts:
   see `lake env lean AsymmetricEliminativism/Ledger.lean`):
 
-    Cat 3 atomic stipulations for Lemma `\label{lem:prw}`
-    (Li 2026), all `axiom` declarations in
+    Cat 3 paper-novel atomic stipulation for Lemma `\label{lem:prw}`
+    (Li 2026), the SOLE `axiom` declaration in
     `AsymmetricEliminativism/Impossibility.lean`:
 
-      prw_uniform_warrant_partitionRelative
-        ← `\label{lem:prw}` proof body, uniform-case paragraph;
-          structuralEquation; constant assignment to `{i, j}` ⇒
-          single-`E_m` privileging ⇒ partition-relative.
-
-      prw_type_a_feature_partitionRelative
-        ← `\label{lem:prw}` proof body, `Sub-claim:
-          No-arbitration for \E-internal ranking principles`
-          type-(a); structuralEquation; feature `f ∈ E_m` ⇒
-          single-`E_m` privileging ⇒ partition-relative.
-
-      prw_type_b_feature_partitionRelative
-        ← `\label{lem:prw}` proof body, type-(b);
-          structuralEquation; symmetric feature ⇒ no ranking ⇒
-          P2-failure equivalent to partition-relative.
-
-      prw_partition_internality_of_structural_stipulations
-        ← `\label{lem:prw}` proof body, `Sub-claim
-          (Partition-Internality of \E-Internal Structural
-          Stipulations)`; structuralEquation;
-          `R_{f*}`-routing ⇒ partition-relative weighting.
-
-      prw_E_internal_warrant_case_exhaustion
-        ← `\label{lem:prw}` proof body, trichotomy +
-          recursion-termination paragraph; hypothesisPredicate;
-          every `\E`-internal warrant case-reduces to one of
-          (uniform / type-(a) / type-(b) /
-          type-(c) partition-symmetric).
-
-    Cat 3 paper-articulated scope-condition Prop axiom (v0.5.0 R2):
-
-      SubstrateIndependenceTripleUse : Prop
-        ← `\S\ref{sec:discriminator}` `Acknowledgement` paragraph
-          (substrate-independence premise doing triple duty for
-          E2b transferability + D1 Route 2 +
-          impossibility-theorem-application).  `hypothesisPredicate`
-          sub-type; not currently consumed by any derived theorem
-          (paper-articulated for future downstream wiring).
+      lem_prw_reduction
+        ← `\label{lem:prw}` (Partition-Relative-Weighting Reduction);
+          sub-type `workingAssumption` (v6 §3.4.4) pending typed-
+          Warrant refinement of `ArbitrationProcedure`; statement
+          `∀ A, A.warrantInternalToE → A.partitionRelative` on the
+          paper-novel `ArbitrationProcedure` carrier.  Close-
+          target: introduce `Warrant` sub-structure with paper
+          warrant-form taxonomy (uniform / type-(a) / type-(b) /
+          type-(c) structural-property) and decompose this axiom
+          into per-case atomic stipulations on the typed structure
+          plus a case-exhaustion theorem about warrant-form
+          coverage.
 
     Cat 3 typed carriers / scope-condition bundles (encoded as
     Lean `structure` / `def` / `class`, NOT `axiom` — appears in
@@ -88,18 +62,16 @@
       CognitiveSystem, SessionalCognition, BridgingPrinciple,
       DiscriminatorRow.
 
-      Case-tag `def`s on `ArbitrationProcedure`:
-      isUniformWarrant, usesTypeAFeature, usesTypeBFeature,
-      usesTypeCStructuralProperty.
-
   Per-axiom citations live in the corresponding `axiom` docstring
   in the source file.  Round-history (prior retracted citations +
-  atomic refactor steps + R1 decomposition + R2 reclassification)
-  lives in `gap_*.attackHistory` fields inside
+  atomic refactor steps + the v0.5.0 R1 cosmetic decomposition and
+  v0.6.0 R2 honest revert + the deletion of the v0.5.0
+  `SubstrateIndependenceTripleUse` naked-`Prop` axiom) lives in
+  `gap_*.attackHistory` fields inside
   `AsymmetricEliminativism.Ledger`.
 
   Per-theorem axiom dependency profile (verified by `#print
-  axioms` below; post-v0.5.0 R1 decomposition):
+  axioms` below; post-v0.6.0 R2 honest revert):
 
     * Depends on no axioms whatsoever (does not even use
       `propext` / `Classical.choice` / `Quot.sound`):
@@ -111,10 +83,9 @@
         predictsEliminate_of_yes_weak_weak_with_indep,
         not_R2_satisfied_without_indep.
 
-    * Cat 3 atomic stipulations for Lemma `\label{lem:prw}`
-      (5 atoms; v0.5.0 R1):
+    * Depends on the single Cat 3 atomic axiom
+      `lem_prw_reduction`:
         thm_impossibility, thm_impossibility_paper_form,
-        lem_prw_reduction (now derived theorem),
         no_partition_independent_admissible_warrant,
         ensemble_methods_fail_P2, impossibility_uniform_family.
 
@@ -141,20 +112,10 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.predictsEliminate_of_yes_weak_weak_with_indep
 #print axioms AsymmetricEliminativism.not_R2_satisfied_without_indep
 
--- Cat 3 atomic stipulations for Lemma `\label{lem:prw}`
--- (v0.5.0 R1 decomposition).
-#print axioms AsymmetricEliminativism.prw_uniform_warrant_partitionRelative
-#print axioms AsymmetricEliminativism.prw_type_a_feature_partitionRelative
-#print axioms AsymmetricEliminativism.prw_type_b_feature_partitionRelative
-#print axioms AsymmetricEliminativism.prw_partition_internality_of_structural_stipulations
-#print axioms AsymmetricEliminativism.prw_E_internal_warrant_case_exhaustion
-
--- Derived theorem `lem_prw_reduction` (v0.5.0 axiom→theorem).
+-- Cat 3 atomic axiom for Lemma `\label{lem:prw}` (v0.6.0 R2
+-- single workingAssumption encoding; replaces v0.5.0 R1 five-atom
+-- cosmetic decomposition).
 #print axioms AsymmetricEliminativism.lem_prw_reduction
-
--- Cat 3 paper-articulated scope-condition Prop axiom
--- (v0.5.0 R2 reclassification gapBlocked→gapOpen).
-#print axioms AsymmetricEliminativism.SubstrateIndependenceTripleUse
 
 -- Impossibility theorem and its corollaries.
 #print axioms AsymmetricEliminativism.thm_impossibility

@@ -123,471 +123,139 @@ structure GapEntry where
       `status = gapClosedConditional`.  See v6 §12. -/
   conditionalOn : List String := []
 
-/-! ### Cat 3 paper-novel atomic stipulations for Lemma `\label{lem:prw}`.
+/-! ### Cat 3 paper-novel single working-assumption for Lemma `\label{lem:prw}`.
 
-  Per v0.5.0 R1 decomposition (anti-pattern #13 / #14 fix per v6
-  §13 / §18): Lemma `\label{lem:prw}` has a *published proof*
-  whose case-analysis structure (uniform vs.\ contextual; type-
-  (a)/(b)/(c) trichotomy + Partition-Internality sub-claim +
-  recursion-termination) maps one-to-one onto five paper-stated
-  atomic structural stipulations on the typed primitives.  The
-  lemma's downstream consequence is now a *derived theorem*
-  (`lem_prw_reduction`) composing the five atoms via case-
-  analysis on the paper's structural case-tags.
+  *v0.6.0 R2 honest revert (defect #1 / #2 / #3 fix).*  The v0.5.0
+  R1 decomposition into five atomic stipulations + four case-tag
+  `def`s was COSMETIC: the case-tag predicates `isUniformWarrant`,
+  `usesTypeAFeature`, `usesTypeBFeature`,
+  `usesTypeCStructuralProperty` were axiomatised as `Prop := True`,
+  so the case-exhaustion atom reduced to a triviality and the four
+  case-specific atoms collectively asserted exactly the original
+  `lem_prw_reduction` content (in fact stronger: `∀ A,
+  A.partitionRelative` once any single carrier-Prop was inhabited).
+
+  Hostile audit verdict: the paper's `\label{lem:prw}` proof body
+  case-analyses the warrant by LINGUISTIC structural sub-form
+  (uniform vs. contextual; type-(a)/(b)/(c) on the warrant's
+  *justification*-prose), not by a typed predicate on the
+  `ArbitrationProcedure` carrier itself.  Making the case-tags
+  substantive requires a typed `Warrant` sub-structure paper-
+  extension (refining `ArbitrationProcedure` to carry an explicit
+  warrant-form classifier).  That work is not yet in the paper;
+  encoding via `Prop := True` case-tags is anti-pattern #13
+  (conclusion-as-axiom in cosmetic-decomposition form).
+
+  Round 2 fix: revert to a single Cat 3 `workingAssumption` axiom
+  with close-target = typed-Warrant refinement.  All five atomic
+  stipulations + four case-tag carrier entries from R1 are
+  removed; their content is consolidated into the single
+  `gap_lem_prw_reduction` entry below.
 -/
 
 /--
-  Atomic stipulation A1: uniform-warrant case of Lemma
-  `\label{lem:prw}`.
--/
-def gap_prw_uniform_warrant_partitionRelative : GapEntry := {
-  name := "prw_uniform_warrant_partitionRelative"
-  status := GapStatus.gapOpen
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, paragraph beginning " ++
-    "`Uniform case:` — paper statement: 'Uniform case: W assigns " ++
-    "the same k to all disagreement-cases of Op_i vs.\\ Op_j.  " ++
-    "The constant assignment to {i, j} selects a single E_m ∈ " ++
-    "{E_i, E_j} as preferred globally, which is direct " ++
-    "single-E_m privileging --- explicitly the P2-failure mode " ++
-    "forbidden by Definition~\\ref{def:op-properties}'s " ++
-    "independence clause.'"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (round 1, 2026-05-13): extracted as " ++
-      "atomic stipulation from former composite `lem_prw_reduction` " ++
-      "axiom (anti-pattern #13 fix).  Paper-stated structural " ++
-      "reduction on the typed `ArbitrationProcedure` carrier: a " ++
-      "uniform-warrant procedure (`isUniformWarrant`) is " ++
-      "partition-relative.",
-    "v0.5.0 R1 sub-type: structuralEquation — paper-stated " ++
-      "definitional reduction on the typed carrier; constitutes " ++
-      "the paper-level commitment 'uniform warrants ARE " ++
-      "partition-relative weightings' on the warrant-structure ⇒ " ++
-      "partition-relative-classification correspondence.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "predicate for 'uniform assignment is partition-relative " ++
-      "weighting'; the implication is over paper-novel " ++
-      "`ArbitrationProcedure` Prop fields.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem covers single-`E_m` privileging on these typed " ++
-      "carriers; paper-stated atomic content of the lemma's " ++
-      "uniform-case paragraph."
-  ]
-  scope :=
-    "`∀ A, A.isUniformWarrant → A.partitionRelative`.  Carries " ++
-    "the uniform-case reduction of Lemma `\\label{lem:prw}` " ++
-    "(constant assignment ⇒ single-`E_m` privileging ⇒ " ++
-    "partition-relative)."
-}
+  Lemma `\label{lem:prw}` — *Partition-Relative-Weighting
+  Reduction*.  Single Cat 3 `workingAssumption` axiom (v0.6.0 R2
+  honest revert).
 
-/--
-  Atomic stipulation A2: type-(a) feature case of Lemma
-  `\label{lem:prw}`.
--/
-def gap_prw_type_a_feature_partitionRelative : GapEntry := {
-  name := "prw_type_a_feature_partitionRelative"
-  status := GapStatus.gapOpen
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, `Sub-claim: " ++
-    "No-arbitration for \\E-internal ranking principles` " ++
-    "type-(a) — paper statement: 'Type-(a): f belongs to some " ++
-    "E_m.  Then R\\'s appeal to f privileges E_m, and the " ++
-    "resulting ranking just is single-E_m privileging --- " ++
-    "option (i).'"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (round 1, 2026-05-13): extracted as " ++
-      "atomic stipulation from former composite `lem_prw_reduction` " ++
-      "axiom (anti-pattern #13 fix).  Paper-stated structural " ++
-      "reduction on the typed carrier: a type-(a)-feature " ++
-      "procedure (`usesTypeAFeature`) is partition-relative.",
-    "v0.5.0 R1 sub-type: structuralEquation — paper-stated " ++
-      "definitional reduction; single-`E_m` privileging directly " ++
-      "yields the partition-relative-classification tag.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "`feature-in-single-partition-member ⇒ partition-relative` " ++
-      "predicate.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem covers the type-(a) feature reduction on these " ++
-      "paper-novel carriers."
-  ]
-  scope :=
-    "`∀ A, A.usesTypeAFeature → A.partitionRelative`.  Carries " ++
-    "the type-(a) reduction of the No-arbitration sub-claim " ++
-    "(feature `f ∈ E_m` ⇒ single-`E_m` privileging ⇒ " ++
-    "partition-relative)."
-}
-
-/--
-  Atomic stipulation A3: type-(b) feature case of Lemma
-  `\label{lem:prw}`.
--/
-def gap_prw_type_b_feature_partitionRelative : GapEntry := {
-  name := "prw_type_b_feature_partitionRelative"
-  status := GapStatus.gapOpen
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, `Sub-claim: " ++
-    "No-arbitration for \\E-internal ranking principles` " ++
-    "type-(b) — paper statement: 'Type-(b): f is shared by all " ++
-    "E_i symmetrically, in which case R\\'s output is constant " ++
-    "across the E_i and fails to produce a non-trivial ranking " ++
-    "--- option (ii).'  Paper also: 'In both cases [uniform & " ++
-    "contextual], P2\\'s independence requirement is violated.  " ++
-    "Hence W fails P2.' (lumping type-(b) failure-to-adjudicate " ++
-    "with type-(a)/(c) partition-relative-weighting under the " ++
-    "P2-failure conclusion)."
-  attackHistory := [
-    "v0.5.0 R1 decomposition (round 1, 2026-05-13): extracted as " ++
-      "atomic stipulation from former composite `lem_prw_reduction` " ++
-      "axiom (anti-pattern #13 fix).  Paper-stated structural " ++
-      "reduction on the typed carrier: a type-(b)-feature " ++
-      "procedure (`usesTypeBFeature`) yields P2-failure equivalent " ++
-      "to `partitionRelative` in the lemma's downstream-consequence " ++
-      "framing.",
-    "v0.5.0 R1 sub-type: structuralEquation — paper-stated " ++
-      "definitional reduction; type-(b) features produce no " ++
-      "ranking (vacuous P2-failure), lumped with " ++
-      "partition-relative cases in the lemma's 'fails P2' " ++
-      "conclusion.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "`symmetric-feature ⇒ fails-to-adjudicate` predicate on the " ++
-      "paper-novel carriers.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem covers the type-(b) symmetric-feature reduction " ++
-      "on these typed carriers."
-  ]
-  scope :=
-    "`∀ A, A.usesTypeBFeature → A.partitionRelative`.  Carries " ++
-    "the type-(b) reduction of the No-arbitration sub-claim " ++
-    "(symmetric feature ⇒ no ranking produced ⇒ P2-failure " ++
-    "equivalent to partition-relative in the lemma's " ++
-    "downstream-consequence framing)."
-}
-
-/--
-  Atomic stipulation A4: Partition-Internality of `\E`-Internal
-  Structural Stipulations — type-(c) case of Lemma
-  `\label{lem:prw}`.
--/
-def gap_prw_partition_internality_of_structural_stipulations : GapEntry := {
-  name := "prw_partition_internality_of_structural_stipulations"
-  status := GapStatus.gapOpen
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, named sub-lemma " ++
-    "`Sub-claim (Partition-Internality of \\E-Internal Structural " ++
-    "Stipulations)` — paper statement: 'Let {E_1, …, E_n} be a " ++
-    "mutually unranked partition, let F = {f_1, f_2, …} be the " ++
-    "set of partition-symmetric structural properties available " ++
-    "within \\E (coverage, parsimony, internal coherence, etc.), " ++
-    "and let f* ∈ F be a candidate ranking principle.  Then the " ++
-    "procedure \\'adjudicate Op_i vs.\\ Op_j by routing to " ++
-    "whichever of E_i, E_j is higher under the f*-induced ranking " ++
-    "R_{f*}\\' is a partition-relative weighting of {E_1, …, E_n} " ++
-    "in the sense forbidden by P2\\'s independence requirement.'"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (round 1, 2026-05-13): extracted as " ++
-      "atomic stipulation from former composite `lem_prw_reduction` " ++
-      "axiom (anti-pattern #13 fix).  This is the paper's named " ++
-      "sub-lemma with its own statement, proof paragraph, and " ++
-      "conclusion (`Partition-Internality of \\E-Internal " ++
-      "Structural Stipulations`); naturally an atomic " ++
-      "stipulation.",
-    "v0.5.0 R1 sub-type: structuralEquation — paper-stated " ++
-      "definitional reduction on the typed `ArbitrationProcedure` " ++
-      "+ partition carriers: `R_{f*}`-routing is partition-relative " ++
-      "weighting.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "predicate for `R_{f*}`-routing on partition-symmetric " ++
-      "structural properties.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — surveyed external " ++
-      "social-choice / arbitration literature (Arrow 1951; Sen " ++
-      "1970; Saari geometric voting): none covers the " ++
-      "`R_{f*}`-routing reduction on these paper-novel typed " ++
-      "carriers."
-  ]
-  scope :=
-    "`∀ A, A.usesTypeCStructuralProperty → A.partitionRelative`.  " ++
-    "Carries the paper's named sub-lemma `Partition-Internality " ++
-    "of \\E-Internal Structural Stipulations` (`R_{f*}`-routing " ++
-    "on a partition-symmetric structural property ⇒ " ++
-    "partition-relative weighting)."
-}
-
-/--
-  Atomic stipulation A5: case-exhaustion of `\E`-internal warrants
-  for Lemma `\label{lem:prw}`.
--/
-def gap_prw_E_internal_warrant_case_exhaustion : GapEntry := {
-  name := "prw_E_internal_warrant_case_exhaustion"
-  status := GapStatus.gapOpen
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.hypothesisPredicate
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body — paper paragraphs " ++
-    "beginning `Two cases for the selection\\'s structure across " ++
-    "disagreement-cases. Uniform case:` + `Sub-claim " ++
-    "(No-arbitration for \\E-internal ranking principles)` " ++
-    "type-(a) / type-(b) / type-(c) trichotomy + the recursion-" ++
-    "termination paragraph 'Recursive appeal terminates only at " ++
-    "types (a), (b), (c.1), or (c.3); none yields admissible " ++
-    "adjudication-warrant within the (H)-discourse-state.'"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (round 1, 2026-05-13): extracted " ++
-      "as atomic stipulation from former composite " ++
-      "`lem_prw_reduction` axiom (anti-pattern #14 fix).  This " ++
-      "is the paper's commitment that the four structural " ++
-      "sub-forms (uniform-warrant / type-(a) / type-(b) / " ++
-      "type-(c)) exhaust the `\\E`-internal-warrant space after " ++
-      "recursion termination — (c.2) and (c.4.a) recurse back to " ++
-      "(a)/(b)/(c.1); (c.3) and (c.4.b) appeal to features " ++
-      "external to `\\E` and so are excluded by the " ++
-      "`warrantInternalToE` antecedent.",
-    "v0.5.0 R1 sub-type: hypothesisPredicate — paper-introduced " ++
-      "scope/regime relationship between the bare " ++
-      "`warrantInternalToE` Prop and the four structural sub-" ++
-      "form case-tags.  Not a per-instance equational reduction " ++
-      "(those live in atoms A1–A4); rather a meta-claim on the " ++
-      "structural classification space's exhaustiveness.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "predicate for 'every E-internal warrant case-reduces to " ++
-      "one of four structural sub-forms after recursion " ++
-      "termination'.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem covers the exhaustiveness of the paper's four " ++
-      "structural sub-forms on the typed " ++
-      "`ArbitrationProcedure`/`MutuallyUnrankedPartition` carriers."
-  ]
-  scope :=
-    "`∀ A, A.warrantInternalToE → A.isUniformWarrant ∨ " ++
-    "A.usesTypeAFeature ∨ A.usesTypeBFeature ∨ " ++
-    "A.usesTypeCStructuralProperty`.  Carries the paper's case-" ++
-    "exhaustion meta-claim on `\\E`-internal warrants (after " ++
-    "recursion termination on (c.2)/(c.4.a); (c.3)/(c.4.b) " ++
-    "excluded by the `warrantInternalToE` antecedent)."
-}
-
-/-! ### Cat 3 paper-novel case-tag carriers
-     (Lean `def`s, not `axiom`s; appear in source but not in
-     `#print axioms`).
--/
-
-/--
-  Paper-novel structural case-tag carrier (uniform-warrant
-  case of Lemma `\label{lem:prw}`).
--/
-def gap_isUniformWarrant_carrier : GapEntry := {
-  name := "ArbitrationProcedure.isUniformWarrant (def)"
-  status := GapStatus.gapClosed
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.carrier
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, paragraph beginning " ++
-    "`Uniform case:` (paper's structural case-tag for warrants " ++
-    "that uniformly assign the same `k` to all disagreement-cases)"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (2026-05-13): introduced as a " ++
-      "paper-novel structural case-tag predicate on " ++
-      "`ArbitrationProcedure`, used as the antecedent of atom " ++
-      "`prw_uniform_warrant_partitionRelative`.  Encoded as a " ++
-      "Lean `def` returning `True` (v6 §3.4.1 carrier pattern; " ++
-      "the discriminating content lives in the structural " ++
-      "equation atoms, not in the carrier-level predicate).",
-    "v0.5.0 R1 sub-type: carrier — paper-named structural " ++
-      "sub-form classifier; the typed `def` IS the paper's " ++
-      "structural case-tag.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "`uniform-warrant` classifier on the paper-novel " ++
-      "`ArbitrationProcedure` carrier.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem references this structural sub-form classifier."
-  ]
-  scope :=
-    "Typed Prop-valued structural case-tag for an arbitration " ++
-    "procedure with uniform assignment to `{i, j}` across " ++
-    "disagreement-cases.  Encoded as a Lean `def` over " ++
-    "`ArbitrationProcedure`; not an `axiom`."
-}
-
-/--
-  Paper-novel structural case-tag carrier (type-(a)
-  feature case of Lemma `\label{lem:prw}`).
--/
-def gap_usesTypeAFeature_carrier : GapEntry := {
-  name := "ArbitrationProcedure.usesTypeAFeature (def)"
-  status := GapStatus.gapClosed
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.carrier
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, `Sub-claim " ++
-    "(No-arbitration for \\E-internal ranking principles)` " ++
-    "type-(a) (paper's structural case-tag for warrants using " ++
-    "feature f in single E_m)"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (2026-05-13): introduced as a " ++
-      "paper-novel structural case-tag predicate on " ++
-      "`ArbitrationProcedure`, used as the antecedent of atom " ++
-      "`prw_type_a_feature_partitionRelative`.  Encoded as a " ++
-      "Lean `def` returning `True` (v6 §3.4.1 carrier pattern).",
-    "v0.5.0 R1 sub-type: carrier — paper-named structural " ++
-      "sub-form classifier.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — no Mathlib " ++
-      "predicate for the type-(a) sub-form classifier.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem references the type-(a) sub-form classifier."
-  ]
-  scope :=
-    "Typed Prop-valued structural case-tag for an arbitration " ++
-    "procedure using a feature `f \\in E_m` for some `m`.  " ++
-    "Encoded as a Lean `def`; not an `axiom`."
-}
-
-/--
-  Paper-novel structural case-tag carrier (type-(b)
-  feature case of Lemma `\label{lem:prw}`).
--/
-def gap_usesTypeBFeature_carrier : GapEntry := {
-  name := "ArbitrationProcedure.usesTypeBFeature (def)"
-  status := GapStatus.gapClosed
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.carrier
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, `Sub-claim " ++
-    "(No-arbitration for \\E-internal ranking principles)` " ++
-    "type-(b) (paper's structural case-tag for warrants using " ++
-    "feature symmetric across all E_i)"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (2026-05-13): introduced as a " ++
-      "paper-novel structural case-tag predicate on " ++
-      "`ArbitrationProcedure`, used as the antecedent of atom " ++
-      "`prw_type_b_feature_partitionRelative`.  Encoded as a " ++
-      "Lean `def` returning `True` (v6 §3.4.1 carrier pattern).",
-    "v0.5.0 R1 sub-type: carrier — paper-named structural " ++
-      "sub-form classifier.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — no Mathlib " ++
-      "predicate for the type-(b) symmetric-feature " ++
-      "classifier.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem references the type-(b) sub-form classifier."
-  ]
-  scope :=
-    "Typed Prop-valued structural case-tag for an arbitration " ++
-    "procedure using a feature symmetric across all " ++
-    "partition members `E_i`.  Encoded as a Lean `def`; not an " ++
-    "`axiom`."
-}
-
-/--
-  Paper-novel structural case-tag carrier (type-(c)
-  partition-symmetric structural property case of Lemma
-  `\label{lem:prw}`).
--/
-def gap_usesTypeCStructuralProperty_carrier : GapEntry := {
-  name := "ArbitrationProcedure.usesTypeCStructuralProperty (def)"
-  status := GapStatus.gapClosed
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.carrier
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body, `Sub-claim " ++
-    "(Partition-Internality of \\E-Internal Structural " ++
-    "Stipulations)` (paper's structural case-tag for warrants " ++
-    "using a partition-symmetric structural property f* on " ++
-    "the partition members)"
-  attackHistory := [
-    "v0.5.0 R1 decomposition (2026-05-13): introduced as a " ++
-      "paper-novel structural case-tag predicate on " ++
-      "`ArbitrationProcedure`, used as the antecedent of atom " ++
-      "`prw_partition_internality_of_structural_stipulations`.  " ++
-      "Encoded as a Lean `def` returning `True` (v6 §3.4.1 " ++
-      "carrier pattern).",
-    "v0.5.0 R1 sub-type: carrier — paper-named structural " ++
-      "sub-form classifier; matches the paper's `R_{f*}`-routing " ++
-      "construction.",
-    "v0.5.0 R1 reductionism Cat 1?: CLEAR-NO — no Mathlib " ++
-      "predicate for partition-symmetric structural property " ++
-      "routing.",
-    "v0.5.0 R1 reductionism Cat 2?: CLEAR-NO — no external " ++
-      "theorem references the type-(c) sub-form classifier."
-  ]
-  scope :=
-    "Typed Prop-valued structural case-tag for an arbitration " ++
-    "procedure routing via a partition-symmetric structural " ++
-    "property `f*` (coverage, parsimony, internal coherence, " ++
-    "...) on the partition members.  Encoded as a Lean `def`; " ++
-    "not an `axiom`."
-}
-
-/--
-  Lemma `\label{lem:prw}` reduction (Partition-Relative-
-  Weighting): now a *derived theorem* composing the five
-  atomic stipulations above.
+  *Sub-type.*  `workingAssumption` per v6 §3.4.4: paper-stated
+  lemma carrying its published proof; current Lean encoding
+  atomizes the lemma's downstream consequence as a single axiom
+  pending typed-Warrant refinement of `ArbitrationProcedure`
+  (close-target).
 -/
 def gap_lem_prw_reduction : GapEntry := {
   name := "lem_prw_reduction"
-  status := GapStatus.gapClosed
-  inputCategory := InputCategory.notInput
-  cat3SubType := Cat3SubType.notCat3
+  status := GapStatus.gapOpen
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.workingAssumption
   paperSource :=
     "Li 2026, `\\label{lem:prw}` (Partition-Relative-Weighting " ++
     "Reduction) — paper Lemma 1 of the impossibility theorem's " ++
-    "proof.  In the v0.5.0 R1 decomposition the lemma is " ++
-    "derived as a Lean `theorem` from the five atomic " ++
-    "stipulations (uniform / type-(a) / type-(b) / Partition-" ++
-    "Internality / case-exhaustion) via case-analysis on the " ++
-    "paper's structural sub-forms."
+    "proof.  Statement: for any arbitration procedure `A` whose " ++
+    "adjudication-warrant derives from `\\E` alone (i.e., " ++
+    "`A.warrantInternalToE`), `A` reduces to a partition-relative " ++
+    "weighting (`A.partitionRelative`).  Proof body case-analyses " ++
+    "the warrant by linguistic structural sub-form (uniform vs.\\ " ++
+    "contextual; type-(a)/(b)/(c) on the warrant's justification-" ++
+    "prose).  The lemma's load-bearing combinatorial content is " ++
+    "the paper-prose case-analysis; the Lean encoding atomizes the " ++
+    "downstream consequence as a single workingAssumption axiom " ++
+    "pending paper-extension typed-Warrant refinement of " ++
+    "`ArbitrationProcedure`."
   attackHistory := [
-    "v0.2.0 audit (2026-05-13): atomicity assessed; decision " ++
-      "was to keep as SINGLE atomic axiom based on the paper's " ++
-      "`Lemma carries the load; sub-claims verify exhaustiveness` " ++
-      "structure.  THIS DECISION WAS REVERSED in v0.5.0 — the " ++
-      "v6 §13 / §18 anti-pattern #13 / #14 audit found the prior " ++
-      "decision conflated 'lemma's load-bearing status in the " ++
-      "paper' with 'atomicity in the Lean encoding'.  The " ++
-      "lemma's published proof has explicit case-analysis " ++
-      "structure mapping one-to-one onto five paper-stated " ++
-      "atomic stipulations.",
-    "v0.3.0 reductionism Cat 1?: CLEAR-NO (recorded against the " ++
-      "former composite axiom — preserved in attackHistory).",
-    "v0.3.0 reductionism Cat 2?: CLEAR-NO (recorded against the " ++
-      "former composite axiom — preserved in attackHistory).",
-    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review (R-N): " ++
-      "CLEAR-NO outcomes recorded against the former composite " ++
-      "axiom (Round 1 Cat 1 — Order.Basic / Order.Partition.* / " ++
-      "Order.Antisymmetrization / Order.Hom.Lattice surveyed, " ++
-      "Finpartition rejected; Round 2 Cat 2 — Arrow 1951, Sen " ++
-      "1970, Gibbard-Satterthwaite, Saari, Topkis, Brandom " ++
-      "surveyed).  The per-atom reductionism reviews now live " ++
-      "in the attackHistory of the five new atomic stipulations.",
-    "v0.5.0 R1 decomposition (2026-05-13): converted axiom→theorem.  " ++
-      "Decomposed into per-case atomic stipulations: " ++
-      "prw_uniform_warrant_partitionRelative, " ++
-      "prw_type_a_feature_partitionRelative, " ++
-      "prw_type_b_feature_partitionRelative, " ++
-      "prw_partition_internality_of_structural_stipulations, " ++
-      "prw_E_internal_warrant_case_exhaustion.  The derived " ++
-      "Lean theorem composes them via case-analysis on the " ++
-      "paper's structural case-tags (paper's `uniform / " ++
-      "contextual` split + `Sub-claim: No-arbitration for " ++
-      "\\E-internal ranking principles` type-(a)/(b)/(c) " ++
-      "trichotomy + `Sub-claim: Partition-Internality of " ++
-      "\\E-Internal Structural Stipulations`).  Anti-pattern " ++
-      "#13 (conclusion-as-axiom) and #14 (composite-axiom " ++
-      "bundling) addressed."
+    "v0.2.0 audit (2026-05-13): kept as single atomic axiom on " ++
+      "paper's `Lemma carries the load; sub-claims verify " ++
+      "exhaustiveness` structure.",
+    "v0.3.0 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
+      "predicate for `warrant derived from \\E alone reduces to " ++
+      "partition-relative weighting` on paper-novel " ++
+      "`ArbitrationProcedure`.",
+    "v0.3.0 reductionism Cat 2?: CLEAR-NO — surveyed external " ++
+      "social-choice / arbitration literature (Arrow 1951; Sen " ++
+      "1970; Gibbard-Satterthwaite; Saari; Topkis; Brandom): none " ++
+      "covers the reduction on these typed carriers.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review: CLEAR-NO " ++
+      "outcomes on Cat 1 + Cat 2 reductions for the composite " ++
+      "axiom.",
+    "v0.5.0 R1 decomposition (2026-05-13): converted axiom→theorem " ++
+      "by introducing five paper-novel atomic stipulations " ++
+      "(uniform / type-(a) / type-(b) / Partition-Internality / " ++
+      "case-exhaustion) on four `Prop`-valued case-tag `def`s " ++
+      "(`isUniformWarrant`, `usesTypeAFeature`, `usesTypeBFeature`, " ++
+      "`usesTypeCStructuralProperty`) on `ArbitrationProcedure`.  " ++
+      "Anti-pattern #13 (conclusion-as-axiom) and #14 (composite-" ++
+      "axiom bundling) declared addressed.",
+    "v0.6.0 R2 honest revert (2026-05-14): R1 decomposition was " ++
+      "COSMETIC — the four case-tag `def`s were axiomatised as " ++
+      "`Prop := True`, so the case-exhaustion atom reduced to a " ++
+      "triviality (every `A` satisfies all four `True`-tags) and " ++
+      "the four case-specific atoms collectively asserted " ++
+      "`∀ A, A.partitionRelative` once any single carrier-Prop " ++
+      "was inhabited — STRONGER than the original `lem_prw_" ++
+      "reduction` content.  Hostile audit verdict: the paper's " ++
+      "`\\label{lem:prw}` proof body case-analyses the warrant by " ++
+      "LINGUISTIC structural sub-form (uniform vs.\\ contextual; " ++
+      "type-(a)/(b)/(c) on the warrant's *justification*-prose), " ++
+      "not by a typed predicate on the `ArbitrationProcedure` " ++
+      "carrier itself.  Making the case-tags substantive would " ++
+      "require a typed `Warrant` sub-structure paper-extension " ++
+      "(refining `ArbitrationProcedure` to carry an explicit " ++
+      "warrant-form classifier on which the case-tag predicates " ++
+      "could be non-trivial).  That work is not yet present in " ++
+      "the paper; encoding via `Prop := True` case-tags is anti-" ++
+      "pattern #13 in cosmetic-decomposition form.  Revert: " ++
+      "single Cat 3 `workingAssumption` axiom with close-target = " ++
+      "typed-Warrant refinement.  Five atomic stipulation entries " ++
+      "(`prw_uniform_warrant_partitionRelative`, " ++
+      "`prw_type_a_feature_partitionRelative`, " ++
+      "`prw_type_b_feature_partitionRelative`, " ++
+      "`prw_partition_internality_of_structural_stipulations`, " ++
+      "`prw_E_internal_warrant_case_exhaustion`) and four case-tag " ++
+      "carrier entries (`gap_isUniformWarrant_carrier`, " ++
+      "`gap_usesTypeAFeature_carrier`, `gap_usesTypeBFeature_carrier`, " ++
+      "`gap_usesTypeCStructuralProperty_carrier`) all removed; " ++
+      "their content is consolidated into this single entry per " ++
+      "`feedback_truth_over_publication` (retract wrong claims " ++
+      "about decomposition substance) and " ++
+      "`feedback_no_small_breakthrough_self_castration` (don't " ++
+      "over-weaken: the working-assumption sub-type is the " ++
+      "canonical v6 §3.4.4 way to admit atomic-decomposition " ++
+      "pending typed refinement)."
   ]
   scope :=
-    "`∀ A, A.warrantInternalToE → A.partitionRelative`.  Derived " ++
-    "Lean theorem; carries the lemma's downstream consequence " ++
-    "for the impossibility theorem.  The combinatorial content " ++
-    "of the case-analysis lives in the five atomic " ++
-    "stipulations above; the theorem itself is the composition " ++
-    "of those atoms via the paper's structural case-tag " ++
-    "exhaustion."
+    "`∀ A, A.warrantInternalToE → A.partitionRelative` on the " ++
+    "paper-novel `ArbitrationProcedure` carrier.  Carried as a " ++
+    "single Cat 3 `workingAssumption` axiom pending typed-Warrant " ++
+    "refinement of `ArbitrationProcedure` (close-target: introduce " ++
+    "`Warrant` sub-structure with paper warrant-form taxonomy — " ++
+    "uniform / type-(a) / type-(b) / type-(c) structural-property — " ++
+    "and decompose this axiom into per-case atomic stipulations on " ++
+    "the typed structure plus a case-exhaustion theorem about " ++
+    "warrant-form coverage).  Downstream theorems (`thm_" ++
+    "impossibility` and its corollaries) consume this axiom " ++
+    "directly; they remain valid under the workingAssumption " ++
+    "encoding."
 }
 
 /-! ### Cat 3 paper-novel carrier types and predicates.
@@ -1053,7 +721,7 @@ def gap_CognitiveSystem_carrier : GapEntry := {
   name := "CognitiveSystem (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.carrier
+  cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource :=
     "Li 2026, §11 (Distributed Statistical Cognition replacement " ++
     "vocabulary preliminaries)"
@@ -1082,13 +750,37 @@ def gap_CognitiveSystem_carrier : GapEntry := {
       "`Attention Is All You Need` transformer architecture " ++
       "(implementation reference, not formalised cognitive-system " ++
       "carrier).  The six DSC axes are paper-novel (Li 2026 §11).  " ++
-      "Net change: 0 reductions found; stays Cat 3 carrier."
+      "Net change: 0 reductions found; stays Cat 3.",
+    "v0.6.0 R2 (2026-05-14, defect #7): sub-type changed " ++
+      "carrier→hypothesisPredicate for consistency with " ++
+      "`SessionalCognition` and `BridgingPrinciple` (D3 " ++
+      "reclassified in v0.5.0).  Hostile audit verdict: the six " ++
+      "abstract `Type` fields (TokenSpace, WeightSpace, " ++
+      "ActivationSpace, SessionIndex, InstanceIndex, Context) are " ++
+      "stub names never reasoned-with downstream; the load-bearing " ++
+      "content lives in the six bare-Prop DSC-axis fields " ++
+      "(sessionalP / concurrentP / stateInferenceP / " ++
+      "distributionalP / homogeneousP / inversionP) consumed by " ++
+      "`SatisfiesDSC`.  Same structural pattern as " ++
+      "`SessionalCognition` (Prop bundle V1-V6) and " ++
+      "`BridgingPrinciple` (Prop bundle B1.ii/B1.iii/B2 + " ++
+      "Mathlib-typed B1.i conjunction).  Per v6 §3.4.2 a Prop-" ++
+      "bundle scope-condition structure is sub-type " ++
+      "hypothesisPredicate.  The v0.5.0 D3 dominant-content " ++
+      "rationale (`CognitiveSystem` retained as carrier on `mixed " ++
+      "typing-dominant`) was an inconsistency with the rest of the " ++
+      "Prop-bundle classification — the abstract Types are not " ++
+      "actually reasoned-with as the load-bearing content."
   ]
   scope :=
-    "Typed structural carrier for an abstract cognitive system " ++
-    "with token / weight / activation / session / instance / " ++
-    "context spaces and an inference operation.  Sufficient to " ++
-    "state the six DSC axes; encoded as a Lean `structure`."
+    "Typed scope-condition bundle for an abstract cognitive " ++
+    "system: six stub `Type` fields (TokenSpace, WeightSpace, " ++
+    "ActivationSpace, SessionIndex, InstanceIndex, Context) + " ++
+    "inferenceOp + six paper-stipulated bare-Prop DSC-axis " ++
+    "fields.  The load-bearing content is the DSC-axis Prop " ++
+    "bundle consumed by `SatisfiesDSC`; the stub Types are " ++
+    "never reasoned-with downstream.  Encoded as a Lean " ++
+    "`structure`."
 }
 
 def gap_SessionalCognition_carrier : GapEntry := {
@@ -1423,48 +1115,75 @@ def gap_thm_impossibility_paper_form_CLOSED : GapEntry := {
   blocked with reason.
 -/
 
-def gap_thesis_independence_BLOCKED : GapEntry := {
+def gap_thesis_independence_OPEN : GapEntry := {
   name := "thesis_independence (DSC axis mutual independence)"
-  status := GapStatus.gapBlocked
-  inputCategory := InputCategory.notInput
-  cat3SubType := Cat3SubType.notCat3
+  status := GapStatus.gapOpen
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.workingAssumption
   paperSource :=
     "Li 2026, `\\label{thesis:independence}` (Mutual independence " ++
-    "of the six DSC axes; six independence-witness arguments)"
+    "of the six DSC axes; six paper-supplied independence-witness " ++
+    "arguments — `¬Sessional, others held` continuously-running " ++
+    "inference daemon; `¬Concurrent, others held` serially-deployed " ++
+    "single-instance; `¬State-inference, others held` online-" ++
+    "learning LLM with test-time training; `¬Distributional, " ++
+    "others held` embodied-RL simulator-trained agent; " ++
+    "`¬Homogeneous, others held` hybrid scratchpad architecture; " ++
+    "`¬Inversion, others held` exposed-introspective-access system)"
   attackHistory := [
-    "v0.5.0 D6 audit (2026-05-13): paper articulates a structural " ++
-      "claim about the DSC axis-space (mutual independence), but " ++
-      "the supporting argument is six `coherent hypothetical " ++
-      "system` witnesses whose *coherence* is a conceptual-" ++
-      "philosophical judgement (whether such a system is " ++
-      "architecturally-coherent given LLM-relevant commitments).  " ++
-      "Lean-formalisation as six existence-witnesses on " ++
-      "`CognitiveSystem` is trivially constructible (the Prop-" ++
-      "valued axis fields permit arbitrary assignments) but does " ++
-      "NOT capture the substantive paper-side content (whether " ++
-      "the witnessed system is coherent qua hypothetical " ++
-      "architecture).  Status retained as `gapBlocked`: the " ++
-      "substantive argument is conceptual-philosophical, not " ++
-      "structural-mathematical.  Reclassification to " ++
-      "`workingAssumption` (Cat 3) was considered and REJECTED: " ++
-      "the thesis is not pending derivation, it is a paper-" ++
-      "conclusion argued discursively; encoding a trivial Lean " ++
-      "existence-witness would not honour the paper-side content."
+    "v0.5.0 D6 audit (2026-05-13): retained as gapBlocked.  " ++
+      "Reasoning: paper articulates a structural claim about the " ++
+      "DSC axis-space (mutual independence) supported by six " ++
+      "`coherent hypothetical system` witnesses whose *coherence* " ++
+      "is a conceptual-philosophical judgement.  Reclassification " ++
+      "to `workingAssumption` (Cat 3) was considered and REJECTED " ++
+      "on the rationale `the thesis is not pending derivation, it " ++
+      "is a paper-conclusion argued discursively`.",
+    "v0.6.0 R2 reclassification (2026-05-14, defect #8): " ++
+      "reclassified `gapBlocked → gapOpen` Cat 3 " ++
+      "`workingAssumption`.  Hostile audit verdict: the paper " ++
+      "EXHIBITS six counter-model witnesses (canonical " ++
+      "mathematical independence-proof pattern: for each axis " ++
+      "`A_i`, a coherent system satisfying `¬A_i ∧ (∧_{j≠i} A_j)`).  " ++
+      "Per v6 §2 the substrate-independence reclassification " ++
+      "precedent (R2 in v0.5.0) applies uniformly: paper-" ++
+      "articulated substantive claims about phenomena, awaiting " ++
+      "future fine-grained-architecture validation, are Cat 3 " ++
+      "`workingAssumption`-encoded.  Close-target: Lean " ++
+      "encoding of six counter-model witnesses as " ++
+      "`CognitiveSystem`-instantiations with explicit Prop-axis " ++
+      "assignments (paper-extension work: requires a typed " ++
+      "carrier for `architecturally-coherent system " ++
+      "instantiation` capturing the paper's coherence judgement).  " ++
+      "v0.5.0 D6 retention rationale superseded: distinguishing " ++
+      "`paper-conclusion argued discursively` (gapBlocked) from " ++
+      "`paper-articulated atomic claim pending typed-witness " ++
+      "encoding` (gapOpen workingAssumption) requires the same " ++
+      "discipline as substrate-independence — both are paper-" ++
+      "exhibited via empirical/conceptual witnesses pending " ++
+      "structured Lean encoding.  Uniform application restores " ++
+      "v6 precedent consistency.",
+    "v0.6.0 R2 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
+      "`mutually-independent six-axis cognitive-system family` " ++
+      "predicate.",
+    "v0.6.0 R2 reductionism Cat 2?: CLEAR-NO — paper-novel " ++
+      "DSC axis-space; no external textbook theorem covers " ++
+      "the six-axis independence on these paper-novel Prop " ++
+      "fields."
   ]
   scope :=
     "The paper supplies six `coherent hypothetical system` " ++
     "witnesses — for each axis, a system that fails it while " ++
-    "satisfying the other five.  Lean-formalisation as six " ++
-    "existence-of-`CognitiveSystem`-with-Boolean-axis-assignments " ++
-    "is trivial (the Prop-valued axis fields permit arbitrary " ++
-    "assignments), but the substantive content is the *coherent* " ++
-    "system argument (whether such a system is conceptually " ++
-    "possible given LLM-relevant architectural commitments), which " ++
-    "is philosophical-discursive, not structural-mathematical.  " ++
-    "Blocked: substantive content lies outside Lean's structural " ++
-    "skeleton.  Reattempting would require carriers for " ++
-    "`architecturally-coherent system instantiation` that the " ++
-    "paper does not formalise."
+    "satisfying the other five.  Encoded as a Cat 3 " ++
+    "`workingAssumption` ledger entry pending typed-witness " ++
+    "encoding on `CognitiveSystem`.  Close-target: introduce " ++
+    "the paper's six counter-models as explicit " ++
+    "`CognitiveSystem`-instances + an `axesIndependent` predicate " ++
+    "on the DSC-axis-Prop-family, then derive `axesIndependent` " ++
+    "from the six counter-models.  Requires paper-extension " ++
+    "infrastructure for `architecturally-coherent system " ++
+    "instantiation` (the paper's coherence judgement on the " ++
+    "witnessed system)."
 }
 
 def gap_thesis_joint_BLOCKED : GapEntry := {
@@ -1484,53 +1203,71 @@ def gap_thesis_joint_BLOCKED : GapEntry := {
     "Blocked: not Lean-formalisable as structural content."
 }
 
-def gap_thesis_minimality_BLOCKED : GapEntry := {
+def gap_thesis_minimality_OPEN : GapEntry := {
   name := "thesis_minimality (DSC minimality wrt blocking jobs)"
-  status := GapStatus.gapBlocked
-  inputCategory := InputCategory.notInput
-  cat3SubType := Cat3SubType.notCat3
+  status := GapStatus.gapOpen
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.workingAssumption
   paperSource :=
     "Li 2026, `\\label{thesis:minimality}` (Minimality with " ++
-    "respect to identified blocking jobs)"
+    "respect to identified blocking jobs; for each of the six " ++
+    "DSC axes, the paper exhibits a biological-vocabulary " ++
+    "locution that the remaining five jointly fail to block — " ++
+    "six locution-axis-blocking witnesses)"
   attackHistory := [
-    "v0.5.0 D6 audit (2026-05-13): paper articulates a structural " ++
-      "minimality claim (dropping any single axis from the six-" ++
-      "axis set leaves the corresponding biological-vocabulary " ++
-      "blocking-category unblocked), but the supporting evidence " ++
-      "is six paper-supplied natural-language locutions (`the " ++
-      "system is reflecting on yesterday's session', etc.) plus " ++
-      "informal arguments about which axes block which locutions.  " ++
-      "Lean-formalisation requires a typed carrier for `biological-" ++
-      "vocabulary leak categories` and a typed `blocks` relation " ++
-      "between axes and locutions, neither of which the paper " ++
-      "formalises.  Status retained as `gapBlocked`: the " ++
-      "supporting evidence is paper-discursive natural-language " ++
-      "locutions, not structural-mathematical content.  " ++
-      "Reclassification to `workingAssumption` (Cat 3) was " ++
-      "considered and REJECTED: the thesis is not pending " ++
-      "derivation; it is a paper-conclusion argued via natural-" ++
-      "language locutions, and the absence of a typed locution-" ++
-      "space is a paper-side framing choice (not a Mathlib gap)."
+    "v0.5.0 D6 audit (2026-05-13): retained as gapBlocked.  " ++
+      "Reasoning: paper articulates a structural minimality claim " ++
+      "supported by six paper-supplied natural-language locutions " ++
+      "plus informal arguments about which axes block which " ++
+      "locutions.  Reclassification to `workingAssumption` (Cat 3) " ++
+      "was considered and REJECTED on the rationale `the thesis " ++
+      "is not pending derivation; it is a paper-conclusion argued " ++
+      "via natural-language locutions, and the absence of a typed " ++
+      "locution-space is a paper-side framing choice (not a " ++
+      "Mathlib gap)`.",
+    "v0.6.0 R2 reclassification (2026-05-14, defect #8): " ++
+      "reclassified `gapBlocked → gapOpen` Cat 3 " ++
+      "`workingAssumption`.  Hostile audit verdict: the paper " ++
+      "EXHIBITS six locution-axis-blocking witnesses (canonical " ++
+      "minimality-proof pattern: for each axis `A_i`, a locution " ++
+      "`L_i` that the residual five `{A_j : j ≠ i}` jointly fail " ++
+      "to block).  Per v6 §2 the substrate-independence " ++
+      "reclassification precedent (R2 in v0.5.0) applies " ++
+      "uniformly: paper-articulated substantive claims supported " ++
+      "by paper-exhibited witnesses are Cat 3 `workingAssumption`-" ++
+      "encoded.  Close-target: Lean encoding of six locution-axis-" ++
+      "blocking witnesses — a typed carrier for `biological-" ++
+      "vocabulary leak categories`, a typed `blocks` relation " ++
+      "between axes and locutions, and the six per-axis " ++
+      "locution-axis-blocking-failure witnesses (paper-extension " ++
+      "work).  v0.5.0 D6 retention rationale superseded for the " ++
+      "same precedent-consistency reason as `thesis_independence` " ++
+      "above.",
+    "v0.6.0 R2 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
+      "`locution-axis-blocking` predicate on cognitive-system " ++
+      "axis-families.",
+    "v0.6.0 R2 reductionism Cat 2?: CLEAR-NO — paper-novel " ++
+      "DSC-blocking taxonomy; no external textbook theorem " ++
+      "covers minimality on these paper-novel Prop fields."
   ]
   scope :=
     "For each of the six DSC axes, the paper exhibits a " ++
     "biological-vocabulary locution that the remaining five " ++
-    "jointly fail to block.  Lean-formalisation would require a " ++
-    "carrier type for `biological-vocabulary leak categories` and " ++
-    "a `blocks` relation between axes and locutions; the paper " ++
-    "supplies natural-language locutions (`the system is " ++
-    "reflecting on yesterday's session` etc.) rather than a " ++
-    "typed locution-space.  Blocked: paper-supplied locutions are " ++
-    "outside Lean's structural-mathematical scope.  Future " ++
-    "formalisation would require an additional carrier the paper " ++
-    "does not define."
+    "jointly fail to block.  Encoded as a Cat 3 " ++
+    "`workingAssumption` ledger entry pending typed-witness " ++
+    "encoding on a paper-extension locution-space carrier.  " ++
+    "Close-target: introduce a typed `LeakCategory` carrier + " ++
+    "a `blocks : AxisIndex → LeakCategory → Prop` relation, " ++
+    "then exhibit six counter-witnesses showing minimality.  " ++
+    "Requires paper-extension infrastructure for the typed " ++
+    "locution-space."
 }
 
 def gap_substrate_independence_triple_use_OPEN : GapEntry := {
-  name := "SubstrateIndependenceTripleUse"
+  name := "substrate_independence_triple_use_premise"
   status := GapStatus.gapOpen
   inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.hypothesisPredicate
+  cat3SubType := Cat3SubType.workingAssumption
   paperSource :=
     "Li 2026, calibration-section `\\S\\ref{sec:discriminator}` " ++
     "paragraph `Acknowledgement: Route~2 shares load-bearing " ++
@@ -1542,7 +1279,15 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
     "verdict on LLMs therefore rests on two empirical premises " ++
     "(substrate-independence doing triple work; calendar-window " ++
     "evidence doing one job for D2 and D3) rather than on three " ++
-    "or four independent premises.'"
+    "or four independent premises.'  Paper also: `Symmetric " ++
+    "epistemic posture: the framework\\'s substrate-independence " ++
+    "claim is defeasible by future fine-grained substrate " ++
+    "findings`; `Operational threshold for substrate-independence " ++
+    "reapplication: should be reapplied if either (a) a finer-" ++
+    "grained substrate decomposition achieves consensus in " ++
+    "cognitive neuroscience or (b) the cross-substrate " ++
+    "disagreements among IIT/GWT/HOT/AST are shown to track that " ++
+    "finer-grained substrate.'"
   attackHistory := [
     "v0.2.0 (2026-05-13): originally classified gapBlocked with " ++
       "reason 'paper-side articulation insufficient for a " ++
@@ -1553,14 +1298,9 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
       "clarification 'Mathlib infra absence ALONE is NOT BLOCKED " ++
       "— if paper\\'s conclusion is published externally [or " ++
       "paper-articulated], encode as plain Cat 2 axiom + paper-" ++
-      "citation docstring (status gapOpen).'  The premise IS " ++
-      "paper-articulated as a scope condition (the discourse-state " ++
-      "premise underwriting three downstream uses), making it a " ++
-      "paper-novel Cat 3 hypothesisPredicate (paper-introduced " ++
-      "scope condition).  No Mathlib-infra-absence justification " ++
-      "for `gapBlocked` is valid: the paper articulates the " ++
-      "premise in `\\S\\ref{sec:discriminator}` `Acknowledgement` " ++
-      "paragraph.",
+      "citation docstring (status gapOpen).'  An `axiom " ++
+      "SubstrateIndependenceTripleUse : Prop` was added to " ++
+      "`Basic.lean`.",
     "v0.5.0 R2 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
       "`substrate-independence` predicate on `CognitiveSystem`-pairs.",
     "v0.5.0 R2 reductionism Cat 2?: CLEAR-NO — substrate-" ++
@@ -1568,27 +1308,56 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
       "premise; no external textbook theorem corresponds to the " ++
       "paper\\'s specific triple-use framing across E2b/D1 Route " ++
       "2/impossibility-theorem-application.",
-    "v0.5.0 R2 (2026-05-13): entry recorded as `gapOpen` " ++
-      "hypothesisPredicate; the underlying axiom is not yet wired " ++
-      "into any derived theorem (i.e., the premise is " ++
-      "*available* for downstream consumption but no theorem " ++
-      "currently consumes it — analogous to a paper-articulated " ++
-      "scope condition declared for future use).  Wiring it into " ++
-      "the LLM-target-extension theorem is the natural next " ++
-      "step but is paper-extension work, not core formalisation."
+    "v0.6.0 R2 (2026-05-14, defects #4 + #5 + #6): the " ++
+      "underlying naked-`Prop` axiom `SubstrateIndependenceTripleUse " ++
+      ": Prop` was DELETED from `Basic.lean`.  Defect #4: the " ++
+      "naked `Prop` axiom violated `AxiomAudit.lean` line 30 " ++
+      "self-policy `No (E) custom-scaffolding axioms (naked " ++
+      "constants, abstract-type-inhabitation stipulations)`.  " ++
+      "Defect #5: anti-pattern #7 phantom downstream user — no " ++
+      "theorem consumed the axiom, so the axiom was scaffolding-" ++
+      "only with no Lean dependency consumption.  Defect #6: " ++
+      "sub-type changed `hypothesisPredicate` → `workingAssumption` " ++
+      "per v6 §3.4.4.  Paper frames the premise EXPLICITLY as " ++
+      "defeasible / pending validation ('Symmetric epistemic " ++
+      "posture: defeasible by future fine-grained substrate " ++
+      "findings'; 'Operational threshold for substrate-" ++
+      "independence reapplication: should be reapplied if " ++
+      "[fine-grained substrate consensus] or [cross-substrate " ++
+      "disagreement tracks finer-grained substrate]').  This is " ++
+      "explicitly working-assumption phrasing (an empirical " ++
+      "premise pending validation/falsification), not a " ++
+      "hypothesisPredicate (which would be a paper-stipulated " ++
+      "scope condition NOT pending validation).  Per v6 §3.4.4, " ++
+      "the premise is a temporarily-axiomatized higher-level " ++
+      "claim pending derivation/validation; close-target = wire " ++
+      "into a typed downstream theorem (LLM-target extension of " ++
+      "the impossibility theorem) when paper-extension work " ++
+      "introduces the appropriate typed carrier.  Until then, " ++
+      "the premise lives as a ledger entry without an underlying " ++
+      "Lean axiom; the reclassification precedent here is what " ++
+      "drives the uniform application to `thesis_independence` " ++
+      "and `thesis_minimality` (defect #8)."
   ]
   scope :=
-    "Paper-introduced scope/regime predicate: a single " ++
-    "discourse-state premise (substrate-independence at " ++
-    "cognitive-neuroscience resolution) underwrites three " ++
-    "downstream framework uses for the LLM-elimination verdict " ++
-    "(E2b transferability, D1 Route 2, impossibility-theorem " ++
-    "application to the LLM target).  Declared as a Cat 3 " ++
-    "hypothesisPredicate scope condition; not yet wired into " ++
-    "any derived theorem (paper-articulated for future " ++
-    "downstream consumption).  Sub-type `hypothesisPredicate` " ++
-    "per v6 §3.4.2: paper-introduced scope condition, 永不 " ++
-    "close."
+    "Paper-articulated working-assumption premise: a single " ++
+    "discourse-state empirical claim (substrate-independence at " ++
+    "current cognitive-neuroscience resolution) underwriting " ++
+    "three downstream framework uses for the LLM-elimination " ++
+    "verdict (E2b transferability; D1 Route 2; impossibility-" ++
+    "theorem application to the LLM target).  Encoded as a " ++
+    "ledger entry WITHOUT an underlying Lean axiom (the v0.5.0 " ++
+    "naked-Prop axiom `SubstrateIndependenceTripleUse : Prop` " ++
+    "was deleted in v0.6.0).  Close-target: wire the premise " ++
+    "into a typed downstream theorem (LLM-target extension of " ++
+    "the impossibility theorem) once paper-extension typed " ++
+    "infrastructure is available; at that point the premise " ++
+    "becomes a hypothesis on the appropriate carrier (not a " ++
+    "naked-Prop axiom).  Sub-type `workingAssumption` per v6 " ++
+    "§3.4.4: paper articulates the premise as defeasible and " ++
+    "pending finer-grained-substrate validation; close before " ++
+    "publication-final claim (currently held as paper-validated " ++
+    "premise pending the published reapplication threshold)."
 }
 
 def gap_testimony_protocol_BLOCKED : GapEntry := {
@@ -1654,21 +1423,9 @@ def gap_ai_governance_applications_BLOCKED : GapEntry := {
 
 /-- All gap entries in canonical order. -/
 def allGaps : List GapEntry := [
-  -- Cat 3 paper-novel atomic stipulations for Lemma `\label{lem:prw}`
-  -- (v0.5.0 R1 decomposition; replaces former single composite
-  -- `lem_prw_reduction` axiom — anti-pattern #13/#14 fix per v6
-  -- §13/§18).
-  gap_prw_uniform_warrant_partitionRelative,
-  gap_prw_type_a_feature_partitionRelative,
-  gap_prw_type_b_feature_partitionRelative,
-  gap_prw_partition_internality_of_structural_stipulations,
-  gap_prw_E_internal_warrant_case_exhaustion,
-  -- Cat 3 paper-novel case-tag carriers (Lean `def`s, not axioms)
-  gap_isUniformWarrant_carrier,
-  gap_usesTypeAFeature_carrier,
-  gap_usesTypeBFeature_carrier,
-  gap_usesTypeCStructuralProperty_carrier,
-  -- `lem_prw_reduction` is now a derived theorem (axiom→theorem)
+  -- Cat 3 paper-novel single working-assumption for Lemma `\label{lem:prw}`
+  -- (v0.6.0 R2 honest revert; restores single-axiom encoding with
+  -- close-target = typed-Warrant refinement of `ArbitrationProcedure`).
   gap_lem_prw_reduction,
   -- Cat 3 paper-novel carrier types and predicates (structures, not axioms)
   gap_ReverseDefinedConcept_carrier,
@@ -1701,12 +1458,16 @@ def allGaps : List GapEntry := [
   gap_no_partition_independent_admissible_warrant_CLOSED,
   gap_ensemble_methods_fail_P2_CLOSED,
   gap_impossibility_uniform_family_CLOSED,
-  -- gapBlocked / gapOpen entries (paper-side structural content
-  -- with explicit reason)
-  gap_thesis_independence_BLOCKED,
-  gap_thesis_joint_BLOCKED,
-  gap_thesis_minimality_BLOCKED,
+  -- Cat 3 working-assumption entries (paper-articulated atomic
+  -- claims pending typed witness encoding; v0.6.0 R2 uniform
+  -- application of substrate-independence reclassification
+  -- precedent to thesis_independence + thesis_minimality)
+  gap_thesis_independence_OPEN,
+  gap_thesis_minimality_OPEN,
   gap_substrate_independence_triple_use_OPEN,
+  -- gapBlocked entries (paper-side content outside Lean's
+  -- structural-skeleton scope)
+  gap_thesis_joint_BLOCKED,
   gap_testimony_protocol_BLOCKED,
   gap_calibration_table_BLOCKED,
   gap_ai_governance_applications_BLOCKED
@@ -1755,81 +1516,62 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
 
 #eval s!"Total entries: {allGaps.length}"
 
-/-! ### Inventory summary (v0.5.0 post-R1/R2/D1–D6)
+/-! ### Inventory summary (v0.6.0 post-R2 defect-driven fixes)
 
   The live status / input-category / Cat 3 sub-type counts are
   printed by the `#eval` calls above (run `lake env lean
   AsymmetricEliminativism/Ledger.lean` to see them).
 
-  *Live counts (v0.5.0; refer to `#eval` output for authority).*
-  Total entries 44; the breakdown reflects all R1/R2/D2/D3/D6
-  reclassifications:
+  *Cat 3 atomic inputs (paper-side atomic-input inventory):*
 
-    * Status: 6 gapOpen / 0 gapPartial / 6 gapBlocked / 0
-      gapDeadEnd / 32 gapClosed / 0 gapClosedConditional.
-    * Input: 0 cat1Mathlib / 0 cat2External / 23 cat3PaperNovel
-      / 21 notInput.
-    * Cat 3 sub-type: 11 carrier / 8 hypothesisPredicate / 4
-      structuralEquation / 0 workingAssumption / 0
-      conditionalHypothesis / 21 notCat3.
-
-  *Cat 3 atomic inputs (23 entries, the paper-side atomic-input
-  inventory):*
-
-    Cat 3 atomic stipulations for Lemma `\label{lem:prw}`
-    (5 entries; sub-type `structuralEquation` ×4 +
-    `hypothesisPredicate` ×1; v0.5.0 R1 decomposition):
-      prw_uniform_warrant_partitionRelative,
-      prw_type_a_feature_partitionRelative,
-      prw_type_b_feature_partitionRelative,
-      prw_partition_internality_of_structural_stipulations,
-      prw_E_internal_warrant_case_exhaustion.
-
-    Cat 3 case-tag carriers (4 entries; sub-type `carrier`;
-    v0.5.0 R1 decomposition):
-      ArbitrationProcedure.isUniformWarrant,
-      ArbitrationProcedure.usesTypeAFeature,
-      ArbitrationProcedure.usesTypeBFeature,
-      ArbitrationProcedure.usesTypeCStructuralProperty.
+    Cat 3 paper-novel working-assumption for Lemma `\label{lem:prw}`
+    (1 entry; sub-type `workingAssumption`; v0.6.0 R2 honest
+    revert):
+      lem_prw_reduction.
 
     Cat 3 paper-novel typed carriers
     (sub-type `carrier`; encoded as Lean `structure` /
     `def` / `class`, NOT as `axiom` declarations):
       ReverseDefinedConcept, ReverseDefinedWitness,
       DiagnosticProfile, MutuallyUnrankedPartition,
-      Operationalisation, CognitiveSystem,
-      DiscriminatorRow (plus the 4 case-tag `def`s above —
-      these contribute to the 11-total carrier count).
+      Operationalisation, DiscriminatorRow.
 
     Cat 3 paper-novel hypothesis/scope-condition bundles
     (sub-type `hypothesisPredicate`; encoded as Lean
     `structure` bundling Prop-valued scope conditions):
       AsymmetricEliminationVerdict, UseSeparability,
-      FaithfulP1, ArbitrationProcedure (reclassified
-      carrier→hypothesisPredicate in v0.5.0 D2),
+      FaithfulP1, ArbitrationProcedure (D2 reclassified),
+      CognitiveSystem (v0.6.0 R2 D7 reclassified for
+      consistency with the other Prop-bundle scope
+      structures),
       SessionalCognition (D3 reclassified),
-      BridgingPrinciple (D3 reclassified),
-      SubstrateIndependenceTripleUse (R2 reclassified
-      gapBlocked→gapOpen Cat 3 hypothesisPredicate; the
-      single Cat 3 `axiom` declaration at Basic.lean for
-      a paper-articulated scope-condition Prop),
-      plus the `prw_E_internal_warrant_case_exhaustion`
-      atom (R1).  Note: 8 hypothesisPredicate-tagged
-      entries total (live `#eval` is authoritative).
+      BridgingPrinciple (D3 reclassified).
 
-  *Derived theorems and `notInput`-classified entries* (21 entries;
-  encoded as Lean `theorem` declarations, NOT as `axiom`):
+    Cat 3 paper-novel working-assumption entries (sub-type
+    `workingAssumption`; ledger entries pending typed-witness
+    encoding; v0.6.0 R2 uniform application of substrate-
+    independence reclassification precedent):
+      substrate_independence_triple_use_premise (D6 sub-type
+        hypothesisPredicate → workingAssumption; the v0.5.0
+        naked-Prop axiom was deleted in v0.6.0 R2 D4 + D5),
+      thesis_independence (D8 reclassified gapBlocked→gapOpen),
+      thesis_minimality (D8 reclassified gapBlocked→gapOpen).
 
-    * `lem_prw_reduction` (axiom→theorem converted in v0.5.0 R1;
-      composes the five lem:prw atomic stipulations).
+  *Derived theorems and `notInput`-classified entries* (encoded as
+  Lean `theorem` declarations, NOT as `axiom`):
+
     * Top-level theorems: `thm_impossibility`,
       `thm_impossibility_paper_form`, `bridging_dsc_iff_sc`,
       `satisfiesP3_of_boolean`.
     * Discriminator threshold-rule lemmas (7 entries).
     * Impossibility-theorem corollaries (3 entries).
-    * gapBlocked deferrals (6 entries; paper-side structural
-      content with content lying outside Lean's structural-
-      skeleton scope — see per-entry rationale).
+    * gapBlocked deferrals (paper-side structural content with
+      content lying outside Lean's structural-skeleton scope —
+      `thesis_joint` empirical claim about contemporary LLMs;
+      `prot_testimony` epistemology-of-evidence protocol;
+      `tab_calibration` per-case historical-empirical
+      judgements; `ai_governance_applications` policy-application
+      sketches).
 
   Lean kernel (Cat 0; not declared here):
     propext, Classical.choice, Quot.sound.
@@ -1838,84 +1580,100 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
   pending discharge) and *zero Cat 2 axioms* (no external
   textbook citations).  All atomic inputs are Cat 3 paper-novel.
 
-  *Cat 3 sub-types not used in this project:* `workingAssumption`
-  (no provisional bundles pending derivation), `conditionalHypothesis`
-  (no external-open-problem-conditional results).
+  *Cat 3 sub-types not used in this project:* `structuralEquation`
+  (no paper-stated structural-defining-equation atoms beyond what
+  is encoded inside the paper-novel structure definitions
+  themselves), `conditionalHypothesis` (no external-open-problem-
+  conditional results).  The `workingAssumption` sub-type is now
+  populated by three entries pending typed-witness encoding via
+  paper-extension work.
 
-  *gapBlocked entries* (6 in v0.5.0).  Several paper-side claims
-  of structural flavour are recorded as `gapBlocked` rather than
-  `gapClosed`, because their substantive content lies outside
-  Lean's structural-skeleton scope (philosophical-discursive
-  arguments; substrate-empirical premises; per-case historical-
-  empirical judgement; policy-application sketches).  Each
-  gapBlocked entry carries an explicit reason for the block;
-  future audit rounds should not reattack these gaps thinking
-  they are openable.
+  *v0.6.0 changelog summary (round 2 v6 compliance — defect-
+  driven fixes from hostile validator):*
 
-  *v0.5.0 changelog summary (round 1 of v6 compliance fixes):*
+    * DEFECT #1 (CORE): `lem_prw_reduction` R1 cosmetic
+      decomposition reverted.  Round 1 (v0.5.0) introduced five
+      atomic stipulations + four case-tag `Prop := True` `def`s;
+      the case-tag predicates were tautologically `True`, so the
+      five-atom encoding asserted `∀ A, A.partitionRelative`
+      once any single carrier-Prop was inhabited — STRONGER than
+      the original `lem_prw_reduction` content, with the
+      case-decomposition adding zero substantive paper-content.
+      Hostile audit verdict: the paper's `\label{lem:prw}` proof
+      body case-analyses the warrant by LINGUISTIC structural
+      sub-form (uniform vs.\\ contextual; type-(a)/(b)/(c) on the
+      warrant's *justification*-prose), not by a typed predicate
+      on the `ArbitrationProcedure` carrier.  Making the case-
+      tags substantive requires a typed `Warrant` sub-structure
+      paper-extension not yet present in the paper.  Honest
+      revert: single Cat 3 `workingAssumption` axiom with close-
+      target = typed-Warrant refinement.  Five atomic stipulation
+      entries + four case-tag carrier entries from R1 all
+      removed; their content consolidated into the single
+      `gap_lem_prw_reduction` entry.
 
-    * R1: `lem_prw_reduction` decomposed.  Former single composite
-      Cat 3 axiom was anti-pattern #13 (conclusion-as-axiom: the
-      lemma has a published proof) + #14 (composite-axiom
-      bundling: the proof body case-analyses 5+ structural sub-
-      forms).  Now: 5 paper-novel atomic Cat 3 stipulations
-      (uniform / type-(a) / type-(b) / Partition-Internality
-      sub-claim / case-exhaustion) + 4 case-tag carriers; the
-      derived `lem_prw_reduction` theorem composes them via
-      case-analysis on the paper's structural sub-forms.
-      `#print axioms thm_impossibility` now shows the 5 atomic
-      stipulations rather than the single opaque axiom.
+    * DEFECT #2: dissolved by DEFECT #1 fix (no per-case atoms
+      exist anymore; the type-(b) feature conclusion-clause
+      mismatch no longer arises).
 
-    * R2: `substrate_independence_triple_use_premise`
+    * DEFECT #3: dissolved by DEFECT #1 fix (no case-exhaustion
+      atom exists anymore).
+
+    * DEFECT #4: `axiom SubstrateIndependenceTripleUse : Prop`
+      DELETED from `Basic.lean`.  The naked-`Prop` axiom violated
+      the project trust policy (`AxiomAudit.lean` line 30 No
+      naked-constant / abstract-type-inhabitation stipulations).
+      The premise remains paper-articulated and is recorded as a
+      Cat 3 `workingAssumption` ledger entry without an
+      underlying Lean axiom.
+
+    * DEFECT #5: dissolved by DEFECT #4 fix (the deleted naked-
+      Prop axiom was anti-pattern #7 phantom downstream user; no
+      theorem consumed it).
+
+    * DEFECT #6: substrate-independence sub-type reclassified
+      `hypothesisPredicate → workingAssumption`.  Paper
+      EXPLICITLY frames the premise as defeasible / pending
+      validation ('Symmetric epistemic posture: defeasible by
+      future fine-grained substrate findings'; 'Operational
+      threshold for substrate-independence reapplication'); per
+      v6 §3.4.4, this is `workingAssumption` (temporarily
+      axiomatized higher-level claim pending validation), not
+      `hypothesisPredicate` (paper-stipulated scope condition
+      NOT pending validation).
+
+    * DEFECT #7: `CognitiveSystem` reclassified
+      `carrier → hypothesisPredicate` for consistency with
+      `SessionalCognition` and `BridgingPrinciple` (D3
+      reclassified in v0.5.0).  The six abstract `Type` fields
+      are stub names never reasoned-with downstream; the load-
+      bearing content is the six bare-Prop DSC-axis fields
+      consumed by `SatisfiesDSC`.  Same Prop-bundle scope-
+      condition pattern as the other reclassified structures;
+      the v0.5.0 D3 mixed-typing-dominant retention was an
+      inconsistency.
+
+    * DEFECT #8: `thesis_independence` and `thesis_minimality`
       reclassified `gapBlocked → gapOpen` Cat 3
-      `hypothesisPredicate`.  Per v6 §2, Mathlib infra absence
-      ALONE is NOT BLOCKED — the paper articulates the premise
-      explicitly in `\S\ref{sec:discriminator}` `Acknowledgement`
-      paragraph, so it is a Cat 3 paper-articulated scope
-      condition.  Axiom `SubstrateIndependenceTripleUse : Prop`
-      added to `Basic.lean` for future downstream consumption;
-      not currently wired into any derived theorem.
+      `workingAssumption`.  Paper exhibits six counter-model
+      witnesses (canonical mathematical independence-proof
+      pattern) for `thesis_independence` and six locution-axis-
+      blocking witnesses for `thesis_minimality`.  Per v6 §2,
+      the substrate-independence reclassification precedent (R2
+      v0.5.0) applies uniformly.  Close-target: Lean encoding
+      of the six counter-model witnesses (paper-extension work
+      requires typed carriers the paper does not formalise).
+      v0.5.0 D6 retention rationale superseded — the same
+      discipline applied to substrate-independence (paper-
+      articulated premise pending typed witness encoding) is
+      applied here.
 
-    * D1: `FaithfulP1` docstring tightened.  Removed the prior
-      claim that the contested-witness fields were "the only P1-
-      consequence the impossibility theorem uses" (which was
-      false: `#print axioms thm_impossibility` shows no P1
-      consequences are consumed).  Replaced with explicit
-      acknowledgement that `FaithfulP1` is structurally
-      documented but not consumed by `thm_impossibility`.
+    * `lakefile.toml` version bumped 0.5.0 → 0.6.0.
 
-    * D2: `ArbitrationProcedure` design-note block added to
-      `Basic.lean` explaining the bare-Prop choice for
-      `partitionRelative` / `warrantInternalToE`.  Sub-type
-      reclassified `carrier → hypothesisPredicate` (the
-      structure's load-bearing content is its two paper-
-      stipulated bare-Prop scope-condition fields).
-
-    * D3: design-note block added to `Basic.lean` explaining the
-      bare-Prop choice for `CognitiveSystem`,
-      `SessionalCognition`, `BridgingPrinciple`.  Sub-type
-      reclassifications: `SessionalCognition` and
-      `BridgingPrinciple` re-tagged `carrier →
-      hypothesisPredicate` (pure Prop-bundle scope structures);
-      `CognitiveSystem` retained as `carrier` (mixed typing-
-      dominant structure).
-
-    * D4: `lakefile.toml` version bumped 0.2.0 → 0.5.0.
-
-    * D5: inventory narrative (this comment block) clarified to
-      report total entries M (44) separately from Cat 3 atomic
-      inputs N (23) — the prior `Cat 3 ratio = 100% (14/14)`
-      framing conflated derived theorems + gapBlocked deferrals
-      (which are `notInput`) with paper-side atomic inputs.
-
-    * D6: `thesis_independence` and `thesis_minimality`
-      audited.  Both retained as `gapBlocked` (paper-side
-      arguments are conceptual-philosophical / natural-language-
-      locution discursive, not structural-mathematical).
-      Reclassification to `workingAssumption` (Cat 3) REJECTED:
-      the theses are paper-conclusions argued discursively, not
-      paper-extension theorems pending derivation.  Each entry's
-      attackHistory now records the audit reasoning.
+    * `AxiomAudit.lean` updated to reflect the post-R2 axiom
+      inventory: one Cat 3 `axiom` (`lem_prw_reduction`); no
+      `SubstrateIndependenceTripleUse` axiom; no case-tag
+      `def`s; no per-case atomic stipulations.
 -/
 
 end AsymmetricEliminativism.Ledger
