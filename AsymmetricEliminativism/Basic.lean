@@ -294,12 +294,26 @@ structure FaithfulP1 (FolkObj Tcls : Type)
     (Op : Operationalisation FolkObj Tcls Part) where
   /-- The Prop that captures faithfulness to `E_{Op.faithful_to_partIdx}`. -/
   determinedByPartExhibition : Prop
-  /-- The *structural use* of P1 in the impossibility-theorem proof:
-       there exist *contested* witnesses `x_neg`, `x_pos` such that
-       `Op` gives a determinate negative verdict on `x_neg` and a
-       determinate positive verdict on `x_pos`, with `x_neg` and
-       `x_pos` discriminable on `E_i`-feature exhibition.  This is
-       the only P1-consequence the impossibility theorem uses. -/
+  /-- The contested-witness existential structure paralleling P1's
+       paper-side substantive content: there exist *contested*
+       witnesses `x_neg`, `x_pos` such that `Op` gives a determinate
+       negative verdict on `x_neg` and a determinate positive
+       verdict on `x_pos`, with `x_neg` and `x_pos` discriminable
+       on `E_i`-feature exhibition.
+
+       *Note on P1 consumption by `thm_impossibility`.*  In the
+       current Lean encoding `FaithfulP1` is structurally
+       documented (the paper's P1 carries this content) but is
+       NOT consumed by `thm_impossibility` — the impossibility
+       proof goes through `lem_prw_reduction` (now a derived
+       theorem composing five paper-novel atomic stipulations on
+       `ArbitrationProcedure`), which does not require P1's
+       contested-witness fields.  `FaithfulP1` is therefore a
+       carrier of the paper's P1 structural content (sub-type
+       `hypothesisPredicate`), and the contested-witness clauses
+       capture P3's substantive content under contestation
+       independently of the impossibility-theorem's proof
+       dependency. -/
   hasContestedNegativeWitness :
     ∃ x : Tcls, Op.verdict x = false
   hasContestedPositiveWitness :
@@ -326,6 +340,43 @@ structure FaithfulP1 (FolkObj Tcls : Type)
   the predicate `partitionRelative`; an arbitration procedure
   satisfying P2 is one for which `partitionRelative A = False`.
 -/
+/-
+  Design note (v0.5.0 D2 documentation).  `ArbitrationProcedure`
+  carries two bare-`Prop` fields (`partitionRelative` and
+  `warrantInternalToE`) intentionally encoded as paper-introduced
+  scope conditions (v6 §3.4.2 `hypothesisPredicate` sub-type),
+  not as fully-concretised structural equations on the paper's
+  primitives.
+
+  *Why bare-Prop and not concretised.*  The paper defines both
+  Props textually (`\label{def:op-properties}` P2 + the lem:prw
+  contextual paragraph): `partitionRelative` is "verdict reduces
+  to a weighting of `{E_1, …, E_n}`"; `warrantInternalToE` is
+  "adjudication-warrant derives from `\E`-features alone".  Both
+  are paper-discursive scope conditions on the typed
+  `ArbitrationProcedure`; the Lean encoding treats them as
+  abstract `Prop`s parametrising the structure, with content
+  supplied by paper text rather than by a Lean-internal
+  concretisation.
+
+  *Consequence for sub-type classification.*  The
+  `ArbitrationProcedure` carrier's Cat 3 sub-type is
+  `hypothesisPredicate` (paper-introduced scope-condition
+  bundle), NOT `carrier` (primitive type carrying purely
+  syntactic content).  The Prop fields are paper-stipulated
+  scope predicates; the structure itself is a paper-novel
+  scope-condition bundle on which the five lem:prw atomic
+  stipulations operate.
+
+  *Alternative (rejected).*  A concretised encoding (e.g.,
+  `partitionRelative` as a Lean-defined equation involving
+  `Fin Part.n`-indexed weighting maps) would require additional
+  Cat 3 structuralEquation atoms tying the concretisation to
+  the paper's textual definition; the bare-Prop encoding is
+  lighter-weight and faithfully reflects that the substantive
+  content lives in the paper's case-analysis proof, not in a
+  Lean-formalisable definitional equation.
+-/
 structure ArbitrationProcedure (FolkObj Tcls : Type)
     (Part : MutuallyUnrankedPartition FolkObj) where
   /-- The procedure: given a disagreement-witness `x`, return
@@ -339,9 +390,11 @@ structure ArbitrationProcedure (FolkObj Tcls : Type)
 
        The paper's Lemma `\label{lem:prw}` shows that *any*
        warrant constructed from `E` alone reduces to partition-
-       relative weighting.  This field carries the procedure-
-       relative Prop; the lemma's load-bearing reduction is the
-       axiom `lem_prw_reduction` in `Impossibility.lean`. -/
+       relative weighting.  This field is a paper-introduced
+       scope condition (v6 §3.4.2 `hypothesisPredicate`); the
+       lemma's load-bearing reduction is the derived theorem
+       `lem_prw_reduction` in `Impossibility.lean`, which composes
+       five paper-novel atomic stipulations on the typed carriers. -/
   partitionRelative : Prop
   /-- *Warrant internal to `\E`* iff the procedure's adjudication-
        warrant derives from features of the folk extension `\E`
@@ -349,7 +402,8 @@ structure ArbitrationProcedure (FolkObj Tcls : Type)
        defined and no external warrant has yet emerged (the
        discourse-internality hypothesis (H) of
        `\label{thm:impossibility}`), only such procedures are
-       admissible. -/
+       admissible.  Paper-introduced scope condition (v6 §3.4.2
+       `hypothesisPredicate`). -/
   warrantInternalToE : Prop
 
 /--
@@ -436,6 +490,47 @@ def DistinctOps {FolkObj Tcls : Type}
      The six axes are formalised as `Prop`-valued *predicates*
      over an abstract cognitive system `S : CognitiveSystem`. -/
 
+/-
+  Design note (v0.5.0 D3 documentation).  `CognitiveSystem`,
+  `SessionalCognition`, and `BridgingPrinciple` carry bare-`Prop`
+  fields for the paper-defined predicates intentionally (v6
+  §3.4.2 `hypothesisPredicate` sub-type), not as fully-
+  concretised structural equations.
+
+  *Why bare-Prop and not concretised.*  Each paper-defined
+  predicate (the six DSC axes; the six SC V1–V6 commitments;
+  B1.ii/B1.iii/B2 clauses) is supplied by paper-discursive
+  textual definitions citing empirical-substrate evidence
+  (cognitive neuroscience, ML architecture, point-of-view
+  non-translatability).  Their substantive content is paper-
+  empirical, not Lean-formalisable as a structural equation
+  over the typed primitives.
+
+  *Consequence for sub-type classification.*  The carrier
+  structures are Cat 3 sub-type `hypothesisPredicate` for the
+  bundles whose load-bearing content is in the Prop fields
+  (`AsymmetricEliminationVerdict`, `UseSeparability`,
+  `FaithfulP1`, `ArbitrationProcedure`, `SessionalCognition`,
+  `BridgingPrinciple`).  Structures whose primary content is
+  non-Prop structural typing (token-space / weight-space /
+  activation-space Types in `CognitiveSystem`) are sub-type
+  `carrier` even when they also contain bare-Prop fields; the
+  dominant content determines the classification.
+
+  *Alternative (rejected).*  Concretising each Prop field via
+  Lean-internal definitions would either (a) trivialise the
+  Prop (e.g. `sessionalP := True`, erasing the paper's
+  empirical-discursive content), or (b) require axiomatising
+  structural commitments the paper does not stipulate (e.g.,
+  specific quantification over `SessionIndex`/`ActivationSpace`
+  that the paper articulates only informally).  Bare-Prop is
+  the faithful encoding of paper-empirical content.
+
+  *Documentation pointer.*  See per-axis docstrings on
+  `CognitiveSystem` for the paper-side substantive content of
+  each Prop.
+-/
+
 /--
   Abstract carrier for a cognitive system.  We carry just enough
   structure to state the six DSC axes; per-axis encoding details
@@ -450,6 +545,11 @@ def DistinctOps {FolkObj Tcls : Type}
   `Decidable`s because the paper's per-axis judgement is itself
   empirical-discursive (each axis cites cognitive-neuroscience and
   ML-architecture evidence) and not a Boolean Lean-decidable fact.
+
+  *Sub-type.*  `carrier` per v6 §3.4.1: the structure's primary
+  content is its non-Prop typing of token/weight/activation/etc.
+  spaces (the paper's underlying primitive types), with the six
+  Prop fields recording per-axis paper-empirical judgements.
 -/
 structure CognitiveSystem where
   /-- The system's token / inference-event space. -/
@@ -570,6 +670,35 @@ structure SessionalCognition (S : CognitiveSystem) where
   /-- V6: self-report as observable behaviour (paralleling
        interpretability inversion). -/
   V6_selfReportAsObservable : Prop
+
+/-! ## §sec:discriminator (calibration-section).  Substrate-
+     independence triple-use premise. -/
+
+/--
+  *Substrate-independence triple-use premise* (Cat 3 paper-novel
+  hypothesis predicate, paper `\S\ref{sec:discriminator}`
+  `Acknowledgement: Route~2 shares load-bearing premise with E2b
+  transferability AND impossibility-theorem-application`).
+
+  *Paper statement.*  "The substrate-independence premise does
+  triple duty for the LLM-elimination verdict: (a) E2b
+  transferability, (b) D1 Route 2, (c) impossibility-theorem
+  application to the novel target.  The framework's verdict on
+  LLMs therefore rests on two empirical premises (substrate-
+  independence doing triple work; calendar-window evidence doing
+  one job for D2 and D3) rather than on three or four
+  independent premises."
+
+  *Lean encoding (v0.5.0 R2 reclassification).*  Declared as a
+  paper-articulated scope-condition `Prop`.  The premise is
+  *available* for downstream consumption but is not currently
+  consumed by any derived theorem in this file; wiring it into
+  the LLM-target-extension theorem is paper-extension work.
+
+  *Sub-type.*  `hypothesisPredicate` per v6 §3.4.2: paper-
+  introduced scope condition; definitional atom (永不 close).
+-/
+axiom SubstrateIndependenceTripleUse : Prop
 
 /-! ## §14.  Bridging principle (`\label{def:bridging}`).  -/
 
