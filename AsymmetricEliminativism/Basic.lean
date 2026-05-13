@@ -268,12 +268,12 @@ structure MutuallyUnrankedPartition (FolkObj : Type) where
   a constructor field `faithful_to_partIdx`.
 -/
 structure Operationalisation (FolkObj Tcls : Type)
-    (Π : MutuallyUnrankedPartition FolkObj) where
+    (Part : MutuallyUnrankedPartition FolkObj) where
   /-- The verdict-map. -/
   verdict : Tcls → Bool
   /-- Which partition member `E_i` this operationalisation is
        faithful to.  Required by (P1). -/
-  faithful_to_partIdx : Fin Π.n
+  faithful_to_partIdx : Fin Part.n
 
 /--
   Property (P1) of `\label{def:op-properties}`: *faithfulness*.
@@ -290,8 +290,8 @@ structure Operationalisation (FolkObj Tcls : Type)
   any `x` that exhibits `E_j`-features but not `E_i`-features.
 -/
 structure FaithfulP1 (FolkObj Tcls : Type)
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (Op : Operationalisation FolkObj Tcls Π) where
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (Op : Operationalisation FolkObj Tcls Part) where
   /-- The Prop that captures faithfulness to `E_{Op.faithful_to_partIdx}`. -/
   determinedByPartExhibition : Prop
   /-- The *structural use* of P1 in the impossibility-theorem proof:
@@ -327,10 +327,10 @@ structure FaithfulP1 (FolkObj Tcls : Type)
   satisfying P2 is one for which `partitionRelative A = False`.
 -/
 structure ArbitrationProcedure (FolkObj Tcls : Type)
-    (Π : MutuallyUnrankedPartition FolkObj) where
+    (Part : MutuallyUnrankedPartition FolkObj) where
   /-- The procedure: given a disagreement-witness `x`, return
-       which operationalisation index (in `Fin Π.n`) to prefer. -/
-  adjudicate : Tcls → Fin Π.n
+       which operationalisation index (in `Fin Part.n`) to prefer. -/
+  adjudicate : Tcls → Fin Part.n
   /-- *Partition-relative* iff the procedure's preference output
        reduces to a weighting of the partition members
        `{E_1, …, E_n}` — i.e., its verdict on which `Op` to prefer
@@ -363,9 +363,9 @@ structure ArbitrationProcedure (FolkObj Tcls : Type)
   derives a contradiction from the conjunction of P2 + (H).
 -/
 def SatisfiesP2 (FolkObj Tcls : Type)
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (_Op : Operationalisation FolkObj Tcls Π) : Prop :=
-  ∃ A : ArbitrationProcedure FolkObj Tcls Π,
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (_Op : Operationalisation FolkObj Tcls Part) : Prop :=
+  ∃ A : ArbitrationProcedure FolkObj Tcls Part,
     ¬ A.partitionRelative ∧ A.warrantInternalToE
 
 /--
@@ -387,8 +387,8 @@ def SatisfiesP2 (FolkObj Tcls : Type)
   faithfulness clause is captured by `FaithfulP1`.
 -/
 def SatisfiesP3 (FolkObj Tcls : Type)
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (Op : Operationalisation FolkObj Tcls Π) : Prop :=
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (Op : Operationalisation FolkObj Tcls Part) : Prop :=
   ∀ x : Tcls, ∃ b : Bool, Op.verdict x = b
 
 /-- P3 trivially holds for every Boolean-valued operationalisation:
@@ -400,9 +400,9 @@ def SatisfiesP3 (FolkObj Tcls : Type)
     accompanying `FaithfulP1.hasContestedNegativeWitness` /
     `hasContestedPositiveWitness` fields. -/
 theorem satisfiesP3_of_boolean
-    (FolkObj Tcls : Type) (Π : MutuallyUnrankedPartition FolkObj)
-    (Op : Operationalisation FolkObj Tcls Π) :
-    SatisfiesP3 FolkObj Tcls Π Op := by
+    (FolkObj Tcls : Type) (Part : MutuallyUnrankedPartition FolkObj)
+    (Op : Operationalisation FolkObj Tcls Part) :
+    SatisfiesP3 FolkObj Tcls Part Op := by
   intro x
   exact ⟨Op.verdict x, rfl⟩
 
@@ -426,8 +426,8 @@ theorem satisfiesP3_of_boolean
   `Tsrc : Set Tcls`.
 -/
 def DistinctOps {FolkObj Tcls : Type}
-    {Π : MutuallyUnrankedPartition FolkObj}
-    (Op_i Op_j : Operationalisation FolkObj Tcls Π)
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (Op_i Op_j : Operationalisation FolkObj Tcls Part)
     (Tsrc : Set Tcls) : Prop :=
   (∃ x ∈ Tsrc, Op_i.verdict x ≠ Op_j.verdict x) ∧
   Op_i.faithful_to_partIdx ≠ Op_j.faithful_to_partIdx
