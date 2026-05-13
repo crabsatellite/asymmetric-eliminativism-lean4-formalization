@@ -300,16 +300,25 @@ def gap_lem_prw_reduction : GapEntry := {
     "v0.8.0 R5 reductionism Cat 2?: CLEAR-NO — the nine Cat 3 " ++
       "atoms are individually paper-novel (paper-line cited; no " ++
       "external textbook covers them on these typed carriers).",
-    "v0.9.0 R7 partitionRelative concretization (2026-05-14): " ++
-      "no signature change to the derived theorem itself, but the " ++
-      "`A.partitionRelative` disjunct in the conclusion now " ++
-      "unfolds to the concrete `∃ w : Weighting Part, ∀ x j, " ++
-      "w.weight j ≤ w.weight (A.adjudicate x)` form (paper-faithful " ++
-      "`verdict factors through R_{f^*}-style weighting`; see " ++
-      "`ArbitrationProcedure.partitionRelative` def in `Basic.lean`).  " ++
-      "Each of the 6 case-bridge atoms now supplies its case-" ++
-      "specific paper-stipulated weighting; the derived theorem " ++
-      "rebundles them via the `Weighting` carrier."
+    "v0.9.0 R7 attempted partitionRelative concretization " ++
+      "(2026-05-14): no signature change to the derived theorem " ++
+      "itself; the `A.partitionRelative` disjunct in the conclusion " ++
+      "was updated to unfold via a new `Weighting` carrier-based " ++
+      "`def`.",
+    "v0.10.0 R9 partitionRelative revert (2026-05-14): R7 " ++
+      "concretization machine-verified VACUOUS (Round 8 hostile " ++
+      "validator showed constant-weight discharges the predicate " ++
+      "for every `A`); per round-9 brief Option B, REVERTED.  The " ++
+      "derived theorem signature is unchanged from R5/R7; the " ++
+      "`A.partitionRelative` disjunct reverts to bare-Prop field " ++
+      "on `ArbitrationProcedure`.  The 6 case-bridge axioms revert " ++
+      "to bare-RHS shape.  This derived theorem itself remains " ++
+      "valid (composes the 6 atoms + 3 derived theorems via the " ++
+      "`WarrantFeatureType` case-exhaustion `match`); only the " ++
+      "axiom-RHS encoding changes.  v0.8.0 R5 substantive " ++
+      "achievements preserved: warrant-form taxonomy, decidable " ++
+      "predicates, derived theorems via `decide`, case-exhaustion " ++
+      "structure of the proof."
   ]
   scope :=
     "`∀ A, A.warrantInternalToE → A.partitionRelative ∨ " ++
@@ -322,9 +331,10 @@ def gap_lem_prw_reduction : GapEntry := {
     "derived theorem; P2 definition extended with " ++
     "`¬ A.failsAdjudication` conjunct to match paper option (ii) " ++
     "(adjudication-failure) as a P2-failure mode parallel to " ++
-    "option (i) (partition-relativity).  v0.9.0 R7: " ++
-    "`A.partitionRelative` disjunct now concrete `∃ w : Weighting " ++
-    "Part, A factors through w` form via the `Weighting` carrier."
+    "option (i) (partition-relativity).  v0.10.0 R9: " ++
+    "`A.partitionRelative` reverts to bare-Prop field on " ++
+    "`ArbitrationProcedure` (v0.8.0 baseline); R7 `Weighting`-" ++
+    "carrier concretization removed as vacuous."
 }
 
 /-! ### v0.8.0 R5 — 9 per-case Cat 3 atomic stipulations
@@ -340,68 +350,6 @@ def gap_lem_prw_reduction : GapEntry := {
   constructor docstring in `Basic.lean WarrantFeatureType` and
   axiom docstring in `Impossibility.lean`.
 -/
-
-def gap_Weighting_carrier : GapEntry := {
-  name := "Weighting (structure)"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.carrier
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` lines 2083-2085 + 2155-2170 — " ++
-    "paper's 'partition-relative weighting of {E_1, ..., E_n}' " ++
-    "structural object.  Paper line 2158: 'the procedure adjudicate " ++
-    "Op_i vs. Op_j by routing to whichever of E_i, E_j is higher " ++
-    "under the f^*-induced ranking R_{f^*} is a partition-relative " ++
-    "weighting of {E_1, ..., E_n}'.  Paper lines 2161-2162: 'The " ++
-    "procedure''s verdict on which Op to prefer is determined by " ++
-    "R_{f^*}''s ranking of the E_i.  R_{f^*} is constructed from " ++
-    "f^*-values computed on each E_i'.  The 'weighting' is paper''s " ++
-    "name for the R_{f^*}-style ranking function on the partition " ++
-    "members."
-  attackHistory := [
-    "v0.9.0 R7 introduction (2026-05-14): typed primitive added " ++
-      "to `Basic.lean` to surface the paper's `weighting of " ++
-      "{E_1, ..., E_n}` structural object.  Replaces the bare-Prop " ++
-      "`partitionRelative` field on `ArbitrationProcedure` " ++
-      "(v0.8.0); enables the 6 case-bridge axioms to have concrete " ++
-      "RHS shape `warrantForm = X → ∃ w : Weighting Part, ∀ x j, " ++
-      "w.weight j ≤ w.weight (A.adjudicate x)` rather than bare-" ++
-      "Prop placeholders.  Round 6 hostile validator (v0.8.0) " ++
-      "flagged the bare-Prop RHS as 1 remaining issue " ++
-      "representing the user's original `lazy bare-Prop` complaint " ++
-      "at the partitionRelative level; R7 fully breaks anti-pattern " ++
-      "#13 at this granularity.  Sub-type `carrier` per v6 §3.4.1: " ++
-      "paper-introduced typed primitive for the `weighting of " ++
-      "{E_1, ..., E_n}` object; encoded as a Lean `structure` with " ++
-      "a single field `weight : Fin Part.n → ℝ`.",
-    "v0.9.0 R7 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "predicate for `weighting of partition members of a " ++
-      "mutually-unranked partition` on paper-novel " ++
-      "`MutuallyUnrankedPartition` carrier.  The structure is " ++
-      "paper-specific (Li 2026 `\\label{lem:prw}` weighting object); " ++
-      "no Mathlib `Weighting` predicate exists.",
-    "v0.9.0 R7 reductionism Cat 2?: CLEAR-NO — surveyed external " ++
-      "social-choice / arbitration / decision-theory literature: " ++
-      "Arrow 1951 (utility-as-preference, not weighting on a " ++
-      "partition); Sen 1970 (social choice over individual " ++
-      "preferences, not partition-internal ranking); Topkis 1978 " ++
-      "(supermodular optimisation, different scope); Roemer 1996 " ++
-      "(distributive justice, no `weighting of partition members` " ++
-      "carrier).  The `Weighting` carrier as encoded here is " ++
-      "paper-specific framing for `\\label{lem:prw}`."
-  ]
-  scope :=
-    "Typed structural carrier for paper's `weighting of " ++
-    "{E_1, ..., E_n}` ranking object from `\\label{lem:prw}` " ++
-    "lines 2083-2085 + 2155-2170.  Single field `weight : Fin " ++
-    "Part.n → ℝ` encodes paper's `R_{f^*}`-style ranking on the " ++
-    "partition members.  Consumed by " ++
-    "`ArbitrationProcedure.partitionRelative` (`∃ w : Weighting " ++
-    "Part, A factors through w`) and by the 6 case-bridge atomic " ++
-    "stipulations (`prw_uniform_to_pr` et al.) supplying the " ++
-    "paper-stipulated case-specific weighting.  Definitional atom " ++
-    "(v6 §3.4.1); never to close (it IS the paper's object)."
-}
 
 def gap_WarrantFeatureType_carrier : GapEntry := {
   name := "WarrantFeatureType (inductive)"
@@ -466,26 +414,33 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "case-analysis (2026-05-14).  Sub-type `structuralEquation` " ++
       "per v6 §3.4.3: paper-stated definitional reduction on the " ++
       "paper-novel `ArbitrationProcedure` + `WarrantFeatureType` " ++
-      "carriers.",
-    "v0.9.0 R7 RHS concretization (2026-05-14): axiom signature " ++
-      "RHS updated from bare-Prop `A.partitionRelative` to concrete " ++
-      "`∃ w : Weighting Part, ∀ x j, w.weight j ≤ w.weight " ++
-      "(A.adjudicate x)` via the new `Weighting` carrier.  Paper-" ++
-      "stipulated weighting form for this case: `δ_{E_m}` " ++
-      "(weight 1 on the globally-chosen `m`, 0 elsewhere), under " ++
-      "which `A.adjudicate` outputting the constant `m` for every " ++
-      "input is a weight-maximizer.  Round 6 hostile validator's " ++
-      "bare-Prop-RHS issue resolved at this entry."
+      "carriers.  Bare-Prop RHS `A.partitionRelative`.",
+    "v0.9.0 R7 attempted RHS concretization (2026-05-14): axiom " ++
+      "signature RHS updated from bare-Prop `A.partitionRelative` " ++
+      "to concrete `∃ w : Weighting Part, ∀ x j, w.weight j ≤ " ++
+      "w.weight (A.adjudicate x)` via a new `Weighting` carrier.  " ++
+      "R7 claimed substantive concretization breaking anti-pattern " ++
+      "#13.",
+    "v0.10.0 R9 RHS revert (2026-05-14): Round 8 hostile validator " ++
+      "machine-verified the R7 concretization VACUOUS (constant-" ++
+      "weight `w := ⟨fun _ => 0⟩` discharges the predicate for " ++
+      "every `A`).  Per round-9 brief Option B, R7 concretization " ++
+      "REVERTED; axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
+      "Sub-type `structuralEquation` retained for v6 §3.4.3 " ++
+      "compliance (paper-stipulated definitional reduction on the " ++
+      "paper-novel carriers); status `gapDefinitional` retained.  " ++
+      "Honest close-target: process-level Warrant refinement " ++
+      "(see `gap_ArbitrationProcedure_partitionRelative_field` " ++
+      "for full close-target specification)."
   ]
   scope :=
-    "`A.warrantForm = WarrantFeatureType.uniform → ∃ w : " ++
-    "Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n, w.weight j ≤ " ++
-    "w.weight (A.adjudicate x)` on the paper-novel " ++
-    "`ArbitrationProcedure` + `Weighting` carriers (v0.9.0 R7 " ++
-    "concrete RHS via `Weighting` carrier; was bare-Prop " ++
-    "`A.partitionRelative` in v0.8.0).  Single-step typed bridge " ++
-    "asserting paper-stipulated existence of a `δ_{E_m}`-style " ++
-    "weighting through which `A.adjudicate` factors."
+    "`A.warrantForm = WarrantFeatureType.uniform → " ++
+    "A.partitionRelative` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier (v0.10.0 R9 bare-Prop RHS — " ++
+    "honest revert of v0.9.0 R7 cosmetic concretization).  " ++
+    "Single-step typed bridge from `warrantForm = uniform` case-" ++
+    "tag to bare-Prop `partitionRelative` field; paper-prose " ++
+    "justification per `\\label{lem:prw}` lines 2092-2102."
 }
 
 def gap_prw_typeA_to_pr : GapEntry := {
@@ -500,20 +455,23 @@ def gap_prw_typeA_to_pr : GapEntry := {
     "ranking just is single-$E_m$ privileging — option (i).'"
   attackHistory := [
     "v0.8.0 R5 decomposition extracted from `\\label{lem:prw}` " ++
-      "case-analysis (2026-05-14).  Sub-type `structuralEquation`.",
-    "v0.9.0 R7 RHS concretization (2026-05-14): axiom signature " ++
-      "RHS updated from bare-Prop `A.partitionRelative` to " ++
-      "concrete `∃ w : Weighting Part, ∀ x j, w.weight j ≤ " ++
-      "w.weight (A.adjudicate x)`.  Paper-stipulated weighting " ++
-      "form: the `f`-belongs-to-`E_m` warrant yields a `δ_{E_m}`-" ++
-      "like ranking through which `A.adjudicate` factors."
+      "case-analysis (2026-05-14).  Sub-type `structuralEquation`.  " ++
+      "Bare-Prop RHS `A.partitionRelative`.",
+    "v0.9.0 R7 attempted RHS concretization (2026-05-14): axiom " ++
+      "signature RHS updated to concrete `∃ w : Weighting Part, " ++
+      "∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.",
+    "v0.10.0 R9 RHS revert (2026-05-14): R7 concretization machine-" ++
+      "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
+      "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
+      "Honest close-target: process-level Warrant refinement (see " ++
+      "`gap_ArbitrationProcedure_partitionRelative_field`)."
   ]
   scope :=
-    "`A.warrantForm = WarrantFeatureType.typeA → ∃ w : Weighting " ++
-    "Part, ∀ x : Tcls, ∀ j : Fin Part.n, w.weight j ≤ w.weight " ++
-    "(A.adjudicate x)` on the paper-novel `ArbitrationProcedure` " ++
-    "+ `Weighting` carriers (v0.9.0 R7 concrete RHS).  Single-" ++
-    "step typed bridge."
+    "`A.warrantForm = WarrantFeatureType.typeA → " ++
+    "A.partitionRelative` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier (v0.10.0 R9 bare-Prop RHS).  " ++
+    "Single-step typed bridge; paper-prose justification per " ++
+    "`\\label{lem:prw}` lines 2127-2131."
 }
 
 def gap_prw_typeB_no_ranking : GapEntry := {
@@ -566,24 +524,32 @@ def gap_prw_typeC1_to_pr : GapEntry := {
     "v0.8.0 R5 decomposition extracted from `\\label{lem:prw}` " ++
       "case-analysis (2026-05-14).  Sub-type `structuralEquation`.  " ++
       "Carries the paper's *Partition-Internality of " ++
-      "$\\E$-Internal Structural Stipulations* sub-claim.",
-    "v0.9.0 R7 RHS concretization (2026-05-14): axiom signature " ++
-      "RHS updated from bare-Prop to concrete `∃ w : Weighting " ++
-      "Part, ∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.  " ++
-      "Paper-stipulated weighting form is `R_{f^*}` itself per " ++
-      "paper lines 2161-2162: `w.weight k := f^*-value(E_k)`, " ++
-      "where `f^*` is the case-specific structural property.  " ++
-      "This case carries the MOST DIRECT paper-faithful match: " ++
-      "paper EXPLICITLY writes the weighting out as `R_{f^*}`."
+      "$\\E$-Internal Structural Stipulations* sub-claim.  " ++
+      "Bare-Prop RHS `A.partitionRelative`.",
+    "v0.9.0 R7 attempted RHS concretization (2026-05-14): axiom " ++
+      "signature RHS updated to concrete `∃ w : Weighting Part, " ++
+      "∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`; paper-" ++
+      "stipulated weighting form `R_{f^*}` per paper lines 2161-" ++
+      "2162.",
+    "v0.10.0 R9 RHS revert (2026-05-14): R7 concretization " ++
+      "machine-verified VACUOUS by constant-weight witness; per " ++
+      "round-9 brief Option B, REVERTED.  Axiom RHS reverts to " ++
+      "bare-Prop `A.partitionRelative`.  Note: even though paper " ++
+      "explicitly writes `R_{f^*}` out as the case-specific " ++
+      "weighting, the existence of A `R_{f^*}`-like weighting " ++
+      "alone does not constrain `A.adjudicate` non-vacuously " ++
+      "without modeling the warrant's process-level feature " ++
+      "extraction.  Honest close-target: process-level Warrant " ++
+      "refinement (see " ++
+      "`gap_ArbitrationProcedure_partitionRelative_field`)."
   ]
   scope :=
-    "`A.warrantForm = WarrantFeatureType.typeC1 → ∃ w : " ++
-    "Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n, w.weight j ≤ " ++
-    "w.weight (A.adjudicate x)` on the paper-novel " ++
-    "`ArbitrationProcedure` + `Weighting` carriers (v0.9.0 R7 " ++
-    "concrete RHS).  Single-step typed bridge.  Paper's `R_{f^*}` " ++
-    "instantiates the existential witness `w.weight k := " ++
-    "f^*-value(E_k)`."
+    "`A.warrantForm = WarrantFeatureType.typeC1 → " ++
+    "A.partitionRelative` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier (v0.10.0 R9 bare-Prop RHS).  " ++
+    "Single-step typed bridge.  Paper's `R_{f^*}` is the " ++
+    "case-specific weighting form per paper lines 2161-2162 " ++
+    "(paper-prose justification)."
 }
 
 def gap_prw_typeC2_recursive_to_pr : GapEntry := {
@@ -604,21 +570,23 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
       "case-analysis (2026-05-14).  Sub-type `structuralEquation`.  " ++
       "Carries paper's recursive descent termination sub-claim: " ++
       "under (H), termination is at (a) / (b) / (c.1) which " ++
-      "collectively reduce to partition-relativity.",
-    "v0.9.0 R7 RHS concretization (2026-05-14): axiom signature " ++
-      "RHS updated from bare-Prop to concrete `∃ w : Weighting " ++
-      "Part, ∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.  " ++
-      "Paper-stipulated weighting form: recursive meta-appeals " ++
-      "terminate at type-(a) or type-(c.1) base cases under (H); " ++
-      "the composed weighting derives from the base-case weighting " ++
-      "(paper-stipulative structural existence)."
+      "collectively reduce to partition-relativity.  Bare-Prop RHS " ++
+      "`A.partitionRelative`.",
+    "v0.9.0 R7 attempted RHS concretization (2026-05-14): axiom " ++
+      "signature RHS updated to concrete `∃ w : Weighting Part, " ++
+      "∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.",
+    "v0.10.0 R9 RHS revert (2026-05-14): R7 concretization machine-" ++
+      "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
+      "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
+      "Honest close-target: process-level Warrant refinement (see " ++
+      "`gap_ArbitrationProcedure_partitionRelative_field`)."
   ]
   scope :=
-    "`A.warrantForm = WarrantFeatureType.typeC2_recursive → ∃ " ++
-    "w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n, " ++
-    "w.weight j ≤ w.weight (A.adjudicate x)` on the paper-novel " ++
-    "`ArbitrationProcedure` + `Weighting` carriers (v0.9.0 R7 " ++
-    "concrete RHS).  Single-step typed bridge."
+    "`A.warrantForm = WarrantFeatureType.typeC2_recursive → " ++
+    "A.partitionRelative` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier (v0.10.0 R9 bare-Prop RHS).  " ++
+    "Single-step typed bridge; paper-prose justification per " ++
+    "`\\label{lem:prw}` lines 2186-2196."
 }
 
 def gap_prw_warrantInternalToE_excludes_typeC3 : GapEntry := {
@@ -670,20 +638,23 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
       "case-analysis (2026-05-14).  Sub-type `structuralEquation`.  " ++
       "The recursive descent terminates at (a) / (b) / (c.1) " ++
       "under (H), reducing to partition-relativity by the " ++
-      "typeC2_recursive case treatment.",
-    "v0.9.0 R7 RHS concretization (2026-05-14): axiom signature " ++
-      "RHS updated from bare-Prop to concrete `∃ w : Weighting " ++
-      "Part, ∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.  " ++
-      "Paper-stipulated weighting form: track-record-based " ++
-      "selection of `f^*` yields `w.weight k := " ++
-      "f^*_chosen-by-track-record-value(E_k)`."
+      "typeC2_recursive case treatment.  Bare-Prop RHS " ++
+      "`A.partitionRelative`.",
+    "v0.9.0 R7 attempted RHS concretization (2026-05-14): axiom " ++
+      "signature RHS updated to concrete `∃ w : Weighting Part, " ++
+      "∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.",
+    "v0.10.0 R9 RHS revert (2026-05-14): R7 concretization machine-" ++
+      "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
+      "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
+      "Honest close-target: process-level Warrant refinement (see " ++
+      "`gap_ArbitrationProcedure_partitionRelative_field`)."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeC4a_internal_track " ++
-    "→ ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n, " ++
-    "w.weight j ≤ w.weight (A.adjudicate x)` on the paper-novel " ++
-    "`ArbitrationProcedure` + `Weighting` carriers (v0.9.0 R7 " ++
-    "concrete RHS).  Single-step typed bridge."
+    "→ A.partitionRelative` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier (v0.10.0 R9 bare-Prop RHS).  " ++
+    "Single-step typed bridge; paper-prose justification per " ++
+    "`\\label{lem:prw}` lines 2210-2218."
 }
 
 def gap_prw_warrantInternalToE_excludes_typeC4b : GapEntry := {
@@ -783,68 +754,112 @@ def gap_failsAdjudication_def : GapEntry := {
     "`ArbitrationProcedure` carrier.  Decidable predicate."
 }
 
-def gap_partitionRelative_def : GapEntry := {
-  name := "ArbitrationProcedure.partitionRelative (def)"
-  status := GapStatus.gapDefinitional
+def gap_ArbitrationProcedure_partitionRelative_field : GapEntry := {
+  name := "ArbitrationProcedure.partitionRelative (bare-Prop field)"
+  status := GapStatus.gapOpen
   inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
+  cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource :=
     "Li 2026, `\\label{lem:prw}` lines 2079-2085 + 2155-2170 + " ++
-    "`\\label{def:op-properties}` P2 — paper-stipulated " ++
-    "definition of `partition-relative weighting' as `verdict " ++
-    "factors through a ranking-function on the partition members'.  " ++
-    "Paper line 2158: 'the procedure adjudicate Op_i vs. Op_j by " ++
-    "routing to whichever of E_i, E_j is higher under the " ++
-    "f^*-induced ranking R_{f^*} is a partition-relative weighting " ++
-    "of {E_1, ..., E_n}'.  Paper lines 2161-2162: 'The procedure''s " ++
-    "verdict on which Op to prefer is determined by R_{f^*}''s " ++
-    "ranking of the E_i'."
+    "`\\label{def:op-properties}` P2 — paper-stipulated process-" ++
+    "level predicate of `partition-relative weighting' as `the " ++
+    "warrant's adjudication factors through E-feature extraction " ++
+    "and ranking'.  Paper line 2158: 'the procedure adjudicate " ++
+    "Op_i vs. Op_j by routing to whichever of E_i, E_j is higher " ++
+    "under the f^*-induced ranking R_{f^*} is a partition-relative " ++
+    "weighting of {E_1, ..., E_n}'.  Paper lines 2161-2162: 'The " ++
+    "procedure''s verdict on which Op to prefer is determined by " ++
+    "R_{f^*}''s ranking of the E_i.  R_{f^*} is constructed from " ++
+    "f^*-values computed on each E_i'.  Paper lines 2164-2165: " ++
+    "features 'are themselves distributed unequally across the " ++
+    "partition members'."
   attackHistory := [
-    "v0.9.0 R7 substantive concretization (2026-05-14): the " ++
-      "previously-bare-Prop field `partitionRelative` was " ++
-      "extracted from `ArbitrationProcedure` and re-encoded as a " ++
-      "derived `def` consuming the new `Weighting` carrier.  " ++
-      "Definitional equation: `A.partitionRelative := ∃ w : " ++
-      "Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n, w.weight j " ++
-      "≤ w.weight (A.adjudicate x)`.  Sub-type `structuralEquation` " ++
-      "per v6 §3.4.3: paper-stated definitional reduction tying " ++
-      "paper's `verdict factors through R_{f^*}-ranking' content " ++
-      "to the typed `Weighting` carrier.  Status `gapDefinitional`.  " ++
-      "Consequence: the 6 case-bridge axioms (`prw_uniform_to_pr`, " ++
-      "`prw_typeA_to_pr`, `prw_typeC1_to_pr`, " ++
-      "`prw_typeC2_recursive_to_pr`, " ++
-      "`prw_typeC4a_internal_track_to_pr`, `prw_contextual_to_pr`) " ++
-      "now have concrete RHS shape `warrantForm = X → ∃ w : " ++
-      "Weighting Part, ∀ x j, w.weight j ≤ w.weight " ++
-      "(A.adjudicate x)` rather than bare-Prop placeholders.  " ++
-      "Round 6 hostile validator's remaining issue " ++
-      "(6 case-bridge axioms with bare-Prop RHS) is fully " ++
-      "resolved; anti-pattern #13 fully broken at this granularity.",
-    "v0.9.0 R7 honesty check: `partitionRelative`'s RHS is NOT " ++
-      "trivial-existential (NOT `∃ w, True`).  The existential " ++
-      "witness `w : Weighting Part` is genuinely constrained: " ++
-      "the procedure's `A.adjudicate x` must be a weight-maximizer " ++
-      "of `w` for every input `x`.  Given a non-trivial weighting " ++
-      "(e.g. `w.weight = δ_{m₀}` for some specific `m₀`), " ++
-      "`A.adjudicate` is FORCED to output the weight-maximal " ++
-      "partition member on every input.  This is precisely " ++
-      "paper's `routing to whichever of E_i, E_j is higher under " ++
-      "the f^*-induced ranking R_{f^*}' (paper line 2158).",
-    "v0.9.0 R7 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
-      "predicate `procedure factors through a real-valued " ++
-      "ranking on a finite partition` on paper-novel carriers.",
-    "v0.9.0 R7 reductionism Cat 2?: CLEAR-NO — surveyed external " ++
-      "decision-theory / preference-aggregation literature: no " ++
-      "external theorem supplies `procedure factors through a " ++
-      "ranking' definition on the paper-specific carriers."
+    "v0.8.0 R5 baseline (2026-05-14): bare-Prop field on " ++
+      "`ArbitrationProcedure` (Cat 3 `hypothesisPredicate` per " ++
+      "v6 §3.4.2).  The 6 case-bridge axioms had bare-Prop RHS " ++
+      "`warrantForm = X → A.partitionRelative`.  Status `gapOpen` " ++
+      "with close-target = `process-level Warrant refinement " ++
+      "requires modeling external-vs-partition feature distinction`.",
+    "v0.9.0 R7 attempted concretization (2026-05-14): " ++
+      "`partitionRelative` was extracted from `ArbitrationProcedure` " ++
+      "as a derived `def` consuming a new `Weighting` carrier: " ++
+      "`A.partitionRelative := ∃ w : Weighting Part, ∀ x : Tcls, " ++
+      "∀ j : Fin Part.n, w.weight j ≤ w.weight (A.adjudicate x)`.  " ++
+      "Round 7 claimed substantive concretization breaking anti-" ++
+      "pattern #13 at this granularity.",
+    "v0.9.0 R7 vacuity discovered by Round 8 hostile validator " ++
+      "(2026-05-14): the R7 `Weighting`-based `partitionRelative` " ++
+      "concretization is VACUOUSLY satisfied by constant weight.  " ++
+      "Machine-verified proof: take `w := ⟨fun _ => 0⟩`; then " ++
+      "for every `A` and every `x, j`, `w.weight j = 0 = " ++
+      "w.weight (A.adjudicate x)`, so `0 ≤ 0` discharges the " ++
+      "predicate.  Kernel-pure, no axioms required.  `∀ A : " ++
+      "ArbitrationProcedure, A.partitionRelative` is therefore " ++
+      "DERIVABLE from the R7 def; the 6 case-bridge axioms are " ++
+      "Cat 1 derivable and produce zero mathematical content to " ++
+      "`thm_impossibility`.  Same anti-pattern #13 (cosmetic " ++
+      "conclusion-shape) that v0.6.0 R2 honestly reverted (R1 " ++
+      "`Prop := True` case-tags); R7 reintroduced it at the " ++
+      "partitionRelative-RHS level.",
+    "v0.10.0 R9 honest revert (Option B per round-9 brief, " ++
+      "2026-05-14): the R7 `Weighting` carrier + concrete-RHS " ++
+      "concretization is REVERTED.  `partitionRelative` reverts " ++
+      "to v0.8.0 bare-Prop field on `ArbitrationProcedure`.  The " ++
+      "6 case-bridge axioms revert to bare-RHS shape `warrantForm " ++
+      "= X → A.partitionRelative`.  Honest acknowledgment: " ++
+      "paper's partition-relativity is process-level (warrant's " ++
+      "verdict factors through E-feature extraction); current " ++
+      "Lean carrier (`ArbitrationProcedure` with `adjudicate : " ++
+      "Tcls → Fin Part.n`) is output-level.  Substantive " ++
+      "concretization requires paper-extension introducing typed " ++
+      "Warrant sub-structure + external-feature carrier (Cat 3 " ++
+      "commitments paper does not Lean-formalise; paper writes the " ++
+      "feature-distinction out in English prose only).  Sub-type " ++
+      "`hypothesisPredicate` per v6 §3.4.2 (paper-stipulated " ++
+      "scope condition).  Status `gapOpen` with explicit close-" ++
+      "target.  v0.8.0 R5 substantive achievements preserved: " ++
+      "`WarrantFeatureType` 9-constructor inductive; " ++
+      "`failsAdjudication` / `warrantInternalToE` as decidable " ++
+      "`def`s; `prw_typeB_no_ranking` + 2 excluders as derived " ++
+      "theorems; `lem_prw_reduction` as derived theorem composing " ++
+      "6 atoms + 3 derived theorems.  Per " ++
+      "`feedback_truth_over_publication`: retract wrong claims; " ++
+      "iterate until saturated.  R7 vacuity was a wrong claim; " ++
+      "honest retreat at this level is the truthful move.",
+    "v0.10.0 R9 close-target specification: PROCESS-LEVEL " ++
+      "Warrant refinement modeling external-vs-partition feature " ++
+      "distinction.  Requires: (i) new Cat 3 carrier `Warrant " ++
+      "FolkObj Tcls Part` with `Feature : Type` + `featureExtract " ++
+      ": Tcls → Feature` + `ranker : Feature → Fin Part.n`; (ii) " ++
+      "new Cat 3 carrier `ExternalFeature : Type` for paper-" ++
+      "distinguished non-E features; (iii) refactor " ++
+      "`ArbitrationProcedure.adjudicate` to derive from " ++
+      "`A.warrant.ranker ∘ A.warrant.featureExtract`; (iv) " ++
+      "paper-stipulated `partitionRelative := ∃ partitionFeature " ++
+      ": Tcls → Fin Part.n, A.warrant.featureExtract factors " ++
+      "through partitionFeature`.  This is paper-extension work " ++
+      "the paper does not Lean-formalise (paper writes the " ++
+      "feature-distinction out in English prose only).",
+    "v0.10.0 R9 reductionism Cat 1?: CLEAR-NO — no Mathlib " ++
+      "predicate captures process-level partition-relativity on " ++
+      "paper-novel `ArbitrationProcedure` carrier.",
+    "v0.10.0 R9 reductionism Cat 2?: CLEAR-NO — surveyed " ++
+      "external social-choice / arbitration / decision-theory " ++
+      "literature (Arrow 1951; Sen 1970; Gibbard-Satterthwaite; " ++
+      "Saari; Topkis; Brandom; Roemer 1996): no external textbook " ++
+      "supplies process-level partition-relativity predicate " ++
+      "on these typed carriers."
   ]
   scope :=
-    "Paper-faithful definitional equation `A.partitionRelative " ++
-    ":= ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n, " ++
-    "w.weight j ≤ w.weight (A.adjudicate x)` on the paper-novel " ++
-    "`ArbitrationProcedure` carrier.  Replaces the v0.8.0 bare-" ++
-    "Prop field; existential witness genuinely constrains " ++
-    "`A.adjudicate` to factor through the `Weighting`."
+    "Bare-Prop field `partitionRelative : Prop` on " ++
+    "`ArbitrationProcedure` (v0.10.0 R9 honest revert of v0.9.0 " ++
+    "R7 cosmetic concretization; restores v0.8.0 baseline).  " ++
+    "Sub-type `hypothesisPredicate` per v6 §3.4.2: paper-" ++
+    "stipulated Prop-valued scope condition.  Status `gapOpen` " ++
+    "with explicit close-target: process-level Warrant " ++
+    "refinement modeling external-vs-partition feature " ++
+    "distinction (paper-extension work introducing typed " ++
+    "carriers the paper does not Lean-formalise)."
 }
 
 def gap_prw_contextual_to_pr : GapEntry := {
@@ -869,21 +884,22 @@ def gap_prw_contextual_to_pr : GapEntry := {
       "Encodes the paper's case (ii) (contextual adjudication) " ++
       "reduction in the `\\E`-internal sub-case; the external sub-" ++
       "case of (ii) is excluded by the same (H)-mechanism as " ++
-      "typeC3.",
-    "v0.9.0 R7 RHS concretization (2026-05-14): axiom signature " ++
-      "RHS updated from bare-Prop to concrete `∃ w : Weighting " ++
-      "Part, ∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.  " ++
-      "Paper-stipulated weighting form: per paper lines 2263-2266, " ++
-      "the contextual mapping IS the partition-relative weighting " ++
-      "(authority-ranking `E_i` authoritative on `f`-positive " ++
-      "cases / `E_j` on `f`-negative cases)."
+      "typeC3.  Bare-Prop RHS `A.partitionRelative`.",
+    "v0.9.0 R7 attempted RHS concretization (2026-05-14): axiom " ++
+      "signature RHS updated to concrete `∃ w : Weighting Part, " ++
+      "∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`.",
+    "v0.10.0 R9 RHS revert (2026-05-14): R7 concretization machine-" ++
+      "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
+      "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
+      "Honest close-target: process-level Warrant refinement (see " ++
+      "`gap_ArbitrationProcedure_partitionRelative_field`)."
   ]
   scope :=
-    "`A.warrantForm = WarrantFeatureType.contextual → ∃ w : " ++
-    "Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n, w.weight j ≤ " ++
-    "w.weight (A.adjudicate x)` on the paper-novel " ++
-    "`ArbitrationProcedure` + `Weighting` carriers (v0.9.0 R7 " ++
-    "concrete RHS).  Single-step typed bridge."
+    "`A.warrantForm = WarrantFeatureType.contextual → " ++
+    "A.partitionRelative` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier (v0.10.0 R9 bare-Prop RHS).  " ++
+    "Single-step typed bridge; paper-prose justification per " ++
+    "`\\label{lem:prw}` lines 2257-2270."
 }
 
 /-! ### Cat 3 paper-novel carrier types and predicates.
@@ -1341,31 +1357,40 @@ def gap_ArbitrationProcedure_carrier : GapEntry := {
       "derived `def`s on the `WarrantFeatureType` taxonomy.  After " ++
       "Issue 3 the structure carries only `adjudicate`, " ++
       "`warrantForm`, and `partitionRelative` (still bare-Prop).",
-    "v0.9.0 R7 partitionRelative concretization (2026-05-14): " ++
-      "the remaining bare-Prop field `partitionRelative` was " ++
-      "extracted from the structure and re-encoded as a derived " ++
-      "`def` consuming the new `Weighting` carrier " ++
-      "(`partitionRelative := ∃ w : Weighting Part, ∀ x j, " ++
-      "w.weight j ≤ w.weight (A.adjudicate x)`).  After R7 the " ++
-      "structure carries only `adjudicate : Tcls → Fin Part.n` " ++
-      "and `warrantForm : WarrantFeatureType` — no bare-Prop " ++
-      "fields remain on `ArbitrationProcedure`.  Sub-type stays " ++
-      "`hypothesisPredicate` because the structure still functions " ++
-      "as a paper-introduced scope-condition bundle in the " ++
-      "downstream theorems (P2 / impossibility); however, all " ++
-      "three former bare-Prop scope conditions are now concrete " ++
-      "`def`s through the `WarrantFeatureType` + `Weighting` " ++
-      "carriers."
+    "v0.9.0 R7 attempted partitionRelative concretization " ++
+      "(2026-05-14): the remaining bare-Prop field " ++
+      "`partitionRelative` was extracted from the structure and " ++
+      "re-encoded as a derived `def` consuming a new `Weighting` " ++
+      "carrier (`partitionRelative := ∃ w : Weighting Part, ∀ x j, " ++
+      "w.weight j ≤ w.weight (A.adjudicate x)`).  R7 claimed " ++
+      "substantive concretization.",
+    "v0.10.0 R9 partitionRelative revert (2026-05-14): R7 " ++
+      "concretization machine-verified VACUOUS by constant-weight " ++
+      "witness (Round 8 hostile validator); per round-9 brief " ++
+      "Option B, R7 REVERTED.  `partitionRelative` reverts to " ++
+      "bare-Prop field on `ArbitrationProcedure` (status v0.8.0 " ++
+      "baseline).  After R9 the structure carries: `adjudicate : " ++
+      "Tcls → Fin Part.n`, `warrantForm : WarrantFeatureType`, " ++
+      "and `partitionRelative : Prop` (bare-Prop field).  The two " ++
+      "`def`s `warrantInternalToE` / `failsAdjudication` on " ++
+      "`WarrantFeatureType` (v0.8.0 R5 Issue 3 achievement) are " ++
+      "preserved.  Sub-type stays `hypothesisPredicate` (Prop-" ++
+      "bundle scope-condition pattern); the `partitionRelative` " ++
+      "bare-Prop field has explicit close-target (see " ++
+      "`gap_ArbitrationProcedure_partitionRelative_field`)."
   ]
   scope :=
     "Typed scope-condition bundle for an arbitration procedure " ++
     "between operationalisations.  Encoded as a Lean `structure` " ++
-    "with two fields: `adjudicate : Tcls → Fin Part.n` and " ++
-    "`warrantForm : WarrantFeatureType`.  All three former bare-" ++
-    "Prop scope conditions (`partitionRelative`, " ++
-    "`warrantInternalToE`, `failsAdjudication`) are now derived " ++
-    "`def`s on the structure, consuming `WarrantFeatureType` + " ++
-    "`Weighting` carriers (v0.8.0 R5 Issue 3 + v0.9.0 R7)."
+    "with three fields (v0.10.0 R9): `adjudicate : Tcls → Fin " ++
+    "Part.n`, `warrantForm : WarrantFeatureType`, and " ++
+    "`partitionRelative : Prop` (bare-Prop field).  The two " ++
+    "former bare-Prop scope conditions `warrantInternalToE` and " ++
+    "`failsAdjudication` are derived `def`s on the structure via " ++
+    "the `WarrantFeatureType` taxonomy (v0.8.0 R5 Issue 3 " ++
+    "achievement preserved).  The `partitionRelative` bare-Prop " ++
+    "field has explicit close-target documented in its dedicated " ++
+    "ledger entry."
 }
 
 def gap_CognitiveSystem_carrier : GapEntry := {
@@ -2427,10 +2452,11 @@ def allGaps : List GapEntry := [
   -- atomic stipulations (v0.8.0 R5 substantive decomposition).
   gap_lem_prw_reduction,
   -- 9 per-case Cat 3 atomic stipulations + WarrantFeatureType carrier
-  -- (v0.8.0 R5 decomposition of `lem_prw_reduction`) + Weighting
-  -- carrier (v0.9.0 R7 concretization).
+  -- (v0.8.0 R5 decomposition of `lem_prw_reduction`; v0.9.0 R7
+  -- attempted partitionRelative concretization REVERTED in v0.10.0
+  -- R9 — `gap_Weighting_carrier` removed; partitionRelative reverts
+  -- to bare-Prop field on `ArbitrationProcedure`).
   gap_WarrantFeatureType_carrier,
-  gap_Weighting_carrier,
   gap_prw_uniform_to_pr,
   gap_prw_typeA_to_pr,
   gap_prw_typeB_no_ranking,
@@ -2440,13 +2466,16 @@ def allGaps : List GapEntry := [
   gap_prw_typeC4a_internal_track_to_pr,
   gap_prw_warrantInternalToE_excludes_typeC4b,
   gap_prw_contextual_to_pr,
-  -- 3 paper-faithful definitional-equation `def`s tying paper
-  -- scope conditions to the `WarrantFeatureType` + `Weighting`
-  -- taxonomies (v0.8.0 R5 Issue 3 + v0.9.0 R7 substantive
-  -- concretization).
+  -- 2 paper-faithful definitional-equation `def`s tying paper
+  -- scope conditions to the `WarrantFeatureType` taxonomy
+  -- (v0.8.0 R5 Issue 3 substantive concretization).  The v0.9.0
+  -- R7 `gap_partitionRelative_def` is REMOVED in v0.10.0 R9;
+  -- `partitionRelative` reverts to bare-Prop field (recorded in
+  -- `gap_ArbitrationProcedure_partitionRelative_field` with
+  -- explicit close-target).
   gap_warrantInternalToE_def,
   gap_failsAdjudication_def,
-  gap_partitionRelative_def,
+  gap_ArbitrationProcedure_partitionRelative_field,
   -- Cat 3 paper-novel carrier types and predicates (structures, not axioms)
   gap_ReverseDefinedConcept_carrier,
   gap_ReverseDefinedWitness_carrier,
@@ -2543,8 +2572,8 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
 #eval s!"Total entries: {allGaps.length}"
 
-/-! ### Inventory summary (v0.9.0 R7 partitionRelative concretization
-     via `Weighting` carrier; v0.8.0 post-R5 substantive paper-faithful
+/-! ### Inventory summary (v0.10.0 R9 honest revert of v0.9.0 R7
+     cosmetic concretization; v0.8.0 post-R5 substantive paper-faithful
      decomposition + gapDefinitional 7th tier baseline preserved)
 
   The live status / input-category / Cat 3 sub-type counts are
@@ -2554,24 +2583,30 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
   *Cat 3 atomic inputs (paper-side atomic-input inventory):*
 
     Cat 3 paper-novel structural-equation atoms for Lemma
-    `\label{lem:prw}` decomposition (6 axioms with concrete
-    RHS via `Weighting` carrier + 3 derived theorems from
-    concretization in `Basic.lean`; v0.9.0 R7 partitionRelative
-    concretization + v0.8.0 R5 substantive paper-faithful
-    decomposition replacing v0.7.0 R4 single-axiom encoding):
+    `\label{lem:prw}` decomposition (6 axioms with bare-Prop
+    RHS + 3 derived theorems from Issue 3 concretization in
+    `Basic.lean`; v0.10.0 R9 honest revert of R7 cosmetic
+    concretization preserves v0.8.0 R5 substantive paper-
+    faithful decomposition):
       prw_uniform_to_pr, prw_typeA_to_pr,
       prw_typeC1_to_pr, prw_typeC2_recursive_to_pr,
       prw_typeC4a_internal_track_to_pr,
-      prw_contextual_to_pr (all with v0.9.0 R7 concrete RHS
-      `warrantForm = X → ∃ w : Weighting Part, A factors
-      through w`).
-    Plus 3 definitional-equation `def`s (Issue 3 + R7):
-      gap_warrantInternalToE_def, gap_failsAdjudication_def
-      (v0.8.0 R5 Issue 3),
-      gap_partitionRelative_def (v0.9.0 R7).
-    Plus 1 typed inductive carrier + 1 typed structure carrier:
-      WarrantFeatureType (9 paper-cited constructors; v0.8.0 R5),
-      Weighting (paper's `R_{f^*}`-style ranking object; v0.9.0 R7).
+      prw_contextual_to_pr (all with v0.10.0 R9 bare-Prop RHS
+      `warrantForm = X → A.partitionRelative`; v0.9.0 R7
+      `Weighting`-carrier concrete RHS was machine-verified
+      VACUOUS and reverted per round-9 brief Option B).
+    Plus 2 definitional-equation `def`s on `WarrantFeatureType`
+    (v0.8.0 R5 Issue 3 substantive concretization preserved):
+      gap_warrantInternalToE_def, gap_failsAdjudication_def.
+    Plus 1 bare-Prop scope-condition field with explicit close-
+    target (v0.10.0 R9 honest revert of v0.9.0 R7):
+      gap_ArbitrationProcedure_partitionRelative_field
+      (status `gapOpen`, sub-type `hypothesisPredicate`;
+      close-target = process-level Warrant refinement modeling
+      external-vs-partition feature distinction).
+    Plus 1 typed inductive carrier (v0.10.0 R9: `Weighting`
+    carrier REMOVED as cosmetic):
+      WarrantFeatureType (9 paper-cited constructors; v0.8.0 R5).
 
     Cat 3 paper-novel typed carriers
     (sub-type `carrier`; encoded as Lean `structure` /
@@ -2580,9 +2615,12 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       ReverseDefinedConcept, ReverseDefinedWitness,
       DiagnosticProfile, MutuallyUnrankedPartition,
       Operationalisation, DiscriminatorRow,
-      WarrantFeatureType (v0.8.0 R5 Issue 2),
-      Weighting (v0.9.0 R7 — paper's `R_{f^*}`-style ranking
-      object surfacing `\label{lem:prw}` lines 2155-2170).
+      WarrantFeatureType (v0.8.0 R5 Issue 2).
+      [v0.10.0 R9: `Weighting` carrier REMOVED (it was cosmetic
+      — the existential `∃ w : Weighting Part, ...` admitted
+      trivial constant-weight witnesses for every `A`); the
+      paper's `R_{f^*}` ranking remains in paper-discursive
+      text only.]
 
     Cat 3 paper-novel hypothesis/scope-condition bundles
     (sub-type `hypothesisPredicate`; encoded as Lean
@@ -2592,6 +2630,18 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       FaithfulP1, ArbitrationProcedure,
       CognitiveSystem,
       SessionalCognition, BridgingPrinciple.
+
+    Cat 3 paper-novel bare-Prop scope-condition field
+    (sub-type `hypothesisPredicate`; encoded as Lean
+    bare-Prop FIELD on `ArbitrationProcedure`, NOT as a `def`
+    or `axiom`; status `gapOpen` with explicit close-target;
+    v0.10.0 R9 honest revert from v0.9.0 R7 cosmetic
+    concretization):
+      ArbitrationProcedure.partitionRelative
+      (close-target = process-level Warrant refinement modeling
+      external-vs-partition feature distinction; paper-extension
+      work introducing typed carriers paper does not Lean-
+      formalise).
 
     Cat 3 paper-novel phenomenological-conjecture entries
     (sub-type `phenomenologicalConjecture`; v0.7.0 R4
@@ -2653,17 +2703,148 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
   pending discharge) and *zero Cat 2 axioms* (no external
   textbook citations).  All atomic inputs are Cat 3 paper-novel.
 
-  *Cat 3 sub-types post-R5:* `structuralEquation` is now populated
-  with 8 entries (paper-stated definitional reductions on the
-  paper-novel `ArbitrationProcedure` + `WarrantFeatureType`
-  carriers); `conditionalHypothesis` remains empty (no external-
-  open-problem-conditional results).  `workingAssumption` now
-  empty (was 1 — `lem_prw_reduction` consumed by Issue 2
-  decomposition); `phenomenologicalConjecture` populated (5).
+  *Cat 3 sub-types post-R5 + R9:* `structuralEquation` is populated
+  with 8 entries (the 6 case-bridge bare-Prop-RHS atoms + the 2
+  Issue 3 `def`s `warrantInternalToE` / `failsAdjudication`);
+  `conditionalHypothesis` remains empty; `workingAssumption`
+  remains empty; `phenomenologicalConjecture` populated (5);
+  `hypothesisPredicate` populated (8 — the 7 Prop-bundle scope-
+  condition structures plus the v0.10.0 R9 bare-Prop
+  `partitionRelative` field entry).
+
+  *v0.10.0 changelog summary (round 9 — honest revert of v0.9.0
+  R7 cosmetic partitionRelative concretization; Round 8 hostile
+  validator catastrophically verified R7 VACUOUS):*
+
+    * Issue R9 (CORE substantive revert): Round 8 hostile validator
+      machine-verified v0.9.0 R7's `partitionRelative` def
+      `∃ w : Weighting Part, ∀ x j, w.weight j ≤ w.weight
+      (A.adjudicate x)` is VACUOUSLY satisfied by constant weight:
+      take `w := ⟨fun _ => 0⟩`; then for every `A` and every
+      `x, j`, `w.weight j = 0 = w.weight (A.adjudicate x)`, so
+      `0 ≤ 0` discharges the predicate.  Kernel-pure proof, no
+      axioms required.  Consequence: `∀ A : ArbitrationProcedure,
+      A.partitionRelative` was DERIVABLE from the R7 def; the 6
+      case-bridge axioms became Cat 1 derivable from a trivial
+      witness rather than Cat 3 paper-novel structural atoms.
+
+      This is the SAME anti-pattern #13 (conclusion-as-cosmetic-
+      shape) that v0.6.0 R2 honestly reverted (the R1 `Prop :=
+      True` case-tags decomposition); R7 reintroduced it at the
+      `partitionRelative`-RHS level.
+
+      R9 per round-9 brief Option B (honest workingAssumption
+      revert at partitionRelative level): the v0.9.0 R7
+      `Weighting` carrier + concrete-RHS concretization is
+      REVERTED to v0.8.0 baseline.  The 6 case-bridge axioms
+      revert to bare-RHS shape `warrantForm = X →
+      A.partitionRelative`.  `partitionRelative` reverts to a
+      bare-Prop FIELD on `ArbitrationProcedure` (Cat 3
+      `hypothesisPredicate` per v6 §3.4.2).  Honest close-target:
+      process-level Warrant refinement modeling external-vs-
+      partition feature distinction (paper-extension work
+      introducing typed carriers paper does not Lean-formalise).
+
+      R9-Step1: `Weighting` carrier REMOVED from `Basic.lean`.
+      `ArbitrationProcedure.partitionRelative` def REMOVED (was
+      `∃ w : Weighting Part, ∀ x j, ...`); replaced by bare-Prop
+      FIELD `partitionRelative : Prop` on `ArbitrationProcedure`
+      structure.
+
+      R9-Step2: 6 case-bridge axioms (`prw_uniform_to_pr`,
+      `prw_typeA_to_pr`, `prw_typeC1_to_pr`,
+      `prw_typeC2_recursive_to_pr`,
+      `prw_typeC4a_internal_track_to_pr`, `prw_contextual_to_pr`)
+      RHS reverted from `∃ w : Weighting Part, ...` to bare-Prop
+      `A.partitionRelative`.  Sub-type `structuralEquation` and
+      status `gapDefinitional` retained — these atoms remain
+      paper-stipulated structural reductions; only the RHS
+      encoding changes.  Each axiom's docstring updated to point
+      at the bare-Prop field entry's close-target spec.
+
+      R9-Step3: `lem_prw_reduction` proof body unchanged
+      structurally (case-exhaustion `match` on
+      `WarrantFeatureType`); `thm_impossibility` and corollaries
+      preserved without proof-body changes (the `Or.inl
+      (prw_X_to_pr ...)` branches now produce bare-Prop
+      `A.partitionRelative` witnesses, which is what the v0.8.0
+      baseline used).
+
+      R9-Step4: Ledger updated:
+        - 1 entry REMOVED: `gap_Weighting_carrier` (Cat 3 carrier
+          for `Weighting` typed primitive; obsolete after R9
+          revert).
+        - 1 entry RENAMED + REPURPOSED: `gap_partitionRelative_def`
+          (Cat 3 structuralEquation gapDefinitional) →
+          `gap_ArbitrationProcedure_partitionRelative_field`
+          (Cat 3 hypothesisPredicate gapOpen with explicit close-
+          target).  Full attackHistory documents R7 vacuity,
+          machine-verification, Option B revert decision.
+        - 6 case-bridge entries updated (paperSource + scope +
+          attackHistory) to reflect bare-Prop RHS revert.
+        - 1 `gap_ArbitrationProcedure_carrier` entry updated to
+          record the partitionRelative field revert.
+        - 1 `gap_lem_prw_reduction` entry attackHistory + scope
+          updated to record R9 revert.
+      Total entries: 49 → 48.
+      Status counts: open 5 → 6 (new gapOpen field entry);
+      definitional 24 → 22 (Weighting + partitionRelative_def
+      both gapDefinitional, removed).
+      Sub-type counts: carrier 8 → 7 (Weighting removed);
+      hypothesisPredicate 7 → 8 (new field entry);
+      structuralEquation 9 → 8 (partitionRelative_def removed).
+
+    * `lakefile.toml` version bumped 0.9.0 → 0.10.0.
+
+    * `AxiomAudit.lean` updated: 6 axioms still tracked (the 6
+      case-bridge atoms with bare-Prop RHS via the bare-Prop
+      `partitionRelative` field on `ArbitrationProcedure`).
+      Documentation block updated to record R9 revert from R7
+      cosmetic concretization.
+
+    * Build GREEN.  Zero sorries.  `#print axioms thm_impossibility`
+      shows the same 6 paper-cited atomic stipulations — same
+      atomic axioms, now with bare-Prop RHS reflecting v0.8.0
+      baseline (R7 cosmetic concretization removed).
+
+      *Honest assessment.*  v0.10.0 R9 is an HONEST RETREAT
+      (Option B per round-9 brief), not a substantive R7 fix.
+      The paper's partition-relativity is genuinely PROCESS-LEVEL
+      (`\label{lem:prw}` lines 2155-2170 — the warrant's
+      adjudication factors through `\E`-feature extraction and
+      ranking); the current `ArbitrationProcedure` Lean carrier
+      is OUTPUT-LEVEL (`adjudicate : Tcls → Fin Part.n` — only
+      the verdict, no process structure).  Concretizing
+      `partitionRelative` non-vacuously requires paper-extension
+      work introducing typed carriers (Warrant sub-structure
+      with `Feature`/`featureExtract`/`ranker` + `ExternalFeature`
+      carrier + paper-stipulated structural-equation tying the
+      warrant's feature-extraction to partition-membership).
+      The paper writes this distinction out in English prose only;
+      Lean encoding it would require structural commitments paper
+      does not stipulate.
+
+      Per `feedback_truth_over_publication`: retract wrong claims;
+      iterate until saturated.  R7 vacuity was a wrong claim;
+      honest retreat at this level is the truthful move.
+      Anti-pattern #13 (cosmetic conclusion-shape) is therefore
+      NOT broken at the `partitionRelative` level in v0.10.0;
+      it requires paper-extension work outside the current
+      Lean-encoded scope.
+
+      v0.8.0 R5 substantive achievements are PRESERVED:
+      `WarrantFeatureType` 9-constructor inductive (paper-faithful
+      warrant-form taxonomy); `failsAdjudication` /
+      `warrantInternalToE` as decidable `def`s on
+      `WarrantFeatureType` (Issue 3 concretizations);
+      `prw_typeB_no_ranking` / two excluder derived theorems via
+      `decide`; `lem_prw_reduction` as derived theorem composing
+      6 atoms + 3 derived theorems via case-exhaustion `match`;
+      P2 definition with `¬ A.failsAdjudication` conjunct.
 
   *v0.9.0 changelog summary (round 7 — partitionRelative concretized
   via `Weighting` carrier; round 6 hostile validator's 1 remaining
-  non-blocking issue resolved):*
+  non-blocking issue resolved; REVERTED in v0.10.0 R9):*
 
     * Issue R7 (CORE substantive partitionRelative concretization):
       Round 6 hostile validator (v0.8.0) found 1 remaining issue:

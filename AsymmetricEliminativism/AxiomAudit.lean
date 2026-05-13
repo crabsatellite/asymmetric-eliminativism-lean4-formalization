@@ -31,32 +31,28 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.9.0 R7 partitionRelative concretization;
-  v0.8.0 post-R5 substantive decomposition baseline preserved;
-  live counts: see `lake env lean
+  Inventory by category (v0.10.0 R9 honest revert of v0.9.0 R7
+  cosmetic concretization; v0.8.0 post-R5 substantive decomposition
+  baseline preserved; live counts: see `lake env lean
   AsymmetricEliminativism/Ledger.lean`):
 
     Cat 3 paper-novel atomic stipulations for Lemma `\label{lem:prw}`
     (Li 2026), the SIX `axiom` declarations in
     `AsymmetricEliminativism/Impossibility.lean` (v0.8.0 R5
     Issue 3 concretization reduced 9 axioms → 6 axioms + 3 derived
-    theorems: `prw_typeB_no_ranking`,
-    `prw_warrantInternalToE_excludes_typeC3`,
-    `prw_warrantInternalToE_excludes_typeC4b` are now theorems by
-    `decide` on `WarrantFeatureType` decidable-equality; v0.9.0 R7
-    partitionRelative concretization updated all 6 case-bridge
-    axioms with concrete `∃ w : Weighting Part, A factors through
-    w` RHS via the new `Weighting` carrier):
+    theorems; v0.9.0 R7 attempted RHS concretization via `Weighting`
+    carrier was machine-verified VACUOUS by Round 8 hostile
+    validator and reverted in v0.10.0 R9 per round-9 brief
+    Option B — all 6 case-bridge axioms now have bare-Prop RHS):
 
       prw_uniform_to_pr
         ← `\label{lem:prw}` uniform case (paper lines 2092-2102);
           single-step typed bridge `A.warrantForm = uniform →
-          ∃ w : Weighting Part, ∀ x j, w.weight j ≤ w.weight
-          (A.adjudicate x)` (v0.9.0 R7 concrete RHS via
-          `Weighting` carrier).
+          A.partitionRelative` (v0.10.0 R9 bare-Prop RHS — honest
+          revert of v0.9.0 R7 cosmetic concretization).
       prw_typeA_to_pr
         ← `\label{lem:prw}` type-(a) case (paper lines 2127-2131);
-          same concrete RHS shape (v0.9.0 R7).
+          same bare-Prop RHS shape (v0.10.0 R9).
       prw_typeB_no_ranking
         ← `\label{lem:prw}` type-(b) case (paper lines 2131-2134);
           single-step typed bridge `A.warrantForm = typeB →
@@ -64,29 +60,34 @@
           Issue 3 concretization).
       prw_typeC1_to_pr
         ← `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185);
-          same concrete RHS shape (v0.9.0 R7).  Most paper-faithful
-          match: paper EXPLICITLY writes the weighting as `R_{f^*}`.
+          same bare-Prop RHS shape (v0.10.0 R9).  Paper EXPLICITLY
+          writes the case-specific weighting as `R_{f^*}` (line 2158)
+          but the structural-existence of such a weighting alone
+          is vacuous in the current carrier; non-vacuous
+          concretization requires process-level Warrant refinement.
       prw_typeC2_recursive_to_pr
         ← `\label{lem:prw}` type-(c.2) recursive case (paper lines
-          2186-2196); same concrete RHS shape (v0.9.0 R7).
+          2186-2196); same bare-Prop RHS shape (v0.10.0 R9).
       prw_warrantInternalToE_excludes_typeC3
         ← `\label{lem:prw}` type-(c.3) exclusion (paper lines
           2189-2191); non-occurrence excluder `A.warrantInternalToE
           → A.warrantForm ≠ typeC3_external`.  Derived theorem.
       prw_typeC4a_internal_track_to_pr
         ← `\label{lem:prw}` type-(c.4.a) internal track case (paper
-          lines 2210-2218); same concrete RHS shape (v0.9.0 R7).
+          lines 2210-2218); same bare-Prop RHS shape (v0.10.0 R9).
       prw_warrantInternalToE_excludes_typeC4b
         ← `\label{lem:prw}` type-(c.4.b) exclusion (paper lines
           2220-2237); non-occurrence excluder `A.warrantInternalToE
           → A.warrantForm ≠ typeC4b_external_track`.  Derived theorem.
       prw_contextual_to_pr
         ← `\label{lem:prw}` contextual case (paper lines 2257-2270);
-          same concrete RHS shape (v0.9.0 R7).
+          same bare-Prop RHS shape (v0.10.0 R9).
 
     All nine carry sub-type Cat 3 `structuralEquation` (v6 §3.4.3),
     status `gapDefinitional` (v6 §1.1) — paper-stipulated
-    definitional reduction on paper-novel carriers.
+    definitional reduction on paper-novel carriers.  The 6 axioms
+    have bare-Prop RHS (`A.partitionRelative`) per v0.10.0 R9
+    honest revert.
 
     Cat 3 typed carriers / scope-condition bundles (encoded as
     Lean `structure` / `def` / `class` / `inductive`, NOT `axiom`
@@ -97,15 +98,18 @@
       UseSeparability, MutuallyUnrankedPartition,
       Operationalisation, FaithfulP1, ArbitrationProcedure,
       CognitiveSystem, SessionalCognition, BridgingPrinciple,
-      DiscriminatorRow,
-      Weighting (added v0.9.0 R7).
+      DiscriminatorRow.
+      [v0.10.0 R9: `Weighting` carrier REMOVED — it was cosmetic
+      (vacuous concretization of `partitionRelative` via constant-
+      weight witness).]
 
       Inductive (added v0.8.0 R5): WarrantFeatureType.
 
   Per-axiom citations live in the corresponding `axiom` docstring
   in the source file.  Round-history (R1 cosmetic decomposition,
-  R2 honest revert, R5 substantive paper-faithful decomposition)
-  lives in `gap_*.attackHistory` fields inside
+  R2 honest revert, R5 substantive paper-faithful decomposition,
+  R7 attempted RHS concretization, R9 honest revert of R7 cosmetic
+  concretization) lives in `gap_*.attackHistory` fields inside
   `AsymmetricEliminativism.Ledger`.
 
   Per-theorem axiom dependency profile (verified by `#print

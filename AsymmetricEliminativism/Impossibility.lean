@@ -20,41 +20,59 @@
   on novel target classes that fit some `E_j` but not others.
 
   *Lean-encoding choice (v0.8.0 R5 substantive paper-faithful
-  decomposition).*  The v0.7.0 R4 single-axiom `lem_prw_reduction`
-  was flagged LAZY by the round-5 hostile validator: paper lines
-  2079-2270 supply a 9-case taxonomy on the warrant's structural
-  sub-form (uniform / typeA / typeB / typeC1 / typeC2_recursive /
-  typeC3_external / typeC4a_internal_track / typeC4b_external_track
-  / contextual), each with paper-prose justification of its
-  reduction-conclusion.  R5 fix: the case taxonomy is now a typed
-  `WarrantFeatureType` carrier on `ArbitrationProcedure`, and
-  `lem_prw_reduction` is a DERIVED theorem composing nine per-case
-  atomic Cat 3 stipulations — one per constructor of
-  `WarrantFeatureType` — via case-exhaustion `match` on the
-  inductive's `Fintype` structure.  Eight stipulations are typed
-  bridges from a case-tag equality to a partition-relativity /
-  no-ranking conclusion; the typeC3 and typeC4b stipulations are
+  decomposition; preserved in v0.10.0 R9).*  The v0.7.0 R4
+  single-axiom `lem_prw_reduction` was flagged LAZY by the
+  round-5 hostile validator: paper lines 2079-2270 supply a
+  9-case taxonomy on the warrant's structural sub-form (uniform
+  / typeA / typeB / typeC1 / typeC2_recursive / typeC3_external
+  / typeC4a_internal_track / typeC4b_external_track / contextual),
+  each with paper-prose justification of its reduction-conclusion.
+  R5 fix: the case taxonomy is now a typed `WarrantFeatureType`
+  carrier on `ArbitrationProcedure`, and `lem_prw_reduction` is a
+  DERIVED theorem composing nine per-case atomic Cat 3
+  stipulations — one per constructor of `WarrantFeatureType` —
+  via case-exhaustion `match` on the inductive's `Fintype`
+  structure.  Eight stipulations are typed bridges from a
+  case-tag equality to a partition-relativity / no-ranking
+  conclusion; the typeC3 and typeC4b stipulations are
   vacuous-antecedent forbid-by-(H) excluders, faithful to paper
   lines 2189-2191 ("forbidden by (H)") and 2220-2237 (heat-reform
   boundary).
 
-  *v0.9.0 R7 partitionRelative concretization.*  Round 6 hostile
-  validator (v0.8.0) found one remaining issue: the 6 case-bridge
-  axioms (`prw_uniform_to_pr`, `prw_typeA_to_pr`, `prw_typeC1_to_pr`,
-  `prw_typeC2_recursive_to_pr`, `prw_typeC4a_internal_track_to_pr`,
-  `prw_contextual_to_pr`) had bare-Prop RHS (`partitionRelative`).
-  R7 fully breaks anti-pattern #13 at this granularity: `Weighting`
-  is now a Cat 3 typed primitive (`Fin Part.n → ℝ` weight function,
-  paper-faithful `R_{f^*}`-style ranking) in `Basic.lean`;
-  `ArbitrationProcedure.partitionRelative` is now a concrete `def`
-  asserting `∃ w : Weighting Part, ∀ x j, w.weight j ≤ w.weight
-  (A.adjudicate x)` (procedure factors through a weight-maximizer
-  routing).  The 6 case-bridge axioms inherit the concrete RHS
-  automatically through the `def` unfolding; their statement is
-  now `warrantForm = X → ∃ w : Weighting Part, ∀ x j, w.weight j ≤
-  w.weight (A.adjudicate x)` — Cat 3 structural-equation atoms
-  with honest paper-faithful content (paper-stipulated existence
-  of a case-specific weighting, NOT a bare-Prop placeholder).
+  *v0.10.0 R9 honest revert of R7 cosmetic concretization
+  (Option B per round-9 brief).*  Round 8 hostile validator
+  catastrophically verified that v0.9.0 R7's `partitionRelative`
+  concretization via the `Weighting` carrier was VACUOUSLY
+  satisfied by constant weight: take `w := ⟨fun _ => 0⟩`, then
+  `0 ≤ 0` discharges the predicate for every `A`.  Machine-
+  verified kernel-pure.  The R7 `Weighting`-based `partitionRelative`
+  def added zero mathematical content beyond the v0.8.0 bare-Prop
+  encoding — it re-introduced anti-pattern #13 (conclusion-as-
+  cosmetic-shape) at one level removed.
+
+  R9 honestly reverts to the v0.8.0 bare-Prop `partitionRelative`
+  encoding.  The 6 case-bridge axioms (`prw_uniform_to_pr`,
+  `prw_typeA_to_pr`, `prw_typeC1_to_pr`, `prw_typeC2_recursive_to_pr`,
+  `prw_typeC4a_internal_track_to_pr`, `prw_contextual_to_pr`) revert
+  to bare-RHS atoms with shape `warrantForm = X → A.partitionRelative`
+  (Cat 3 `structuralEquation`, `gapDefinitional`).  Honest
+  acknowledgment: the paper's `partition-relativity` predicate is
+  PROCESS-LEVEL (`\label{lem:prw}` lines 2155-2170 — adjudication
+  factors through `\E`-feature extraction); the current
+  `ArbitrationProcedure` carrier is OUTPUT-LEVEL (`adjudicate :
+  Tcls → Fin Part.n`).  Bridging requires paper-extension
+  introducing typed Warrant sub-structure + external-feature
+  carrier (Cat 3 commitments the paper does not Lean-formalise).
+
+  *What is preserved.*  The v0.8.0 R5 substantive achievements
+  remain intact: `WarrantFeatureType` 9-constructor inductive;
+  `failsAdjudication` / `warrantInternalToE` as decidable `def`s
+  on `WarrantFeatureType`; `prw_typeB_no_ranking` /
+  `prw_warrantInternalToE_excludes_typeC3` /
+  `prw_warrantInternalToE_excludes_typeC4b` as derived theorems;
+  `lem_prw_reduction` as a derived theorem composing 6 atoms + 3
+  derived theorems.  Only the R7 cosmetic concretization is
+  reverted.
 -/
 
 import AsymmetricEliminativism.Basic
@@ -75,14 +93,21 @@ namespace AsymmetricEliminativism
 /--
   Paper `\label{lem:prw}` uniform case (paper lines 2092-2102).
 
-  Statement (v0.9.0 R7 concrete RHS via `Weighting` carrier):
-  if `A.warrantForm = uniform` then there exists a weighting
-  `w : Weighting Part` such that `A.adjudicate` factors through
-  `w` (picks weight-maximizers on every input).
+  Statement (v0.10.0 R9 bare-Prop RHS — honest revert of R7
+  cosmetic concretization): if `A.warrantForm = uniform` then
+  `A.partitionRelative`.
 
   Sub-type Cat 3 `structuralEquation` per v6 §3.4.3: paper-stated
   definitional reduction on the paper-novel `ArbitrationProcedure`
-  + `WarrantFeatureType` + `Weighting` carriers.
+  + `WarrantFeatureType` carriers.  Status `gapDefinitional`.
+
+  *Close-target for substantive concretization.*  Paper's
+  partition-relativity is PROCESS-LEVEL (the warrant's verdict
+  factors through `\E`-feature extraction); current carrier is
+  OUTPUT-LEVEL (`adjudicate : Tcls → Fin Part.n`).  Concretizing
+  this case-bridge non-vacuously requires a process-level
+  `Warrant` sub-structure modeling external-vs-partition feature
+  distinction — paper-extension work.
 
   Paper-prose justification (lines 2092-2102):
   "Uniform case: $W$ assigns the same $k$ to all disagreement-cases
@@ -91,51 +116,33 @@ namespace AsymmetricEliminativism
   which is direct single-$E_m$ privileging — explicitly the
   P2-failure mode forbidden by Definition~\ref{def:op-properties}'s
   independence clause."
-
-  *Paper-stipulated weighting form for this case.*  Paper-prose:
-  the uniform case selects a SINGLE `E_m` globally; the canonical
-  paper-stipulated weighting is `δ_{E_m}` (weight 1 on the chosen
-  `m`, 0 elsewhere), under which `A.adjudicate` outputting `m`
-  for every disagreement is a weight-maximizer.  The atom asserts
-  EXISTENCE of such a weighting — the paper prose stipulates this
-  structural form without constructively fixing which `m` (which
-  is part of the case-specific paper-stipulated content).
 -/
 axiom prw_uniform_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.uniform →
-      ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n,
-        w.weight j ≤ w.weight (A.adjudicate x)
+    A.warrantForm = WarrantFeatureType.uniform → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(a) case (paper lines 2127-2131).
 
-  Statement (v0.9.0 R7 concrete RHS via `Weighting` carrier):
-  if `A.warrantForm = typeA` then there exists a weighting
-  `w : Weighting Part` such that `A.adjudicate` factors through
-  `w`.
+  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
+  `A.warrantForm = typeA` then `A.partitionRelative`.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.
+  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  Close-target
+  for substantive concretization: see `prw_uniform_to_pr` docstring
+  (process-level Warrant refinement).
 
   Paper-prose justification (lines 2127-2131):
   "Type-(a): $f$ belongs to some $E_m$.  Then $R$'s appeal to $f$
   privileges $E_m$, and the resulting ranking just is single-$E_m$
   privileging — option (i)."
-
-  *Paper-stipulated weighting form for this case.*  The `f`-belongs-
-  to-`E_m` warrant yields a `δ_{E_m}`-like ranking (the appeal-to-
-  `f` privileges `E_m` exclusively); the atom asserts paper-
-  stipulated existence of such a weighting.
 -/
 axiom prw_typeA_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeA →
-      ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n,
-        w.weight j ≤ w.weight (A.adjudicate x)
+    A.warrantForm = WarrantFeatureType.typeA → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(b) case (paper lines 2131-2134).
@@ -170,50 +177,35 @@ theorem prw_typeB_no_ranking
 /--
   Paper `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185).
 
-  Statement (v0.9.0 R7 concrete RHS via `Weighting` carrier):
-  if `A.warrantForm = typeC1` then there exists a weighting
-  `w : Weighting Part` such that `A.adjudicate` factors through
-  `w` (routes to weight-maximizing partition member).
+  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
+  `A.warrantForm = typeC1` then `A.partitionRelative`.
 
   Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  This atom
   carries the paper's *Partition-Internality of $\E$-Internal
   Structural Stipulations* sub-claim: the $R_{f^*}$-routing
   procedure is itself a partition-relative weighting because the
   $f^*$-value of each $E_i$ is an $\E$-feature distributed unequally
-  across partition members.
+  across partition members.  Close-target for substantive
+  concretization: see `prw_uniform_to_pr` docstring.
 
   Paper-prose justification (lines 2151-2185, esp. 2155-2170):
   "the procedure 'adjudicate $\Op_i$ vs.\ $\Op_j$ by routing to
   whichever of $E_i, E_j$ is higher under the $f^*$-induced ranking
   $R_{f^*}$' is a partition-relative weighting of $\{E_1, \ldots,
   E_n\}$ in the sense forbidden by P2's independence requirement."
-
-  *Paper-stipulated weighting form for this case.*  Paper lines
-  2161-2162: "The procedure's verdict on which $\Op$ to prefer is
-  determined by $R_{f^*}$'s ranking of the $E_i$.  $R_{f^*}$ is
-  constructed from $f^*$-values computed on each $E_i$".  The
-  weighting `w` for this case is exactly `w.weight k :=
-  f^*-value(E_k)`, where `f^*` is the case-specific structural
-  property.  The atom asserts paper-stipulated existence of such
-  a weighting (the specific `f^*` is part of the case-specific
-  paper-stipulated content).
 -/
 axiom prw_typeC1_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeC1 →
-      ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n,
-        w.weight j ≤ w.weight (A.adjudicate x)
+    A.warrantForm = WarrantFeatureType.typeC1 → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(c.2) recursive-meta-appeal case
   (paper lines 2186-2196).
 
-  Statement (v0.9.0 R7 concrete RHS via `Weighting` carrier):
-  if `A.warrantForm = typeC2_recursive` then there exists a
-  weighting `w : Weighting Part` such that `A.adjudicate`
-  factors through `w`.
+  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
+  `A.warrantForm = typeC2_recursive` then `A.partitionRelative`.
 
   Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  This atom
   carries the paper's *recursive descent termination* sub-claim:
@@ -224,7 +216,8 @@ axiom prw_typeC1_to_pr
   partition-relativity in this composite case because the
   recursive procedure as a whole still produces a partition-
   relative weighting via the (a) / (c.1) branches reachable from
-  the recursion's other terminations).
+  the recursion's other terminations).  Close-target for
+  substantive concretization: see `prw_uniform_to_pr` docstring.
 
   Paper-prose justification (lines 2186-2196):
   "(c.2) appeals to further $\E$-features to warrant the meta-
@@ -234,25 +227,12 @@ axiom prw_typeC1_to_pr
   admissible adjudication-warrant within the (H)-discourse-state.
   Hence option (iii) collapses into options (i), (ii), or
   stipulation."
-
-  *Paper-stipulated weighting form for this case.*  Recursive
-  meta-appeals ultimately terminate at type-(a) or type-(c.1)
-  base cases (under (H), excluding (c.3)); the recursive
-  procedure's weighting is COMPOSED from the base-case weightings.
-  The paper-prose stipulates structural existence of such a
-  composed weighting without constructively writing the
-  composition; the atom asserts paper-stipulated existence.
-  (Under recursive-meta-appeal, the specific weighting depends
-  on the recursive descent's chosen termination — paper-
-  stipulative content.)
 -/
 axiom prw_typeC2_recursive_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeC2_recursive →
-      ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n,
-        w.weight j ≤ w.weight (A.adjudicate x)
+    A.warrantForm = WarrantFeatureType.typeC2_recursive → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(c.3) external-feature exclusion
@@ -291,12 +271,11 @@ theorem prw_warrantInternalToE_excludes_typeC3
   Paper `\label{lem:prw}` type-(c.4.a) internal track-record case
   (paper lines 2210-2218).
 
-  Statement (v0.9.0 R7 concrete RHS via `Weighting` carrier):
-  if `A.warrantForm = typeC4a_internal_track` then there exists
-  a weighting `w : Weighting Part` such that `A.adjudicate`
-  factors through `w`.
+  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
+  `A.warrantForm = typeC4a_internal_track` then `A.partitionRelative`.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.
+  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  Close-target
+  for substantive concretization: see `prw_uniform_to_pr` docstring.
 
   Paper-prose justification (lines 2210-2218):
   "(c.4.a) The track record is internal to $\E$ (uses only
@@ -305,21 +284,12 @@ theorem prw_warrantInternalToE_excludes_typeC3
   trichotomy at the meta-level."  The recursive descent
   terminates at (a) / (b) / (c.1) under (H), reducing to
   partition-relativity by the typeC2_recursive case.
-
-  *Paper-stipulated weighting form for this case.*  Track-record-
-  based selection of `f^*` yields a weighting `w.weight k :=
-  f^*_chosen-by-track-record-value(E_k)`; the atom asserts paper-
-  stipulated existence (the specific `f^*` selected by the
-  track-record is part of the case-specific paper-stipulated
-  content).
 -/
 axiom prw_typeC4a_internal_track_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeC4a_internal_track →
-      ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n,
-        w.weight j ≤ w.weight (A.adjudicate x)
+    A.warrantForm = WarrantFeatureType.typeC4a_internal_track → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(c.4.b) external track-record
@@ -359,18 +329,16 @@ theorem prw_warrantInternalToE_excludes_typeC4b
 /--
   Paper `\label{lem:prw}` contextual case (paper lines 2257-2270).
 
-  Statement (v0.9.0 R7 concrete RHS via `Weighting` carrier):
-  if `A.warrantForm = contextual` then there exists a weighting
-  `w : Weighting Part` such that `A.adjudicate` factors through
-  `w` (the contextual mapping reduces to a partition-relative
-  weighting on the partition members).
+  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
+  `A.warrantForm = contextual` then `A.partitionRelative`.
 
   Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  This atom
   encodes the paper's case (ii) (contextual adjudication)
   reduction in the `\E`-internal sub-case; the external sub-case
   of (ii) is excluded by the same (H)-mechanism as typeC3.  When
   `A.warrantInternalToE` holds, only the internal sub-case applies,
-  and that reduces to partition-relativity.
+  and that reduces to partition-relativity.  Close-target for
+  substantive concretization: see `prw_uniform_to_pr` docstring.
 
   Paper-prose justification (lines 2257-2270):
   "In case (ii), the contextual features used by $A$ to discriminate
@@ -381,23 +349,12 @@ theorem prw_warrantInternalToE_excludes_typeC4b
   case exhibits; the mapping (which $\E$-features → which
   operationalisation) is itself a partition-relative weighting of
   the $E_i$ over $\Tcls$."
-
-  *Paper-stipulated weighting form for this case.*  Paper lines
-  2263-2266: the contextual mapping IS the partition-relative
-  weighting (mapping `\E`-features → which operationalisation).
-  The weighting `w` for this case is the authority-ranking embedded
-  in the contextual mapping; paper line 2269-2270 makes this
-  explicit ("authority-ranking ($E_i$ is authoritative on
-  $f$-positive cases; $E_j$ on $f$-negative cases)").  The atom
-  asserts paper-stipulated existence.
 -/
 axiom prw_contextual_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.contextual →
-      ∃ w : Weighting Part, ∀ x : Tcls, ∀ j : Fin Part.n,
-        w.weight j ≤ w.weight (A.adjudicate x)
+    A.warrantForm = WarrantFeatureType.contextual → A.partitionRelative
 
 /-! ## Lemma `\label{lem:prw}` — derived theorem.
 
@@ -418,14 +375,15 @@ axiom prw_contextual_to_pr
   exhaustion `match` on the paper-faithful `WarrantFeatureType`
   inductive on `ArbitrationProcedure.warrantForm`.
 
-  *v0.9.0 R7 partitionRelative concretization.*  The conclusion's
-  `A.partitionRelative` disjunct unfolds to the concrete
-  `∃ w : Weighting Part, ∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`
-  form (paper-faithful "verdict factors through `R_{f^*}`-style
-  weighting"; see `ArbitrationProcedure.partitionRelative` in
-  `Basic.lean`).  Each of the 6 case-bridge atoms supplies the
-  case-specific paper-stipulated weighting; this derived theorem
-  destructures and rebundles them via the `Weighting` carrier.
+  *v0.10.0 R9 honest revert.*  The v0.9.0 R7 `partitionRelative`
+  concretization via the `Weighting` carrier was machine-verified
+  VACUOUS (constant-weight discharges the predicate for every `A`).
+  R9 reverts to v0.8.0 bare-Prop `partitionRelative` field on
+  `ArbitrationProcedure`; the 6 case-bridge atoms revert to bare-
+  RHS shape `warrantForm = X → A.partitionRelative` (Cat 3
+  `structuralEquation`, `gapDefinitional`).  Honest close-target:
+  process-level Warrant refinement modeling external-vs-partition
+  feature distinction — paper-extension work.
 
   *Statement (R5 paper-faithful form).*  For any arbitration
   procedure `A` whose adjudication-warrant derives from `\E` alone
