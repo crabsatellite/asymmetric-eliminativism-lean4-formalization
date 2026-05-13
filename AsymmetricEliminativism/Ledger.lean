@@ -3,19 +3,26 @@
 
   Gap ledger.  Every atomic axiom, every Cat 3 carrier, and every
   closed top-level result is recorded as a typed `GapEntry` with
-  TWO orthogonal classifications:
+  three orthogonal classifications plus a broken-link dependency
+  list:
 
-    * 5-tier status:   gapOpen / gapPartial / gapBlocked / gapDeadEnd / gapClosed
-    * 3-input-category: cat1Mathlib / cat2External / cat3PaperNovel / notInput
+    * 6-tier status:    gapOpen / gapPartial / gapBlocked / gapDeadEnd /
+                        gapClosed / gapClosedConditional
+    * 4-input-category: cat1Mathlib / cat2External / cat3PaperNovel / notInput
+    * Cat 3 sub-type:   carrier / hypothesisPredicate / structuralEquation /
+                        workingAssumption / conditionalHypothesis / notCat3
+    * conditionalOn :   list of `Hyp_*` broken-link predicate names
+                        (non-empty iff status is `gapClosedConditional`;
+                        see v6 §12)
 
   Pre-attack discipline.  Scan this ledger before launching new
   attacks.  Re-attempting a `gapBlocked` or `gapDeadEnd` route is
   a context-drift failure mode.
 
   `attackHistory` is the canonical location for round metadata
-  (citation revisions, atomic refactors, prior retractions);
-  docstrings and `scope` fields are kept to current-state content
-  only.
+  (citation revisions, atomic refactors, prior retractions,
+  Cat 3 reductionism check outcomes); docstrings and `scope`
+  fields are kept to current-state content only.
 
   Companion to: Li 2026, "Asymmetric Eliminativism: A Diagnostic
   Framework for Reverse-Defined Concepts …" (SSRN 6723220 /
@@ -26,46 +33,97 @@ import AsymmetricEliminativism
 
 namespace AsymmetricEliminativism.Ledger
 
-/-- 5-tier status tag attached to each gap. -/
+/-- 6-tier status tag attached to each gap.  `gapClosedConditional`
+    is used when Phase 4 catches a defect breaking a typed-bridge
+    chain: the downstream closure is preserved as conditional on a
+    named `Hyp_*` broken-link hypothesis (recorded in the entry's
+    `conditionalOn` field) pending repair or independent derivation.
+    See `feedback_gap_ledger_in_lean4` §12. -/
 inductive GapStatus
   | gapOpen
   | gapPartial
   | gapBlocked
   | gapDeadEnd
   | gapClosed
+  | gapClosedConditional
   deriving DecidableEq, Repr
 
-/-- 3-input-category tag attached to each gap.  Orthogonal to status. -/
+/-- 4-input-category tag attached to each gap.  Orthogonal to status.
+    (Cat 0 = Lean kernel axioms — `propext` / `Classical.choice` /
+    `Quot.sound` — is the always-present system layer and is not
+    tracked here per v6 §3.1.) -/
 inductive InputCategory
   /-- Mathlib-derivable theorem (no axiom).  Project has zero such. -/
   | cat1Mathlib
-  /-- External published; opaque-carrier-bound axiom + citation. -/
+  /-- External published; opaque-carrier-bound axiom + citation.
+      Project has zero such (paper is fundamentally philosophical;
+      no external textbook citations underwrite its atoms). -/
   | cat2External
-  /-- Paper-novel: typed primitive carrier, paper-novel predicate, or
-       paper-stated atomic defining equation. -/
+  /-- Paper-novel: carrier, hypothesis predicate, structural defining
+      equation, working assumption, or conditional hypothesis.
+      Refine via the `cat3SubType` field. -/
   | cat3PaperNovel
-  /-- Not an atomic input: derived theorem (gapClosed) or blocked
-       Mathlib-derivation route (gapBlocked). -/
+  /-- Not an atomic input: derived theorem (gapClosed) or genuine
+      no-acceptance-possible route (gapBlocked / gapDeadEnd). -/
   | notInput
+  deriving DecidableEq, Repr
+
+/-- Cat 3 paper-novel sub-types per v6 §3.4.  Orthogonal to status
+    and input-category; only meaningful when
+    `inputCategory = cat3PaperNovel`. -/
+inductive Cat3SubType
+  /-- Paper-introduced primitive type or typed-primitive value
+      (e.g. `ReverseDefinedConcept`, `MutuallyUnrankedPartition`).
+      Definitional atom; 永不 close. -/
+  | carrier
+  /-- Paper-introduced scope/regime predicate or Prop-bundle scope
+      condition (e.g. `UseSeparability` S1/S2, `FaithfulP1` P1).
+      Definitional atom; 永不 close. -/
+  | hypothesisPredicate
+  /-- Paper-stated definitional equation / structural reduction on
+      its primitives (e.g. `lem_prw_reduction` carrying the load-
+      bearing implication `A.warrantInternalToE → A.partitionRelative`
+      on the typed `ArbitrationProcedure` + `MutuallyUnrankedPartition`
+      carriers).  Definitional atom; 永不 close — constitutes the
+      paper's commitments to how its primitives behave. -/
+  | structuralEquation
+  /-- Higher-level claim temporarily axiomatized while derivation is
+      developed.  必须 close before paper submission. -/
+  | workingAssumption
+  /-- Paper's conclusion conditional on an external open problem
+      (RH, BSD, Hodge, P≠NP).  永不 close; encoded as theorem-
+      signature antecedent `theorem T (hRH : RiemannHypothesis) : ...`,
+      NOT as an axiom.  Listed for completeness; project has none. -/
+  | conditionalHypothesis
+  /-- This entry is not Cat 3 paper-novel. -/
+  | notCat3
   deriving DecidableEq, Repr
 
 /-- Typed record for a single gap. -/
 structure GapEntry where
   /-- Identifier matching the underlying axiom / theorem name. -/
   name : String
-  /-- 5-tier status (orthogonal to inputCategory). -/
+  /-- 6-tier status. -/
   status : GapStatus
   /-- Input category (orthogonal to status). -/
   inputCategory : InputCategory
+  /-- Cat 3 sub-type (orthogonal; `notCat3` unless
+      `inputCategory = cat3PaperNovel`). -/
+  cat3SubType : Cat3SubType
   /-- Operative paper / obstacle citation. -/
   paperSource : String
-  /-- Per-round attack trace (canonical location for round
-       metadata). -/
+  /-- Per-round attack trace (canonical location for round metadata).
+      For Cat 3 entries, MUST include ≥2 reductionism check outcomes
+      (Cat 1? Cat 2?) per v6 §5. -/
   attackHistory : List String
   /-- What content the entry carries; what it does NOT claim. -/
   scope : String
+  /-- Names of `Hyp_*` broken-link predicates this entry's proof
+      depends on.  Invariant: non-empty iff
+      `status = gapClosedConditional`.  See v6 §12. -/
+  conditionalOn : List String := []
 
-/-! ### Cat 3 paper-novel atomic defining axioms. -/
+/-! ### Cat 3 paper-novel atomic structural reduction. -/
 
 /--
   Lemma `\label{lem:prw}` reduction (Partition-Relative-Weighting):
@@ -76,6 +134,7 @@ def gap_lem_prw_reduction : GapEntry := {
   name := "lem_prw_reduction"
   status := GapStatus.gapOpen
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.structuralEquation
   paperSource :=
     "Li 2026, `\\label{lem:prw}` (Partition-Relative-Weighting " ++
     "Reduction) proof body — paper proof case analysis of " ++
@@ -96,7 +155,24 @@ def gap_lem_prw_reduction : GapEntry := {
       "single bi-implication, not as separable atoms.  Decomposing " ++
       "would invert the paper's load-bearing structure.  Citation " ++
       "tightened to reference the load-bearing paragraph by " ++
-      "content rather than by pp."
+      "content rather than by pp.",
+    "v0.3.0 reductionism Cat 1?: CLEAR-NO — the implication " ++
+      "`A.warrantInternalToE → A.partitionRelative` is stated over " ++
+      "the paper-novel `ArbitrationProcedure` + `MutuallyUnranked" ++
+      "Partition` carriers; Mathlib has no order-theoretic primitive " ++
+      "that captures this paper-specific reduction.",
+    "v0.3.0 reductionism Cat 2?: CLEAR-NO — the reduction is the " ++
+      "paper's own Lemma 1 (`\\label{lem:prw}`); no external " ++
+      "textbook covers warrant-to-partition-weighting reductions " ++
+      "on these paper-novel typed carriers.",
+    "v0.3.0 sub-type classification: structuralEquation — the " ++
+      "axiom carries a paper-stated structural reduction on its " ++
+      "primitives (the typed `ArbitrationProcedure` + " ++
+      "`MutuallyUnrankedPartition` carriers), encoding the lemma's " ++
+      "load-bearing implication.  Not a carrier (not introducing a " ++
+      "new primitive type); not a hypothesis predicate (not a scope " ++
+      "condition); not a working assumption (atomicity confirmed " ++
+      "in v0.2.0)."
   ]
   scope :=
     "`∀ A, A.warrantInternalToE → A.partitionRelative`.  Carries " ++
@@ -109,19 +185,25 @@ def gap_lem_prw_reduction : GapEntry := {
 
   *These are not Lean `axiom`s.*  The paper-novel carriers below
   are encoded as Lean `structure` / `def` / `class` (paper-novel
-  predicates), per `feedback_gap_ledger_in_lean4`'s Cat 3 allowance
-  for "typed primitive carriers" and "paper-novel predicates".  We
-  record them in the ledger for trust-audit completeness even
-  though they are not `axiom` declarations.  None contributes to a
-  `#print axioms` audit.
+  predicates), per `feedback_gap_ledger_in_lean4` v6 §3.4's Cat 3
+  allowance for "typed primitive carriers" (sub-type `carrier`)
+  and "paper-novel scope/regime predicates" (sub-type
+  `hypothesisPredicate`).  We record them in the ledger for trust-
+  audit completeness even though they are not `axiom` declarations.
+  None contributes to a `#print axioms` audit.
 -/
 
 def gap_ReverseDefinedConcept_carrier : GapEntry := {
   name := "ReverseDefinedConcept (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:reverse}`"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type for clauses (i)–(iv) of reverse-definition; " ++
+      "the typed `structure` IS the paper's mathematical object."
+  ]
   scope :=
     "Typed structural carrier for the paper's clauses (i)–(iv) of " ++
     "reverse-definition.  Encoded as a Lean `structure`, not an " ++
@@ -133,10 +215,18 @@ def gap_ReverseDefinedWitness_carrier : GapEntry := {
   name := "ReverseDefinedWitness (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource :=
     "Li 2026, `\\label{def:reverse}` clauses (iv.a)/(iv.b)/(iv.c) " ++
     "(the three sub-criteria jointly sufficient for clause (iv))"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type packaging the (iv.a)/(iv.b)/(iv.c) sub-" ++
+      "criteria into a structured witness object parametrised by " ++
+      "a parent `ReverseDefinedConcept`.  The structure itself is " ++
+      "the typed primitive (a witness-type), parallel in role to " ++
+      "`ReverseDefinedConcept`."
+  ]
   scope :=
     "Typed structural carrier exposing the three jointly-sufficient " ++
     "sub-criteria for the hard clause (iv) of reverse-definition: " ++
@@ -149,11 +239,20 @@ def gap_AsymmetricEliminationVerdict_carrier : GapEntry := {
   name := "AsymmetricEliminationVerdict (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:asym-elim}` (with (a)/(b) " ++
     "licensing mode distinction from \\S~\\ref{sec:asymmetric-elim})"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: hypothesisPredicate — the " ++
+      "structure encodes a verdict-assignment (eliminated/retained " ++
+      "register + licensing mode) over a partition; it functions as " ++
+      "a paper-introduced scope/regime predicate on partitions " ++
+      "into target classes rather than as a freestanding primitive " ++
+      "type.  The (a)/(b) `LicensingMode` distinction is itself a " ++
+      "scope-defining classifier on eliminated parts."
+  ]
   scope :=
-    "Typed structural carrier for an asymmetric-eliminativist " ++
+    "Typed scope/regime predicate for an asymmetric-eliminativist " ++
     "verdict-assignment over a partition into target classes.  " ++
     "Includes the (a)/(b) `LicensingMode` distinction for " ++
     "eliminated parts (successor-mature vs. preliminary-ahead-of-" ++
@@ -164,8 +263,14 @@ def gap_DiagnosticProfile_carrier : GapEntry := {
   name := "DiagnosticProfile (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:edc}` (E1, E2, E3)"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type packaging the three eliminative diagnostic " ++
+      "conditions (E1 carries a `ReverseDefinedConcept`; E2/E3 " ++
+      "carry Props) into a typed diagnostic-profile object."
+  ]
   scope :=
     "Typed structural carrier for the three eliminative diagnostic " ++
     "conditions (E1 reverse-definition; E2 persistent dispersion; " ++
@@ -179,10 +284,18 @@ def gap_UseSeparability_carrier : GapEntry := {
   name := "UseSeparability (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:separability}` (S1, S2)"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: hypothesisPredicate — " ++
+      "use-separability is a paper-introduced scope/regime " ++
+      "condition (S1 causal independence + S2 constitutive " ++
+      "independence) on a (concept, T_elim, T_retained) triple.  " ++
+      "The structure is a Prop-bundle scope predicate, not a " ++
+      "freestanding primitive type."
+  ]
   scope :=
-    "Typed structural carrier for use-separability: S1 (causal " ++
+    "Typed scope/regime predicate for use-separability: S1 (causal " ++
     "independence of analytic-verdict transmission) and S2 " ++
     "(constitutive independence of retained-use criteria).  " ++
     "Encoded as a Lean `structure` with Prop-valued S1/S2 fields; " ++
@@ -194,10 +307,19 @@ def gap_FaithfulP1_carrier : GapEntry := {
   name := "FaithfulP1 (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:op-properties}` (P1)"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: hypothesisPredicate — P1 " ++
+      "faithfulness is the paper-introduced scope condition on an " ++
+      "operationalisation (it must be determined by partition-" ++
+      "member exhibition) plus the contested-witness structural-" ++
+      "use fields.  Functions as a paper-novel predicate over " ++
+      "(Op, partition-member) pairs, not as a freestanding " ++
+      "primitive type."
+  ]
   scope :=
-    "Typed structural carrier for P1 faithfulness: the Prop " ++
+    "Typed scope/regime predicate for P1 faithfulness: the Prop " ++
     "`determinedByPartExhibition` + the contested-witness " ++
     "structural-use fields `hasContestedNegativeWitness` and " ++
     "`hasContestedPositiveWitness`.  Encoded as a Lean `structure`; " ++
@@ -210,10 +332,16 @@ def gap_DiscriminatorRow_carrier : GapEntry := {
   name := "DiscriminatorRow (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` (D1, D2, D3 three-valued " ++
     "judgement with counterfactual-independence side-condition)"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type for a discriminator-table row (D1/D2/D3 " ++
+      "ratings + counterfactual-independence Prop).  The structure " ++
+      "IS the paper's mathematical object for discriminator rows."
+  ]
   scope :=
     "Typed structural carrier for a discriminator-table row: " ++
     "D1/D2/D3 ratings from `DiagnosticRating` (yes/weak/no) plus " ++
@@ -225,8 +353,16 @@ def gap_MutuallyUnrankedPartition_carrier : GapEntry := {
   name := "MutuallyUnrankedPartition (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:unranked}`"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type for a mutually unranked partition of a folk " ++
+      "extension (n parts + pairwise disjointness + no-partition-" ++
+      "independent-ranking Prop).  Definitional atom for the " ++
+      "impossibility theorem; `lem_prw_reduction` is the load-" ++
+      "bearing structural equation built on top."
+  ]
   scope :=
     "Typed structural carrier for a mutually unranked partition " ++
     "of a folk extension.  Encoded as a Lean `structure` with " ++
@@ -238,10 +374,16 @@ def gap_Operationalisation_carrier : GapEntry := {
   name := "Operationalisation (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource :=
     "Li 2026, `\\label{def:op-individuation}` and " ++
     "`\\label{def:op-properties}`"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type for an operationalisation (Boolean-valued " ++
+      "verdict-map parametrised by its partition-member " ++
+      "faithfulness).  Definitional atom."
+  ]
   scope :=
     "Typed structural carrier for an operationalisation as a " ++
     "Boolean-valued verdict-map parametrised by its partition-" ++
@@ -252,8 +394,16 @@ def gap_ArbitrationProcedure_carrier : GapEntry := {
   name := "ArbitrationProcedure (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:op-properties}` P2"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type for an arbitration procedure between " ++
+      "operationalisations (adjudicate function + " ++
+      "partitionRelative + warrantInternalToE Prop fields).  " ++
+      "Definitional atom; `lem_prw_reduction` is the structural " ++
+      "equation that operates over this carrier."
+  ]
   scope :=
     "Typed structural carrier for an arbitration procedure " ++
     "between operationalisations.  Encoded as a Lean `structure` " ++
@@ -265,10 +415,17 @@ def gap_CognitiveSystem_carrier : GapEntry := {
   name := "CognitiveSystem (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource :=
     "Li 2026, §11 (Distributed Statistical Cognition replacement " ++
     "vocabulary preliminaries)"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type for an abstract cognitive system (token / " ++
+      "weight / activation / session / instance / context spaces " ++
+      "+ inferenceOp + six DSC-axis Prop fields).  Definitional " ++
+      "atom underwriting the DSC vocabulary."
+  ]
   scope :=
     "Typed structural carrier for an abstract cognitive system " ++
     "with token / weight / activation / session / instance / " ++
@@ -280,8 +437,13 @@ def gap_SessionalCognition_carrier : GapEntry := {
   name := "SessionalCognition (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:sc}`"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type packaging the six SC commitments (V1–V6) " ++
+      "as Prop-valued fields paralleling the DSC axes."
+  ]
   scope :=
     "Typed structural carrier for the six SC commitments (V1–V6) " ++
     "as Prop-valued fields paralleling the DSC axes.  Encoded " ++
@@ -292,8 +454,15 @@ def gap_BridgingPrinciple_carrier : GapEntry := {
   name := "BridgingPrinciple (structure)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:bridging}`"
-  attackHistory := []
+  attackHistory := [
+    "v0.3.0 sub-type classification: carrier — paper-introduced " ++
+      "primitive type packaging (B1) bijective correspondence + " ++
+      "mutual independence + joint sufficiency + (B2) point-of-" ++
+      "view non-translatability into a single bridging-principle " ++
+      "object parametrised by (S, SC)."
+  ]
   scope :=
     "Typed structural carrier for the (B1) bijective " ++
     "correspondence + mutual independence + joint sufficiency " ++
@@ -309,6 +478,7 @@ def gap_thm_impossibility_CLOSED : GapEntry := {
   name := "thm_impossibility"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource := "Li 2026, `\\label{thm:impossibility}`"
   attackHistory := []
   scope :=
@@ -327,6 +497,7 @@ def gap_bridging_dsc_iff_sc_CLOSED : GapEntry := {
   name := "bridging_dsc_iff_sc"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:bridging}` (B1.i) bijective " ++
     "correspondence consequence"
@@ -341,6 +512,7 @@ def gap_satisfiesP3_of_boolean_CLOSED : GapEntry := {
   name := "satisfiesP3_of_boolean"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource := "Li 2026, `\\label{def:op-properties}` P3"
   attackHistory := []
   scope :=
@@ -358,6 +530,7 @@ def gap_R1_fires_on_all_yes_CLOSED : GapEntry := {
   name := "R1_fires_on_all_yes"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` rule (R1) " ++
     "(strict two-of-three)"
@@ -371,6 +544,7 @@ def gap_R1_fires_on_yes_yes_weak_CLOSED : GapEntry := {
   name := "R1_fires_on_yes_yes_weak"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` rule (R1)"
   attackHistory := []
@@ -383,6 +557,7 @@ def gap_R1_does_not_fire_on_yes_weak_weak_CLOSED : GapEntry := {
   name := "R1_does_not_fire_on_yes_weak_weak"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` rule (R1) " ++
     "non-firing on the LLM-row pattern"
@@ -397,6 +572,7 @@ def gap_R2_pattern_fires_on_yes_weak_weak_CLOSED : GapEntry := {
   name := "R2_pattern_fires_on_yes_weak_weak"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` rule (R2) Boolean-" ++
     "pattern check"
@@ -411,6 +587,7 @@ def gap_predictsEliminate_of_all_yes_CLOSED : GapEntry := {
   name := "predictsEliminate_of_all_yes"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` (R1) eliminate verdict"
   attackHistory := []
@@ -424,6 +601,7 @@ def gap_predictsEliminate_of_yes_weak_weak_with_indep_CLOSED : GapEntry := {
   name := "predictsEliminate_of_yes_weak_weak_with_indep"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` (R2) eliminate verdict " ++
     "on the LLM-row pattern under counterfactual independence"
@@ -438,6 +616,7 @@ def gap_not_R2_satisfied_without_indep_CLOSED : GapEntry := {
   name := "not_R2_satisfied_without_indep"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{def:discriminator}` (R2) defeat by " ++
     "counterfactual-independence-test failure"
@@ -454,6 +633,7 @@ def gap_no_partition_independent_admissible_warrant_CLOSED : GapEntry := {
   name := "no_partition_independent_admissible_warrant"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` consequence — " ++
     "contrapositive form of `\\label{lem:prw}`"
@@ -467,6 +647,7 @@ def gap_ensemble_methods_fail_P2_CLOSED : GapEntry := {
   name := "ensemble_methods_fail_P2"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` `Consequences` " ++
     "paragraph: 'ensemble methods aggregating verdicts inherit " ++
@@ -481,6 +662,7 @@ def gap_impossibility_uniform_family_CLOSED : GapEntry := {
   name := "impossibility_uniform_family"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` (uniform application " ++
     "to the family `{Op_1, …, Op_n}`)"
@@ -494,6 +676,7 @@ def gap_thm_impossibility_paper_form_CLOSED : GapEntry := {
   name := "thm_impossibility_paper_form"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` (paper-level " ++
     "`¬ (P2 ∧ P3)` conclusion) + paragraph `The load-bearing " ++
@@ -532,6 +715,7 @@ def gap_thesis_independence_BLOCKED : GapEntry := {
   name := "thesis_independence (DSC axis mutual independence)"
   status := GapStatus.gapBlocked
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{thesis:independence}` (Mutual independence " ++
     "of the six DSC axes; six independence-witness arguments)"
@@ -556,6 +740,7 @@ def gap_thesis_joint_BLOCKED : GapEntry := {
   name := "thesis_joint (DSC joint satisfaction for current LLMs)"
   status := GapStatus.gapBlocked
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{thesis:joint}` (Joint satisfaction for " ++
     "current LLMs)"
@@ -572,6 +757,7 @@ def gap_thesis_minimality_BLOCKED : GapEntry := {
   name := "thesis_minimality (DSC minimality wrt blocking jobs)"
   status := GapStatus.gapBlocked
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{thesis:minimality}` (Minimality with " ++
     "respect to identified blocking jobs)"
@@ -594,6 +780,7 @@ def gap_substrate_independence_triple_use_BLOCKED : GapEntry := {
   name := "substrate_independence_triple_use_premise"
   status := GapStatus.gapBlocked
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, calibration-section `\\S\\ref{sec:discriminator}` " ++
     "paragraph `Acknowledgement: Route~2 shares load-bearing " ++
@@ -622,6 +809,7 @@ def gap_testimony_protocol_BLOCKED : GapEntry := {
   name := "prot_testimony (T1–T4 testimony conditions)"
   status := GapStatus.gapBlocked
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{prot:testimony}` (T1–T4 evidential-status " ++
     "conditions for LLM self-reports)"
@@ -641,6 +829,7 @@ def gap_calibration_table_BLOCKED : GapEntry := {
   name := "tab_calibration (ten-case historical retrodiction)"
   status := GapStatus.gapBlocked
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{tab:calibration}` and `\\label{sec:" ++
     "calibration}` (ten paradigm cases — heat, gene, force, " ++
@@ -660,6 +849,7 @@ def gap_ai_governance_applications_BLOCKED : GapEntry := {
   name := "ai_governance_applications (Part IV)"
   status := GapStatus.gapBlocked
   inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, Part IV (Applications to AI Governance) — moral " ++
     "status, autonomy, responsibility, personhood as four " ++
@@ -678,7 +868,7 @@ def gap_ai_governance_applications_BLOCKED : GapEntry := {
 
 /-- All gap entries in canonical order. -/
 def allGaps : List GapEntry := [
-  -- Cat 3 paper-novel atomic axiom (impossibility-theorem load-bearer)
+  -- Cat 3 paper-novel atomic structural reduction
   gap_lem_prw_reduction,
   -- Cat 3 paper-novel carrier types and predicates (structures, not axioms)
   gap_ReverseDefinedConcept_carrier,
@@ -721,15 +911,17 @@ def allGaps : List GapEntry := [
   gap_ai_governance_applications_BLOCKED
 ]
 
-/-- Status-keyed counts: `(open, partial, blocked, deadEnd, closed)`. -/
-def gapCounts : Nat × Nat × Nat × Nat × Nat :=
+/-- Status-keyed counts:
+    `(open, partial, blocked, deadEnd, closed, closedConditional)`. -/
+def gapCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
   let countWhere (s : GapStatus) : Nat :=
     (allGaps.filter (fun g => g.status = s)).length
   ( countWhere GapStatus.gapOpen
   , countWhere GapStatus.gapPartial
   , countWhere GapStatus.gapBlocked
   , countWhere GapStatus.gapDeadEnd
-  , countWhere GapStatus.gapClosed )
+  , countWhere GapStatus.gapClosed
+  , countWhere GapStatus.gapClosedConditional )
 
 /-- InputCategory-keyed counts:
     `(cat1Mathlib, cat2External, cat3PaperNovel, notInput)`. -/
@@ -741,44 +933,68 @@ def inputCategoryCounts : Nat × Nat × Nat × Nat :=
   , countWhere InputCategory.cat3PaperNovel
   , countWhere InputCategory.notInput )
 
-#eval s!"AsymmetricEliminativism gap-ledger inventory (status): open={(gapCounts).1} partial={(gapCounts).2.1} blocked={(gapCounts).2.2.1} deadEnd={(gapCounts).2.2.2.1} closed={(gapCounts).2.2.2.2}"
+/-- Cat3SubType-keyed counts:
+    `(carrier, hypothesisPredicate, structuralEquation, workingAssumption,
+       conditionalHypothesis, notCat3)`. -/
+def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
+  let countWhere (s : Cat3SubType) : Nat :=
+    (allGaps.filter (fun g => g.cat3SubType = s)).length
+  ( countWhere Cat3SubType.carrier
+  , countWhere Cat3SubType.hypothesisPredicate
+  , countWhere Cat3SubType.structuralEquation
+  , countWhere Cat3SubType.workingAssumption
+  , countWhere Cat3SubType.conditionalHypothesis
+  , countWhere Cat3SubType.notCat3 )
 
-#eval s!"AsymmetricEliminativism gap-ledger inventory (input):  cat1Mathlib={(inputCategoryCounts).1} cat2External={(inputCategoryCounts).2.1} cat3PaperNovel={(inputCategoryCounts).2.2.1} notInput={(inputCategoryCounts).2.2.2}"
+#eval s!"AsymmetricEliminativism gap-ledger inventory (status):    open={(gapCounts).1} partial={(gapCounts).2.1} blocked={(gapCounts).2.2.1} deadEnd={(gapCounts).2.2.2.1} closed={(gapCounts).2.2.2.2.1} closedConditional={(gapCounts).2.2.2.2.2}"
+
+#eval s!"AsymmetricEliminativism gap-ledger inventory (input):     cat1Mathlib={(inputCategoryCounts).1} cat2External={(inputCategoryCounts).2.1} cat3PaperNovel={(inputCategoryCounts).2.2.1} notInput={(inputCategoryCounts).2.2.2}"
+
+#eval s!"AsymmetricEliminativism gap-ledger inventory (Cat 3 sub): carrier={(cat3SubTypeCounts).1} hypothesisPredicate={(cat3SubTypeCounts).2.1} structuralEquation={(cat3SubTypeCounts).2.2.1} workingAssumption={(cat3SubTypeCounts).2.2.2.1} conditionalHypothesis={(cat3SubTypeCounts).2.2.2.2.1} notCat3={(cat3SubTypeCounts).2.2.2.2.2}"
 
 #eval s!"Total entries: {allGaps.length}"
 
 /-! ### Inventory summary
 
-  The live status counts and input-category counts are printed by
-  the `#eval` calls above (run
-  `lake env lean AsymmetricEliminativism/Ledger.lean` to see them).
-  The axiom inventory:
+  The live status / input-category / Cat 3 sub-type counts are
+  printed by the `#eval` calls above (run `lake env lean
+  AsymmetricEliminativism/Ledger.lean` to see them).  The axiom /
+  carrier / predicate inventory:
 
-    Cat 3 paper-novel atomic axioms (Li 2026 internal claims):
+    Cat 3 paper-novel atomic structural reduction (Li 2026 internal
+    claim; sub-type `structuralEquation`):
       lem_prw_reduction
         — Lemma `\label{lem:prw}`; load-bearing for
           `thm_impossibility` (and, transitively, for
           `thm_impossibility_paper_form`).
 
     Cat 3 paper-novel typed carriers (encoded as Lean structures /
-    classes, NOT as `axiom` declarations):
+    classes, NOT as `axiom` declarations; sub-type `carrier`):
       ReverseDefinedConcept, ReverseDefinedWitness,
-      AsymmetricEliminationVerdict, DiagnosticProfile,
-      UseSeparability, MutuallyUnrankedPartition,
-      Operationalisation, FaithfulP1, ArbitrationProcedure,
+      DiagnosticProfile, MutuallyUnrankedPartition,
+      Operationalisation, ArbitrationProcedure,
       CognitiveSystem, SessionalCognition, BridgingPrinciple,
       DiscriminatorRow.
 
-  Lean kernel (not declared here):
+    Cat 3 paper-novel hypothesis/scope predicates (encoded as Lean
+    structures bundling Prop-valued scope conditions; sub-type
+    `hypothesisPredicate`):
+      AsymmetricEliminationVerdict, UseSeparability, FaithfulP1.
+
+  Lean kernel (Cat 0; not declared here):
     propext, Classical.choice, Quot.sound.
 
   Project has *zero* Cat 1 axioms (no Mathlib-derivability claims
   pending discharge) and *zero* Cat 2 axioms (no external
-  textbook citations).  The single Cat 3 atomic axiom
-  `lem_prw_reduction` captures the load-bearing structural
+  textbook citations).  The single Cat 3 atomic structural
+  reduction `lem_prw_reduction` carries the load-bearing
   consequence of paper Lemma `\label{lem:prw}`; the lemma's
   *justification* is the paper's case-analysis proof and is not
   separately formalised.
+
+  Cat 3 sub-types not used in this project: `workingAssumption`
+  (no provisional bundles pending derivation), `conditionalHypothesis`
+  (no external-open-problem-conditional results).
 
   *gapBlocked entries.*  Several paper-side claims of structural
   flavour are recorded as `gapBlocked` rather than `gapClosed`,
@@ -788,6 +1004,33 @@ def inputCategoryCounts : Nat × Nat × Nat × Nat :=
   policy-application sketches).  Each gapBlocked entry carries an
   explicit reason for the block; future audit rounds should not
   reattack these gaps thinking they are openable.
+
+  *Cat 3 ratio guard (v6 §3.4.6).*  Cat 3 ratio = 100% (14/14
+  paper-side atomic inputs are Cat 3; 0 Cat 1, 0 Cat 2).  The
+  paper is fundamentally philosophical (per v0.2.0 audit report)
+  and the only axiom is `lem_prw_reduction`; the remaining 13
+  Cat 3 entries are typed carriers / scope predicates encoded as
+  Lean `structure` declarations, not opaque-axiom Cat 3 claims.
+  The ratio is high BECAUSE all paper-novel structural objects
+  are carriers/predicates (Cat 3 sub-types `carrier` /
+  `hypothesisPredicate`), not because reductionism rounds were
+  skipped.  The v6 §3.4.6 ≥2-round hostile reductionism review
+  should focus on:
+    (a) verifying each carrier is genuinely paper-novel typed
+        primitive (not derivable from Mathlib type theory — e.g.
+        is `MutuallyUnrankedPartition` more than a Mathlib
+        `Setoid`-like decomposition? is `DiscriminatorRow` more
+        than a Mathlib `Vector`-of-`DiagnosticRating`?);
+    (b) verifying `lem_prw_reduction` is genuinely paper-novel
+        (not a Cat 2 reduction missed — e.g. is the warrant-to-
+        partition-weighting reduction covered by any external
+        social-choice or arbitration-theory result on similarly-
+        typed objects?).
+  v0.3.0 records per-entry reductionism notes in `attackHistory`
+  fields with CLEAR-NO verdicts on (a) and (b) for
+  `lem_prw_reduction`; per-carrier deep reductionism rounds
+  (Cat 1 / Cat 2 / Cat 3 carrier-novelty audit) are
+  deferred to a separate workflow.
 -/
 
 end AsymmetricEliminativism.Ledger
