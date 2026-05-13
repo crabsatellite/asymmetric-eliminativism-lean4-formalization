@@ -6,8 +6,16 @@
   three orthogonal classifications plus a broken-link dependency
   list:
 
-    * 6-tier status:    gapOpen / gapPartial / gapBlocked / gapDeadEnd /
-                        gapClosed / gapClosedConditional
+    * 7-tier status:    gapOpen / gapPartial / gapBlocked / gapDeadEnd /
+                        gapClosed / gapClosedConditional / gapDefinitional
+                        (the 7th tier `gapDefinitional` —
+                        paper-novel Cat 3 atoms that ARE the paper's
+                        starting commitments, not gaps to close;
+                        covers the three definitional sub-types
+                        carrier / hypothesisPredicate /
+                        structuralEquation — was added 2026-05-14
+                        per v6 §1.1 / Manufactured Recognition
+                        R-#27/R-#28)
     * 4-input-category: cat1Mathlib / cat2External / cat3PaperNovel / notInput
     * Cat 3 sub-type:   carrier / hypothesisPredicate / structuralEquation /
                         workingAssumption / conditionalHypothesis /
@@ -39,12 +47,19 @@ import AsymmetricEliminativism
 
 namespace AsymmetricEliminativism.Ledger
 
-/-- 6-tier status tag attached to each gap.  `gapClosedConditional`
+/-- 7-tier status tag attached to each gap.  `gapClosedConditional`
     is used when Phase 4 catches a defect breaking a typed-bridge
     chain: the downstream closure is preserved as conditional on a
     named `Hyp_*` broken-link hypothesis (recorded in the entry's
     `conditionalOn` field) pending repair or independent derivation.
-    See `feedback_gap_ledger_in_lean4` §12. -/
+    `gapDefinitional` (7th tier, ratified 2026-05-14 per v6 §1.1 /
+    Manufactured Recognition R-#27/R-#28) marks paper-novel Cat 3
+    atoms that are starting commitments, not gaps to close — the
+    three definitional sub-types (carrier / hypothesisPredicate /
+    structuralEquation).  Distinguished from `gapOpen` (no attack /
+    inconclusive attempts): `gapDefinitional` says "by design
+    axiomatic, no Lean derivation expected".  See
+    `feedback_gap_ledger_in_lean4` §1.1, §2, §12, §15. -/
 inductive GapStatus
   | gapOpen
   | gapPartial
@@ -52,6 +67,7 @@ inductive GapStatus
   | gapDeadEnd
   | gapClosed
   | gapClosedConditional
+  | gapDefinitional
   deriving DecidableEq, Repr
 
 /-- 4-input-category tag attached to each gap.  Orthogonal to status.
@@ -289,7 +305,7 @@ def gap_lem_prw_reduction : GapEntry := {
 
 def gap_ReverseDefinedConcept_carrier : GapEntry := {
   name := "ReverseDefinedConcept (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:reverse}`"
@@ -328,7 +344,7 @@ def gap_ReverseDefinedConcept_carrier : GapEntry := {
 
 def gap_ReverseDefinedWitness_carrier : GapEntry := {
   name := "ReverseDefinedWitness (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.carrier
   paperSource :=
@@ -370,7 +386,7 @@ def gap_ReverseDefinedWitness_carrier : GapEntry := {
 
 def gap_AsymmetricEliminationVerdict_carrier : GapEntry := {
   name := "AsymmetricEliminationVerdict (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:asym-elim}` (with (a)/(b) " ++
@@ -416,7 +432,7 @@ def gap_AsymmetricEliminationVerdict_carrier : GapEntry := {
 
 def gap_DiagnosticProfile_carrier : GapEntry := {
   name := "DiagnosticProfile (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:edc}` (E1, E2, E3)"
@@ -454,7 +470,7 @@ def gap_DiagnosticProfile_carrier : GapEntry := {
 
 def gap_UseSeparability_carrier : GapEntry := {
   name := "UseSeparability (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:separability}` (S1, S2)"
@@ -496,7 +512,7 @@ def gap_UseSeparability_carrier : GapEntry := {
 
 def gap_FaithfulP1_carrier : GapEntry := {
   name := "FaithfulP1 (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:op-properties}` (P1)"
@@ -542,7 +558,7 @@ def gap_FaithfulP1_carrier : GapEntry := {
 
 def gap_DiscriminatorRow_carrier : GapEntry := {
   name := "DiscriminatorRow (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.carrier
   paperSource :=
@@ -590,7 +606,7 @@ def gap_DiscriminatorRow_carrier : GapEntry := {
 
 def gap_MutuallyUnrankedPartition_carrier : GapEntry := {
   name := "MutuallyUnrankedPartition (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.carrier
   paperSource := "Li 2026, `\\label{def:unranked}`"
@@ -641,7 +657,7 @@ def gap_MutuallyUnrankedPartition_carrier : GapEntry := {
 
 def gap_Operationalisation_carrier : GapEntry := {
   name := "Operationalisation (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.carrier
   paperSource :=
@@ -681,7 +697,7 @@ def gap_Operationalisation_carrier : GapEntry := {
 
 def gap_ArbitrationProcedure_carrier : GapEntry := {
   name := "ArbitrationProcedure (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:op-properties}` P2"
@@ -736,7 +752,7 @@ def gap_ArbitrationProcedure_carrier : GapEntry := {
 
 def gap_CognitiveSystem_carrier : GapEntry := {
   name := "CognitiveSystem (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource :=
@@ -802,7 +818,7 @@ def gap_CognitiveSystem_carrier : GapEntry := {
 
 def gap_SessionalCognition_carrier : GapEntry := {
   name := "SessionalCognition (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:sc}`"
@@ -844,7 +860,7 @@ def gap_SessionalCognition_carrier : GapEntry := {
 
 def gap_BridgingPrinciple_carrier : GapEntry := {
   name := "BridgingPrinciple (structure)"
-  status := GapStatus.gapClosed
+  status := GapStatus.gapDefinitional
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource := "Li 2026, `\\label{def:bridging}`"
@@ -1737,8 +1753,11 @@ def allGaps : List GapEntry := [
 ]
 
 /-- Status-keyed counts:
-    `(open, partial, blocked, deadEnd, closed, closedConditional)`. -/
-def gapCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
+    `(open, partial, blocked, deadEnd, closed, closedConditional,
+       definitional)`.
+    The 7th slot (`gapDefinitional`) was added 2026-05-14 per
+    v6 §1.1 / Manufactured Recognition R-#27/R-#28. -/
+def gapCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
   let countWhere (s : GapStatus) : Nat :=
     (allGaps.filter (fun g => g.status = s)).length
   ( countWhere GapStatus.gapOpen
@@ -1746,7 +1765,8 @@ def gapCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
   , countWhere GapStatus.gapBlocked
   , countWhere GapStatus.gapDeadEnd
   , countWhere GapStatus.gapClosed
-  , countWhere GapStatus.gapClosedConditional )
+  , countWhere GapStatus.gapClosedConditional
+  , countWhere GapStatus.gapDefinitional )
 
 /-- InputCategory-keyed counts:
     `(cat1Mathlib, cat2External, cat3PaperNovel, notInput)`. -/
@@ -1774,7 +1794,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
   , countWhere Cat3SubType.phenomenologicalConjecture
   , countWhere Cat3SubType.notCat3 )
 
-#eval s!"AsymmetricEliminativism gap-ledger inventory (status):    open={(gapCounts).1} partial={(gapCounts).2.1} blocked={(gapCounts).2.2.1} deadEnd={(gapCounts).2.2.2.1} closed={(gapCounts).2.2.2.2.1} closedConditional={(gapCounts).2.2.2.2.2}"
+#eval s!"AsymmetricEliminativism gap-ledger inventory (status):    open={(gapCounts).1} partial={(gapCounts).2.1} blocked={(gapCounts).2.2.1} deadEnd={(gapCounts).2.2.2.1} closed={(gapCounts).2.2.2.2.1} closedConditional={(gapCounts).2.2.2.2.2.1} definitional={(gapCounts).2.2.2.2.2.2}"
 
 #eval s!"AsymmetricEliminativism gap-ledger inventory (input):     cat1Mathlib={(inputCategoryCounts).1} cat2External={(inputCategoryCounts).2.1} cat3PaperNovel={(inputCategoryCounts).2.2.1} notInput={(inputCategoryCounts).2.2.2}"
 
