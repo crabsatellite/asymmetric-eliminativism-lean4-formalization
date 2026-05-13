@@ -42,322 +42,63 @@
 
     No admissible arbitration procedure exists.  P2 fails.
 
-  *Lean-encoding choice (v0.5.0 R1 decomposition).*  Lemma
-  `\label{lem:prw}` is the paper's *proved* Lemma whose published
-  proof body case-analyses E-internal warrants into five
-  paper-named structural sub-forms.  Per v6 §13 / §18 workflow we
-  expose those sub-forms as paper-novel atomic Cat 3 stipulations:
+  *Lean-encoding choice (v0.6.0 R2 honest revert).*  The v0.5.0 R1
+  decomposition of `lem_prw_reduction` into five paper-novel atomic
+  stipulations + four case-tag `def`s was cosmetic: the case-tag
+  predicates `isUniformWarrant`, `usesTypeAFeature`,
+  `usesTypeBFeature`, `usesTypeCStructuralProperty` were
+  axiomatised as `Prop := True`, so the case-exhaustion atom
+  (`warrantInternalToE → ⋁ <case-tags>`) reduced to a triviality and
+  the four case-specific atoms collectively asserted exactly the
+  original `lem_prw_reduction` content.  The R1 decomposition was
+  therefore stronger-than-paper in form (it asserted `∀ A,
+  A.partitionRelative` once a single carrier-Prop was inhabited) and
+  added zero substantive paper-content versus the single-axiom
+  encoding.
 
-    * Uniform-warrant atom (paper uniform case, proof body
-      `\label{lem:prw}` paragraph beginning "Uniform case:"):
-      a uniform `k`-assignment selects a single `E_m` as preferred
-      globally, which is direct single-`E_m` privileging.
-    * Type-(a) atom (paper "Sub-claim: No-arbitration for
-      `\E`-internal ranking principles" type-(a)): a feature
-      `f \in E_m` privileges `E_m`, yielding single-`E_m` privileging.
-    * Type-(b) atom (paper type-(b)): a feature symmetric across
-      all `E_i` produces no non-trivial ranking, which is treated
-      as P2-failure-by-failure-to-adjudicate.
-    * Partition-Internality atom (paper "Sub-claim:
-      Partition-Internality of `\E`-Internal Structural
-      Stipulations"): `R_{f*}`-routing on a partition-symmetric
-      structural property `f*` is a partition-relative weighting.
-    * Internal-warrant case-exhaustion atom (paper trichotomy
-      structure + recursion-termination paragraph): every
-      `\E`-internal warrant case-reduces to one of the four sub-
-      forms above (recursion via (c.2) / (c.4.a) terminates at
-      (a)/(b)/(c.1); cases (c.3)/(c.4.b) appeal to features
-      external to `\E` and so are excluded by the
-      `warrantInternalToE` antecedent).
+  Honest assessment: the paper's `\label{lem:prw}` proof body
+  case-analyses the warrant by LINGUISTIC structural sub-form
+  (uniform vs. contextual; type-(a)/(b)/(c) on the warrant's
+  *justification*-prose), not by a typed predicate on the
+  `ArbitrationProcedure` carrier itself.  Making the case-tags
+  substantive would require a typed `Warrant` sub-structure
+  paper-extension — refining `ArbitrationProcedure` to carry an
+  explicit warrant-form classifier on which the case-tag
+  predicates can be non-trivial.  That work is not yet present in
+  the paper; pretending otherwise via `Prop := True` case-tags
+  is anti-pattern #13 (conclusion-as-axiom in cosmetic-decomposition
+  form).
 
-  `lem_prw_reduction` is now a *theorem* whose proof composes
-  the five atoms via case-analysis on the paper's structural
-  case-tags.  The paper's case-analysis structure is therefore
-  faithfully encoded one-to-one: the load-bearing combinatorial
-  content lives in the five atoms; the lemma itself is a derived
-  composition.
+  Round 2 fix: revert to a single Cat 3 `workingAssumption` axiom
+  carrying the lemma's downstream consequence, with close-target
+  recorded as the typed-Warrant refinement.  Downstream theorems
+  (`thm_impossibility`, `no_partition_independent_admissible_warrant`,
+  `ensemble_methods_fail_P2`, `impossibility_uniform_family`,
+  `thm_impossibility_paper_form`) remain valid: their proofs use
+  `lem_prw_reduction` as before.  The acknowledgment is that the
+  decomposition cannot be made substantive without paper-extension
+  typed-Warrant work; see Ledger `gap_lem_prw_reduction`
+  `attackHistory` for the round-1→round-2 trail.
 -/
 
 import AsymmetricEliminativism.Basic
 
 namespace AsymmetricEliminativism
 
-/-! ## Paper-novel structural case-tags on arbitration procedures.
+/-! ## Lemma `\label{lem:prw}` — single working-assumption axiom.
 
-  The paper's proof of `\label{lem:prw}` case-analyses an
-  `\E`-internal warrant into five structural sub-forms (uniform
-  case; type-(a) feature in single `E_m`; type-(b) feature
-  symmetric across `E_i`; type-(c) partition-symmetric structural
-  property; case-exhaustion via recursion-termination).  We
-  expose those sub-forms as paper-novel Prop-valued case-tag
-  predicates on `ArbitrationProcedure`.
-
-  *Why these predicates are paper-novel and not Mathlib-derivable.*
-  Each predicate names a paper-stated structural sub-form of an
-  `\E`-internal warrant — paper terminology
-  (`uniform / contextual case`; `type-(a) / type-(b) / type-(c)`)
-  for sub-case distinctions over the typed `ArbitrationProcedure`
-  + `MutuallyUnrankedPartition` carriers.  Mathlib has no
-  predicate for "warrant uses a feature from a single partition
-  member" or for "warrant uses a partition-symmetric structural
-  property"; these are paper-novel sub-form classifiers.
--/
-
-/--
-  *Paper-novel structural case-tag* (paper `\label{lem:prw}`
-  uniform case, proof body): the procedure `A`'s warrant is a
-  uniform assignment to `{i, j}` across all disagreement-cases
-  of `Op_i` vs.\ `Op_j`.  Paper-statement: "Uniform case: `W`
-  assigns the same `k` to all disagreement-cases of `Op_i` vs.\
-  `Op_j`."
--/
-def ArbitrationProcedure.isUniformWarrant
-    {FolkObj Tcls : Type}
-    {Part : MutuallyUnrankedPartition FolkObj}
-    (_A : ArbitrationProcedure FolkObj Tcls Part) : Prop := True
-
--- Note: the case-tag predicates `isUniformWarrant`,
--- `usesTypeAFeature`, `usesTypeBFeature`,
--- `usesTypeCStructuralProperty` are paper-novel typed-skeleton
--- carriers.  Encoded as Prop-valued definitions returning `True`
--- so that the *substantive* paper-content lives in the
--- case-exhaustion atom + the case-specific atomic stipulations
--- below — not in the per-procedure case-tag predicate itself.
--- This is the v6 §3.4.1 "carrier" pattern: the predicate names
--- a paper-stated structural sub-form, but the discriminating
--- content sits in the structural equations on the carriers.
-
-/--
-  *Paper-novel structural case-tag* (paper `\label{lem:prw}`
-  "Sub-claim: No-arbitration for `\E`-internal ranking principles",
-  type-(a)): the procedure `A`'s warrant relies on a feature
-  `f \in E_m` for some `m`.  Paper-statement: "Type-(a): `f`
-  belongs to some `E_m`."
--/
-def ArbitrationProcedure.usesTypeAFeature
-    {FolkObj Tcls : Type}
-    {Part : MutuallyUnrankedPartition FolkObj}
-    (_A : ArbitrationProcedure FolkObj Tcls Part) : Prop := True
-
-/--
-  *Paper-novel structural case-tag* (paper `\label{lem:prw}`
-  type-(b)): the procedure `A`'s warrant relies on a feature
-  symmetric across all `E_i`.  Paper-statement: "Type-(b): `f` is
-  shared by all `E_i` symmetrically, in which case `R`'s output is
-  constant across the `E_i` and fails to produce a non-trivial
-  ranking."
--/
-def ArbitrationProcedure.usesTypeBFeature
-    {FolkObj Tcls : Type}
-    {Part : MutuallyUnrankedPartition FolkObj}
-    (_A : ArbitrationProcedure FolkObj Tcls Part) : Prop := True
-
-/--
-  *Paper-novel structural case-tag* (paper `\label{lem:prw}`
-  "Sub-claim: Partition-Internality of `\E`-Internal Structural
-  Stipulations", type-(c)): the procedure `A`'s warrant routes
-  via a partition-symmetric structural property `f*`
-  (coverage, parsimony, internal coherence, …) on the partition
-  members.  Paper-statement: "the procedure `adjudicate `Op_i` vs.\
-  `Op_j` by routing to whichever of `E_i, E_j` is higher under
-  the `f^*`-induced ranking `R_{f^*}`'."
--/
-def ArbitrationProcedure.usesTypeCStructuralProperty
-    {FolkObj Tcls : Type}
-    {Part : MutuallyUnrankedPartition FolkObj}
-    (_A : ArbitrationProcedure FolkObj Tcls Part) : Prop := True
-
-/-! ## Lemma `\label{lem:prw}` — atomic stipulations.
-
-  Five paper-novel atomic Cat 3 stipulations capturing the
-  paper-stated structural sub-claims of the lemma's proof body.
-  Each atom is a single-step implication on the typed primitives;
-  none bundles multiple reasoning steps (anti-pattern #14).
-  The derived `lem_prw_reduction` theorem composes them via
-  case-analysis (paper trichotomy structure).
--/
-
-/--
-  *Atomic axiom* (Cat 3 paper-novel structural equation, atom A1):
-  the *uniform-warrant case* of Lemma `\label{lem:prw}`.
-
-  Citation: Li 2026, `\label{lem:prw}` proof body, paragraph
-  beginning "Uniform case:" (in `asymmetric_eliminativism_full.tex`,
-  proof of `\label{lem:prw}`).
-
-  *Paper-statement.*  "Uniform case: `W` assigns the same `k` to
-  all disagreement-cases of `Op_i` vs.\ `Op_j`.  The constant
-  assignment to `{i, j}` selects a single `E_m \in {E_i, E_j}` as
-  preferred globally, which is direct single-`E_m` privileging ---
-  explicitly the P2-failure mode forbidden by
-  Definition~\ref{def:op-properties}'s independence clause."
-
-  *Lean encoding.*  A uniform-warrant procedure
-  (`isUniformWarrant`) is partition-relative.
-
-  *Sub-type.*  `structuralEquation` — paper-stated definitional
-  reduction on the typed `ArbitrationProcedure` carrier (uniform
-  warrants ARE partition-relative weightings; constitutes a
-  paper-level commitment to the warrant-structure ⇒
-  partition-relative-classification correspondence).
--/
-axiom prw_uniform_warrant_partitionRelative
-    {FolkObj Tcls : Type}
-    (Part : MutuallyUnrankedPartition FolkObj)
-    (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.isUniformWarrant → A.partitionRelative
-
-/--
-  *Atomic axiom* (Cat 3 paper-novel structural equation, atom A2):
-  the *type-(a) feature* case of Lemma `\label{lem:prw}`.
-
-  Citation: Li 2026, `\label{lem:prw}` proof body, "Sub-claim:
-  No-arbitration for `\E`-internal ranking principles" type-(a)
-  (in `asymmetric_eliminativism_full.tex`, proof of `\label{lem:prw}`).
-
-  *Paper-statement.*  "Type-(a): `f` belongs to some `E_m`.  Then
-  `R`'s appeal to `f` privileges `E_m`, and the resulting ranking
-  just is single-`E_m` privileging --- option (i)."
-
-  *Lean encoding.*  A type-(a)-feature procedure
-  (`usesTypeAFeature`) is partition-relative.
-
-  *Sub-type.*  `structuralEquation` — paper-stated definitional
-  reduction on the typed `ArbitrationProcedure` + partition
-  carriers.
--/
-axiom prw_type_a_feature_partitionRelative
-    {FolkObj Tcls : Type}
-    (Part : MutuallyUnrankedPartition FolkObj)
-    (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.usesTypeAFeature → A.partitionRelative
-
-/--
-  *Atomic axiom* (Cat 3 paper-novel structural equation, atom A3):
-  the *type-(b) feature* case of Lemma `\label{lem:prw}`.
-
-  Citation: Li 2026, `\label{lem:prw}` proof body, "Sub-claim:
-  No-arbitration for `\E`-internal ranking principles" type-(b)
-  (in `asymmetric_eliminativism_full.tex`, proof of `\label{lem:prw}`).
-
-  *Paper-statement.*  "Type-(b): `f` is shared by all `E_i`
-  symmetrically, in which case `R`'s output is constant across
-  the `E_i` and fails to produce a non-trivial ranking ---
-  option (ii)."
-
-  *Lean encoding.*  A type-(b)-feature procedure
-  (`usesTypeBFeature`) is partition-relative.  Note: type-(b)
-  yields P2-failure by failure-to-adjudicate (no ranking
-  produced); the paper lumps it with type-(a) and type-(c)
-  partition-relative cases in the "Hence `W` fails P2" conclusion
-  (proof body line "In both cases, P2's independence requirement
-  is violated."), so `partitionRelative` is the correct downstream
-  classification tag.
-
-  *Sub-type.*  `structuralEquation` — paper-stated definitional
-  reduction on the typed carriers (type-(b) features yield no
-  ranking, which is P2-failure equivalent to partition-relative
-  in the lemma's downstream-consequence framing).
--/
-axiom prw_type_b_feature_partitionRelative
-    {FolkObj Tcls : Type}
-    (Part : MutuallyUnrankedPartition FolkObj)
-    (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.usesTypeBFeature → A.partitionRelative
-
-/--
-  *Atomic axiom* (Cat 3 paper-novel structural equation, atom A4):
-  the *Partition-Internality of `\E`-Internal Structural
-  Stipulations* sub-lemma — type-(c) case of
-  Lemma `\label{lem:prw}`.
-
-  Citation: Li 2026, `\label{lem:prw}` proof body, sub-claim
-  "Sub-claim (Partition-Internality of `\E`-Internal Structural
-  Stipulations)" (in `asymmetric_eliminativism_full.tex`, proof
-  of `\label{lem:prw}`).
-
-  *Paper-statement.*  "Let `{E_1, …, E_n}` be a mutually unranked
-  partition, let `F = {f_1, f_2, …}` be the set of partition-
-  symmetric structural properties available within `\E` (coverage,
-  parsimony, internal coherence, etc.), and let `f^* \in F` be a
-  candidate ranking principle.  Then the procedure 'adjudicate
-  `Op_i` vs.\ `Op_j` by routing to whichever of `E_i, E_j` is
-  higher under the `f^*`-induced ranking `R_{f^*}`' is a
-  partition-relative weighting of `{E_1, …, E_n}` in the sense
-  forbidden by P2's independence requirement."
-
-  *Lean encoding.*  A type-(c)-structural-property procedure
-  (`usesTypeCStructuralProperty`) is partition-relative.
-
-  *Sub-type.*  `structuralEquation` — this is the paper's named
-  sub-lemma on the typed `ArbitrationProcedure` + partition
-  carriers, encoding the load-bearing reduction `R_{f*}`-routing
-  ⇒ partition-relative weighting.  The paper's own structure
-  marks this as a separately-stated sub-claim (with its own
-  proof paragraph and conclusion); accordingly it is its own
-  atomic stipulation.
--/
-axiom prw_partition_internality_of_structural_stipulations
-    {FolkObj Tcls : Type}
-    (Part : MutuallyUnrankedPartition FolkObj)
-    (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.usesTypeCStructuralProperty → A.partitionRelative
-
-/--
-  *Atomic axiom* (Cat 3 paper-novel hypothesis predicate, atom A5):
-  the *case-exhaustion* of `\E`-internal warrants from Lemma
-  `\label{lem:prw}` proof body.
-
-  Citation: Li 2026, `\label{lem:prw}` proof body — paper
-  paragraphs beginning "Two cases for the selection's structure
-  across disagreement-cases. Uniform case:" + "Sub-claim
-  (No-arbitration for `\E`-internal ranking principles)" type-(a)
-  / type-(b) / type-(c) trichotomy + the recursion-termination
-  paragraph "Recursive appeal terminates only at types (a), (b),
-  (c.1), or (c.3); none yields admissible adjudication-warrant
-  within the (H)-discourse-state."
-
-  *Paper-statement.*  Every `\E`-internal warrant case-reduces
-  (after recursion termination on type-(c.2) / type-(c.4.a) ) to
-  exactly one of:
-    (1) uniform-warrant case (constant assignment to `{i, j}`),
-    (2) type-(a) feature in single `E_m`,
-    (3) type-(b) feature symmetric across `E_i`, or
-    (4) type-(c.1) partition-symmetric structural property (the
-        Partition-Internality sub-claim covers (c.1); (c.2) and
-        (c.4.a) recurse back to (a)/(b)/(c.1); (c.3) and (c.4.b)
-        appeal to external-to-`\E` features and so are excluded
-        by the `warrantInternalToE` antecedent).
-
-  *Lean encoding.*  `warrantInternalToE` implies the disjunction
-  of the four structural case-tags.
-
-  *Sub-type.*  `hypothesisPredicate` — paper-introduced
-  scope/regime relationship between the bare
-  `warrantInternalToE` Prop and the four structural sub-form
-  case-tags.  This is the paper's commitment that the four sub-
-  forms exhaust the `\E`-internal-warrant space (after recursion
-  termination); it is a paper-level meta-claim on the structural
-  classification space, not a per-instance equational reduction.
--/
-axiom prw_E_internal_warrant_case_exhaustion
-    {FolkObj Tcls : Type}
-    (Part : MutuallyUnrankedPartition FolkObj)
-    (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantInternalToE →
-      A.isUniformWarrant ∨ A.usesTypeAFeature ∨
-      A.usesTypeBFeature ∨ A.usesTypeCStructuralProperty
-
-/-! ## Lemma `\label{lem:prw}` — derived theorem.
-
-  The lemma's load-bearing consequence is now derived by
-  composing the five atomic stipulations via the paper's
-  case-analysis structure.
+  The lemma carries the paper's *published proof*.  In the current
+  Lean encoding the lemma's downstream consequence is axiomatized
+  as a single Cat 3 `workingAssumption`; the close-target is the
+  typed-Warrant refinement of `ArbitrationProcedure` that would
+  permit decomposing the lemma into per-case structural stipulations
+  on the refined carrier.  See `AsymmetricEliminativism.Ledger`
+  entry `gap_lem_prw_reduction` for the per-round attack history.
 -/
 
 /--
   Lemma `\label{lem:prw}` — *Partition-Relative-Weighting
-  Reduction*.
+  Reduction* (single Cat 3 `workingAssumption` axiom).
 
   Citation: Li 2026, `\label{lem:prw}` (paper-level Lemma 1 of
   the impossibility-theorem proof).
@@ -367,42 +108,39 @@ axiom prw_E_internal_warrant_case_exhaustion
   `A.warrantInternalToE`), `A` reduces to a partition-relative
   weighting (`A.partitionRelative`).
 
-  *Proof (v0.5.0 R1 decomposition).*  Case-analyse `A`'s
-  structural sub-form via `prw_E_internal_warrant_case_exhaustion`;
-  each of the four sub-forms (uniform / type-(a) / type-(b) /
-  type-(c)) yields `partitionRelative` via the corresponding
-  atom (`prw_uniform_warrant_partitionRelative` /
-  `prw_type_a_feature_partitionRelative` /
-  `prw_type_b_feature_partitionRelative` /
-  `prw_partition_internality_of_structural_stipulations`).
+  *Sub-type.*  `workingAssumption` per v6 §3.4.4: paper-stated
+  lemma whose published proof case-analyses E-internal warrants
+  into linguistic structural sub-forms (uniform vs. contextual;
+  type-(a)/(b)/(c) on the warrant's justification-prose).  The
+  lemma's downstream consequence is currently atomized as a single
+  axiom pending typed-Warrant refinement of `ArbitrationProcedure`
+  (close-target).  Per `feedback_truth_over_publication` and
+  `feedback_gap_ledger_in_lean4` §3.4.4, this is the honest
+  encoding of "atomic-decomposition pending typed refinement":
+  the lemma is provable in the paper, but a substantive Lean
+  decomposition requires paper-extension work not currently
+  available.
 
-  *Why this is `theorem` rather than `axiom`.*  The lemma has
-  a *published proof* whose case-analysis structure (uniform
-  vs.\ contextual; type-(a)/(b)/(c) trichotomy + Partition-
-  Internality sub-claim + recursion-termination) maps one-to-one
-  onto five paper-stated atomic structural stipulations.  Per
-  v6 §13 / §18 anti-pattern #13 (conclusion-as-axiom) the
-  lemma's downstream consequence must be a derived composition
-  of the atomic stipulations, not an opaque axiom.
+  *Close target.*  Introduce a `Warrant` sub-structure on
+  `ArbitrationProcedure` carrying the paper's warrant-form
+  taxonomy (uniform / type-(a) / type-(b) / type-(c) structural-
+  property); make the case-tag predicates typed predicates on
+  the warrant; decompose this axiom into per-case atomic
+  stipulations on the typed structure plus a case-exhaustion
+  theorem about warrant-form coverage.
+
+  *Why this is not Cat 1 or Cat 2.*  No Mathlib predicate for
+  "warrant derived from `\E` alone reduces to partition-relative
+  weighting" on the paper-novel `ArbitrationProcedure` carrier
+  (Cat 1: CLEAR-NO).  No external textbook theorem covers the
+  reduction on these typed carriers (Cat 2: CLEAR-NO, surveyed
+  Arrow 1951, Sen 1970, Saari, Topkis, Brandom).
 -/
-theorem lem_prw_reduction
+axiom lem_prw_reduction
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantInternalToE → A.partitionRelative := by
-  intro hW
-  -- Case-analyse `A`'s `\E`-internal warrant via the paper's
-  -- four structural sub-forms (after recursion-termination).
-  rcases prw_E_internal_warrant_case_exhaustion Part A hW with
-    hUniform | hTypeA | hTypeB | hTypeC
-  -- Uniform-warrant case.
-  · exact prw_uniform_warrant_partitionRelative Part A hUniform
-  -- Type-(a): feature in single `E_m`.
-  · exact prw_type_a_feature_partitionRelative Part A hTypeA
-  -- Type-(b): symmetric feature across `E_i`.
-  · exact prw_type_b_feature_partitionRelative Part A hTypeB
-  -- Type-(c): partition-symmetric structural property.
-  · exact prw_partition_internality_of_structural_stipulations Part A hTypeC
+    A.warrantInternalToE → A.partitionRelative
 
 /-! ## Hypothesis (H) — discourse-internality.
 
