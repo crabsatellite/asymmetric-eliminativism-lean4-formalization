@@ -10,7 +10,13 @@
                         gapClosed / gapClosedConditional
     * 4-input-category: cat1Mathlib / cat2External / cat3PaperNovel / notInput
     * Cat 3 sub-type:   carrier / hypothesisPredicate / structuralEquation /
-                        workingAssumption / conditionalHypothesis / notCat3
+                        workingAssumption / conditionalHypothesis /
+                        phenomenologicalConjecture / notCat3
+                        (the 6th sub-type `phenomenologicalConjecture` —
+                        framework-paper PUBLISHED substantive claim about
+                        a phenomenon awaiting external validation —
+                        was added 2026-05-14 per v6 §3.4.6 /
+                        Manufactured Recognition R-#27)
     * conditionalOn :   list of `Hyp_*` broken-link predicate names
                         (non-empty iff status is `gapClosedConditional`;
                         see v6 §12)
@@ -95,6 +101,17 @@ inductive Cat3SubType
       signature antecedent `theorem T (hRH : RiemannHypothesis) : ...`,
       NOT as an axiom.  Listed for completeness; project has none. -/
   | conditionalHypothesis
+  /-- Framework paper's PUBLISHED substantive claim about a phenomenon,
+      awaiting EXTERNAL validation (empirical study, cohort data,
+      philosophical-foundations debate).  Distinguished from
+      `workingAssumption` (which mandates close before publication —
+      applies to Millennium-grade derivational work) AND from
+      `definitional atom` (which is paper-stipulated structure, not
+      phenomenological assertion).  Never Lean-closeable; resolution
+      path = battery / cohort study / interpretive debate, NOT
+      derivation.  Status remains `gapOpen`.  Added 2026-05-14 per
+      v6 §3.4.6 (Manufactured Recognition R-#27). -/
+  | phenomenologicalConjecture
   /-- This entry is not Cat 3 paper-novel. -/
   | notCat3
   deriving DecidableEq, Repr
@@ -1119,17 +1136,27 @@ def gap_thesis_independence_OPEN : GapEntry := {
   name := "thesis_independence (DSC axis mutual independence)"
   status := GapStatus.gapOpen
   inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.workingAssumption
+  cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, `\\label{thesis:independence}` (Mutual independence " ++
-    "of the six DSC axes; six paper-supplied independence-witness " ++
-    "arguments — `¬Sessional, others held` continuously-running " ++
-    "inference daemon; `¬Concurrent, others held` serially-deployed " ++
-    "single-instance; `¬State-inference, others held` online-" ++
-    "learning LLM with test-time training; `¬Distributional, " ++
-    "others held` embodied-RL simulator-trained agent; " ++
-    "`¬Homogeneous, others held` hybrid scratchpad architecture; " ++
-    "`¬Inversion, others held` exposed-introspective-access system)"
+    "of the six DSC axes; paper §2547-2582 — six paper-supplied " ++
+    "independence-witness arguments: `¬Sessional, others held` " ++
+    "continuously-running inference daemon; `¬Concurrent, others " ++
+    "held` serially-deployed single-instance; `¬State-inference, " ++
+    "others held` online-learning LLM with test-time training; " ++
+    "`¬Distributional, others held` embodied-RL simulator-trained " ++
+    "agent; `¬Homogeneous, others held` hybrid scratchpad " ++
+    "architecture; `¬Inversion, others held` exposed-introspective-" ++
+    "access system).  Paper §2583-2584: 'The six independence " ++
+    "witnesses show that the axes carve genuinely distinct " ++
+    "dimensions of LLM-versus-biological structure.'  Resolution " ++
+    "path: external philosophical-foundations debate about whether " ++
+    "the six counter-model witnesses are architecturally coherent " ++
+    "(does the `continuously-running inference daemon` preserve " ++
+    "the other five axes? does the `embodied-RL simulator-trained " ++
+    "agent` actually fail distributional origin while preserving " ++
+    "the rest?).  Resolution is interpretive-debate over paper-" ++
+    "stipulated witnesses, NOT Lean derivation."
   attackHistory := [
     "v0.5.0 D6 audit (2026-05-13): retained as gapBlocked.  " ++
       "Reasoning: paper articulates a structural claim about the " ++
@@ -1169,51 +1196,156 @@ def gap_thesis_independence_OPEN : GapEntry := {
     "v0.6.0 R2 reductionism Cat 2?: CLEAR-NO — paper-novel " ++
       "DSC axis-space; no external textbook theorem covers " ++
       "the six-axis independence on these paper-novel Prop " ++
-      "fields."
+      "fields.",
+    "v0.7.0 R4 reclassification (2026-05-14, R3-MC2 per v6 " ++
+      "§3.4.6 Manufactured Recognition R-#27): sub-type " ++
+      "changed `workingAssumption` → `phenomenologicalConjecture`.  " ++
+      "Hostile-validator verdict: `workingAssumption` (v6 §3.4.4) " ++
+      "REQUIRES close before publication via Lean derivation; the " ++
+      "v0.6.0 R2 close-target framing (`Lean encoding of six " ++
+      "counter-model witnesses as `CognitiveSystem`-instantiations " ++
+      "with explicit Prop-axis assignments — paper-extension work`) " ++
+      "was a category error.  The paper §2547-2582 EXHIBITS the " ++
+      "six counter-model witnesses as paper-stipulated content " ++
+      "(continuously-running inference daemon; serially-deployed " ++
+      "single-instance; etc.); the load-bearing question is not " ++
+      "`encode them in Lean` but `are they architecturally " ++
+      "coherent under the paper's coherence judgement?` — a " ++
+      "philosophical-foundations debate over architectural " ++
+      "feasibility, not a Lean encoding task.  Per v6 §3.4.6, " ++
+      "`phenomenologicalConjecture` is the canonical sub-type " ++
+      "for paper-published substantive claims awaiting external " ++
+      "philosophical-foundations debate.  Status remains " ++
+      "`gapOpen` (not Lean-closeable; resolution is external " ++
+      "interpretive debate over the paper-stipulated counter-" ++
+      "model witnesses)."
   ]
   scope :=
-    "The paper supplies six `coherent hypothetical system` " ++
-    "witnesses — for each axis, a system that fails it while " ++
-    "satisfying the other five.  Encoded as a Cat 3 " ++
-    "`workingAssumption` ledger entry pending typed-witness " ++
-    "encoding on `CognitiveSystem`.  Close-target: introduce " ++
-    "the paper's six counter-models as explicit " ++
-    "`CognitiveSystem`-instances + an `axesIndependent` predicate " ++
-    "on the DSC-axis-Prop-family, then derive `axesIndependent` " ++
-    "from the six counter-models.  Requires paper-extension " ++
-    "infrastructure for `architecturally-coherent system " ++
-    "instantiation` (the paper's coherence judgement on the " ++
-    "witnessed system)."
+    "The paper §2547-2582 supplies six `coherent hypothetical " ++
+    "system` witnesses — for each axis, a paper-stipulated " ++
+    "system that fails it while satisfying the other five.  " ++
+    "Encoded as a Cat 3 `phenomenologicalConjecture` ledger entry " ++
+    "per v6 §3.4.6 (2026-05-14).  Resolution path: external " ++
+    "philosophical-foundations debate about whether the six " ++
+    "counter-model witnesses are architecturally coherent — i.e., " ++
+    "whether each paper-stipulated system actually fails its " ++
+    "named axis while preserving the residual five.  This is not " ++
+    "Lean encoding work (paper §2547-2582 is paper-stipulated " ++
+    "content, not pending derivation); it is interpretive debate " ++
+    "over architectural feasibility of the paper-stipulated " ++
+    "witnesses.  Resolution is external (philosophy-of-mind / " ++
+    "cognitive-architecture community), NOT Lean derivation.  " ++
+    "Status `gapOpen` indefinitely."
 }
 
-def gap_thesis_joint_BLOCKED : GapEntry := {
+def gap_thesis_joint_OPEN : GapEntry := {
   name := "thesis_joint (DSC joint satisfaction for current LLMs)"
-  status := GapStatus.gapBlocked
-  inputCategory := InputCategory.notInput
-  cat3SubType := Cat3SubType.notCat3
+  status := GapStatus.gapOpen
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, `\\label{thesis:joint}` (Joint satisfaction for " ++
-    "current LLMs)"
-  attackHistory := []
+    "current LLMs; paper §2586-2624 — 'The six axes are jointly " ++
+    "satisfied by all contemporary deployed LLM systems, where " ++
+    "''contemporary'' designates transformer-based autoregressive " ++
+    "language models trained on internet-scale text corpora and " ++
+    "deployed in stateless inference servers' + per-axis " ++
+    "evidence chain).  Paper §2598-2605 `Re-evaluation trigger`: " ++
+    "'This thesis must be reapplied to any deployed system that " ++
+    "departs from the contemporary-LLM definition by design " ++
+    "(e.g., persistent-memory architectures, online-learning " ++
+    "systems, multi-modal embodied systems).  The thesis is " ++
+    "target-class-relative; applying it to non-contemporary " ++
+    "systems requires fresh axis-by-axis assessment.  Future " ++
+    "deployed systems satisfying fewer axes would require either " ++
+    "redefinition of the target class or modification of the " ++
+    "axis set.'  Resolution path: empirical observation of " ++
+    "deployed LLM architectures + per-axis re-assessment when " ++
+    "next-generation systems (persistent-memory, online-learning, " ++
+    "multi-modal embodied) deploy at scale.  Resolution is " ++
+    "empirical, NOT Lean derivation."
+  attackHistory := [
+    "v0.7.0 R4 reclassification (2026-05-14, R3-RC1 per v6 " ++
+      "§3.4.6 Manufactured Recognition R-#27): status changed " ++
+      "`gapBlocked` → `gapOpen`; inputCategory changed " ++
+      "`notInput` → `cat3PaperNovel`; cat3SubType changed " ++
+      "`notCat3` → `phenomenologicalConjecture`; entry-binder " ++
+      "renamed `gap_thesis_joint_BLOCKED` → " ++
+      "`gap_thesis_joint_OPEN`; `name` field dropped any " ++
+      "`blocked` suffix (now `thesis_joint (DSC joint " ++
+      "satisfaction for current LLMs)`).  Hostile-validator " ++
+      "verdict: the v0.6.0 R2 `gapBlocked` + `notInput` " ++
+      "classification (with scope `not Lean-formalisable as " ++
+      "structural content`) was a category error.  `gapBlocked` " ++
+      "is reserved for genuine no-acceptance-possible routes " ++
+      "(folkloric with no specific paper, externally-conjectured-" ++
+      "unproven, OR no source at all) per v6 §2; `thesis_joint` " ++
+      "is a paper-PUBLISHED substantive claim about phenomena " ++
+      "(current deployed LLM architectures) awaiting external " ++
+      "validation (empirical observation of next-generation " ++
+      "deployed systems; paper §2598-2605 explicit reapplication-" ++
+      "trigger language identifies the exact trigger conditions: " ++
+      "`persistent-memory architectures, online-learning systems, " ++
+      "multi-modal embodied systems`).  Per v6 §3.4.6, " ++
+      "`phenomenologicalConjecture` is the canonical sub-type " ++
+      "for paper-published substantive claims about phenomena " ++
+      "awaiting external (empirical / interpretive) validation.  " ++
+      "Resolution path is empirical, NOT Lean derivation.",
+    "v0.7.0 R4 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
+      "predicate for `joint satisfaction of six DSC axes on " ++
+      "contemporary deployed transformer LLMs`.",
+    "v0.7.0 R4 reductionism Cat 2?: CLEAR-NO — paper-novel " ++
+      "DSC axis-space; no external textbook theorem covers " ++
+      "joint satisfaction on these paper-novel Prop fields " ++
+      "applied to contemporary deployed LLM systems."
+  ]
   scope :=
-    "Empirical claim: contemporary transformer-based " ++
-    "autoregressive LLMs jointly satisfy the six DSC axes.  This " ++
-    "is a substrate-empirical assertion about contemporary " ++
-    "deployed systems, not a structural-mathematical claim.  " ++
-    "Blocked: not Lean-formalisable as structural content."
+    "Empirical-substantive claim: contemporary transformer-based " ++
+    "autoregressive LLMs jointly satisfy the six DSC axes.  " ++
+    "Encoded as a Cat 3 `phenomenologicalConjecture` ledger " ++
+    "entry per v6 §3.4.6 (2026-05-14).  Resolution path " ++
+    "(paper §2598-2605 `Re-evaluation trigger`): empirical " ++
+    "re-assessment when next-generation deployed systems " ++
+    "(persistent-memory architectures, online-learning systems, " ++
+    "multi-modal embodied systems) reach scale.  Paper " ++
+    "EXPLICITLY supplies the reapplication trigger: future " ++
+    "deployed systems satisfying fewer axes would require " ++
+    "either redefinition of the target class or modification " ++
+    "of the axis set.  Resolution is empirical, NOT Lean " ++
+    "derivation.  Status `gapOpen` indefinitely (target-class-" ++
+    "relative; reapplied per generation of deployed systems)."
 }
 
 def gap_thesis_minimality_OPEN : GapEntry := {
   name := "thesis_minimality (DSC minimality wrt blocking jobs)"
   status := GapStatus.gapOpen
   inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.workingAssumption
+  cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, `\\label{thesis:minimality}` (Minimality with " ++
-    "respect to identified blocking jobs; for each of the six " ++
-    "DSC axes, the paper exhibits a biological-vocabulary " ++
-    "locution that the remaining five jointly fail to block — " ++
-    "six locution-axis-blocking witnesses)"
+    "respect to identified blocking jobs; paper §2629-2699 " ++
+    "exhibits six locution-axis-blocking witnesses — `Drop " ++
+    "sessional existence` ⇒ inter-session reflection unblocked; " ++
+    "`Drop concurrent multiplicity` ⇒ system-wide-unified-" ++
+    "subject locution unblocked; `Drop state-inference " ++
+    "dichotomy` ⇒ continuous-coupling locution unblocked; " ++
+    "`Drop distributional origin` ⇒ perception locution " ++
+    "unblocked; `Drop homogeneous generation` ⇒ silent-" ++
+    "deliberation locution unblocked; `Drop interpretability " ++
+    "inversion` ⇒ privileged-access locution unblocked).  " ++
+    "Resolution path (paper §2701-2716 `Relativity of the " ++
+    "minimality claim`): paper EXPLICITLY frames the " ++
+    "minimality claim as relative-to-the-taxonomy, not " ++
+    "absolute — 'the framework does not foreclose [the " ++
+    "possibility that a different six-leak taxonomy could be " ++
+    "addressed by a smaller axis-set]'; 'the burden is on the " ++
+    "alternative proposer to identify the leak taxonomy and the " ++
+    "smaller blocking axis-set jointly.'  Resolution = " ++
+    "identification of alternative leak taxonomies / " ++
+    "philosophical-foundations debate about whether the six " ++
+    "identified blocking categories are exhaustive or " ++
+    "recombinable.  Resolution is external interpretive debate, " ++
+    "NOT Lean derivation."
   attackHistory := [
     "v0.5.0 D6 audit (2026-05-13): retained as gapBlocked.  " ++
       "Reasoning: paper articulates a structural minimality claim " ++
@@ -1248,26 +1380,57 @@ def gap_thesis_minimality_OPEN : GapEntry := {
       "axis-families.",
     "v0.6.0 R2 reductionism Cat 2?: CLEAR-NO — paper-novel " ++
       "DSC-blocking taxonomy; no external textbook theorem " ++
-      "covers minimality on these paper-novel Prop fields."
+      "covers minimality on these paper-novel Prop fields.",
+    "v0.7.0 R4 reclassification (2026-05-14, R3-MC3 per v6 " ++
+      "§3.4.6 Manufactured Recognition R-#27): sub-type " ++
+      "changed `workingAssumption` → `phenomenologicalConjecture`.  " ++
+      "Hostile-validator verdict: paper §2701-2716 `Relativity " ++
+      "of the minimality claim` EXPLICITLY frames the " ++
+      "minimality argument as relative-to-the-taxonomy, not " ++
+      "absolute — 'the framework does not foreclose [the " ++
+      "possibility that a different six-leak taxonomy could be " ++
+      "addressed by a smaller axis-set]'; 'the burden is on " ++
+      "the alternative proposer to identify the leak taxonomy " ++
+      "and the smaller blocking axis-set jointly.'  This is not " ++
+      "a Lean-derivation close-target (the paper's claim is " ++
+      "explicitly the weaker conditional one, not the universal); " ++
+      "the resolution path is identification of alternative " ++
+      "leak taxonomies via philosophical-foundations debate, " ++
+      "NOT Lean encoding.  The v0.6.0 R2 close-target framing " ++
+      "(`introduce a typed `LeakCategory` carrier + `blocks` " ++
+      "relation, then exhibit six counter-witnesses showing " ++
+      "minimality — paper-extension work`) was a category " ++
+      "error: even with the typed carrier, the load-bearing " ++
+      "question is `is the six-leak taxonomy itself the right " ++
+      "taxonomy?` — paper §2701-2716 declines to foreclose this " ++
+      "interpretively.  Per v6 §3.4.6, " ++
+      "`phenomenologicalConjecture` is the canonical sub-type.  " ++
+      "Status remains `gapOpen` (not Lean-closeable; " ++
+      "resolution is external interpretive debate over " ++
+      "alternative leak taxonomies)."
   ]
   scope :=
-    "For each of the six DSC axes, the paper exhibits a " ++
-    "biological-vocabulary locution that the remaining five " ++
+    "For each of the six DSC axes, the paper §2629-2699 exhibits " ++
+    "a biological-vocabulary locution that the remaining five " ++
     "jointly fail to block.  Encoded as a Cat 3 " ++
-    "`workingAssumption` ledger entry pending typed-witness " ++
-    "encoding on a paper-extension locution-space carrier.  " ++
-    "Close-target: introduce a typed `LeakCategory` carrier + " ++
-    "a `blocks : AxisIndex → LeakCategory → Prop` relation, " ++
-    "then exhibit six counter-witnesses showing minimality.  " ++
-    "Requires paper-extension infrastructure for the typed " ++
-    "locution-space."
+    "`phenomenologicalConjecture` ledger entry per v6 §3.4.6 " ++
+    "(2026-05-14).  Resolution path (paper §2701-2716 " ++
+    "`Relativity of the minimality claim`): identification of " ++
+    "alternative leak taxonomies + philosophical-foundations " ++
+    "debate about whether the paper's six-leak taxonomy is " ++
+    "exhaustive or recombinable.  Paper EXPLICITLY frames the " ++
+    "minimality claim as relative-to-the-taxonomy not " ++
+    "absolute, with the burden of identifying an alternative " ++
+    "taxonomy + smaller blocking axis-set on the alternative " ++
+    "proposer.  Resolution is external interpretive debate, NOT " ++
+    "Lean derivation.  Status `gapOpen` indefinitely."
 }
 
 def gap_substrate_independence_triple_use_OPEN : GapEntry := {
   name := "substrate_independence_triple_use_premise"
   status := GapStatus.gapOpen
   inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.workingAssumption
+  cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, calibration-section `\\S\\ref{sec:discriminator}` " ++
     "paragraph `Acknowledgement: Route~2 shares load-bearing " ++
@@ -1287,7 +1450,13 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
     "grained substrate decomposition achieves consensus in " ++
     "cognitive neuroscience or (b) the cross-substrate " ++
     "disagreements among IIT/GWT/HOT/AST are shown to track that " ++
-    "finer-grained substrate.'"
+    "finer-grained substrate.'  Resolution path (paper lines 485-" ++
+    "492): operational reapplication threshold — Cochrane/PRISMA-" ++
+    "style systematic review or major-society position statement " ++
+    "endorsing a finer-grained substrate decomposition OR a " ++
+    "finding that IIT/GWT/HOT/AST cross-substrate disagreements " ++
+    "track that finer-grained substrate.  Resolution is empirical-" ++
+    "consensus, NOT Lean derivation."
   attackHistory := [
     "v0.2.0 (2026-05-13): originally classified gapBlocked with " ++
       "reason 'paper-side articulation insufficient for a " ++
@@ -1337,27 +1506,53 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
       "the premise lives as a ledger entry without an underlying " ++
       "Lean axiom; the reclassification precedent here is what " ++
       "drives the uniform application to `thesis_independence` " ++
-      "and `thesis_minimality` (defect #8)."
+      "and `thesis_minimality` (defect #8).",
+    "v0.7.0 R4 reclassification (2026-05-14, R3-MC1 per v6 " ++
+      "§3.4.6 Manufactured Recognition R-#27): sub-type changed " ++
+      "`workingAssumption` → `phenomenologicalConjecture`.  " ++
+      "Hostile-validator verdict: `workingAssumption` (v6 §3.4.4) " ++
+      "REQUIRES close before publication and is intended for " ++
+      "Millennium-grade DERIVATIONAL work where the close-target " ++
+      "is a Lean proof.  Substrate-independence is a published " ++
+      "substantive empirical claim awaiting EXTERNAL validation " ++
+      "(cognitive-neuroscience consensus on finer-grained " ++
+      "substrate decomposition OR finding that IIT/GWT/HOT/AST " ++
+      "cross-substrate disagreements track that finer-grained " ++
+      "substrate) — paper lines 485-492 specify the operational " ++
+      "threshold for reapplication: Cochrane/PRISMA-style " ++
+      "systematic review or major-society position statement.  " ++
+      "Resolution path is empirical-consensus, NOT Lean derivation; " ++
+      "the close-target framing under `workingAssumption` " ++
+      "(`wire into a typed downstream theorem when paper-" ++
+      "extension work introduces the appropriate typed carrier`) " ++
+      "was a category error: the premise is not pending a " ++
+      "derivation, it is pending external falsification or " ++
+      "endorsement.  Per v6 §3.4.6, `phenomenologicalConjecture` " ++
+      "is the canonical sub-type for framework-paper PUBLISHED " ++
+      "substantive claims about phenomena awaiting external " ++
+      "validation.  Status remains `gapOpen` (NOT closeable via " ++
+      "Lean; resolution is external)."
   ]
   scope :=
-    "Paper-articulated working-assumption premise: a single " ++
-    "discourse-state empirical claim (substrate-independence at " ++
-    "current cognitive-neuroscience resolution) underwriting " ++
-    "three downstream framework uses for the LLM-elimination " ++
-    "verdict (E2b transferability; D1 Route 2; impossibility-" ++
-    "theorem application to the LLM target).  Encoded as a " ++
-    "ledger entry WITHOUT an underlying Lean axiom (the v0.5.0 " ++
-    "naked-Prop axiom `SubstrateIndependenceTripleUse : Prop` " ++
-    "was deleted in v0.6.0).  Close-target: wire the premise " ++
-    "into a typed downstream theorem (LLM-target extension of " ++
-    "the impossibility theorem) once paper-extension typed " ++
-    "infrastructure is available; at that point the premise " ++
-    "becomes a hypothesis on the appropriate carrier (not a " ++
-    "naked-Prop axiom).  Sub-type `workingAssumption` per v6 " ++
-    "§3.4.4: paper articulates the premise as defeasible and " ++
-    "pending finer-grained-substrate validation; close before " ++
-    "publication-final claim (currently held as paper-validated " ++
-    "premise pending the published reapplication threshold)."
+    "Paper-articulated phenomenological-conjecture premise: a " ++
+    "single discourse-state empirical claim (substrate-" ++
+    "independence at current cognitive-neuroscience resolution) " ++
+    "underwriting three downstream framework uses for the LLM-" ++
+    "elimination verdict (E2b transferability; D1 Route 2; " ++
+    "impossibility-theorem application to the LLM target).  " ++
+    "Encoded as a ledger entry WITHOUT an underlying Lean axiom " ++
+    "(the v0.5.0 naked-Prop axiom `SubstrateIndependenceTripleUse " ++
+    ": Prop` was deleted in v0.6.0).  Sub-type " ++
+    "`phenomenologicalConjecture` per v6 §3.4.6 (2026-05-14): " ++
+    "the paper publishes the premise as a defeasible empirical " ++
+    "claim, with an explicit operational reapplication threshold " ++
+    "(paper lines 485-492: Cochrane/PRISMA-style systematic " ++
+    "review of finer-grained substrate decomposition OR major-" ++
+    "society position statement that IIT/GWT/HOT/AST cross-" ++
+    "substrate disagreements track a finer-grained substrate).  " ++
+    "Resolution path = empirical-consensus falsification or " ++
+    "endorsement, NOT Lean derivation.  Status remains `gapOpen` " ++
+    "indefinitely (never Lean-closeable; resolution is external)."
 }
 
 def gap_testimony_protocol_BLOCKED : GapEntry := {
@@ -1380,24 +1575,92 @@ def gap_testimony_protocol_BLOCKED : GapEntry := {
     "Lean's structural-mathematical scope."
 }
 
-def gap_calibration_table_BLOCKED : GapEntry := {
+def gap_calibration_table_OPEN : GapEntry := {
   name := "tab_calibration (ten-case historical retrodiction)"
-  status := GapStatus.gapBlocked
-  inputCategory := InputCategory.notInput
-  cat3SubType := Cat3SubType.notCat3
+  status := GapStatus.gapOpen
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, `\\label{tab:calibration}` and `\\label{sec:" ++
     "calibration}` (ten paradigm cases — heat, gene, force, " ++
     "attention, memory, phlogiston, vital force, race, witchcraft, " ++
-    "instinct — retrodicted by the discriminator)"
-  attackHistory := []
+    "instinct — retrodicted by the discriminator); also " ++
+    "`\\label{thesis:calibration}` ('The discriminator correctly " ++
+    "retrodicts the eliminate-versus-reform trajectory of all ten " ++
+    "historical paradigm cases when applied with information " ++
+    "available at peak contestation').  Paper §1653-1668 " ++
+    "`Caveat on retrodictive D3`: 'D3 (successor-program " ++
+    "productivity) is the discriminator condition most vulnerable " ++
+    "to retrodictive bias: in five of the eliminated cases, the " ++
+    "analyst knows in advance that a successor consolidated.  " ++
+    "The retrodiction status of D3 in the historical cases is " ++
+    "therefore weaker than D1 and D2, both of which can be " ++
+    "assessed from contemporaneous publications.'  Resolution " ++
+    "path: historian / philosopher-of-science debate about the " ++
+    "retrodictive D1/D2/D3 labels (e.g., does `heat` warrant " ++
+    "(D1=no, D2=no) at peak contestation? does `phlogiston` " ++
+    "warrant (D1=yes, D2=yes, D3=yes)?).  Resolution is " ++
+    "interpretive-historical, NOT Lean derivation."
+  attackHistory := [
+    "v0.7.0 R4 reclassification (2026-05-14, R3-RC2 per v6 " ++
+      "§3.4.6 Manufactured Recognition R-#27): status changed " ++
+      "`gapBlocked` → `gapOpen`; inputCategory changed " ++
+      "`notInput` → `cat3PaperNovel`; cat3SubType changed " ++
+      "`notCat3` → `phenomenologicalConjecture`; entry-binder " ++
+      "renamed `gap_calibration_table_BLOCKED` → " ++
+      "`gap_calibration_table_OPEN`; `name` field dropped any " ++
+      "`blocked` suffix (now `tab_calibration (ten-case " ++
+      "historical retrodiction)`).  Hostile-validator verdict: " ++
+      "the v0.6.0 R2 `gapBlocked` + `notInput` classification " ++
+      "(with scope `empirical content outside Lean's structural-" ++
+      "skeleton scope`) was a category error.  `gapBlocked` is " ++
+      "reserved for genuine no-acceptance-possible routes per " ++
+      "v6 §2; `tab_calibration` is a paper-PUBLISHED substantive " ++
+      "claim about phenomena (per-case D1/D2/D3 ratings on ten " ++
+      "historical concepts + the overall retrodiction-correctness " ++
+      "verdict `\\label{thesis:calibration}`) awaiting external " ++
+      "validation (historian / philosopher-of-science debate " ++
+      "about the retrodictive labels; paper §1653-1668 " ++
+      "EXPLICITLY hedges D3 as 'most vulnerable to retrodictive " ++
+      "bias' and supplies a D1+D2-only sub-rule retrodicting " ++
+      "9/10 unambiguously plus 1/10 borderline as a falsifiability " ++
+      "anchor).  Per v6 §3.4.6, `phenomenologicalConjecture` is " ++
+      "the canonical sub-type for paper-published substantive " ++
+      "claims about phenomena awaiting external interpretive " ++
+      "validation.  Resolution path is interpretive-historical, " ++
+      "NOT Lean derivation.",
+    "v0.7.0 R4 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
+      "predicate for `historical-concept retrodiction with " ++
+      "D1/D2/D3 ratings`.",
+    "v0.7.0 R4 reductionism Cat 2?: CLEAR-NO — paper-novel " ++
+      "ten-case retrodiction structure; no external textbook " ++
+      "theorem covers the per-case rating assignments on " ++
+      "these paper-novel Prop fields."
+  ]
   scope :=
-    "Per-case empirical-judgement assignments of D1/D2/D3 ratings " ++
-    "to ten historical concepts.  The discriminator *rules* are " ++
-    "Lean-formalised (`Diagnostic.lean`); the per-case *labels* " ++
-    "rest on historical-empirical judgement and are not " ++
-    "structural mathematics.  Blocked: empirical content outside " ++
-    "Lean's structural-skeleton scope."
+    "Paper-published substantive claim about phenomena: per-case " ++
+    "D1/D2/D3 rating assignments to ten historical paradigm " ++
+    "concepts (heat, gene, force, attention, memory, " ++
+    "phlogiston, vital force, race-as-natural-kind, witchcraft, " ++
+    "instinct) underwriting `\\label{thesis:calibration}` " ++
+    "('The discriminator correctly retrodicts the eliminate-" ++
+    "versus-reform trajectory of all ten historical paradigm " ++
+    "cases when applied with information available at peak " ++
+    "contestation').  Encoded as a Cat 3 " ++
+    "`phenomenologicalConjecture` ledger entry per v6 §3.4.6 " ++
+    "(2026-05-14).  Resolution path (paper §1653-1668 " ++
+    "`Caveat on retrodictive D3` + `\\label{thesis:calibration}`): " ++
+    "historian / philosopher-of-science debate about the " ++
+    "retrodictive D1/D2/D3 labels per case.  Paper EXPLICITLY " ++
+    "hedges D3 as `most vulnerable to retrodictive bias` and " ++
+    "supplies a D1+D2-only sub-rule (9/10 unambiguous + 1/10 " ++
+    "borderline) as a falsifiability anchor.  The discriminator " ++
+    "*rules* themselves are Lean-formalised in " ++
+    "`Diagnostic.lean`; the per-case *labels* + the " ++
+    "10/10-retrodiction *verdict* are the phenomenological " ++
+    "content awaiting external validation.  Resolution is " ++
+    "interpretive-historical, NOT Lean derivation.  Status " ++
+    "`gapOpen` indefinitely."
 }
 
 def gap_ai_governance_applications_BLOCKED : GapEntry := {
@@ -1458,18 +1721,18 @@ def allGaps : List GapEntry := [
   gap_no_partition_independent_admissible_warrant_CLOSED,
   gap_ensemble_methods_fail_P2_CLOSED,
   gap_impossibility_uniform_family_CLOSED,
-  -- Cat 3 working-assumption entries (paper-articulated atomic
-  -- claims pending typed witness encoding; v0.6.0 R2 uniform
-  -- application of substrate-independence reclassification
-  -- precedent to thesis_independence + thesis_minimality)
+  -- Cat 3 phenomenologicalConjecture entries (paper-published
+  -- substantive claims about phenomena awaiting external
+  -- validation; v0.7.0 R4 reclassification per v6 §3.4.6
+  -- Manufactured Recognition R-#27)
   gap_thesis_independence_OPEN,
   gap_thesis_minimality_OPEN,
+  gap_thesis_joint_OPEN,
+  gap_calibration_table_OPEN,
   gap_substrate_independence_triple_use_OPEN,
-  -- gapBlocked entries (paper-side content outside Lean's
-  -- structural-skeleton scope)
-  gap_thesis_joint_BLOCKED,
+  -- gapBlocked entries (protocol / policy design proposals, not
+  -- substantive empirical claims awaiting external validation)
   gap_testimony_protocol_BLOCKED,
-  gap_calibration_table_BLOCKED,
   gap_ai_governance_applications_BLOCKED
 ]
 
@@ -1497,8 +1760,10 @@ def inputCategoryCounts : Nat × Nat × Nat × Nat :=
 
 /-- Cat3SubType-keyed counts:
     `(carrier, hypothesisPredicate, structuralEquation, workingAssumption,
-       conditionalHypothesis, notCat3)`. -/
-def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
+       conditionalHypothesis, phenomenologicalConjecture, notCat3)`.
+    The 6th slot (`phenomenologicalConjecture`) was added 2026-05-14
+    per v6 §3.4.6. -/
+def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
   let countWhere (s : Cat3SubType) : Nat :=
     (allGaps.filter (fun g => g.cat3SubType = s)).length
   ( countWhere Cat3SubType.carrier
@@ -1506,17 +1771,18 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
   , countWhere Cat3SubType.structuralEquation
   , countWhere Cat3SubType.workingAssumption
   , countWhere Cat3SubType.conditionalHypothesis
+  , countWhere Cat3SubType.phenomenologicalConjecture
   , countWhere Cat3SubType.notCat3 )
 
 #eval s!"AsymmetricEliminativism gap-ledger inventory (status):    open={(gapCounts).1} partial={(gapCounts).2.1} blocked={(gapCounts).2.2.1} deadEnd={(gapCounts).2.2.2.1} closed={(gapCounts).2.2.2.2.1} closedConditional={(gapCounts).2.2.2.2.2}"
 
 #eval s!"AsymmetricEliminativism gap-ledger inventory (input):     cat1Mathlib={(inputCategoryCounts).1} cat2External={(inputCategoryCounts).2.1} cat3PaperNovel={(inputCategoryCounts).2.2.1} notInput={(inputCategoryCounts).2.2.2}"
 
-#eval s!"AsymmetricEliminativism gap-ledger inventory (Cat 3 sub): carrier={(cat3SubTypeCounts).1} hypothesisPredicate={(cat3SubTypeCounts).2.1} structuralEquation={(cat3SubTypeCounts).2.2.1} workingAssumption={(cat3SubTypeCounts).2.2.2.1} conditionalHypothesis={(cat3SubTypeCounts).2.2.2.2.1} notCat3={(cat3SubTypeCounts).2.2.2.2.2}"
+#eval s!"AsymmetricEliminativism gap-ledger inventory (Cat 3 sub): carrier={(cat3SubTypeCounts).1} hypothesisPredicate={(cat3SubTypeCounts).2.1} structuralEquation={(cat3SubTypeCounts).2.2.1} workingAssumption={(cat3SubTypeCounts).2.2.2.1} conditionalHypothesis={(cat3SubTypeCounts).2.2.2.2.1} phenomenologicalConjecture={(cat3SubTypeCounts).2.2.2.2.2.1} notCat3={(cat3SubTypeCounts).2.2.2.2.2.2}"
 
 #eval s!"Total entries: {allGaps.length}"
 
-/-! ### Inventory summary (v0.6.0 post-R2 defect-driven fixes)
+/-! ### Inventory summary (v0.7.0 post-R4 v6 §3.4.6 compliance)
 
   The live status / input-category / Cat 3 sub-type counts are
   printed by the `#eval` calls above (run `lake env lean
@@ -1547,15 +1813,38 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
       SessionalCognition (D3 reclassified),
       BridgingPrinciple (D3 reclassified).
 
-    Cat 3 paper-novel working-assumption entries (sub-type
-    `workingAssumption`; ledger entries pending typed-witness
-    encoding; v0.6.0 R2 uniform application of substrate-
-    independence reclassification precedent):
-      substrate_independence_triple_use_premise (D6 sub-type
-        hypothesisPredicate → workingAssumption; the v0.5.0
-        naked-Prop axiom was deleted in v0.6.0 R2 D4 + D5),
-      thesis_independence (D8 reclassified gapBlocked→gapOpen),
-      thesis_minimality (D8 reclassified gapBlocked→gapOpen).
+    Cat 3 paper-novel phenomenological-conjecture entries
+    (sub-type `phenomenologicalConjecture`; v0.7.0 R4
+    reclassification per v6 §3.4.6 / Manufactured Recognition
+    R-#27 — framework-paper PUBLISHED substantive claims about
+    phenomena awaiting EXTERNAL validation; resolution path =
+    battery / cohort study / interpretive debate, NOT Lean
+    derivation; status remains `gapOpen` indefinitely):
+      substrate_independence_triple_use_premise (R4 R3-MC1
+        sub-type `workingAssumption` → `phenomenologicalConjecture`;
+        resolution path = operational reapplication threshold
+        per paper lines 485-492),
+      thesis_independence (R4 R3-MC2 sub-type
+        `workingAssumption` → `phenomenologicalConjecture`;
+        resolution path = philosophical-foundations debate about
+        architectural coherence of the six counter-model
+        witnesses per paper §2547-2582),
+      thesis_minimality (R4 R3-MC3 sub-type
+        `workingAssumption` → `phenomenologicalConjecture`;
+        resolution path = identification of alternative leak
+        taxonomies per paper §2701-2716),
+      thesis_joint (R4 R3-RC1 status `gapBlocked` → `gapOpen`,
+        inputCategory `notInput` → `cat3PaperNovel`, sub-type
+        `notCat3` → `phenomenologicalConjecture`; resolution
+        path = empirical reapplication trigger for
+        persistent-memory / online-learning / multi-modal
+        embodied architectures per paper §2598-2605),
+      tab_calibration (R4 R3-RC2 status `gapBlocked` →
+        `gapOpen`, inputCategory `notInput` → `cat3PaperNovel`,
+        sub-type `notCat3` → `phenomenologicalConjecture`;
+        resolution path = historian / philosopher-of-science
+        debate about the retrodictive D1/D2/D3 labels per
+        paper §1653-1668).
 
   *Derived theorems and `notInput`-classified entries* (encoded as
   Lean `theorem` declarations, NOT as `axiom`):
@@ -1565,13 +1854,17 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
       `satisfiesP3_of_boolean`.
     * Discriminator threshold-rule lemmas (7 entries).
     * Impossibility-theorem corollaries (3 entries).
-    * gapBlocked deferrals (paper-side structural content with
-      content lying outside Lean's structural-skeleton scope —
-      `thesis_joint` empirical claim about contemporary LLMs;
-      `prot_testimony` epistemology-of-evidence protocol;
-      `tab_calibration` per-case historical-empirical
-      judgements; `ai_governance_applications` policy-application
-      sketches).
+    * gapBlocked retentions (protocol / policy design proposals,
+      NOT substantive empirical claims awaiting external
+      validation — `prot_testimony` is an
+      epistemology-of-evidence protocol design proposal for
+      LLM self-report sampling; `ai_governance_applications`
+      is a policy-application sketch).  These retentions are
+      CORRECT per v6 §2 `gapBlocked` reservation (no-acceptance-
+      possible: outside Lean's structural-mathematical scope
+      as protocol / policy proposals, NOT paper-published
+      substantive empirical-phenomenological claims awaiting
+      external validation).
 
   Lean kernel (Cat 0; not declared here):
     propext, Classical.choice, Quot.sound.
@@ -1584,9 +1877,96 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
   (no paper-stated structural-defining-equation atoms beyond what
   is encoded inside the paper-novel structure definitions
   themselves), `conditionalHypothesis` (no external-open-problem-
-  conditional results).  The `workingAssumption` sub-type is now
-  populated by three entries pending typed-witness encoding via
-  paper-extension work.
+  conditional results).  Both `workingAssumption` and
+  `phenomenologicalConjecture` sub-types are now populated
+  (1 entry / 5 entries respectively post-R4).
+
+  *v0.7.0 changelog summary (round 4 v6 §3.4.6 compliance —
+  phenomenologicalConjecture sub-type added per Manufactured
+  Recognition R-#27; R3 hostile-validator priority-ordered):*
+
+    * R3-A (CRITICAL): `Cat3SubType` inductive — added 6th
+      constructor `phenomenologicalConjecture` between
+      `conditionalHypothesis` and `notCat3`.  Framework-paper
+      PUBLISHED substantive claim about a phenomenon awaiting
+      EXTERNAL validation; distinguished from
+      `workingAssumption` (which mandates close before
+      publication via Lean derivation — applies to Millennium-
+      grade derivational work) AND from `definitional atom`
+      (which is paper-stipulated structure, not phenomenological
+      assertion).  Never Lean-closeable; resolution path =
+      battery / cohort study / interpretive debate, NOT
+      derivation.  Status remains `gapOpen`.
+
+    * R3-B (CRITICAL): `cat3SubTypeCounts` def extended to
+      7-tuple `Nat × Nat × Nat × Nat × Nat × Nat × Nat`
+      (added `phenomenologicalConjecture` slot between
+      `conditionalHypothesis` and `notCat3`).  Corresponding
+      `#eval` print line updated.
+
+    * R3-MC1: `substrate_independence_triple_use_premise`
+      reclassified `workingAssumption` →
+      `phenomenologicalConjecture`.  The v0.6.0 R2 close-
+      target framing (`wire into a typed downstream theorem
+      when paper-extension work introduces the appropriate
+      typed carrier`) was a category error: the premise is
+      not pending Lean derivation, it is pending external
+      empirical falsification or endorsement.  Paper lines
+      485-492 supply the operational reapplication threshold
+      (Cochrane/PRISMA systematic review or major-society
+      position statement).
+
+    * R3-MC2: `thesis_independence` reclassified
+      `workingAssumption` → `phenomenologicalConjecture`.  The
+      v0.6.0 R2 close-target framing (`Lean encoding of six
+      counter-model witnesses — paper-extension work`) was a
+      category error: paper §2547-2582 EXHIBITS the six
+      counter-model witnesses as paper-stipulated content; the
+      load-bearing question is `are they architecturally
+      coherent under the paper's coherence judgement?` — a
+      philosophical-foundations debate, not a Lean encoding
+      task.
+
+    * R3-MC3: `thesis_minimality` reclassified
+      `workingAssumption` → `phenomenologicalConjecture`.
+      Paper §2701-2716 `Relativity of the minimality claim`
+      EXPLICITLY frames the minimality argument as relative-
+      to-the-taxonomy, not absolute; resolution path =
+      identification of alternative leak taxonomies via
+      philosophical-foundations debate.
+
+    * R3-RC1: `thesis_joint` reclassified `gapBlocked` →
+      `gapOpen` + `notInput` → `cat3PaperNovel` + `notCat3`
+      → `phenomenologicalConjecture`; entry-binder renamed
+      `gap_thesis_joint_BLOCKED` → `gap_thesis_joint_OPEN`.
+      The v0.6.0 R2 `gapBlocked` classification was a category
+      error: `thesis_joint` is a paper-PUBLISHED substantive
+      claim about phenomena (current deployed LLM
+      architectures) awaiting external validation (empirical
+      observation of next-generation deployed systems; paper
+      §2598-2605 explicit reapplication-trigger language).
+
+    * R3-RC2: `tab_calibration` reclassified `gapBlocked` →
+      `gapOpen` + `notInput` → `cat3PaperNovel` + `notCat3`
+      → `phenomenologicalConjecture`; entry-binder renamed
+      `gap_calibration_table_BLOCKED` →
+      `gap_calibration_table_OPEN`.  Paper-PUBLISHED
+      substantive claim about phenomena (per-case D1/D2/D3
+      ratings + `\\label{thesis:calibration}`
+      10/10-retrodiction verdict) awaiting external validation
+      (historian / philosopher-of-science debate per paper
+      §1653-1668 `Caveat on retrodictive D3`).
+
+    * R3-C / R3-D: root module + Ledger top docstring
+      narratives updated to list 6 sub-types (the 6th sub-type
+      `phenomenologicalConjecture`).
+
+    * `prot_testimony` + `ai_governance_applications`
+      CORRECTLY retained as `gapBlocked` (protocol / policy
+      design proposals, not substantive empirical claims
+      awaiting external validation).
+
+    * `lakefile.toml` version bumped 0.6.0 → 0.7.0.
 
   *v0.6.0 changelog summary (round 2 v6 compliance — defect-
   driven fixes from hostile validator):*

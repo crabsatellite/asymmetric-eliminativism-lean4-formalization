@@ -80,7 +80,13 @@
         v6 §3.1)
       * Cat 3 sub-type: carrier / hypothesisPredicate /
         structuralEquation / workingAssumption /
-        conditionalHypothesis / notCat3
+        conditionalHypothesis / phenomenologicalConjecture /
+        notCat3
+        (the 6th sub-type `phenomenologicalConjecture` —
+        framework-paper PUBLISHED substantive claim about a
+        phenomenon awaiting external validation — was added
+        2026-05-14 per v6 §3.4.6 / Manufactured Recognition
+        R-#27)
     `conditionalOn : List String := []` field records broken-link
     hypothesis predicates per v6 §12; invariant: non-empty iff
     status = gapClosedConditional.

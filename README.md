@@ -65,15 +65,37 @@ declarations are recorded in the gap ledger for trust-audit
 completeness but do not appear in `#print axioms` output.
 
 Several paper-side claims of structural flavour are recorded as
-`gapBlocked` rather than `gapClosed` — independence and joint-
-satisfaction theses for the DSC axes; minimality with respect to
-biological-vocabulary blocking jobs; the substrate-independence
-premise's triple-use structure; the testimony protocol; the
-ten-case historical calibration; the AI-governance applications.
-Each `gapBlocked` entry carries an explicit reason: substantive
-content lies in philosophical-discursive argument, substrate-
-empirical premises, per-case historical judgement, or policy
-sketches — outside Lean's structural-skeleton scope.
+`phenomenologicalConjecture` Cat 3 sub-type entries rather than
+`gapClosed` — independence and joint-satisfaction theses for the
+DSC axes; minimality with respect to biological-vocabulary
+blocking jobs; the substrate-independence premise's triple-use
+structure; the ten-case historical calibration.  Each
+`phenomenologicalConjecture` entry is a paper-PUBLISHED
+substantive claim about a phenomenon awaiting EXTERNAL validation
+(empirical observation, philosophical-foundations debate, or
+historian / philosopher-of-science interpretive debate) — these
+are never Lean-closeable; resolution path = battery / cohort
+study / interpretive debate, NOT Lean derivation.  Status remains
+`gapOpen` indefinitely.
+
+Two remaining `gapBlocked` entries (`prot_testimony`,
+`ai_governance_applications`) are protocol / policy design
+proposals — not substantive empirical claims awaiting external
+validation, but operational / policy sketches outside Lean's
+structural-mathematical scope.
+
+The 6 Cat 3 sub-types tracked per v6 §3.4 (with the 6th sub-type
+`phenomenologicalConjecture` added 2026-05-14 per v6 §3.4.6 /
+Manufactured Recognition R-#27): `carrier` (paper-introduced
+primitive type), `hypothesisPredicate` (paper-introduced
+scope/regime predicate), `structuralEquation` (paper-stated
+definitional equation on primitives), `workingAssumption`
+(higher-level claim temporarily axiomatized while derivation is
+developed — closes via Lean derivation), `conditionalHypothesis`
+(paper's conclusion conditional on an external open problem),
+`phenomenologicalConjecture` (framework-paper PUBLISHED
+substantive claim about a phenomenon awaiting external
+validation — resolution path is external, never Lean-closeable).
 
 The authoritative current inventory of axiom names, citations, and
 per-theorem dependencies is the `lake env lean
