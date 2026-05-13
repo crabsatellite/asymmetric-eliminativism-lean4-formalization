@@ -491,35 +491,89 @@ structure ArbitrationProcedure (FolkObj Tcls : Type)
        9-case taxonomy on the procedure's warrant.  Cat 3
        `carrier` per v6 §3.4.1 (paper-introduced typed enumeration);
        consumed by the per-case atomic Cat 3 stipulations
-       `prw_uniform_to_pr`, `prw_typeA_to_pr`, `prw_typeB_no_ranking`,
-       `prw_typeC1_to_pr`, `prw_typeC2_recursive_to_pr`,
-       `prw_warrantInternalToE_excludes_typeC3`,
-       `prw_typeC4a_internal_track_to_pr`,
-       `prw_warrantInternalToE_excludes_typeC4b`,
-       `prw_contextual_to_pr` in `Impossibility.lean`. -/
+       in `Impossibility.lean`. -/
   warrantForm : WarrantFeatureType
   /-- *Partition-relative* iff the procedure's preference output
        reduces to a weighting of the partition members
        `{E_1, …, E_n}`.  Paper-stipulated scope condition
        (v6 §3.4.2 `hypothesisPredicate`).  Paper
-       `\label{def:op-properties}` P2 + `\label{lem:prw}`. -/
+       `\label{def:op-properties}` P2 + `\label{lem:prw}`.
+
+       *Why bare-`Prop` (v0.8.0 R5 documented choice).*  The
+       paper's "reduces to a weighting" content is paper-discursive
+       (paper text + the per-case derivation through
+       `\label{lem:prw}` atomic stipulations), not encoded as a
+       Lean-internal definitional equation on `adjudicate`.
+       Concretising via `partitionRelative := ∃ w : Fin Part.n → ℝ,
+       <weighting derivation>` would require additional Cat 3
+       structuralEquation atoms tying the concrete-form definition
+       to the per-case reductions; the bare-`Prop` encoding
+       faithfully reflects that the substantive content lives in
+       the paper's case-analysis proof.  The Lean linkage to the
+       paper-faithful warrant-form taxonomy is via the nine atomic
+       stipulations consuming `A.warrantForm = X → A.partitionRelative`
+       in `Impossibility.lean`. -/
   partitionRelative : Prop
-  /-- *Warrant internal to `\E`* iff the procedure's adjudication-
-       warrant derives from features of the folk extension `\E`
-       alone.  Paper-stipulated scope condition (v6 §3.4.2
-       `hypothesisPredicate`).  Paper hypothesis (H),
-       `\label{thm:impossibility}`. -/
-  warrantInternalToE : Prop
-  /-- *Fails adjudication* iff the procedure's output is constant
-       across the $E_i$ and so fails to produce a non-trivial
-       ranking (paper option (ii) — paper `\label{lem:prw}` typeB
-       clause, paper line 2133 "fails to produce a non-trivial
-       ranking — option (ii)").  Paper-stipulated scope condition
-       (v6 §3.4.2 `hypothesisPredicate`).  Distinguished from
-       `partitionRelative`: this is paper option (ii) (no-ranking
-       failure mode), not paper option (i) (single-$E_m$
-       privileging failure mode). -/
-  failsAdjudication : Prop
+
+/--
+  *Warrant internal to `\\E`* — concretized as paper-faithful
+  decidable predicate on `warrantForm` (v0.8.0 R5 Issue 3
+  substantive concretization).
+
+  Paper hypothesis (H), `\label{thm:impossibility}`: "every
+  admissible arbitration procedure within $D$ for adjudicating
+  operationalisations of $\C$ derives its adjudication-warrant
+  from $\E$".  In the warrant-form taxonomy of
+  `\label{lem:prw}` proof body, the external-feature warrants are
+  exactly typeC3_external (paper lines 2189-2191) and
+  typeC4b_external_track (paper lines 2220-2237); all other
+  warrant-form constructors carry warrants derived from
+  `\E`-features alone.
+
+  *Definitional equation.*  `A.warrantInternalToE` iff
+  `A.warrantForm ∉ {typeC3_external, typeC4b_external_track}`.
+
+  *Status / Cat 3 sub-type.*  Cat 3 `structuralEquation` per
+  v6 §3.4.3: paper-stated definitional reduction tying paper
+  hypothesis (H) to the paper-faithful `WarrantFeatureType`
+  taxonomy.  The two `prw_warrantInternalToE_excludes_typeC3`
+  and `prw_warrantInternalToE_excludes_typeC4b` excluder axioms
+  of v0.8.0 R5 Issue 2 are now derivable theorems (by `decide`
+  on `WarrantFeatureType` decidable-equality) rather than
+  axioms — see `Impossibility.lean` for the derivations.
+-/
+def ArbitrationProcedure.warrantInternalToE
+    {FolkObj Tcls : Type}
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
+  A.warrantForm ≠ WarrantFeatureType.typeC3_external ∧
+  A.warrantForm ≠ WarrantFeatureType.typeC4b_external_track
+
+/--
+  *Fails adjudication* — concretized as paper-faithful decidable
+  predicate on `warrantForm` (v0.8.0 R5 Issue 3 substantive
+  concretization).
+
+  Paper `\label{lem:prw}` option (ii) / typeB clause, paper line
+  2133: "$R$'s output is constant across the $E_i$ and fails to
+  produce a non-trivial ranking — option (ii)".  In the warrant-
+  form taxonomy, this is exactly the typeB case.
+
+  *Definitional equation.*  `A.failsAdjudication` iff
+  `A.warrantForm = typeB`.
+
+  *Status / Cat 3 sub-type.*  Cat 3 `structuralEquation` per
+  v6 §3.4.3: paper-stated definitional reduction tying paper
+  option (ii) to the paper-faithful `WarrantFeatureType` taxonomy.
+  The `prw_typeB_no_ranking` atomic stipulation of v0.8.0 R5
+  Issue 2 is now a derivable theorem (by `decide` on
+  `WarrantFeatureType` decidable-equality) rather than an axiom.
+-/
+def ArbitrationProcedure.failsAdjudication
+    {FolkObj Tcls : Type}
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
+  A.warrantForm = WarrantFeatureType.typeB
 
 /--
   P2 (definitional): `Op` admits cross-operationalisation

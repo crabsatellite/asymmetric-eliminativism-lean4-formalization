@@ -105,18 +105,25 @@ axiom prw_typeA_to_pr
   relativity.  The unified `lem_prw_reduction` therefore has
   disjunctive conclusion `partitionRelative ∨ failsAdjudication`.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.
+  *v0.8.0 R5 Issue 3 concretization.*  Was a Cat 3
+  `structuralEquation` axiom in Issue 2; now derivable as a
+  theorem because `failsAdjudication` is concretized as
+  `A.warrantForm = typeB` in `Basic.lean`.  Sub-type
+  `structuralEquation` retained for v6 §3.4.3 compliance
+  documentation (the definitional reduction is paper-stipulated);
+  status `gapClosed notInput` (derived theorem).
 
   Paper-prose justification (lines 2131-2134):
   "Type-(b): $f$ is shared by all $E_i$ symmetrically, in which
   case $R$'s output is constant across the $E_i$ and fails to
   produce a non-trivial ranking — option (ii)."
 -/
-axiom prw_typeB_no_ranking
+theorem prw_typeB_no_ranking
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeB → A.failsAdjudication
+    A.warrantForm = WarrantFeatureType.typeB → A.failsAdjudication := by
+  intro h; exact h
 
 /--
   Paper `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185).
@@ -193,12 +200,20 @@ axiom prw_typeC2_recursive_to_pr
   "(c.3) appeals to features outside $\E$, which is forbidden by
   (H); this sub-case's closure is conditional on (H), and within
   the discourse-state where (H) holds, (c.3) is inadmissible."
+
+  *v0.8.0 R5 Issue 3 concretization.*  Was a Cat 3
+  `structuralEquation` axiom in Issue 2; now derivable as a
+  theorem because `warrantInternalToE` is concretized as the
+  conjunction of `warrantForm ≠ typeC3 ∧ warrantForm ≠ typeC4b`
+  in `Basic.lean`.  Status `gapClosed notInput` (derived
+  theorem).
 -/
-axiom prw_warrantInternalToE_excludes_typeC3
+theorem prw_warrantInternalToE_excludes_typeC3
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantInternalToE → A.warrantForm ≠ WarrantFeatureType.typeC3_external
+    A.warrantInternalToE → A.warrantForm ≠ WarrantFeatureType.typeC3_external := by
+  intro h; exact h.1
 
 /--
   Paper `\label{lem:prw}` type-(c.4.a) internal track-record case
@@ -243,12 +258,20 @@ axiom prw_typeC4a_internal_track_to_pr
   the theorem ranges over), the typeC4b case-tag is unreachable
   because external-track-record warrant violates the warrant-
   internality stipulation.
+
+  *v0.8.0 R5 Issue 3 concretization.*  Was a Cat 3
+  `structuralEquation` axiom in Issue 2; now derivable as a
+  theorem because `warrantInternalToE` is concretized as the
+  conjunction of `warrantForm ≠ typeC3 ∧ warrantForm ≠ typeC4b`
+  in `Basic.lean`.  Status `gapClosed notInput` (derived
+  theorem).
 -/
-axiom prw_warrantInternalToE_excludes_typeC4b
+theorem prw_warrantInternalToE_excludes_typeC4b
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantInternalToE → A.warrantForm ≠ WarrantFeatureType.typeC4b_external_track
+    A.warrantInternalToE → A.warrantForm ≠ WarrantFeatureType.typeC4b_external_track := by
+  intro h; exact h.2
 
 /--
   Paper `\label{lem:prw}` contextual case (paper lines 2257-2270).

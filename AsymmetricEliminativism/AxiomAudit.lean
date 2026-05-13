@@ -36,8 +36,13 @@
   AsymmetricEliminativism/Ledger.lean`):
 
     Cat 3 paper-novel atomic stipulations for Lemma `\label{lem:prw}`
-    (Li 2026), the NINE `axiom` declarations in
-    `AsymmetricEliminativism/Impossibility.lean`:
+    (Li 2026), the SIX `axiom` declarations in
+    `AsymmetricEliminativism/Impossibility.lean` (v0.8.0 R5
+    Issue 3 concretization reduced 9 axioms → 6 axioms + 3 derived
+    theorems: `prw_typeB_no_ranking`,
+    `prw_warrantInternalToE_excludes_typeC3`,
+    `prw_warrantInternalToE_excludes_typeC4b` are now theorems by
+    `decide` on `WarrantFeatureType` decidable-equality):
 
       prw_uniform_to_pr
         ← `\label{lem:prw}` uniform case (paper lines 2092-2102);
@@ -112,12 +117,21 @@
         predictsEliminate_of_yes_weak_weak_with_indep,
         not_R2_satisfied_without_indep.
 
-    * Depends on the NINE Cat 3 atomic axioms (paper-faithful
-      `\label{lem:prw}` decomposition):
+    * Depends on the SIX Cat 3 atomic axioms (paper-faithful
+      `\label{lem:prw}` decomposition; v0.8.0 R5 Issue 3
+      concretized 3 of the original 9 atoms to derived theorems):
         lem_prw_reduction (now a derived `theorem`),
         thm_impossibility, thm_impossibility_paper_form,
         no_partition_independent_admissible_warrant,
         ensemble_methods_fail_P2, impossibility_uniform_family.
+
+    * Now derived theorems by `decide` on `WarrantFeatureType`
+      decidable-equality (Issue 3 concretization of the
+      ArbitrationProcedure bare-Prop fields `warrantInternalToE`
+      and `failsAdjudication`):
+        prw_typeB_no_ranking,
+        prw_warrantInternalToE_excludes_typeC3,
+        prw_warrantInternalToE_excludes_typeC4b.
 
   Any axiom outside the inventory above is a RED FLAG —
   investigate.

@@ -422,9 +422,9 @@ def gap_prw_typeA_to_pr : GapEntry := {
 
 def gap_prw_typeB_no_ranking : GapEntry := {
   name := "prw_typeB_no_ranking"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
+  status := GapStatus.gapClosed
+  inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{lem:prw}` type-(b) case (paper lines " ++
     "2131-2134): 'Type-(b): $f$ is shared by all $E_i$ " ++
@@ -432,19 +432,25 @@ def gap_prw_typeB_no_ranking : GapEntry := {
     "across the $E_i$ and fails to produce a non-trivial " ++
     "ranking — option (ii).'"
   attackHistory := [
-    "v0.8.0 R5 decomposition extracted from `\\label{lem:prw}` " ++
-      "case-analysis (2026-05-14).  Sub-type `structuralEquation`.  " ++
-      "Distinguished from the other eight per-case atoms: paper " ++
-      "option (ii) (`failsAdjudication`, the no-ranking-produced " ++
-      "failure mode) NOT option (i) (`partitionRelative`, the " ++
-      "single-$E_m$-privileging failure mode).  This is why the " ++
-      "derived `lem_prw_reduction` has disjunctive conclusion " ++
-      "`partitionRelative ∨ failsAdjudication`."
+    "v0.8.0 R5 Issue 2 decomposition extracted from `\\label{lem:prw}` " ++
+      "case-analysis (2026-05-14) as Cat 3 `structuralEquation` " ++
+      "axiom.  Distinguished from the other eight per-case atoms: " ++
+      "paper option (ii) NOT option (i).",
+    "v0.8.0 R5 Issue 3 concretization (2026-05-14): " ++
+      "`failsAdjudication` concretized in `Basic.lean` as " ++
+      "`A.warrantForm = WarrantFeatureType.typeB` (paper-faithful " ++
+      "decidable predicate per paper option (ii) typeB clause).  " ++
+      "This atom is now a derived `theorem` (proof: `intro h; " ++
+      "exact h`), no longer a Cat 3 axiom.  Status " ++
+      "`gapDefinitional` → `gapClosed`; inputCategory " ++
+      "`cat3PaperNovel` → `notInput`; sub-type `structuralEquation` " ++
+      "→ `notCat3`."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeB → " ++
     "A.failsAdjudication` on the paper-novel " ++
-    "`ArbitrationProcedure` carrier.  Single-step typed bridge."
+    "`ArbitrationProcedure` carrier.  Now a derived theorem " ++
+    "(v0.8.0 R5 Issue 3 concretization)."
 }
 
 def gap_prw_typeC1_to_pr : GapEntry := {
@@ -500,9 +506,9 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
 
 def gap_prw_warrantInternalToE_excludes_typeC3 : GapEntry := {
   name := "prw_warrantInternalToE_excludes_typeC3"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
+  status := GapStatus.gapClosed
+  inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{lem:prw}` type-(c.3) exclusion (paper lines " ++
     "2189-2191): '(c.3) appeals to features outside $\\E$, which " ++
@@ -510,19 +516,25 @@ def gap_prw_warrantInternalToE_excludes_typeC3 : GapEntry := {
     "on (H), and within the discourse-state where (H) holds, " ++
     "(c.3) is inadmissible.'"
   attackHistory := [
-    "v0.8.0 R5 decomposition extracted from `\\label{lem:prw}` " ++
-      "case-analysis (2026-05-14).  Sub-type `structuralEquation`.  " ++
-      "Non-occurrence (case-exclusion) theorem: under " ++
-      "`warrantInternalToE`, the typeC3 case-tag cannot apply.  " ++
-      "Encoded as `A.warrantInternalToE → A.warrantForm ≠ " ++
-      "typeC3_external`."
+    "v0.8.0 R5 Issue 2 decomposition extracted from `\\label{lem:prw}` " ++
+      "case-analysis (2026-05-14) as Cat 3 `structuralEquation` " ++
+      "axiom.  Non-occurrence excluder.",
+    "v0.8.0 R5 Issue 3 concretization (2026-05-14): " ++
+      "`warrantInternalToE` concretized in `Basic.lean` as the " ++
+      "conjunction `warrantForm ≠ typeC3_external ∧ warrantForm ≠ " ++
+      "typeC4b_external_track` (paper-faithful decidable predicate " ++
+      "per paper hypothesis (H) + paper `\\label{lem:prw}` external-" ++
+      "feature case taxonomy).  This excluder is now a derived " ++
+      "`theorem` (proof: `intro h; exact h.1`), no longer a Cat 3 " ++
+      "axiom.  Status `gapDefinitional` → `gapClosed`; " ++
+      "inputCategory `cat3PaperNovel` → `notInput`; sub-type " ++
+      "`structuralEquation` → `notCat3`."
   ]
   scope :=
     "`A.warrantInternalToE → A.warrantForm ≠ " ++
     "WarrantFeatureType.typeC3_external` on the paper-novel " ++
-    "`ArbitrationProcedure` carrier.  Non-occurrence excluder " ++
-    "atom; consumed by `lem_prw_reduction` case-match to derive " ++
-    "absurdity in the typeC3 branch."
+    "`ArbitrationProcedure` carrier.  Now a derived theorem " ++
+    "(v0.8.0 R5 Issue 3 concretization)."
 }
 
 def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
@@ -551,9 +563,9 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
 
 def gap_prw_warrantInternalToE_excludes_typeC4b : GapEntry := {
   name := "prw_warrantInternalToE_excludes_typeC4b"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
+  status := GapStatus.gapClosed
+  inputCategory := InputCategory.notInput
+  cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{lem:prw}` type-(c.4.b) exclusion (paper " ++
     "lines 2220-2237): '(c.4.b) The track record uses external-" ++
@@ -563,21 +575,87 @@ def gap_prw_warrantInternalToE_excludes_typeC4b : GapEntry := {
     "$\\C$-verdicts, (H) ceases to hold; the discourse-state has " ++
     "changed and the theorem no longer applies.'"
   attackHistory := [
-    "v0.8.0 R5 decomposition extracted from `\\label{lem:prw}` " ++
-      "case-analysis (2026-05-14).  Sub-type `structuralEquation`.  " ++
-      "Non-occurrence (case-exclusion) theorem parallel to " ++
-      "typeC3.  Under `warrantInternalToE`, the typeC4b case-tag " ++
-      "cannot apply because external-track-record warrant violates " ++
-      "the warrant-internality stipulation.  Encoded as " ++
-      "`A.warrantInternalToE → A.warrantForm ≠ " ++
-      "typeC4b_external_track`."
+    "v0.8.0 R5 Issue 2 decomposition extracted from `\\label{lem:prw}` " ++
+      "case-analysis (2026-05-14) as Cat 3 `structuralEquation` " ++
+      "axiom.  Non-occurrence excluder parallel to typeC3.",
+    "v0.8.0 R5 Issue 3 concretization (2026-05-14): " ++
+      "`warrantInternalToE` concretized in `Basic.lean` as the " ++
+      "conjunction `warrantForm ≠ typeC3_external ∧ warrantForm ≠ " ++
+      "typeC4b_external_track`.  This excluder is now a derived " ++
+      "`theorem` (proof: `intro h; exact h.2`), no longer a Cat 3 " ++
+      "axiom.  Status `gapDefinitional` → `gapClosed`; " ++
+      "inputCategory `cat3PaperNovel` → `notInput`; sub-type " ++
+      "`structuralEquation` → `notCat3`."
   ]
   scope :=
     "`A.warrantInternalToE → A.warrantForm ≠ " ++
     "WarrantFeatureType.typeC4b_external_track` on the paper-" ++
-    "novel `ArbitrationProcedure` carrier.  Non-occurrence " ++
-    "excluder atom; consumed by `lem_prw_reduction` case-match " ++
-    "to derive absurdity in the typeC4b branch."
+    "novel `ArbitrationProcedure` carrier.  Now a derived theorem " ++
+    "(v0.8.0 R5 Issue 3 concretization)."
+}
+
+def gap_warrantInternalToE_def : GapEntry := {
+  name := "ArbitrationProcedure.warrantInternalToE (def)"
+  status := GapStatus.gapDefinitional
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.structuralEquation
+  paperSource :=
+    "Li 2026, `\\label{thm:impossibility}` hypothesis (H) + " ++
+    "`\\label{lem:prw}` external-feature case taxonomy (paper " ++
+    "lines 2189-2191 typeC3 + 2220-2237 typeC4b).  Paper " ++
+    "hypothesis (H): 'every admissible arbitration procedure " ++
+    "within $D$ for adjudicating operationalisations of $\\C$ " ++
+    "derives its adjudication-warrant from $\\E$.'"
+  attackHistory := [
+    "v0.8.0 R5 Issue 3 substantive concretization (2026-05-14): " ++
+      "the previously-bare-Prop field `warrantInternalToE` was " ++
+      "extracted from `ArbitrationProcedure` and re-encoded as a " ++
+      "derived `def` on the paper-faithful `WarrantFeatureType` " ++
+      "taxonomy.  Definitional equation: `A.warrantInternalToE` " ++
+      "iff `A.warrantForm ∉ {typeC3_external, " ++
+      "typeC4b_external_track}`.  Sub-type `structuralEquation` " ++
+      "per v6 §3.4.3: paper-stated definitional reduction tying " ++
+      "paper hypothesis (H) to the `\\label{lem:prw}` warrant-form " ++
+      "taxonomy.  Status `gapDefinitional` (paper-stipulated " ++
+      "definitional equation; never to close).  Consequence: the " ++
+      "two excluder axioms (`prw_warrantInternalToE_excludes_typeC3` " ++
+      "and `prw_warrantInternalToE_excludes_typeC4b`) are now " ++
+      "derivable theorems."
+  ]
+  scope :=
+    "Paper-faithful definitional equation `A.warrantInternalToE " ++
+    ":= A.warrantForm ≠ typeC3_external ∧ A.warrantForm ≠ " ++
+    "typeC4b_external_track` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier.  Decidable predicate."
+}
+
+def gap_failsAdjudication_def : GapEntry := {
+  name := "ArbitrationProcedure.failsAdjudication (def)"
+  status := GapStatus.gapDefinitional
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.structuralEquation
+  paperSource :=
+    "Li 2026, `\\label{lem:prw}` typeB clause (paper line 2133): " ++
+    "'$R$'s output is constant across the $E_i$ and fails to " ++
+    "produce a non-trivial ranking — option (ii).'"
+  attackHistory := [
+    "v0.8.0 R5 Issue 3 substantive concretization (2026-05-14): " ++
+      "the previously-bare-Prop field `failsAdjudication` was " ++
+      "extracted from `ArbitrationProcedure` and re-encoded as a " ++
+      "derived `def` on the paper-faithful `WarrantFeatureType` " ++
+      "taxonomy.  Definitional equation: `A.failsAdjudication " ++
+      "iff A.warrantForm = typeB`.  Sub-type `structuralEquation` " ++
+      "per v6 §3.4.3: paper-stated definitional reduction tying " ++
+      "paper option (ii) (no-ranking failure mode) to the " ++
+      "`\\label{lem:prw}` typeB warrant-form constructor.  Status " ++
+      "`gapDefinitional` (paper-stipulated definitional equation; " ++
+      "never to close).  Consequence: the typeB stipulation atom " ++
+      "(`prw_typeB_no_ranking`) is now a derivable theorem."
+  ]
+  scope :=
+    "Paper-faithful definitional equation `A.failsAdjudication " ++
+    ":= A.warrantForm = typeB` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier.  Decidable predicate."
 }
 
 def gap_prw_contextual_to_pr : GapEntry := {
@@ -2036,6 +2114,11 @@ def allGaps : List GapEntry := [
   gap_prw_typeC4a_internal_track_to_pr,
   gap_prw_warrantInternalToE_excludes_typeC4b,
   gap_prw_contextual_to_pr,
+  -- 2 paper-faithful definitional-equation `def`s tying paper
+  -- scope conditions to the `WarrantFeatureType` taxonomy
+  -- (v0.8.0 R5 Issue 3 substantive concretization).
+  gap_warrantInternalToE_def,
+  gap_failsAdjudication_def,
   -- Cat 3 paper-novel carrier types and predicates (structures, not axioms)
   gap_ReverseDefinedConcept_carrier,
   gap_ReverseDefinedWitness_carrier,
