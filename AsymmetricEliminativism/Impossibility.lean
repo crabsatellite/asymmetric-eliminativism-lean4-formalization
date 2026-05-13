@@ -88,15 +88,34 @@ namespace AsymmetricEliminativism
   Partition-Relative-Weighting Reduction.
 
   Citation: Li 2026, `\label{lem:prw}` proof body
-  (`asymmetric_eliminativism_full.tex` proof case analysis,
-   pp. corresponding to the impossibility-theorem section).
+  (`asymmetric_eliminativism_full.tex` proof of
+   `\label{thm:impossibility}`, immediately following the
+   contextual / uniform case-split for `E`-internal warrants).
 
-  *Scope.*  This axiom asserts that any arbitration procedure
-  whose adjudication-warrant derives from `\E` alone (i.e.,
-  `A.warrantInternalToE`) reduces to a partition-relative
+  *Statement.*  For any arbitration procedure `A` whose
+  adjudication-warrant derives from `\E` alone (i.e.,
+  `A.warrantInternalToE`), `A` reduces to a partition-relative
   weighting (`A.partitionRelative`) under the unranked-partition
   hypothesis.  Equivalently, contrapositively: no `E`-internal
   warrant is partition-independent.
+
+  *Why this is a SINGLE atomic Cat 3 axiom (not multiple).*  The
+  paper's `\label{lem:prw}` proof body itself states (paragraph
+  immediately after the lemma's proof, beginning "All warrants in
+  case (i.a) ... fail P2 by Lemma~\ref{lem:prw}.  The sub-claims
+  below verify the lemma's exhaustiveness ... Lemma~\ref{lem:prw}
+  carries the load, and the sub-claims serve as exhaustiveness-
+  check rather than as the load-bearing proof"): the lemma's
+  *downstream consequence* is a single structural bi-implication;
+  the two-case (uniform / contextual) split plus the trichotomy
+  sub-claims (No-arbitration for `\E`-internal ranking principles;
+  type-(a) / type-(b) / type-(c) trichotomy; Partition-Internality
+  of `\E`-Internal Structural Stipulations; (c.1) / (c.2) /
+  (c.3) / (c.4.a) / (c.4.b)) are *exhaustiveness checks on the
+  same atomic structural fact*, not separable atomic claims.
+  Decomposing this single bi-implication into per-case axioms
+  would invert the paper's own load-bearing structure (the lemma
+  carries the load; sub-claims verify exhaustiveness).
 
   *Why this is Cat 3 atomic and not Cat 1/Cat 2.*  The lemma is
   paper-novel — it is not a Mathlib-derivable fact and not a
@@ -108,8 +127,8 @@ namespace AsymmetricEliminativism
 -/
 axiom lem_prw_reduction
     {FolkObj Tcls : Type}
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (A : ArbitrationProcedure FolkObj Tcls Π) :
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantInternalToE → A.partitionRelative
 
 /-! ## Hypothesis (H) — discourse-internality.
@@ -140,8 +159,8 @@ axiom lem_prw_reduction
 -/
 def DiscourseInternalityHypothesis
     {FolkObj Tcls : Type}
-    {_Π : MutuallyUnrankedPartition FolkObj}
-    (A : ArbitrationProcedure FolkObj Tcls _Π) : Prop :=
+    {_Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls _Part) : Prop :=
   A.warrantInternalToE
 
 /-! ## Theorem `\label{thm:impossibility}`.  -/
@@ -150,7 +169,7 @@ def DiscourseInternalityHypothesis
   **Theorem `\label{thm:impossibility}`: impossibility for
   unranked-extension concepts.**
 
-  Let `Π : MutuallyUnrankedPartition FolkObj` with `n ≥ 2`.  Let
+  Let `Part : MutuallyUnrankedPartition FolkObj` with `n ≥ 2`.  Let
   `Op_i` be an operationalisation faithful to some part `E_i`.
   Assume hypothesis (H): every admissible arbitration procedure
   has warrant internal to `\E` (`A.warrantInternalToE`).  Then
@@ -160,19 +179,23 @@ def DiscourseInternalityHypothesis
 
   *Why P3 is omitted from the conclusion.*  Given the Boolean-
   verdict encoding of `Operationalisation.verdict`, P3 holds
-  trivially (every `x : Tcls` has a determinate Boolean verdict).
-  The paper-level form of the theorem says "no `Op_i` can
-  simultaneously satisfy P2 and P3"; under the Lean Boolean
-  encoding, the binding constraint reduces to "P2 fails".  The
-  paper's substantive content is `¬ P2`; we state this as the
-  theorem.  See `Basic.lean` `satisfiesP3_of_boolean` for the
-  trivial-P3 observation.
+  trivially (every `x : Tcls` has a determinate Boolean verdict;
+  see `satisfiesP3_of_boolean`).  The paper-level form of the
+  theorem says "no `Op_i` can simultaneously satisfy P2 and P3";
+  under the strict Boolean encoding, the binding constraint
+  reduces to `¬ P2`.  The paper-level `¬ (P2 ∧ P3)` form is
+  available as the derived `thm_impossibility_paper_form` (below
+  this theorem in the file), which packages the reduction
+  explicitly.  The paper's "load-bearing clause and its Lean
+  encoding" paragraph (after the proof of
+  `\label{thm:impossibility}`) discusses this Boolean-reduction
+  bridge.
 
   *Hypotheses.*
 
-  * `Π : MutuallyUnrankedPartition FolkObj` — the folk extension's
+  * `Part : MutuallyUnrankedPartition FolkObj` — the folk extension's
      unranked partition.
-  * `Op_i : Operationalisation FolkObj Tcls Π` — the
+  * `Op_i : Operationalisation FolkObj Tcls Part` — the
      operationalisation under attack.
   * The (H) hypothesis is bound into the conclusion via the
      `warrantInternalToE` predicate on arbitration procedures.
@@ -198,14 +221,14 @@ def DiscourseInternalityHypothesis
 -/
 theorem thm_impossibility
     {FolkObj Tcls : Type}
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (Op : Operationalisation FolkObj Tcls Π) :
-    ¬ SatisfiesP2 FolkObj Tcls Π Op := by
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (Op : Operationalisation FolkObj Tcls Part) :
+    ¬ SatisfiesP2 FolkObj Tcls Part Op := by
   -- Suppose P2 holds: extract the arbitration witness.
   rintro ⟨A, hNotPR, hWarrant⟩
   -- By the (H)-bound lem_prw_reduction, A's warrant being
   -- internal to E implies A is partition-relative.
-  have hPR : A.partitionRelative := lem_prw_reduction Π A hWarrant
+  have hPR : A.partitionRelative := lem_prw_reduction Part A hWarrant
   -- This contradicts hNotPR.
   exact hNotPR hPR
 
@@ -221,10 +244,10 @@ theorem thm_impossibility
 -/
 theorem no_partition_independent_admissible_warrant
     {FolkObj Tcls : Type}
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (A : ArbitrationProcedure FolkObj Tcls Π) :
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantInternalToE → A.partitionRelative :=
-  lem_prw_reduction Π A
+  lem_prw_reduction Part A
 
 /--
   *Corollary (ensemble methods fail).*  An ensemble method
@@ -240,11 +263,11 @@ theorem no_partition_independent_admissible_warrant
 -/
 theorem ensemble_methods_fail_P2
     {FolkObj Tcls : Type}
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (ensembleArbiter : ArbitrationProcedure FolkObj Tcls Π)
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (ensembleArbiter : ArbitrationProcedure FolkObj Tcls Part)
     (hWarrant : ensembleArbiter.warrantInternalToE) :
     ensembleArbiter.partitionRelative :=
-  lem_prw_reduction Π ensembleArbiter hWarrant
+  lem_prw_reduction Part ensembleArbiter hWarrant
 
 /--
   *Corollary (impossibility transfers across operationalisations).*
@@ -254,10 +277,42 @@ theorem ensemble_methods_fail_P2
 -/
 theorem impossibility_uniform_family
     {FolkObj Tcls : Type}
-    (Π : MutuallyUnrankedPartition FolkObj)
-    (Op : Fin Π.n → Operationalisation FolkObj Tcls Π) :
-    ∀ k : Fin Π.n, ¬ SatisfiesP2 FolkObj Tcls Π (Op k) := by
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (Op : Fin Part.n → Operationalisation FolkObj Tcls Part) :
+    ∀ k : Fin Part.n, ¬ SatisfiesP2 FolkObj Tcls Part (Op k) := by
   intro k
-  exact thm_impossibility Π (Op k)
+  exact thm_impossibility Part (Op k)
+
+/--
+  *Paper-form impossibility theorem.*  The paper states
+  `\label{thm:impossibility}` as: "no member of `{Op_i}` can
+  simultaneously satisfy P2 and P3", i.e., `¬ (P2 ∧ P3)`.  The Lean
+  statement `thm_impossibility` is the load-bearing `¬ P2` clause.
+
+  Under the strict Boolean-determinate encoding of an
+  `Operationalisation` (verdict-map `Tcls → Bool`), P3 holds
+  trivially (`satisfiesP3_of_boolean`): every `x : Tcls` has a
+  determinate Boolean verdict by typing.  Hence `¬ (P2 ∧ P3)`
+  follows from `¬ P2` directly: the conjunction's P3-conjunct is
+  always true under the Boolean encoding, so the conjunction
+  reduces to P2.
+
+  *Citation.*  Li 2026, `\label{thm:impossibility}` (paper-level
+  conclusion); the reduction to the Boolean-encoding form is
+  explicit in the paper's paragraph "The load-bearing clause and
+  its Lean encoding" following the proof.
+
+  *Why this is `theorem` rather than `axiom`.*  This is a derived
+  consequence of `thm_impossibility` + `satisfiesP3_of_boolean`;
+  no new axiom is required.  The reduction `¬ (P2 ∧ P3) ⟸ ¬ P2`
+  uses the trivial-P3 fact and standard `And` elimination.
+-/
+theorem thm_impossibility_paper_form
+    {FolkObj Tcls : Type}
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (Op : Operationalisation FolkObj Tcls Part) :
+    ¬ (SatisfiesP2 FolkObj Tcls Part Op ∧ SatisfiesP3 FolkObj Tcls Part Op) := by
+  rintro ⟨hP2, _hP3⟩
+  exact thm_impossibility Part Op hP2
 
 end AsymmetricEliminativism
