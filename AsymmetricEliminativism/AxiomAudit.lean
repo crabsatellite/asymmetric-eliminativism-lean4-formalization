@@ -57,8 +57,8 @@
   Per-theorem axiom dependency profile (verified by `#print
   axioms` below):
 
-    * Lean kernel only (`propext`, `Classical.choice`,
-      `Quot.sound`):
+    * Depends on no axioms whatsoever (does not even use
+      `propext` / `Classical.choice` / `Quot.sound`):
         satisfiesP3_of_boolean, bridging_dsc_iff_sc,
         R1_fires_on_all_yes, R1_fires_on_yes_yes_weak,
         R1_does_not_fire_on_yes_weak_weak,
@@ -67,8 +67,10 @@
         predictsEliminate_of_yes_weak_weak_with_indep,
         not_R2_satisfied_without_indep.
 
-    * Lean kernel + Cat 3 atomic `lem_prw_reduction`:
-        thm_impossibility, no_partition_independent_admissible_warrant,
+    * Cat 3 atomic `lem_prw_reduction` only (no kernel axioms
+      besides the single Cat 3 atom):
+        thm_impossibility, thm_impossibility_paper_form,
+        no_partition_independent_admissible_warrant,
         ensemble_methods_fail_P2, impossibility_uniform_family.
 
   Any axiom outside the inventory above is a RED FLAG —
@@ -96,6 +98,7 @@ import AsymmetricEliminativism
 
 -- Impossibility theorem and its corollaries.
 #print axioms AsymmetricEliminativism.thm_impossibility
+#print axioms AsymmetricEliminativism.thm_impossibility_paper_form
 #print axioms AsymmetricEliminativism.no_partition_independent_admissible_warrant
 #print axioms AsymmetricEliminativism.ensemble_methods_fail_P2
 #print axioms AsymmetricEliminativism.impossibility_uniform_family

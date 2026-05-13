@@ -44,24 +44,36 @@ arguments rest:
 
 All axioms are atomic minimal units, classified as one of:
 
-* **Cat 3** — paper-novel atomic defining equations from Li 2026
-  (the only such atomic axiom is `lem_prw_reduction`, capturing
-  Lemma `\label{lem:prw}`'s load-bearing structural consequence).
+* **Cat 3** — paper-novel atomic defining equations from Li 2026.
+  The single Cat 3 atomic axiom is `lem_prw_reduction`, capturing
+  Lemma `\label{lem:prw}`'s load-bearing structural consequence
+  (the partition-relative-weighting reduction is a single
+  bi-implication; the paper's own structure treats the
+  uniform / contextual case-split + type-(a)/(b)/(c) sub-claims as
+  exhaustiveness checks on this single atomic fact, not as
+  separable atoms).
 * **Lean kernel** — `propext`, `Classical.choice`, `Quot.sound`.
 
-The project has **zero Cat 1 axioms** (no Mathlib-derivability
-claims pending discharge) and **zero Cat 2 axioms** (no external
-textbook citations).  The single Cat 3 atomic axiom captures the
-load-bearing consequence of the paper's Partition-Relative-Weighting
-Reduction lemma; the lemma's justification (paper proof case
-analysis) is the paper's contribution and is documented in the
-axiom's docstring.
+The project has zero Cat 1 axioms (no Mathlib-derivability
+claims pending discharge) and zero Cat 2 axioms (no external
+textbook citations).
 
 Most paper-novel content (the typed carriers for reverse-defined
 concepts, partitions, operationalisations, etc.) is encoded as
 Lean `structure` / `def` / `class`, not as `axiom`; these
 declarations are recorded in the gap ledger for trust-audit
 completeness but do not appear in `#print axioms` output.
+
+Several paper-side claims of structural flavour are recorded as
+`gapBlocked` rather than `gapClosed` — independence and joint-
+satisfaction theses for the DSC axes; minimality with respect to
+biological-vocabulary blocking jobs; the substrate-independence
+premise's triple-use structure; the testimony protocol; the
+ten-case historical calibration; the AI-governance applications.
+Each `gapBlocked` entry carries an explicit reason: substantive
+content lies in philosophical-discursive argument, substrate-
+empirical premises, per-case historical judgement, or policy
+sketches — outside Lean's structural-skeleton scope.
 
 The authoritative current inventory of axiom names, citations, and
 per-theorem dependencies is the `lake env lean
@@ -75,7 +87,7 @@ AsymmetricEliminativism/AxiomAudit.lean` output combined with the
 |------|-----------------|
 | [`AsymmetricEliminativism/Basic.lean`](AsymmetricEliminativism/Basic.lean) | Definitions `def:reverse`, `def:asym-elim`, `def:edc`, `def:separability`, `def:unranked`, `def:op-individuation`, `def:op-properties`; replacement-vocabulary definitions `def:sessional`, `def:concurrent`, `def:state-inference`, `def:distributional`, `def:homogeneous`, `def:inversion`, `def:sc`, `def:bridging`; structural lemma `bridging_dsc_iff_sc` |
 | [`AsymmetricEliminativism/Diagnostic.lean`](AsymmetricEliminativism/Diagnostic.lean) | Discriminator (`def:discriminator`) rules (R1) and (R2), with derived structural lemmas on threshold-rule firing patterns |
-| [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` + Lemma `\label{lem:prw}` (the single Cat 3 atomic axiom) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
+| [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (Lean-form `¬ P2`) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3) + Lemma `\label{lem:prw}` (the single Cat 3 atomic axiom) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
 | [`AsymmetricEliminativism/AxiomAudit.lean`](AsymmetricEliminativism/AxiomAudit.lean) | Trust audit: prints `#print axioms` for every paper-level theorem |
 | [`AsymmetricEliminativism/Ledger.lean`](AsymmetricEliminativism/Ledger.lean) | Typed gap ledger: `GapStatus` × `InputCategory` orthogonal classification, with one `GapEntry` per atomic axiom, paper-novel carrier, and closed top-level result |
 
