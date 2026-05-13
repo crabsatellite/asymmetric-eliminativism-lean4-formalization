@@ -172,7 +172,35 @@ def gap_lem_prw_reduction : GapEntry := {
       "load-bearing implication.  Not a carrier (not introducing a " ++
       "new primitive type); not a hypothesis predicate (not a scope " ++
       "condition); not a working assumption (atomicity confirmed " ++
-      "in v0.2.0)."
+      "in v0.2.0).",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review (R-N).  " ++
+      "Round 1 (Cat 1 reduction?): CLEAR-NO.  The claim " ++
+      "`∀ A, A.warrantInternalToE → A.partitionRelative` is a single " ++
+      "implication on the paper-novel typed primitives " ++
+      "`ArbitrationProcedure` + `MutuallyUnrankedPartition`; Mathlib " ++
+      "has no order-theoretic / lattice-theoretic / set-theoretic " ++
+      "primitive that captures the partition-relative-weighting " ++
+      "reduction (checked Mathlib `Order.Basic`, `Order.Partition.*`, " ++
+      "`Order.Antisymmetrization`, `Order.Hom.Lattice`; the closest " ++
+      "is `Finpartition` for the partition skeleton, but the " ++
+      "load-bearing implication does not reduce to any Mathlib " ++
+      "lemma on `Finpartition` since the paper-novel `partitionRelative` " ++
+      "and `warrantInternalToE` Props are not Mathlib predicates).  " ++
+      "Round 2 (Cat 2 reduction?): CLEAR-NO.  Surveyed external " ++
+      "social-choice / arbitration-theory results: Arrow 1951 " ++
+      "(multi-voter aggregation, not single-arbiter warrant reduction), " ++
+      "Sen 1970 liberal paradox (different scope), Gibbard 1973 / " ++
+      "Satterthwaite 1975 strategy-proof voting (different scope), " ++
+      "Saari geometric voting (different formalism), " ++
+      "Topkis 1978 supermodularity (different domain), Brandom 1994 " ++
+      "`Making It Explicit` §3-§4 discursive-scorekeeping (closest " ++
+      "philosophical ancestor for normative-uptake framing, but NO " ++
+      "external theorem proves the partition-relative-weighting " ++
+      "reduction on these paper-novel typed carriers).  The case " ++
+      "analysis (uniform / contextual + type-(a)/(b)/(c) trichotomy " ++
+      "+ Partition-Internality of `\\E`-Internal Structural " ++
+      "Stipulations) is the paper's own contribution.  Net change: " ++
+      "0 reductions found; entry stays Cat 3 structuralEquation."
   ]
   scope :=
     "`∀ A, A.warrantInternalToE → A.partitionRelative`.  Carries " ++
@@ -202,7 +230,28 @@ def gap_ReverseDefinedConcept_carrier : GapEntry := {
   attackHistory := [
     "v0.3.0 sub-type classification: carrier — paper-introduced " ++
       "primitive type for clauses (i)–(iv) of reverse-definition; " ++
-      "the typed `structure` IS the paper's mathematical object."
+      "the typed `structure` IS the paper's mathematical object.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  The structure packages clauses " ++
+      "(i)–(iv) of `\\label{def:reverse}`, of which clause (iv) " ++
+      "(folk-substantive disagreement among operationalisations) is " ++
+      "a paper-novel Prop with no Mathlib analogue.  Mathlib has no " ++
+      "type-theoretic primitive that captures `concept C with folk " ++
+      "extension E_folk + family of operationalisations + dispersion " ++
+      "+ folk-substantive disagreement`; the four-clause bundle is " ++
+      "paper-stated.  Round 2 (Cat 2 reduction?): CLEAR-NO.  " ++
+      "Surveyed: Carnap 1950 `Logical Foundations of Probability` " ++
+      "explication (close — sharpening folk concepts — but does NOT " ++
+      "formalise the four-clause reverse-definition criterion); " ++
+      "Hacking 1995 `looping kinds` (related — feedback between " ++
+      "classification and classified — but different formal " ++
+      "structure); Brandom 1994 normative pragmatics (discursive " ++
+      "scorekeeping, different scope); Sellars 1956 `Empiricism and " ++
+      "the Philosophy of Mind` two-image framework (myth of the " ++
+      "given, different scope); Dennett intentional-stance " ++
+      "taxonomy (different scope).  No external formalisation of " ++
+      "reverse-defined concepts with the four-clause structure.  " ++
+      "Net change: 0 reductions found; stays Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier for the paper's clauses (i)–(iv) of " ++
@@ -225,7 +274,25 @@ def gap_ReverseDefinedWitness_carrier : GapEntry := {
       "criteria into a structured witness object parametrised by " ++
       "a parent `ReverseDefinedConcept`.  The structure itself is " ++
       "the typed primitive (a witness-type), parallel in role to " ++
-      "`ReverseDefinedConcept`."
+      "`ReverseDefinedConcept`.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  The three sub-criteria " ++
+      "(iv.a) cross-operationalisation defence asymmetry, " ++
+      "(iv.b) absence of cross-operationalisation arbiter on " ++
+      "operationalisation-internal grounds, (iv.c) substitutability " ++
+      "of folk-extension subsets reverses verdicts — are all " ++
+      "paper-novel Props with no Mathlib analogue.  The witness " ++
+      "structure is just a 3-Prop bundle parametrised by a parent " ++
+      "carrier; the Props themselves are the load-bearing content.  " ++
+      "Round 2 (Cat 2 reduction?): CLEAR-NO.  Surveyed external " ++
+      "literature for jointly-sufficient operational criteria for " ++
+      "concept-individuation: Carnap explication (no triple-witness " ++
+      "form); Brandom's `material-inferential commitments` " ++
+      "(different formal structure); contemporary philosophy of " ++
+      "science accounts of `theoretical disagreement` (Laudan 1977, " ++
+      "Kuhn 1962, Lakatos 1970 research programmes — no formal " ++
+      "(iv.a)/(iv.b)/(iv.c) decomposition).  Net change: 0 " ++
+      "reductions found; stays Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier exposing the three jointly-sufficient " ++
@@ -249,7 +316,29 @@ def gap_AsymmetricEliminationVerdict_carrier : GapEntry := {
       "a paper-introduced scope/regime predicate on partitions " ++
       "into target classes rather than as a freestanding primitive " ++
       "type.  The (a)/(b) `LicensingMode` distinction is itself a " ++
-      "scope-defining classifier on eliminated parts."
+      "scope-defining classifier on eliminated parts.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  The structure carries: " ++
+      "`m`-indexed partition + `register : Fin m → ElimRegister` " ++
+      "(eliminated/retained two-valued tag) + `mode` (Π-typed (a)/(b) " ++
+      "licensing-mode tag on eliminated parts).  The `register` map " ++
+      "alone would reduce to `Fin m → Bool` (Mathlib), but the " ++
+      "verdict-assignment + (a)/(b) licensing-mode pairing IS the " ++
+      "paper-novel structural commitment (the (a)/(b) distinction " ++
+      "tracks successor-mature vs. preliminary-ahead-of-replacement " ++
+      "elimination, a paper-novel mode classifier).  Round 2 " ++
+      "(Cat 2 reduction?): CLEAR-NO.  Surveyed: Churchland 1981 " ++
+      "`Eliminative Materialism and the Propositional Attitudes` " ++
+      "(introduces eliminativism but no (a)/(b) mode distinction); " ++
+      "Stich 1983 `From Folk Psychology to Cognitive Science` " ++
+      "(eliminativist programme, no formal mode distinction); " ++
+      "Ramsey 2013 `Eliminative Materialism` SEP entry (surveys " ++
+      "the literature but no formal asymmetric-elimination " ++
+      "structure on partitions).  The (a)/(b) distinction " ++
+      "(`\\label{def:asym-elim}` `\\S~\\ref{sec:asymmetric-elim}` " ++
+      "successor-mature vs. preliminary) is Li 2026's contribution.  " ++
+      "Net change: 0 reductions found; stays Cat 3 " ++
+      "hypothesisPredicate."
   ]
   scope :=
     "Typed scope/regime predicate for an asymmetric-eliminativist " ++
@@ -269,7 +358,24 @@ def gap_DiagnosticProfile_carrier : GapEntry := {
     "v0.3.0 sub-type classification: carrier — paper-introduced " ++
       "primitive type packaging the three eliminative diagnostic " ++
       "conditions (E1 carries a `ReverseDefinedConcept`; E2/E3 " ++
-      "carry Props) into a typed diagnostic-profile object."
+      "carry Props) into a typed diagnostic-profile object.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  The structure packages E1 " ++
+      "(carrying a `ReverseDefinedConcept`, itself paper-novel " ++
+      "Cat 3) + E2 (persistent dispersion, paper-novel Prop with " ++
+      "E2a current-window + E2b paradigm-shift sub-clauses) + " ++
+      "E3 (functional decoupling, paper-novel Prop).  No Mathlib " ++
+      "predicate captures `persistent dispersion across paradigm " ++
+      "shifts` or `functional decoupling` for a concept.  Round 2 " ++
+      "(Cat 2 reduction?): CLEAR-NO.  Surveyed: Kuhn 1962 paradigm " ++
+      "shifts (motivates E2b's paradigm-shift quantifier but no " ++
+      "formal `persistent dispersion across at least one paradigm " ++
+      "shift` predicate); Laudan 1977 research traditions " ++
+      "(different scope); Lakatos 1970 research programmes " ++
+      "(different scope); Putnam 1975 `Meaning of Meaning` natural-" ++
+      "kind semantics (different scope).  The three-condition E1/" ++
+      "E2/E3 bundle is paper-novel (Li 2026 `\\label{def:edc}`).  " ++
+      "Net change: 0 reductions found; stays Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier for the three eliminative diagnostic " ++
@@ -292,7 +398,26 @@ def gap_UseSeparability_carrier : GapEntry := {
       "condition (S1 causal independence + S2 constitutive " ++
       "independence) on a (concept, T_elim, T_retained) triple.  " ++
       "The structure is a Prop-bundle scope predicate, not a " ++
-      "freestanding primitive type."
+      "freestanding primitive type.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  S1/S2 are paper-novel Props " ++
+      "over (concept, T_e, T_r) triples; Mathlib has no causal/" ++
+      "constitutive-independence primitive over abstract carriers.  " ++
+      "Round 2 (Cat 2 reduction?): CLEAR-NO.  Surveyed external " ++
+      "philosophy-of-language / metaphysics literature on " ++
+      "independence: Lewis 1973 `Causation` counterfactual-causal " ++
+      "dependence (related — provides the metaphysical framework " ++
+      "S1 inherits — but the S1/S2 pair as a two-component " ++
+      "separability criterion for asymmetric elimination is " ++
+      "paper-specific); Fine 1995 `Senses of Essence` constitutive " ++
+      "dependence (background notion for S2 but not the S1/S2 pair " ++
+      "as a use-separability bundle); Hacking 1995 `looping kinds` " ++
+      "(the looping-kinds counter-example IS the paper's negative " ++
+      "comparator showing where S1 fails for psychiatric categories, " ++
+      "but Hacking's looping-kinds formal apparatus does not " ++
+      "supply a counterpart of the S1/S2 separability pair).  " ++
+      "Net change: 0 reductions found; stays Cat 3 " ++
+      "hypothesisPredicate."
   ]
   scope :=
     "Typed scope/regime predicate for use-separability: S1 (causal " ++
@@ -316,7 +441,28 @@ def gap_FaithfulP1_carrier : GapEntry := {
       "member exhibition) plus the contested-witness structural-" ++
       "use fields.  Functions as a paper-novel predicate over " ++
       "(Op, partition-member) pairs, not as a freestanding " ++
-      "primitive type."
+      "primitive type.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  `determinedByPartExhibition` " ++
+      "is a paper-novel Prop on (Op, partition-member) pairs; " ++
+      "Mathlib has no `determined-by-feature-exhibition` primitive.  " ++
+      "The contested-witness existential fields (`∃ x, verdict x = " ++
+      "false`, `∃ x, verdict x = true`) ARE Mathlib-typed `∃` " ++
+      "predicates BUT the paper-specific framing (`contested " ++
+      "witnesses` discriminable on E_i-feature exhibition) is the " ++
+      "paper-novel structural-use content, not the bare existentials.  " ++
+      "Round 2 (Cat 2 reduction?): CLEAR-NO.  Surveyed external " ++
+      "philosophy-of-science / measurement-theory literature: " ++
+      "Bridgman 1927 `Logic of Modern Physics` operationalism " ++
+      "(introduces operational-definition notion but no P1 " ++
+      "faithfulness predicate); Suppes 1962 set-theoretic " ++
+      "predicates for empirical theories (different formalism); " ++
+      "Sneed 1971 / Stegmüller 1976 structuralist programme " ++
+      "(theory-net architecture, no P1 analogue); Hempel 1965 " ++
+      "operational analyses (no formal faithfulness predicate).  " ++
+      "P1 (Li 2026 `\\label{def:op-properties}`) is paper-novel.  " ++
+      "Net change: 0 reductions found; stays Cat 3 " ++
+      "hypothesisPredicate."
   ]
   scope :=
     "Typed scope/regime predicate for P1 faithfulness: the Prop " ++
@@ -340,7 +486,34 @@ def gap_DiscriminatorRow_carrier : GapEntry := {
     "v0.3.0 sub-type classification: carrier — paper-introduced " ++
       "primitive type for a discriminator-table row (D1/D2/D3 " ++
       "ratings + counterfactual-independence Prop).  The structure " ++
-      "IS the paper's mathematical object for discriminator rows."
+      "IS the paper's mathematical object for discriminator rows.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO net effect.  The 3-tuple " ++
+      "skeleton (`D1 D2 D3 : DiagnosticRating`) could be re-encoded " ++
+      "as `Fin 3 → DiagnosticRating` or `Vector DiagnosticRating 3` " ++
+      "(Mathlib types), BUT (a) the paper-novel content is the " ++
+      "underlying `DiagnosticRating` enum (paper-novel yes/weak/no " ++
+      "three-valued tag for `\\label{def:discriminator}`); (b) the " ++
+      "named structural roles D1 (substrate-tracking failure), D2 " ++
+      "(predictive-purchase asymmetry), D3 (successor-program " ++
+      "productivity) are paper-named slots that index-into-Vector " ++
+      "encoding would erase; (c) the `counterfactualIndependence` " ++
+      "Prop is paper-novel.  Refactoring `DiscriminatorRow` to a " ++
+      "`Vector` would: erase paper-named role-discrimination + " ++
+      "introduce `DiagnosticRating` as the Cat 3 carrier — net " ++
+      "Cat 3 count unchanged, structural fidelity decreased.  " ++
+      "Honest decision: KEEP as Lean `structure` with named " ++
+      "D1/D2/D3 fields.  Round 2 (Cat 2 reduction?): CLEAR-NO.  " ++
+      "Surveyed external discriminator-style frameworks: Lakatos " ++
+      "1970 hard core / protective belt (no D1/D2/D3 trio); " ++
+      "Laudan's `pursuit-vs-acceptance` (no three-condition " ++
+      "trichotomy); Glymour 1980 bootstrapping (different scope); " ++
+      "Stanford 2006 `Exceeding our Grasp` historical retrodiction " ++
+      "of unconceived alternatives (background but no D1/D2/D3 " ++
+      "decomposition).  The three-condition discriminator with " ++
+      "three-valued yes/weak/no judgement is paper-novel (Li 2026 " ++
+      "`\\label{def:discriminator}`).  Net change: 0 reductions " ++
+      "found; stays Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier for a discriminator-table row: " ++
@@ -361,7 +534,37 @@ def gap_MutuallyUnrankedPartition_carrier : GapEntry := {
       "extension (n parts + pairwise disjointness + no-partition-" ++
       "independent-ranking Prop).  Definitional atom for the " ++
       "impossibility theorem; `lem_prw_reduction` is the load-" ++
-      "bearing structural equation built on top."
+      "bearing structural equation built on top.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO net effect.  Mathlib provides " ++
+      "`Mathlib.Order.Partition.Finpartition` (`structure " ++
+      "Finpartition [Lattice α] [OrderBot α] (a : α)` with " ++
+      "`parts : Finset α`, `supIndep`, `sup_parts = a`, " ++
+      "`⊥ ∉ parts`) AND `Setoid` (equivalence-relation-induced " ++
+      "partition).  Refactoring `MutuallyUnrankedPartition` to " ++
+      "use `Finpartition (Set.univ : Set FolkObj)` would (a) " ++
+      "introduce the `sup_parts = univ` constraint which the paper " ++
+      "does not require (partition of `E_folk`, but `E_folk` is " ++
+      "carried abstractly and the paper's use is via " ++
+      "`parts : Fin n → Set FolkObj` indexed access, not via " ++
+      "supremum equality); (b) NOT eliminate the carrier — the " ++
+      "load-bearing content is the paper-novel " ++
+      "`noPartitionIndependentRanking : Prop` predicate, with no " ++
+      "Mathlib analogue; (c) lose the `Fin n` indexed access used " ++
+      "throughout `Impossibility.lean` and `lem_prw_reduction`'s " ++
+      "signature.  `Setoid` is rejected: a Setoid is an equivalence " ++
+      "relation, not a finite indexed partition with a " ++
+      "non-rankability Prop.  Honest decision: KEEP as Lean " ++
+      "`structure` with `Fin n` indexing + paper-novel " ++
+      "non-rankability Prop.  Round 2 (Cat 2 reduction?): " ++
+      "CLEAR-NO.  Surveyed external social-choice / preference-" ++
+      "theory literature for `mutually unranked partition`: Arrow " ++
+      "1951 / Sen 1970 / Gibbard-Satterthwaite (work over " ++
+      "preference profiles, not partition-of-extension with " ++
+      "non-rankability); Pareto-incommensurability (different " ++
+      "scope).  The `noPartitionIndependentRanking` predicate " ++
+      "(Li 2026 `\\label{def:unranked}`) is paper-novel.  Net " ++
+      "change: 0 reductions found; stays Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier for a mutually unranked partition " ++
@@ -382,7 +585,27 @@ def gap_Operationalisation_carrier : GapEntry := {
     "v0.3.0 sub-type classification: carrier — paper-introduced " ++
       "primitive type for an operationalisation (Boolean-valued " ++
       "verdict-map parametrised by its partition-member " ++
-      "faithfulness).  Definitional atom."
+      "faithfulness).  Definitional atom.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO net effect.  The `verdict : " ++
+      "Tcls → Bool` field alone reduces to a Mathlib function type, " ++
+      "but the paper-novel content is the STRUCTURED PAIRING: an " ++
+      "operationalisation is a verdict-map PARAMETRISED BY which " ++
+      "partition member `E_i` it is faithful to (the `faithful_to_" ++
+      "partIdx : Fin Part.n` field).  Reducing to a bare `Tcls → " ++
+      "Bool` would lose the partition-faithfulness coupling that " ++
+      "the impossibility theorem's proof skeleton uses.  Round 2 " ++
+      "(Cat 2 reduction?): CLEAR-NO.  Surveyed external " ++
+      "measurement-theory / operationalism: Bridgman 1927 operationalism " ++
+      "(no formal pairing with partition member); Stevens 1946 " ++
+      "scales-of-measurement (different scope); Suppes 1962 " ++
+      "set-theoretic predicates (theory-element framework, not the " ++
+      "verdict-map-paired-with-partition-faithfulness encoding); " ++
+      "Bridgman / Hempel / Carnap operational analyses (background " ++
+      "only).  The verdict-map + faithful-to-partition-member " ++
+      "pairing is paper-specific framing (Li 2026 " ++
+      "`\\label{def:op-individuation}` + `\\label{def:op-properties}`).  " ++
+      "Net change: 0 reductions found; stays Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier for an operationalisation as a " ++
@@ -402,7 +625,28 @@ def gap_ArbitrationProcedure_carrier : GapEntry := {
       "operationalisations (adjudicate function + " ++
       "partitionRelative + warrantInternalToE Prop fields).  " ++
       "Definitional atom; `lem_prw_reduction` is the structural " ++
-      "equation that operates over this carrier."
+      "equation that operates over this carrier.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  The `adjudicate : Tcls → Fin " ++
+      "Part.n` field alone is a Mathlib function type, but the " ++
+      "paper-novel content is the two Prop fields: " ++
+      "`partitionRelative` (verdict reduces to a weighting of " ++
+      "`{E_1, …, E_n}`) and `warrantInternalToE` (warrant derives " ++
+      "from `\\E` alone).  Mathlib has no `partition-relative " ++
+      "weighting` predicate and no `warrant internal to extension " ++
+      "E` predicate — both are paper-novel.  Round 2 (Cat 2 " ++
+      "reduction?): CLEAR-NO.  Surveyed external arbitration-" ++
+      "theory / social-choice / decision-theory literature: Arrow " ++
+      "1951 (multi-voter aggregation, not single-arbiter procedure " ++
+      "with partition-relative-verdict Prop); Sen 1970 (different " ++
+      "scope); Roemer 1996 (theories of distributive justice — " ++
+      "background but no formal arbitration-procedure carrier with " ++
+      "partitionRelative + warrantInternalToE pair); Saari geometric " ++
+      "voting (different formalism).  The arbitration-procedure " ++
+      "carrier with these two Prop fields is paper-specific (Li " ++
+      "2026 `\\label{def:op-properties}` P2 + impossibility-theorem " ++
+      "proof setup).  Net change: 0 reductions found; stays Cat 3 " ++
+      "carrier."
   ]
   scope :=
     "Typed structural carrier for an arbitration procedure " ++
@@ -424,7 +668,27 @@ def gap_CognitiveSystem_carrier : GapEntry := {
       "primitive type for an abstract cognitive system (token / " ++
       "weight / activation / session / instance / context spaces " ++
       "+ inferenceOp + six DSC-axis Prop fields).  Definitional " ++
-      "atom underwriting the DSC vocabulary."
+      "atom underwriting the DSC vocabulary.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  The carrier bundles six " ++
+      "abstract Types + an inference operation + six Prop-valued " ++
+      "DSC-axis fields (sessionalP / concurrentP / stateInferenceP " ++
+      "/ distributionalP / homogeneousP / inversionP).  The six " ++
+      "DSC axes (`\\label{def:sessional}` through " ++
+      "`\\label{def:inversion}`) are paper-novel Props with no " ++
+      "Mathlib analogue.  Mathlib has no `cognitive system` " ++
+      "carrier and no DSC-axis predicates.  Round 2 (Cat 2 " ++
+      "reduction?): CLEAR-NO.  Surveyed external cognitive-science / " ++
+      "ML-architecture literature for similar carriers: Bechtel & " ++
+      "Abrahamsen 2002 `Connectionism and the Mind` (no formal " ++
+      "DSC-axis decomposition); Marr 1982 three-levels framework " ++
+      "(different formalism); Newell 1990 unified theories of " ++
+      "cognition (background); Anderson ACT-R cognitive architecture " ++
+      "(background but no DSC axes); Vaswani et al. 2017 " ++
+      "`Attention Is All You Need` transformer architecture " ++
+      "(implementation reference, not formalised cognitive-system " ++
+      "carrier).  The six DSC axes are paper-novel (Li 2026 §11).  " ++
+      "Net change: 0 reductions found; stays Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier for an abstract cognitive system " ++
@@ -442,7 +706,24 @@ def gap_SessionalCognition_carrier : GapEntry := {
   attackHistory := [
     "v0.3.0 sub-type classification: carrier — paper-introduced " ++
       "primitive type packaging the six SC commitments (V1–V6) " ++
-      "as Prop-valued fields paralleling the DSC axes."
+      "as Prop-valued fields paralleling the DSC axes.",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  V1–V6 are paper-novel Props " ++
+      "(session-locality / instance-as-subject / trajectory-only-" ++
+      "state / distributional-pull / generative-non-division / " ++
+      "self-report-as-observable-behaviour) with no Mathlib analogue.  " ++
+      "Round 2 (Cat 2 reduction?): CLEAR-NO.  Surveyed external " ++
+      "first-person / phenomenology / self-attribution literature: " ++
+      "Castañeda 1966 / Perry 1979 essentially-indexical content " ++
+      "(philosophical background, cited by B2 of `def:bridging` " ++
+      "but no V1–V6 vocabulary); Nagel 1974 `What Is It Like to " ++
+      "Be a Bat?` (subjective character of experience — but no " ++
+      "first-person LLM vocabulary); Husserlian phenomenology " ++
+      "(different scope); Block 1995 phenomenal vs. access " ++
+      "consciousness (background only).  The SC vocabulary's six " ++
+      "commitments V1–V6 are paper-novel (Li 2026 " ++
+      "`\\label{def:sc}`).  Net change: 0 reductions found; stays " ++
+      "Cat 3 carrier."
   ]
   scope :=
     "Typed structural carrier for the six SC commitments (V1–V6) " ++
@@ -461,7 +742,28 @@ def gap_BridgingPrinciple_carrier : GapEntry := {
       "primitive type packaging (B1) bijective correspondence + " ++
       "mutual independence + joint sufficiency + (B2) point-of-" ++
       "view non-translatability into a single bridging-principle " ++
-      "object parametrised by (S, SC)."
+      "object parametrised by (S, SC).",
+    "v0.4.0 v6 §3.4.6 ≥2-round reductionism review.  Round 1 " ++
+      "(Cat 1 reduction?): CLEAR-NO.  B1.i conjunction of six " ++
+      "bi-implications is a Mathlib-typed `∧`-conjunction of `↔`, " ++
+      "but the load-bearing content (each `↔` pairs a paper-novel " ++
+      "DSC axis Prop with a paper-novel SC commitment Prop) is " ++
+      "Cat 3 paper-novel.  B1.ii (mutual independence) and B1.iii " ++
+      "(joint sufficiency) and B2 (point-of-view non-" ++
+      "translatability) are paper-novel Props.  Round 2 (Cat 2 " ++
+      "reduction?): CLEAR-NO.  Surveyed external philosophy-of-" ++
+      "language literature on indexicality / point-of-view " ++
+      "translation: Perry 1979 `The Problem of the Essential " ++
+      "Indexical` (CITED inside the B2 field's content but the " ++
+      "B1+B2 four-relation bundle is paper-novel framing; Perry " ++
+      "does NOT prove a theorem of this form on DSC ↔ SC); " ++
+      "Castañeda 1966 quasi-indicators (background); Lewis 1979 " ++
+      "`Attitudes De Dicto and De Se` (background for indexical " ++
+      "self-attribution but no DSC/SC bridging structure).  The " ++
+      "BridgingPrinciple carrier itself (4-field structure binding " ++
+      "B1.i/B1.ii/B1.iii/B2 over (S, SC)) is paper-specific " ++
+      "framing.  Net change: 0 reductions found; stays Cat 3 " ++
+      "carrier."
   ]
   scope :=
     "Typed structural carrier for the (B1) bijective " ++
@@ -1007,30 +1309,68 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat :=
 
   *Cat 3 ratio guard (v6 §3.4.6).*  Cat 3 ratio = 100% (14/14
   paper-side atomic inputs are Cat 3; 0 Cat 1, 0 Cat 2).  The
-  paper is fundamentally philosophical (per v0.2.0 audit report)
-  and the only axiom is `lem_prw_reduction`; the remaining 13
-  Cat 3 entries are typed carriers / scope predicates encoded as
-  Lean `structure` declarations, not opaque-axiom Cat 3 claims.
-  The ratio is high BECAUSE all paper-novel structural objects
-  are carriers/predicates (Cat 3 sub-types `carrier` /
-  `hypothesisPredicate`), not because reductionism rounds were
-  skipped.  The v6 §3.4.6 ≥2-round hostile reductionism review
-  should focus on:
-    (a) verifying each carrier is genuinely paper-novel typed
-        primitive (not derivable from Mathlib type theory — e.g.
-        is `MutuallyUnrankedPartition` more than a Mathlib
-        `Setoid`-like decomposition? is `DiscriminatorRow` more
-        than a Mathlib `Vector`-of-`DiagnosticRating`?);
-    (b) verifying `lem_prw_reduction` is genuinely paper-novel
-        (not a Cat 2 reduction missed — e.g. is the warrant-to-
-        partition-weighting reduction covered by any external
-        social-choice or arbitration-theory result on similarly-
-        typed objects?).
-  v0.3.0 records per-entry reductionism notes in `attackHistory`
-  fields with CLEAR-NO verdicts on (a) and (b) for
-  `lem_prw_reduction`; per-carrier deep reductionism rounds
-  (Cat 1 / Cat 2 / Cat 3 carrier-novelty audit) are
-  deferred to a separate workflow.
+  paper is fundamentally philosophical (per v0.2.0 + v0.3.0
+  audit reports) and the only axiom is `lem_prw_reduction`; the
+  remaining 13 Cat 3 entries are typed carriers / scope
+  predicates encoded as Lean `structure` declarations, not
+  opaque-axiom Cat 3 claims.  The ratio is high BECAUSE all
+  paper-novel structural objects are carriers/predicates
+  (Cat 3 sub-types `carrier` / `hypothesisPredicate`), not
+  because reductionism rounds were skipped.
+
+  *v6 §3.4.6 threshold review status.*  Review COMPLETED in
+  v0.4.0.  Per-entry Round 1 (Cat 1 Mathlib reduction?) and
+  Round 2 (Cat 2 external literature reduction?) outcomes
+  documented in each entry's `attackHistory`.  Outcomes:
+
+    * 14 entries × Round 1 CLEAR-NO (no genuine Cat 1 Mathlib
+      reduction available)
+    * 14 entries × Round 2 CLEAR-NO (no external Cat 2
+      literature precedent for the carrier-structure /
+      hypothesis-predicate / structural-equation as encoded)
+    * 0 reductions found
+    * Cat 3 ratio: 100% → 100% (unchanged)
+
+  Specific Mathlib-skeleton candidates surveyed and rejected:
+
+    * `MutuallyUnrankedPartition` could reuse Mathlib
+      `Finpartition (Set.univ)` skeleton, BUT the load-bearing
+      `noPartitionIndependentRanking : Prop` is paper-novel; the
+      `Fin n` indexed access is used throughout `Impossibility.
+      lean`; `sup_parts = univ` constraint added by `Finpartition`
+      is not paper-required.  Rejected: refactor would not
+      eliminate the Cat 3 carrier.
+    * `DiscriminatorRow` could reuse `Vector DiagnosticRating 3`
+      skeleton, BUT (a) `DiagnosticRating` would itself become
+      Cat 3 paper-novel (yes/weak/no three-valued tag); (b)
+      paper-named D1/D2/D3 roles would be erased.  Rejected:
+      refactor would shuffle Cat 3 count, not reduce it.
+    * `Setoid` rejected as substitute for `MutuallyUnrankedPartition`:
+      a Setoid is an equivalence relation, not a finite indexed
+      partition with a non-rankability Prop.
+    * `Operationalisation` cannot reduce to bare `Tcls → Bool`:
+      the partition-faithfulness coupling is paper-load-bearing.
+    * `ArbitrationProcedure` cannot reduce to bare `Tcls → Fin n`:
+      `partitionRelative` + `warrantInternalToE` Props are
+      paper-novel.
+
+  External Cat 2 literature surveys for each carrier are
+  recorded in `attackHistory`.  Closest external ancestors
+  (Carnap, Brandom, Hacking, Perry, Bridgman, Kuhn, Lakatos,
+  Arrow, Sen, Lewis, Fine, Churchland) supply philosophical
+  background but no formal carrier / theorem matching the
+  paper's encoding.
+
+  *Conclusion.*  The 100% Cat 3 ratio is structural to a
+  diagnostic-framework paper.  Carriers/predicates ARE the
+  paper's mathematical objects; structural-equation
+  `lem_prw_reduction` IS the paper's load-bearing reduction.
+  All 14 Cat 3 entries are genuine paper-novel atomic inputs
+  per v6 §3.4 sub-classification; none is a hidden Cat 1
+  Mathlib-derivable claim or a hidden Cat 2 external theorem.
+  The v6 §3.4.6 threshold is a TRIGGER for hostile review, not
+  a hard cap; review completed with documented CLEAR-NO
+  outcomes.
 -/
 
 end AsymmetricEliminativism.Ledger
