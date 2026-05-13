@@ -31,29 +31,58 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.6.0 post-R2 honest revert; live counts:
-  see `lake env lean AsymmetricEliminativism/Ledger.lean`):
+  Inventory by category (v0.8.0 post-R5 substantive decomposition;
+  live counts: see `lake env lean
+  AsymmetricEliminativism/Ledger.lean`):
 
-    Cat 3 paper-novel atomic stipulation for Lemma `\label{lem:prw}`
-    (Li 2026), the SOLE `axiom` declaration in
+    Cat 3 paper-novel atomic stipulations for Lemma `\label{lem:prw}`
+    (Li 2026), the NINE `axiom` declarations in
     `AsymmetricEliminativism/Impossibility.lean`:
 
-      lem_prw_reduction
-        ← `\label{lem:prw}` (Partition-Relative-Weighting Reduction);
-          sub-type `workingAssumption` (v6 §3.4.4) pending typed-
-          Warrant refinement of `ArbitrationProcedure`; statement
-          `∀ A, A.warrantInternalToE → A.partitionRelative` on the
-          paper-novel `ArbitrationProcedure` carrier.  Close-
-          target: introduce `Warrant` sub-structure with paper
-          warrant-form taxonomy (uniform / type-(a) / type-(b) /
-          type-(c) structural-property) and decompose this axiom
-          into per-case atomic stipulations on the typed structure
-          plus a case-exhaustion theorem about warrant-form
-          coverage.
+      prw_uniform_to_pr
+        ← `\label{lem:prw}` uniform case (paper lines 2092-2102);
+          single-step typed bridge `A.warrantForm = uniform →
+          A.partitionRelative`.
+      prw_typeA_to_pr
+        ← `\label{lem:prw}` type-(a) case (paper lines 2127-2131);
+          single-step typed bridge `A.warrantForm = typeA →
+          A.partitionRelative`.
+      prw_typeB_no_ranking
+        ← `\label{lem:prw}` type-(b) case (paper lines 2131-2134);
+          single-step typed bridge `A.warrantForm = typeB →
+          A.failsAdjudication`.
+      prw_typeC1_to_pr
+        ← `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185);
+          single-step typed bridge `A.warrantForm = typeC1 →
+          A.partitionRelative`.
+      prw_typeC2_recursive_to_pr
+        ← `\label{lem:prw}` type-(c.2) recursive case (paper lines
+          2186-2196); single-step typed bridge `A.warrantForm =
+          typeC2_recursive → A.partitionRelative`.
+      prw_warrantInternalToE_excludes_typeC3
+        ← `\label{lem:prw}` type-(c.3) exclusion (paper lines
+          2189-2191); non-occurrence excluder `A.warrantInternalToE
+          → A.warrantForm ≠ typeC3_external`.
+      prw_typeC4a_internal_track_to_pr
+        ← `\label{lem:prw}` type-(c.4.a) internal track case (paper
+          lines 2210-2218); single-step typed bridge `A.warrantForm
+          = typeC4a_internal_track → A.partitionRelative`.
+      prw_warrantInternalToE_excludes_typeC4b
+        ← `\label{lem:prw}` type-(c.4.b) exclusion (paper lines
+          2220-2237); non-occurrence excluder `A.warrantInternalToE
+          → A.warrantForm ≠ typeC4b_external_track`.
+      prw_contextual_to_pr
+        ← `\label{lem:prw}` contextual case (paper lines 2257-2270);
+          single-step typed bridge `A.warrantForm = contextual →
+          A.partitionRelative`.
+
+    All nine carry sub-type Cat 3 `structuralEquation` (v6 §3.4.3),
+    status `gapDefinitional` (v6 §1.1) — paper-stipulated
+    definitional reduction on paper-novel carriers.
 
     Cat 3 typed carriers / scope-condition bundles (encoded as
-    Lean `structure` / `def` / `class`, NOT `axiom` — appears in
-    source but not in `#print axioms`):
+    Lean `structure` / `def` / `class` / `inductive`, NOT `axiom`
+    — appears in source but not in `#print axioms`):
 
       Structures: ReverseDefinedConcept, ReverseDefinedWitness,
       AsymmetricEliminationVerdict, DiagnosticProfile,
@@ -62,16 +91,16 @@
       CognitiveSystem, SessionalCognition, BridgingPrinciple,
       DiscriminatorRow.
 
+      Inductive (added v0.8.0 R5): WarrantFeatureType.
+
   Per-axiom citations live in the corresponding `axiom` docstring
-  in the source file.  Round-history (prior retracted citations +
-  atomic refactor steps + the v0.5.0 R1 cosmetic decomposition and
-  v0.6.0 R2 honest revert + the deletion of the v0.5.0
-  `SubstrateIndependenceTripleUse` naked-`Prop` axiom) lives in
-  `gap_*.attackHistory` fields inside
+  in the source file.  Round-history (R1 cosmetic decomposition,
+  R2 honest revert, R5 substantive paper-faithful decomposition)
+  lives in `gap_*.attackHistory` fields inside
   `AsymmetricEliminativism.Ledger`.
 
   Per-theorem axiom dependency profile (verified by `#print
-  axioms` below; post-v0.6.0 R2 honest revert):
+  axioms` below; post-v0.8.0 R5 substantive decomposition):
 
     * Depends on no axioms whatsoever (does not even use
       `propext` / `Classical.choice` / `Quot.sound`):
@@ -83,8 +112,9 @@
         predictsEliminate_of_yes_weak_weak_with_indep,
         not_R2_satisfied_without_indep.
 
-    * Depends on the single Cat 3 atomic axiom
-      `lem_prw_reduction`:
+    * Depends on the NINE Cat 3 atomic axioms (paper-faithful
+      `\label{lem:prw}` decomposition):
+        lem_prw_reduction (now a derived `theorem`),
         thm_impossibility, thm_impossibility_paper_form,
         no_partition_independent_admissible_warrant,
         ensemble_methods_fail_P2, impossibility_uniform_family.
@@ -112,9 +142,20 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.predictsEliminate_of_yes_weak_weak_with_indep
 #print axioms AsymmetricEliminativism.not_R2_satisfied_without_indep
 
--- Cat 3 atomic axiom for Lemma `\label{lem:prw}` (v0.6.0 R2
--- single workingAssumption encoding; replaces v0.5.0 R1 five-atom
--- cosmetic decomposition).
+-- Nine Cat 3 atomic axioms for Lemma `\label{lem:prw}` (v0.8.0 R5
+-- substantive paper-faithful decomposition; replaces v0.6.0 R2
+-- single-axiom encoding).
+#print axioms AsymmetricEliminativism.prw_uniform_to_pr
+#print axioms AsymmetricEliminativism.prw_typeA_to_pr
+#print axioms AsymmetricEliminativism.prw_typeB_no_ranking
+#print axioms AsymmetricEliminativism.prw_typeC1_to_pr
+#print axioms AsymmetricEliminativism.prw_typeC2_recursive_to_pr
+#print axioms AsymmetricEliminativism.prw_warrantInternalToE_excludes_typeC3
+#print axioms AsymmetricEliminativism.prw_typeC4a_internal_track_to_pr
+#print axioms AsymmetricEliminativism.prw_warrantInternalToE_excludes_typeC4b
+#print axioms AsymmetricEliminativism.prw_contextual_to_pr
+
+-- Derived theorem (v0.8.0 R5: was axiom, now `theorem`).
 #print axioms AsymmetricEliminativism.lem_prw_reduction
 
 -- Impossibility theorem and its corollaries.

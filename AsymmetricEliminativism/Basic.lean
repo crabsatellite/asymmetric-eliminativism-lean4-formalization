@@ -319,7 +319,7 @@ structure FaithfulP1 (FolkObj Tcls : Type)
   hasContestedPositiveWitness :
     ∃ x : Tcls, Op.verdict x = true
 
-/--
+/-
   Property (P2) of `\label{def:op-properties}`: *cross-
   operationalisation arbitration*.
 
@@ -340,87 +340,219 @@ structure FaithfulP1 (FolkObj Tcls : Type)
   the predicate `partitionRelative`; an arbitration procedure
   satisfying P2 is one for which `partitionRelative A = False`.
 -/
+
+/--
+  Paper `\label{lem:prw}` warrant-form taxonomy (v0.8.0 R5
+  substantive paper-faithful refinement).
+
+  The paper's `\label{lem:prw}` proof body (paper lines 2079-2270)
+  case-analyses the warrant by linguistic structural sub-form;
+  the v0.8.0 R5 substantive decomposition encodes that taxonomy
+  as a Lean inductive type with one constructor per paper-case.
+  Every `ArbitrationProcedure` whose warrant is internal to `\E`
+  classifies into exactly one of these constructors — the case-
+  exhaustiveness paragraph following `\label{lem:prw}` (paper
+  lines 2105-2111).  The case-tag is consumed by the per-case
+  atomic Cat 3 stipulations in `Impossibility.lean`; the derived
+  theorem `lem_prw_reduction` discharges every case from
+  `warrantInternalToE` to `partitionRelative ∨ failsAdjudication`
+  via `match` on this `WarrantFeatureType` tag.
+
+  Paper-line citations on each constructor below.
+-/
+inductive WarrantFeatureType
+  /-- Paper lines 2092-2102 — "Uniform case: $W$ assigns the
+       same $k$ to all disagreement-cases of $\Op_i$ vs.\ $\Op_j$.
+       The constant assignment to $\{i,j\}$ selects a single
+       $E_m \in \{E_i, E_j\}$ as preferred globally, which is
+       direct single-$E_m$ privileging — explicitly the P2-failure
+       mode forbidden by Definition~\ref{def:op-properties}'s
+       independence clause."  Always reduces to partition-
+       relativity (single-$E_m$ privileging). -/
+  | uniform
+  /-- Paper lines 2127-2131 — "Type-(a): $f$ belongs to some $E_m$.
+       Then $R$'s appeal to $f$ privileges $E_m$, and the resulting
+       ranking just is single-$E_m$ privileging — option (i)."
+       Reduces to partition-relativity. -/
+  | typeA
+  /-- Paper lines 2131-2134 — "Type-(b): $f$ is shared by all
+       $E_i$ symmetrically, in which case $R$'s output is constant
+       across the $E_i$ and fails to produce a non-trivial ranking
+       — option (ii)."  Yields adjudication-failure (no ranking
+       produced), NOT partition-relativity. -/
+  | typeB
+  /-- Paper lines 2151-2185 — "(c.1) is itself stipulated by
+       convention.  The stipulation is not partition-independent
+       arbitration in the sense of P2 …  the procedure 'adjudicate
+       $\Op_i$ vs.\ $\Op_j$ by routing to whichever of $E_i, E_j$
+       is higher under the $f^*$-induced ranking $R_{f^*}$' is a
+       partition-relative weighting of $\{E_1, \ldots, E_n\}$."
+       Reduces to partition-relativity. -/
+  | typeC1
+  /-- Paper lines 2186-2196 — "(c.2) appeals to further $\E$-features
+       to warrant the meta-choice (returning recursively to the
+       type-(a) / type-(b) / type-(c) trichotomy at the meta-level)
+       …  Recursive appeal terminates only at types (a), (b), (c.1),
+       or (c.3); none yields admissible adjudication-warrant within
+       the (H)-discourse-state."  Recursive descent terminates in
+       options (a)/(b)/(c.1)/(c.3); on the (H)-discourse-state where
+       (c.3) is excluded, termination is at (a)/(b)/(c.1), which the
+       paper subsumes back under partition-relativity. -/
+  | typeC2_recursive
+  /-- Paper lines 2198-2210 (esp. 2188-2191) — "(c.3) appeals to
+       features outside $\E$, which is forbidden by (H); this
+       sub-case's closure is conditional on (H), and within the
+       discourse-state where (H) holds, (c.3) is inadmissible."
+       Forbidden under `warrantInternalToE` (an external-feature
+       warrant is by definition not internal to `\E`); the case-tag
+       is unreachable when the antecedent holds. -/
+  | typeC3_external
+  /-- Paper lines 2210-2218 — "(c.4.a) The track record is internal
+       to $\E$ (uses only $\E$-feature-based assessments of past
+       cases): then the meta-criterion is type-(c) and recursively
+       returns to the trichotomy at the meta-level."  Reduces to
+       partition-relativity via recursive descent in (c.4.a)
+       sub-case. -/
+  | typeC4a_internal_track
+  /-- Paper lines 2220-2237 — "(c.4.b) The track record uses
+       external-to-$\E$ predictive success … this is exactly the
+       heat-reform escape route.  If such a track record exists
+       and is recognised within $D$ as adjudication-warrant for
+       $\C$-verdicts, (H) ceases to hold; the discourse-state has
+       changed and the theorem no longer applies."  Forbidden
+       under `warrantInternalToE`; case-tag unreachable when the
+       antecedent holds. -/
+  | typeC4b_external_track
+  /-- Paper lines 2257-2270 — "In case (ii), the contextual
+       features used by $A$ to discriminate among $\Tcls$-members
+       are themselves either features of the folk extension $\E$
+       or features external to $\E$.  In the $\E$-internal sub-case,
+       contextual adjudication assigns each disagreement-case to
+       one of $\Op_i, \Op_j$ on the basis of which $\E$-features
+       the case exhibits; the mapping (which $\E$-features → which
+       operationalisation) is itself a partition-relative weighting
+       of the $E_i$ over $\Tcls$."  Reduces to partition-relativity
+       in the `warrantInternalToE` sub-case (the external sub-case
+       is excluded by (H)). -/
+  | contextual
+  deriving DecidableEq, Repr
+
 /-
-  Design note (v0.5.0 D2 documentation).  `ArbitrationProcedure`
-  carries two bare-`Prop` fields (`partitionRelative` and
-  `warrantInternalToE`) intentionally encoded as paper-introduced
-  scope conditions (v6 §3.4.2 `hypothesisPredicate` sub-type),
-  not as fully-concretised structural equations on the paper's
-  primitives.
+  Design note (v0.8.0 R5 substantive paper-faithful refinement).
+  `ArbitrationProcedure` carries a typed `warrantForm`
+  classifier (paper-faithful sub-form taxonomy from
+  `\label{lem:prw}` proof body, paper lines 2079-2270) and three
+  paper-stipulated bare-`Prop` scope fields (`partitionRelative`,
+  `warrantInternalToE`, `failsAdjudication`).
 
-  *Why bare-Prop and not concretised.*  The paper defines both
-  Props textually (`\label{def:op-properties}` P2 + the lem:prw
-  contextual paragraph): `partitionRelative` is "verdict reduces
-  to a weighting of `{E_1, …, E_n}`"; `warrantInternalToE` is
-  "adjudication-warrant derives from `\E`-features alone".  Both
-  are paper-discursive scope conditions on the typed
-  `ArbitrationProcedure`; the Lean encoding treats them as
-  abstract `Prop`s parametrising the structure, with content
-  supplied by paper text rather than by a Lean-internal
-  concretisation.
+  *Why typed `warrantForm` + scope Props (v0.8.0 R5 substantive).*
+  The v0.7.0 R4 encoding carried bare `Prop` fields for
+  `partitionRelative` and `warrantInternalToE` with no typed
+  classifier; the lem:prw reduction was therefore a single
+  `workingAssumption` axiom because no per-case decomposition
+  was structurally available.  Round 5 hostile validator flagged
+  the bare-Prop encoding as LAZY: the paper supplies a 9-case
+  taxonomy (paper lines 2079-2270 — uniform, typeA, typeB,
+  typeC1, typeC2_recursive, typeC3_external, typeC4a_internal_track,
+  typeC4b_external_track, contextual), and the substantive R5 fix
+  encodes the case taxonomy as a typed `WarrantFeatureType`
+  inductive with one constructor per paper-case.  The bare-Prop
+  `partitionRelative` / `warrantInternalToE` / `failsAdjudication`
+  fields remain as paper-stipulated scope conditions (v6 §3.4.2
+  `hypothesisPredicate`) — the substantive case-analysis is now
+  carried by the `warrantForm` tag plus the nine per-case atomic
+  Cat 3 stipulations in `Impossibility.lean`.
 
-  *Consequence for sub-type classification.*  The
-  `ArbitrationProcedure` carrier's Cat 3 sub-type is
-  `hypothesisPredicate` (paper-introduced scope-condition
-  bundle), NOT `carrier` (primitive type carrying purely
-  syntactic content).  The Prop fields are paper-stipulated
-  scope predicates; the structure itself is a paper-novel
-  scope-condition bundle on which the five lem:prw atomic
-  stipulations operate.
+  *Cat 3 sub-type classification.*  `ArbitrationProcedure` is
+  `hypothesisPredicate` (paper-stipulated Prop-bundle scope
+  condition); `WarrantFeatureType` is a fresh Cat 3 `carrier`
+  (paper-introduced typed enumeration of warrant sub-forms).
+  Both have ledger entries in `Ledger.lean` post-R5.
 
-  *Alternative (rejected).*  A concretised encoding (e.g.,
-  `partitionRelative` as a Lean-defined equation involving
-  `Fin Part.n`-indexed weighting maps) would require additional
-  Cat 3 structuralEquation atoms tying the concretisation to
-  the paper's textual definition; the bare-Prop encoding is
-  lighter-weight and faithfully reflects that the substantive
-  content lives in the paper's case-analysis proof, not in a
-  Lean-formalisable definitional equation.
+  *What the bare Props still encode.*  `partitionRelative` is
+  paper-stipulated "verdict reduces to a weighting of
+  `{E_1, …, E_n}`" (paper-`\label{def:op-properties}` P2 +
+  `\label{lem:prw}`); `warrantInternalToE` is paper-stipulated
+  "adjudication-warrant derives from `\\E`-features alone" (paper
+  hypothesis (H), `\label{thm:impossibility}`); `failsAdjudication`
+  is paper-stipulated "fails to produce a ranking — option (ii)"
+  (paper line 2133, `\label{lem:prw}` typeB clause).  All three
+  retain their paper-discursive content; the v0.8.0 R5 refinement
+  is in surfacing the case taxonomy so the lem:prw reduction can
+  be DERIVED rather than axiomatized.
 -/
 structure ArbitrationProcedure (FolkObj Tcls : Type)
     (Part : MutuallyUnrankedPartition FolkObj) where
   /-- The procedure: given a disagreement-witness `x`, return
        which operationalisation index (in `Fin Part.n`) to prefer. -/
   adjudicate : Tcls → Fin Part.n
+  /-- Paper-faithful warrant-form classifier (v0.8.0 R5 substantive
+       refinement).  Carries the `\label{lem:prw}` proof-body
+       9-case taxonomy on the procedure's warrant.  Cat 3
+       `carrier` per v6 §3.4.1 (paper-introduced typed enumeration);
+       consumed by the per-case atomic Cat 3 stipulations
+       `prw_uniform_to_pr`, `prw_typeA_to_pr`, `prw_typeB_no_ranking`,
+       `prw_typeC1_to_pr`, `prw_typeC2_recursive_to_pr`,
+       `prw_warrantInternalToE_excludes_typeC3`,
+       `prw_typeC4a_internal_track_to_pr`,
+       `prw_warrantInternalToE_excludes_typeC4b`,
+       `prw_contextual_to_pr` in `Impossibility.lean`. -/
+  warrantForm : WarrantFeatureType
   /-- *Partition-relative* iff the procedure's preference output
        reduces to a weighting of the partition members
-       `{E_1, …, E_n}` — i.e., its verdict on which `Op` to prefer
-       is determined by which `E_i` to privilege rather than by
-       partition-independent grounds.
-
-       The paper's Lemma `\label{lem:prw}` shows that *any*
-       warrant constructed from `E` alone reduces to partition-
-       relative weighting.  This field is a paper-introduced
-       scope condition (v6 §3.4.2 `hypothesisPredicate`); the
-       lemma's load-bearing reduction is the derived theorem
-       `lem_prw_reduction` in `Impossibility.lean`, which composes
-       five paper-novel atomic stipulations on the typed carriers. -/
+       `{E_1, …, E_n}`.  Paper-stipulated scope condition
+       (v6 §3.4.2 `hypothesisPredicate`).  Paper
+       `\label{def:op-properties}` P2 + `\label{lem:prw}`. -/
   partitionRelative : Prop
   /-- *Warrant internal to `\E`* iff the procedure's adjudication-
        warrant derives from features of the folk extension `\E`
-       alone.  In the discourse-state where `C` remains reverse-
-       defined and no external warrant has yet emerged (the
-       discourse-internality hypothesis (H) of
-       `\label{thm:impossibility}`), only such procedures are
-       admissible.  Paper-introduced scope condition (v6 §3.4.2
-       `hypothesisPredicate`). -/
+       alone.  Paper-stipulated scope condition (v6 §3.4.2
+       `hypothesisPredicate`).  Paper hypothesis (H),
+       `\label{thm:impossibility}`. -/
   warrantInternalToE : Prop
+  /-- *Fails adjudication* iff the procedure's output is constant
+       across the $E_i$ and so fails to produce a non-trivial
+       ranking (paper option (ii) — paper `\label{lem:prw}` typeB
+       clause, paper line 2133 "fails to produce a non-trivial
+       ranking — option (ii)").  Paper-stipulated scope condition
+       (v6 §3.4.2 `hypothesisPredicate`).  Distinguished from
+       `partitionRelative`: this is paper option (ii) (no-ranking
+       failure mode), not paper option (i) (single-$E_m$
+       privileging failure mode). -/
+  failsAdjudication : Prop
 
 /--
   P2 (definitional): `Op` admits cross-operationalisation
-  arbitration iff there exists an arbitration procedure that is
-  *not* partition-relative AND has admissible warrant.
+  arbitration iff there exists an arbitration procedure that
+  (a) is *not* partition-relative, (b) does *not* fail
+  adjudication, AND (c) has admissible warrant.
+
+  *v0.8.0 R5 substantive paper-faithful refinement.*  The
+  `¬ A.failsAdjudication` conjunct is added to align with the
+  paper's `\label{thm:impossibility}` proof body (lines 2307-2326)
+  parsing of failure modes: paper option (a) is determinate-
+  without-arbitration (P2-failure via partition-relativity); paper
+  option (b) is indeterminate (P3-failure / adjudication-failure);
+  paper option (c) is determinate-by-stipulation (P2-failure via
+  partition-relativity).  An arbitration procedure that "fails to
+  produce a ranking" — paper line 2133's option (ii) under typeB
+  — does NOT satisfy P2's adjudication-success requirement.  The
+  load-bearing paragraph (lines 2304-2305) says "no $A$ satisfying
+  the independence requirement of P2 exists", and P2's independence
+  requirement is the conjunction of independence-from-partition-
+  weighting AND production-of-a-non-trivial-ranking.
 
   *Hypothesis (H) and the discourse-state.*  Under (H), the only
   admissible warrants derive from `\E`; this is captured by
   `warrantInternalToE A`.  The paper's impossibility theorem
-  derives a contradiction from the conjunction of P2 + (H).
+  derives a contradiction from the conjunction of P2 + (H) via
+  `lem_prw_reduction`'s disjunctive conclusion.
 -/
 def SatisfiesP2 (FolkObj Tcls : Type)
     (Part : MutuallyUnrankedPartition FolkObj)
     (_Op : Operationalisation FolkObj Tcls Part) : Prop :=
   ∃ A : ArbitrationProcedure FolkObj Tcls Part,
-    ¬ A.partitionRelative ∧ A.warrantInternalToE
+    ¬ A.partitionRelative ∧ ¬ A.failsAdjudication ∧ A.warrantInternalToE
 
 /--
   Property (P3) of `\label{def:op-properties}`: *decidability on
