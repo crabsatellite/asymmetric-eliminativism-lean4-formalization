@@ -72,8 +72,15 @@
     atomic axiom and every closed top-level result, with TWO
     orthogonal mandatory classifications per entry plus a Cat 3
     sub-type tag:
-      * 6-tier status: gapOpen / gapPartial / gapBlocked /
-        gapDeadEnd / gapClosed / gapClosedConditional
+      * 7-tier status: gapOpen / gapPartial / gapBlocked /
+        gapDeadEnd / gapClosed / gapClosedConditional /
+        gapDefinitional
+        (the 7th tier `gapDefinitional` — paper-novel Cat 3
+        atoms that ARE the paper's starting commitments,
+        not gaps to close; covers carrier / hypothesisPredicate /
+        structuralEquation definitional sub-types — was added
+        2026-05-14 per v6 §1.1 / Manufactured Recognition
+        R-#27/R-#28)
       * 4-input-category: cat1Mathlib / cat2External /
         cat3PaperNovel / notInput  (Cat 0 = Lean kernel axioms is
         the always-present system layer, not tracked here per

@@ -1944,7 +1944,38 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
       "is the canonical sub-type for framework-paper PUBLISHED " ++
       "substantive claims about phenomena awaiting external " ++
       "validation.  Status remains `gapOpen` (NOT closeable via " ++
-      "Lean; resolution is external)."
+      "Lean; resolution is external).",
+    "v0.8.0 R5 Issue 5 phantom-ledger clarification (2026-05-14): " ++
+      "this entry is intentionally LEDGER-ONLY — no underlying " ++
+      "Lean declaration corresponds to the substrate-independence " ++
+      "premise.  The v0.5.0 R2 naked-Prop axiom " ++
+      "`SubstrateIndependenceTripleUse : Prop` was deleted in " ++
+      "v0.6.0 R2 (defect #4) per `AxiomAudit.lean` self-policy " ++
+      "against (E) custom-scaffolding axioms (naked constants, " ++
+      "abstract-type-inhabitation stipulations) + anti-pattern #7 " ++
+      "phantom downstream user (no theorem consumed the axiom).  " ++
+      "Since v0.6.0 this entry tracks the paper-articulated " ++
+      "phenomenological-conjecture premise WITHOUT a corresponding " ++
+      "Lean axiom — a ledger-only record for audit completeness.  " ++
+      "Hostile-validator might challenge: 'is this a phantom " ++
+      "ledger entry without Lean expression?'  Answer: YES, and " ++
+      "INTENTIONALLY so.  The premise is paper-articulated, " ++
+      "trackable, and visible to audit; a future paper-extension " ++
+      "round may introduce a typed downstream theorem (LLM-target " ++
+      "extension of the impossibility theorem) that consumes the " ++
+      "premise as a typed hypothesis on the appropriate carrier, " ++
+      "AT WHICH POINT a typed Lean wiring will be reintroduced " ++
+      "(not as a naked-Prop axiom, but as a typed hypothesis " ++
+      "predicate parameterising the future theorem).  Until then, " ++
+      "the entry serves as a v6-compliant ledger record of a " ++
+      "paper-articulated premise without current Lean expression.  " ++
+      "Per v6 §1.5 / §15: the ledger entry IS the canonical record " ++
+      "of the paper-content; Lean axiom is only one possible " ++
+      "encoding.  Classification stable as `gapOpen " ++
+      "phenomenologicalConjecture` until either (a) the paper-" ++
+      "extension typed-theorem materialises (Lean re-wiring) or " ++
+      "(b) empirical falsification / endorsement resolves the " ++
+      "external validation question (status migration)."
   ]
   scope :=
     "Paper-articulated phenomenological-conjecture premise: a " ++
@@ -1976,7 +2007,42 @@ def gap_testimony_protocol_BLOCKED : GapEntry := {
   paperSource :=
     "Li 2026, `\\label{prot:testimony}` (T1–T4 evidential-status " ++
     "conditions for LLM self-reports)"
-  attackHistory := []
+  attackHistory := [
+    "v0.6.0 R2 retention rationale (2026-05-14): the four-" ++
+      "condition testimony protocol (non-eliciting prompt; cross-" ++
+      "instance corroboration; intra-context stability under " ++
+      "temperature sampling; etc.) is an epistemology-of-evidence " ++
+      "PROPOSAL — operational criteria for sampling-based " ++
+      "corroboration of LLM self-reports — not a paper-published " ++
+      "substantive claim about phenomena.  Distinguished from " ++
+      "the phenomenologicalConjecture sub-type (v6 §3.4.6 added " ++
+      "2026-05-14): protocols are normative epistemological " ++
+      "guidance, not substantive empirical claims awaiting " ++
+      "external validation.  Retained as gapBlocked: outside " ++
+      "Lean's structural-mathematical scope as a protocol-design " ++
+      "proposal, NOT as a paper-published substantive claim about " ++
+      "an empirical phenomenon.",
+    "v0.8.0 R5 re-verification (2026-05-14): hostile-validator " ++
+      "challenge on `gapBlocked` vs `phenomenologicalConjecture` " ++
+      "classification re-examined.  Outcome: gapBlocked retained.  " ++
+      "Rationale: the four T1–T4 conditions are operational-" ++
+      "epistemological guidance for sampling-based methodology " ++
+      "(how to elicit and aggregate LLM self-reports), not a " ++
+      "substantive claim about deployed LLM behavior or " ++
+      "phenomenological content.  The protocol's resolution " ++
+      "path is methodological-validation research, NOT empirical " ++
+      "battery or interpretive debate about substantive content — " ++
+      "distinguishing it cleanly from the five " ++
+      "phenomenologicalConjecture entries (thesis_independence / " ++
+      "thesis_minimality / thesis_joint / tab_calibration / " ++
+      "substrate_independence_triple_use_premise) which DO " ++
+      "publish substantive claims about phenomena.  Per v6 §2 " ++
+      "gapBlocked reservation: 'outside Lean's structural-" ++
+      "mathematical scope' applies cleanly to protocol-design " ++
+      "proposals (this entry) and to policy-application " ++
+      "sketches (`ai_governance_applications` entry).  Classification " ++
+      "stable."
+  ]
   scope :=
     "Protocol with four conditions (non-eliciting prompt; cross-" ++
     "instance corroboration; intra-context stability under " ++
@@ -1985,7 +2051,10 @@ def gap_testimony_protocol_BLOCKED : GapEntry := {
     "an epistemology-of-evidence proposal — operational criteria " ++
     "for sampling-based corroboration of self-reports — not " ++
     "structural mathematics that Lean checks.  Blocked: outside " ++
-    "Lean's structural-mathematical scope."
+    "Lean's structural-mathematical scope as a protocol-design " ++
+    "proposal (v6 §2 reservation), distinguished from " ++
+    "phenomenologicalConjecture entries (substantive claims " ++
+    "about phenomena)."
 }
 
 def gap_calibration_table_OPEN : GapEntry := {
@@ -2085,14 +2154,48 @@ def gap_ai_governance_applications_BLOCKED : GapEntry := {
     "Li 2026, Part IV (Applications to AI Governance) — moral " ++
     "status, autonomy, responsibility, personhood as four " ++
     "contested AI-governance predicates"
-  attackHistory := []
+  attackHistory := [
+    "v0.6.0 R2 retention rationale (2026-05-14): the Part IV " ++
+      "AI-governance applications are policy-design sketches — " ++
+      "operational structural-property substitutes proposed for " ++
+      "four contested governance predicates (moral status, " ++
+      "autonomy, responsibility, personhood).  They are not " ++
+      "theorems or paper-published substantive claims about " ++
+      "phenomena; they are downstream-of-framework policy " ++
+      "applications.  Distinguished from the " ++
+      "phenomenologicalConjecture sub-type: policy applications " ++
+      "are normative-policy proposals about how governance " ++
+      "frameworks should operate, not substantive empirical " ++
+      "claims about deployed system behavior.  Retained as " ++
+      "gapBlocked: outside Lean's structural-mathematical scope " ++
+      "as a policy-design proposal.",
+    "v0.8.0 R5 re-verification (2026-05-14): hostile-validator " ++
+      "challenge on `gapBlocked` vs `phenomenologicalConjecture` " ++
+      "classification re-examined.  Outcome: gapBlocked retained.  " ++
+      "Rationale: Part IV's substantive content is OPERATIONAL " ++
+      "STRUCTURAL-PROPERTY SUBSTITUTES proposed for governance-" ++
+      "predicate-application (e.g., substituting structural-" ++
+      "property tests for `moral status' attribution in AI " ++
+      "governance contexts) — these are normative policy " ++
+      "proposals about how governance frameworks SHOULD operate, " ++
+      "not substantive claims about deployed system behavior " ++
+      "or empirical phenomenon.  The resolution path is policy-" ++
+      "design research and regulatory deliberation, NOT empirical " ++
+      "battery or interpretive debate about substantive content.  " ++
+      "Per v6 §2 gapBlocked reservation: 'outside Lean's " ++
+      "structural-mathematical scope' applies cleanly to policy-" ++
+      "application sketches.  Classification stable."
+  ]
   scope :=
     "Sketches of how the diagnostic framework operates on four " ++
     "contested AI-governance predicates, with operational " ++
     "structural-property substitutes proposed for each.  These " ++
-    "are policy-application sketches, not theorems.  Blocked: " ++
-    "outside Lean's structural-mathematical scope; substantive " ++
-    "content is policy design downstream of the framework."
+    "are policy-application sketches, not theorems or " ++
+    "substantive claims about phenomena.  Blocked: outside " ++
+    "Lean's structural-mathematical scope as a policy-design " ++
+    "proposal (v6 §2 reservation), distinguished from " ++
+    "phenomenologicalConjecture entries (substantive claims " ++
+    "about phenomena)."
 }
 
 /-! ### Aggregated ledger inventory. -/
@@ -2215,7 +2318,8 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
 #eval s!"Total entries: {allGaps.length}"
 
-/-! ### Inventory summary (v0.7.0 post-R4 v6 §3.4.6 compliance)
+/-! ### Inventory summary (v0.8.0 post-R5 substantive paper-faithful
+     decomposition + gapDefinitional 7th tier)
 
   The live status / input-category / Cat 3 sub-type counts are
   printed by the `#eval` calls above (run `lake env lean
@@ -2223,28 +2327,37 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
   *Cat 3 atomic inputs (paper-side atomic-input inventory):*
 
-    Cat 3 paper-novel working-assumption for Lemma `\label{lem:prw}`
-    (1 entry; sub-type `workingAssumption`; v0.6.0 R2 honest
-    revert):
-      lem_prw_reduction.
+    Cat 3 paper-novel structural-equation atoms for Lemma
+    `\label{lem:prw}` decomposition (6 axioms + 2 derived
+    theorems from concretization in `Basic.lean`; v0.8.0 R5
+    substantive paper-faithful decomposition replacing v0.7.0
+    R4 single-axiom encoding):
+      prw_uniform_to_pr, prw_typeA_to_pr,
+      prw_typeC1_to_pr, prw_typeC2_recursive_to_pr,
+      prw_typeC4a_internal_track_to_pr,
+      prw_contextual_to_pr.
+    Plus 2 definitional-equation `def`s (Issue 3):
+      gap_warrantInternalToE_def, gap_failsAdjudication_def.
+    Plus 1 typed inductive carrier:
+      WarrantFeatureType (9 paper-cited constructors).
 
     Cat 3 paper-novel typed carriers
     (sub-type `carrier`; encoded as Lean `structure` /
-    `def` / `class`, NOT as `axiom` declarations):
+    `def` / `class` / `inductive`, NOT as `axiom` declarations;
+    status `gapDefinitional` per v6 §1.1):
       ReverseDefinedConcept, ReverseDefinedWitness,
       DiagnosticProfile, MutuallyUnrankedPartition,
-      Operationalisation, DiscriminatorRow.
+      Operationalisation, DiscriminatorRow,
+      WarrantFeatureType (v0.8.0 R5 Issue 2).
 
     Cat 3 paper-novel hypothesis/scope-condition bundles
     (sub-type `hypothesisPredicate`; encoded as Lean
-    `structure` bundling Prop-valued scope conditions):
+    `structure` bundling Prop-valued scope conditions;
+    status `gapDefinitional` per v6 §1.1):
       AsymmetricEliminationVerdict, UseSeparability,
-      FaithfulP1, ArbitrationProcedure (D2 reclassified),
-      CognitiveSystem (v0.6.0 R2 D7 reclassified for
-      consistency with the other Prop-bundle scope
-      structures),
-      SessionalCognition (D3 reclassified),
-      BridgingPrinciple (D3 reclassified).
+      FaithfulP1, ArbitrationProcedure,
+      CognitiveSystem,
+      SessionalCognition, BridgingPrinciple.
 
     Cat 3 paper-novel phenomenological-conjecture entries
     (sub-type `phenomenologicalConjecture`; v0.7.0 R4
@@ -2306,13 +2419,119 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
   pending discharge) and *zero Cat 2 axioms* (no external
   textbook citations).  All atomic inputs are Cat 3 paper-novel.
 
-  *Cat 3 sub-types not used in this project:* `structuralEquation`
-  (no paper-stated structural-defining-equation atoms beyond what
-  is encoded inside the paper-novel structure definitions
-  themselves), `conditionalHypothesis` (no external-open-problem-
-  conditional results).  Both `workingAssumption` and
-  `phenomenologicalConjecture` sub-types are now populated
-  (1 entry / 5 entries respectively post-R4).
+  *Cat 3 sub-types post-R5:* `structuralEquation` is now populated
+  with 8 entries (paper-stated definitional reductions on the
+  paper-novel `ArbitrationProcedure` + `WarrantFeatureType`
+  carriers); `conditionalHypothesis` remains empty (no external-
+  open-problem-conditional results).  `workingAssumption` now
+  empty (was 1 — `lem_prw_reduction` consumed by Issue 2
+  decomposition); `phenomenologicalConjecture` populated (5).
+
+  *v0.8.0 changelog summary (round 5 substantive paper-faithful
+  decomposition + gapDefinitional 7th tier; user flagged v0.7.0
+  stopping point as LAZY):*
+
+    * Issue 1 (mechanical spec drift fix): Added `gapDefinitional`
+      7th status tier (v6 §1.1, ratified 2026-05-14).
+      `gapCounts` extended to 7-tuple.  13 definitional atoms
+      reclassified `gapClosed` → `gapDefinitional`: 6 carriers
+      (ReverseDefinedConcept, ReverseDefinedWitness,
+      DiagnosticProfile, MutuallyUnrankedPartition,
+      Operationalisation, DiscriminatorRow) + 7
+      hypothesisPredicates (AsymmetricEliminationVerdict,
+      UseSeparability, FaithfulP1, ArbitrationProcedure,
+      CognitiveSystem, SessionalCognition, BridgingPrinciple).
+
+    * Issue 2 (CORE substantive lem_prw_reduction decomposition):
+      User flagged v0.7.0 single-axiom encoding as LAZY.  Round 5
+      hostile validator confirmed defect #2 (CORE).  Substantive
+      fix: introduced typed `WarrantFeatureType` inductive in
+      `Basic.lean` with 9 paper-cited constructors (uniform / typeA
+      / typeB / typeC1 / typeC2_recursive / typeC3_external /
+      typeC4a_internal_track / typeC4b_external_track / contextual);
+      extended `ArbitrationProcedure` with `warrantForm` +
+      `failsAdjudication` fields; added 9 per-case Cat 3
+      `structuralEquation` atomic stipulations in
+      `Impossibility.lean` (7 typed bridges + 2 non-occurrence
+      excluders); converted `lem_prw_reduction` axiom → derived
+      theorem via case-exhaustion `match` on the 9 constructors.
+      Conclusion form is paper-faithful disjunctive
+      `partitionRelative ∨ failsAdjudication`.  P2 definition
+      extended with `¬ A.failsAdjudication` conjunct (paper option
+      (ii) parallel to option (i) per paper lines 2304-2305 +
+      2307-2326).  10 new GapEntry added (1 WarrantFeatureType
+      carrier + 9 per-case atoms).
+
+    * Issue 3 (substantive concretization, partial):
+      `ArbitrationProcedure.warrantInternalToE` and
+      `ArbitrationProcedure.failsAdjudication` extracted from the
+      `structure` definition and re-encoded as derived `def`s on
+      the paper-faithful `WarrantFeatureType` taxonomy:
+      `warrantInternalToE := warrantForm ≠ typeC3 ∧ warrantForm ≠
+      typeC4b`; `failsAdjudication := warrantForm = typeB`.
+      Consequence: 3 of the 9 Cat 3 atoms (`prw_typeB_no_ranking`,
+      `prw_warrantInternalToE_excludes_typeC3`,
+      `prw_warrantInternalToE_excludes_typeC4b`) converted from
+      axioms to derived theorems (proofs: `intro h; exact h` /
+      `h.1` / `h.2`).  2 new GapEntry added for the definitional
+      `def`s (`gap_warrantInternalToE_def`,
+      `gap_failsAdjudication_def`).  Final axiom count for
+      `lem_prw_reduction` and `thm_impossibility`: 6 (down from
+      9 in Issue 2, down from 1 bundled axiom in v0.7.0).
+
+      *Honest scope note on Issue 3.*  The remaining bare-Prop
+      fields throughout `Basic.lean` and `Diagnostic.lean` (V1-V6
+      in SessionalCognition; six DSC axes in CognitiveSystem;
+      S1/S2 in UseSeparability; E2/E3 in DiagnosticProfile;
+      (iv.a)/(iv.b)/(iv.c) in ReverseDefinedWitness;
+      B1.ii/B1.iii/B2 in BridgingPrinciple; counterfactualIndependence
+      in DiscriminatorRow; determinedByPartExhibition in FaithfulP1;
+      noPartitionIndependentRanking in MutuallyUnrankedPartition;
+      partitionRelative in ArbitrationProcedure) remain bare-Prop
+      with explicit Cat 3 hypothesisPredicate sub-type classification
+      + in-line design-note documentation explaining why paper-
+      empirical content (DSC axes; SC commitments; bridging
+      clauses; etc.) lives in paper-discursive text rather than
+      Lean-internal definitional equation.  Per v6 §3.4.2 'paper-
+      cited Prop or class' encoding for hypothesisPredicate
+      sub-type — this is v6-compliant; the Issue 3 concretization
+      is targeted at fields where the paper supplies a typed
+      structural form (the `WarrantFeatureType`-derived ones
+      above), preserving Cat 3 hypothesisPredicate for fields
+      whose paper-content is empirical-philosophical.  See
+      `Basic.lean` design-note blocks above each affected
+      structure for per-structure rationale.
+
+    * Issue 4 (workingAssumption resolution): dissolved by
+      Issue 2 decomposition.  `lem_prw_reduction`'s former
+      `workingAssumption` ledger entry is now `gapClosed`
+      `notInput` (derived theorem).  `workingAssumption`
+      sub-type count is now 0.
+
+    * Issue 5 (attackHistory hygiene): explicit R5 re-verification
+      entries added to `gap_testimony_protocol_BLOCKED` and
+      `gap_ai_governance_applications_BLOCKED` documenting
+      v0.6.0 R2 retention rationale + R5 distinguishing them
+      from phenomenologicalConjecture (protocol-design vs.
+      substantive claim about phenomena).  Explicit R5
+      phantom-ledger clarification on
+      `gap_substrate_independence_triple_use_OPEN`: this entry
+      is INTENTIONALLY ledger-only (no underlying Lean axiom)
+      per v6 §1.5 / §15 — the v0.5.0 R2 naked-Prop axiom was
+      deleted in v0.6.0 R2; the ledger entry IS the v6-compliant
+      canonical record; future paper-extension may reintroduce
+      a typed wiring.
+
+    * `lakefile.toml` version bumped 0.7.0 → 0.8.0.
+
+    * `AxiomAudit.lean` rewritten: 1 axiom → 6 axioms (Issue 2
+      added 9, Issue 3 concretized 3 to theorems; the remaining
+      6 are paper-prose case-reasoning content).  All 6 cite
+      paper-line ranges.
+
+    * Build GREEN.  Zero sorries.  `#print axioms thm_impossibility`
+      shows the 6 paper-cited atomic stipulations — no bundled
+      axiom, no single workingAssumption fallback.
 
   *v0.7.0 changelog summary (round 4 v6 §3.4.6 compliance —
   phenomenologicalConjecture sub-type added per Manufactured
