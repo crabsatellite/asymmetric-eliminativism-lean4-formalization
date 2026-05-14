@@ -71,8 +71,24 @@ All axioms are atomic minimal units, classified as one of:
   carrier; v0.10.0 R9 honestly reverted that concretization after
   the Round 8 hostile validator machine-verified it VACUOUS
   (discharged by constant-weight witness for every procedure).
-  v0.10.0 R9 restored the v0.8.0 R5 bare-Prop RHS, retaining the
-  paper-faithful taxonomy + case-exhaustion structure.
+  v0.10.0 R9 restored the v0.8.0 R5 bare-Prop RHS.  **v0.11.0 R14**
+  (substantive paper-faithful Warrant typed-structure refactor per
+  v6 §11 paper-Lean unification + §13 right gap-attack workflow +
+  §18 R-#25 precedent):  Paper.tex revised to include Definition
+  `\label{def:warrant}` (typed Warrant triple
+  `(\mathsf{Feat}_W, \phi_W, \rho_W)` + E-internality factorisation
+  clause); Lean refactored with new `Warrant` carrier, the
+  `ArbitrationProcedure` carrying `warrant : Warrant` + `exhibits`
+  fields, and `partitionRelative` as a derived `def` realising the
+  paper's E-internality factorisation.  The 6 case-bridge axioms
+  retain their structural-equation status but now carry substantive
+  paper-faithful RHS conclusions.  Vacuity verified kernel-pure via
+  `AsymmetricEliminativism/VacuityCheck.lean` (4 theorems: explicit
+  counter-witness `nonFactorisingA` proves `∃ A, ¬
+  A.partitionRelative`; companion `factorisingA` proves the
+  predicate is satisfiable; the case-bridge `∀ A, warrantForm =
+  uniform → A.partitionRelative` is provably NOT Lean-derivable
+  without the atom).
 * **Lean kernel** — `propext`, `Classical.choice`, `Quot.sound`.
 
 The project has zero Cat 1 axioms (no Mathlib-derivability
@@ -140,6 +156,7 @@ AsymmetricEliminativism/AxiomAudit.lean` output combined with the
 | [`AsymmetricEliminativism/Diagnostic.lean`](AsymmetricEliminativism/Diagnostic.lean) | Discriminator (`def:discriminator`) rules (R1) and (R2), with derived structural lemmas on threshold-rule firing patterns |
 | [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (Lean-form `¬ P2`) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3) + Lemma `\label{lem:prw}` (derived theorem `lem_prw_reduction` composing the six Cat 3 atomic case-bridge axioms `prw_{uniform,typeA,typeC1,typeC2_recursive,typeC4a_internal_track,contextual}_to_pr` with three derived case-theorems via case-exhaustion on the `WarrantFeatureType` 9-constructor inductive) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
 | [`AsymmetricEliminativism/AxiomAudit.lean`](AsymmetricEliminativism/AxiomAudit.lean) | Trust audit: prints `#print axioms` for every paper-level theorem |
+| [`AsymmetricEliminativism/VacuityCheck.lean`](AsymmetricEliminativism/VacuityCheck.lean) | Vacuity verification (v0.11.0 R14): four kernel-pure theorems proving the new substantive paper-faithful `partitionRelative` def is non-vacuous (constructible counter-witness + companion satisfying witness + case-bridge non-derivability) |
 | [`AsymmetricEliminativism/Ledger.lean`](AsymmetricEliminativism/Ledger.lean) | Typed gap ledger: `GapStatus` × `InputCategory` orthogonal classification, with one `GapEntry` per atomic axiom, paper-novel carrier, and closed top-level result |
 
 ## Building
