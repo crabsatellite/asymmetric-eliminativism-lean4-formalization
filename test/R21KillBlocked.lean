@@ -26,7 +26,7 @@ open AsymmetricEliminativism
     Under v0.16.0 R24, R22 Fix A is REVERTED.  `partitionRelative`
     is again literally `featureExtractsAreEInternal`, and the
     2-line `(hH A hAdm).2` reduction IS the canonical paper-
-    faithful proof per paper line 2109-2112's typed-level
+    faithful proof per paper `\label{def:warrant}` typed-level
     identification.
 
     The 2-line bypass under R24 is paper-FAITHFUL (not a bypass):
@@ -54,8 +54,8 @@ example {FolkObj Tcls : Type} (Part : MutuallyUnrankedPartition FolkObj)
 
 /-- (b) Under R24, `.2` projection of `warrantInternalToE` yields
     `featureExtractsAreEInternal`, which IS `partitionRelative`
-    per paper line 2109-2112 identification.  This 2-line
-    reduction IS canonical, not a bypass. -/
+    per paper `\label{def:warrant}` typed-level identification.
+    This 2-line reduction IS canonical, not a bypass. -/
 example {FolkObj Tcls : Type} (Part : MutuallyUnrankedPartition FolkObj)
         (A : ArbitrationProcedure FolkObj Tcls Part)
         (hW : A.warrantInternalToE) :
@@ -110,8 +110,8 @@ example (Op : Operationalisation Bool Bool VacuityCheck.toyPart)
     Under R24, `prw_uniform_to_pr` is a derived theorem with proof
     body `fun _ hW => hW.2`.  Applied to ANY witness (including
     uniform-constant-ranker), it yields `partitionRelative =
-    featureExtractsAreEInternal` (paper line 2109-2112) —
-    paper-faithful, NO inconsistency. -/
+    featureExtractsAreEInternal` (paper `\label{def:warrant}`
+    typed-level identification) — paper-faithful, NO inconsistency. -/
 
 /-- R23 verification: the uniform-constant-ranker witness IS
     partition-relative under R24, with NO `False` derivable. -/
@@ -119,13 +119,14 @@ example :
     VacuityCheck.uniformConstantRankerA.partitionRelative :=
   VacuityCheck.r23_inconsistency_eliminated
 
-/-! Capstone: the R24 final honest convergence accepts paper line
-    2109-2112's typed-level identification.  Anti-pattern #13
-    (conclusion-as-axiom) is GENUINELY BROKEN: zero Cat 3 axioms
+/-! Capstone: the R24 final honest convergence accepts paper
+    `\label{def:warrant}` typed-level identification.  Anti-pattern
+    #13 (conclusion-as-axiom) is GENUINELY BROKEN: zero Cat 3 axioms
     for the partition-relativity derivation chain.  The only
     remaining axiom is `admissibleIn` (Cat 3 hypothesisPredicate,
     R22 Fix B retained), which is paper-stipulated discourse-state
-    scope condition per paper line 1999-2002. -/
+    scope condition per paper `\label{thm:impossibility}` statement
+    quantifier. -/
 
 example : True := trivial
 

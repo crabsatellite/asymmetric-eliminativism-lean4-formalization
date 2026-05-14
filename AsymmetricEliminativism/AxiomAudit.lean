@@ -42,17 +42,18 @@
     **v0.16.0 R24 FINAL HONEST CONVERGENCE** — R23 hostile
     validator machine-verified that R22 Fix A (`partitionRelative`
     non-degeneracy strengthening) introduced axiom inconsistency:
-    paper's uniform case (paper lines 2127-2132) has CONSTANT
-    single-$E_m$ adjudication (degenerate ranker by construction),
-    but R22's `prw_uniform_to_pr` axiom derived `partitionRelative`
-    (including non-degeneracy) on the uniform witness, yielding
-    kernel-pure `False`.  R24 final honest convergence:
+    paper's uniform case (`\label{lem:prw}` uniform paragraph) has
+    CONSTANT single-$E_m$ adjudication (degenerate ranker by
+    construction), but R22's `prw_uniform_to_pr` axiom derived
+    `partitionRelative` (including non-degeneracy) on the uniform
+    witness, yielding kernel-pure `False`.  R24 final honest
+    convergence:
 
     - REVERT R22 Fix A: `partitionRelative` reverts to R18 form,
       literally `featureExtractsAreEInternal` (no non-degeneracy).
-      Per paper line 2109-2112, this identification IS paper-
-      faithful — paper's `lem:prw` at typed `\label{def:warrant}`
-      level is STRUCTURALLY TRIVIAL.
+      Per paper `\label{def:warrant}` typed-level identification,
+      this identification IS paper-faithful — paper's `lem:prw` at
+      typed `\label{def:warrant}` level is STRUCTURALLY TRIVIAL.
 
     - KEEP R22 Fix B: `admissibleIn` axiom (Cat 3
       hypothesisPredicate) + restricted `DiscourseHypothesisH :=
@@ -76,14 +77,15 @@
         R21 killed (2 defects).
       - R22 v0.15.0: uniform-case axiom inconsistency → R23
         killed.
-      - R24 v0.16.0: HONEST CONVERGENCE — accept paper line
-        2109-2112 typed-level trivialization; keep R22 Fix B
-        admissibleIn.
+      - R24 v0.16.0: HONEST CONVERGENCE — accept paper
+        `\label{def:warrant}` typed-level trivialization; keep R22
+        Fix B admissibleIn.
 
     *Project now has 1 Cat 3 axiom post-R24*:
     - 1 admissibleIn axiom: ArbitrationProcedure.admissibleIn
       (Cat 3 hypothesisPredicate; paper-stipulated scope-condition
-      predicate per paper line 1999-2002).
+      predicate per paper `\label{thm:impossibility}` statement
+      quantifier).
     The 6 case-bridges previously axiomatized under R22 are now
     derived theorems again (R18/R24 form, proof body
     `fun _ hW => hW.2`).
@@ -93,10 +95,11 @@
     R17 hostile validator found that R16's `warrantInternalToE`
     contains `featureExtractsAreEInternal` as its second conjunct,
     which is *definitionally* identical to `partitionRelative`
-    (paper line 2109-2112: "the typed-structure version of the
-    prose-level description following Lemma~\ref{lem:prw} of
-    $R_{f^*}$ being constructed from $f^*$-values on each $E_i$
-    that are distributed unequally across the partition members").
+    (paper `\label{def:warrant}` typed-level paragraph: "the
+    typed-structure version of the prose-level description following
+    Lemma~\ref{lem:prw} of $R_{f^*}$ being constructed from
+    $f^*$-values on each $E_i$ that are distributed unequally across
+    the partition members").
     Consequence: each `prw_X_to_pr` reduces to `fun _ hW => hW.2`
     — kernel-pure derivable.  R18 (Option C) accepts the
     structural triviality: paper's `lem:prw` IS Lean-trivial under
@@ -115,47 +118,48 @@
     at all).
 
       prw_uniform_to_pr  (R18: axiom → theorem)
-        ← `\label{lem:prw}` uniform case (paper lines 2092-2102);
+        ← `\label{lem:prw}` uniform case;
           R18 signature: `A.warrantForm = uniform →
           A.warrantInternalToE → A.partitionRelative` (same as
           R16).  Proof body `fun _ hW => hW.2` — projects
           `featureExtractsAreEInternal` conjunct (= `partitionRelative`
-          definitionally per paper line 2109-2112).
+          definitionally per paper `\label{def:warrant}` typed-level
+          identification).
       prw_typeA_to_pr  (R18: axiom → theorem)
-        ← `\label{lem:prw}` type-(a) case (paper lines 2127-2131);
+        ← `\label{lem:prw}` type-(a) case;
           same R18 conversion.
       prw_typeB_no_ranking
-        ← `\label{lem:prw}` type-(b) case (paper lines 2131-2134);
+        ← `\label{lem:prw}` type-(b) case;
           single-step typed bridge `A.warrantForm = typeB →
           A.failsAdjudication`.  Derived theorem (v0.8.0 R5
           Issue 3 concretization).  Unchanged R18.
       prw_typeC1_to_pr  (R18: axiom → theorem)
-        ← `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185);
+        ← `\label{lem:prw}` type-(c.1) case;
           same R18 conversion.  Paper's `R_{f^*}` ranking is
           ρ_W (the `ranker` field of the typed `Warrant` carrier)
           per paper `\label{def:warrant}`.
       prw_typeC2_recursive_to_pr  (R18: axiom → theorem)
-        ← `\label{lem:prw}` type-(c.2) recursive case (paper lines
-          2186-2196); same R18 conversion.
+        ← `\label{lem:prw}` type-(c.2) recursive case;
+          same R18 conversion.
       prw_warrantInternalToE_excludes_typeC3
-        ← `\label{lem:prw}` type-(c.3) exclusion (paper lines
-          2189-2191); non-occurrence excluder `A.warrantInternalToE
+        ← `\label{lem:prw}` type-(c.3) exclusion;
+          non-occurrence excluder `A.warrantInternalToE
           → A.warrantForm ≠ typeC3_external`.  Derived theorem;
           projects the `caseFormIsInternal.1` conjunct via `.1.1`
           on the new R18 decomposition `caseFormIsInternal ∧
           featureExtractsAreEInternal`.  Unchanged structurally.
       prw_typeC4a_internal_track_to_pr  (R18: axiom → theorem)
-        ← `\label{lem:prw}` type-(c.4.a) internal track case (paper
-          lines 2210-2218); same R18 conversion.
+        ← `\label{lem:prw}` type-(c.4.a) internal track case;
+          same R18 conversion.
       prw_warrantInternalToE_excludes_typeC4b
-        ← `\label{lem:prw}` type-(c.4.b) exclusion (paper lines
-          2220-2237); non-occurrence excluder
+        ← `\label{lem:prw}` type-(c.4.b) exclusion;
+          non-occurrence excluder
           `A.warrantInternalToE → A.warrantForm ≠
           typeC4b_external_track`.  Derived theorem; projects
           `caseFormIsInternal.2` via `.1.2`.  Unchanged
           structurally.
       prw_contextual_to_pr  (R18: axiom → theorem)
-        ← `\label{lem:prw}` contextual case (paper lines 2257-2270);
+        ← `\label{lem:prw}` contextual case;
           same R18 conversion.
 
     All nine are now derived theorems.  Status `gapClosed`
@@ -221,7 +225,7 @@
     * Cat 3 axiom (NEW v0.15.0 R22 Fix B, RETAINED v0.16.0 R24):
         ArbitrationProcedure.admissibleIn — paper-stipulated
         scope-condition predicate per paper `\label{thm:impossibility}`
-        line 1999-2002 ("every arbitration procedure $A$
+        ("every arbitration procedure $A$
         admissible within $D$ for adjudicating operationalisations
         of $\C$").  Cat 3 `hypothesisPredicate` per v6 §3.4.2.
 
@@ -245,7 +249,8 @@
         VacuityCheck.lem_prw_reduction_applied_to_factorisingA,
         VacuityCheck.hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative
           (R24 honest acknowledgment: `.2` projection IS canonical
-           reduction per paper line 2109-2112),
+           reduction per paper `\label{def:warrant}` typed-level
+           identification),
         VacuityCheck.uniformConstantRankerA_warrantInternalToE,
         VacuityCheck.uniformConstantRankerA_partitionRelative
           (R24 V12 R23 inconsistency ELIMINATED — uniform-
@@ -256,8 +261,8 @@
            inconsistency with consistent positive theorem).
 
     * `partitionRelative_iff_featureExtractsAreEInternal`
-      (R24 V7 paper line 2109-2112 identification): does not
-      depend on any axioms (`Iff.rfl`).
+      (R24 V7 paper `\label{def:warrant}` typed-level identification):
+      does not depend on any axioms (`Iff.rfl`).
 
     * Depends on `[propext, Quot.sound, admissibleIn]`
       (R22 Fix B retained; tests consuming the admissibleIn
@@ -282,7 +287,7 @@
   - R18→R19 definitional smuggling in SatisfiesP2;
   - R20→R21 universally-false H + 2-line bypass;
   - R22→R23 uniform-case non-degeneracy inconsistency;
-  - R24: HONEST CONVERGENCE — accept paper line 2109-2112's
+  - R24: HONEST CONVERGENCE — accept paper `\label{def:warrant}`
     typed-level identification; substantive content lives in
     `WarrantFeatureType` taxonomy + `admissibleIn` scope axiom.
 
@@ -293,19 +298,20 @@
    (b) the typed `Warrant` carrier structure (Cat 3 `carrier`,
        paper `\label{def:warrant}`);
    (c) the `caseFormIsInternal` hypothesis (H) tag-exclusion
-       predicate (Cat 3 `hypothesisPredicate`, paper lines
-       2188-2237);
+       predicate (Cat 3 `hypothesisPredicate`, paper
+       `\label{lem:prw}` (c.3)/(c.4.b) paragraphs);
    (d) the `featureExtractsAreEInternal` typed-structure
        factorisation predicate (Cat 3 `structuralEquation`, paper
-       lines 2099-2107);
+       `\label{def:warrant}` E-internality clause);
    (e) the `warrantInternalToE` composite predicate
        `caseFormIsInternal ∧ featureExtractsAreEInternal`
        (Cat 3 `structuralEquation`);
    (f) the `partitionRelative` REVERTED predicate
-       `featureExtractsAreEInternal` per paper line 2109-2112
-       identification (R24 revert of R22 Fix A);
+       `featureExtractsAreEInternal` per paper `\label{def:warrant}`
+       typed-level identification (R24 revert of R22 Fix A);
    (g) the `admissibleIn` Cat 3 hypothesisPredicate axiom (R22
-       Fix B retained; paper line 1999-2002);
+       Fix B retained; paper `\label{thm:impossibility}` statement
+       quantifier);
    (h) the `DiscourseHypothesisH` predicate restricted to
        `∀ A, admissibleIn A Op → warrantInternalToE` (R22
        Fix B refinement retained).
@@ -320,13 +326,15 @@
   - R22 Fix B retained: without admissibility restriction,
     `DiscourseHypothesisH` is universally false; the impossibility
     theorem becomes vacuously true (false antecedent → anything).
-  - R24 accepts the typed-level trivialization per paper line
-    2109-2112: `(hH A hAdm).2` IS the canonical 2-line reduction;
-    paper's `lem:prw` at typed level is paper-stated to be the
-    partition-relative-weighting factorisation.  Substantive paper
-    content lives in `WarrantFeatureType` 9-case taxonomy (which
-    classifies paper's actual case-analysis) + `admissibleIn`
-    scope axiom (which restricts (H) per paper line 1999-2002).
+  - R24 accepts the typed-level trivialization per paper
+    `\label{def:warrant}` typed-level identification: `(hH A hAdm).2`
+    IS the canonical 2-line reduction; paper's `lem:prw` at typed
+    level is paper-stated to be the partition-relative-weighting
+    factorisation.  Substantive paper content lives in
+    `WarrantFeatureType` 9-case taxonomy (which classifies paper's
+    actual case-analysis) + `admissibleIn` scope axiom (which
+    restricts (H) per paper `\label{thm:impossibility}` statement
+    quantifier).
 
   Usage:
     lake exe cache get
@@ -355,8 +363,8 @@ import AsymmetricEliminativism
 -- body `fun _ hW => hW.2` — the partition-relativity is recovered
 -- by projecting `warrantInternalToE`'s `featureExtractsAreEInternal`
 -- conjunct, which is definitionally `partitionRelative` per paper
--- line 2109-2112).  All nine expected to show "does not depend on
--- any axioms" post-R18.
+-- `\label{def:warrant}` typed-level identification).  All nine
+-- expected to show "does not depend on any axioms" post-R18.
 #print axioms AsymmetricEliminativism.prw_uniform_to_pr
 #print axioms AsymmetricEliminativism.prw_typeA_to_pr
 #print axioms AsymmetricEliminativism.prw_typeB_no_ranking
@@ -388,7 +396,7 @@ import AsymmetricEliminativism
 --   - the R15 attack vector is closed under R16 (R16),
 --   - R18 Honest Acceptance is structurally correct (paper's
 --     `lem:prw` reduction = paper's E-internality factorisation
---     per paper line 2109-2112) (R18),
+--     per paper `\label{def:warrant}` typed-level identification) (R18),
 --   - the R19 attack vector is closed under R20 by structural
 --     restructure of SatisfiesP2 (R20).
 -- All expected to show only `[propext, Quot.sound]` (or empty).
@@ -403,7 +411,7 @@ import AsymmetricEliminativism
 -- v0.16.0 R24 V5 positive instance — factorisingA under reverted
 -- `partitionRelative = featureExtractsAreEInternal`:
 #print axioms AsymmetricEliminativism.VacuityCheck.factorisingA_satisfies_all_antecedents
--- v0.16.0 R24 V7 — paper line 2109-2112 identification IS Iff.rfl:
+-- v0.16.0 R24 V7 — paper `\label{def:warrant}` typed-level identification IS Iff.rfl:
 #print axioms AsymmetricEliminativism.VacuityCheck.partitionRelative_iff_featureExtractsAreEInternal
 -- v0.16.0 R24 V8 case-bridge derivation on factorisingA:
 #print axioms AsymmetricEliminativism.VacuityCheck.prw_uniform_to_pr_applied_to_factorisingA
@@ -416,7 +424,8 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.VacuityCheck.discourseHypothesisH_satisfiable_when_admissibleIn_empty
 #print axioms AsymmetricEliminativism.VacuityCheck.discourseHypothesisH_fails_when_admissibleIn_universal
 -- v0.16.0 R24 V11 — honest acknowledgment that (hH A hAdm).2 IS
--- the canonical 2-line bypass per paper line 2109-2112:
+-- the canonical 2-line bypass per paper `\label{def:warrant}`
+-- typed-level identification:
 #print axioms AsymmetricEliminativism.VacuityCheck.discourseHypothesisH_is_implication_typecheck
 #print axioms AsymmetricEliminativism.VacuityCheck.hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative
 #print axioms AsymmetricEliminativism.VacuityCheck.thm_impossibility_uses_H_via_admissibleIn

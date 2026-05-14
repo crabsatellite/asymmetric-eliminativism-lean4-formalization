@@ -36,20 +36,20 @@ import AsymmetricEliminativism
     *R21 kill (round 21, against v0.14.0 R20).*
     R21 found DEFECT 1 (V7 Iff.rfl 2-line bypass) and DEFECT 2
     ((H) universally false).  Under R24:
-    - DEFECT 1: paper line 2109-2112 IS the identification.  The
-      2-line `(hH A hAdm).2` reduction IS paper-faithful canonical.
-      Substantive content lives in (H)'s `admissibleIn` antecedent
-      and the `WarrantFeatureType` taxonomy.
+    - DEFECT 1: paper `\label{def:warrant}` typed-level paragraph IS
+      the identification.  The 2-line `(hH A hAdm).2` reduction IS
+      paper-faithful canonical.  Substantive content lives in (H)'s
+      `admissibleIn` antecedent and the `WarrantFeatureType` taxonomy.
     - DEFECT 2: R22 Fix B (retained R24) restricts (H) to
       admissibleIn procedures.
 
     *R23 kill (round 23, against v0.15.0 R22 Fix A).*
     R23 hostile validator derived kernel-pure `False` from the R22
     `prw_uniform_to_pr` axiom + uniform-constant-ranker witness:
-    paper's uniform case has CONSTANT $E_m$ adjudication (paper
-    lines 2127-2132), failing R22's non-degeneracy requirement;
-    R22 axiom derived partitionRelative including non-degeneracy
-    on that witness → contradiction.
+    paper's uniform case has CONSTANT $E_m$ adjudication
+    (`\label{lem:prw}` uniform paragraph), failing R22's
+    non-degeneracy requirement; R22 axiom derived partitionRelative
+    including non-degeneracy on that witness → contradiction.
 
     Under v0.16.0 R24, R22 Fix A is REVERTED.  `partitionRelative`
     is literally `featureExtractsAreEInternal` (no non-degeneracy).
@@ -87,9 +87,10 @@ example (Op : Operationalisation Bool Bool VacuityCheck.toyPart) :
 /-- R21 verification (Defect 1, R24 honest acknowledgment):
     under R24's reverted `partitionRelative =
     featureExtractsAreEInternal`, `(hH A hAdm).2` IS the canonical
-    paper-faithful reduction per paper line 2109-2112.  The
-    non-vacuous content of `thm_impossibility` lives in (H)'s
-    `admissibleIn` antecedent (R22 Fix B). -/
+    paper-faithful reduction per paper `\label{def:warrant}` typed-
+    level identification.  The non-vacuous content of
+    `thm_impossibility` lives in (H)'s `admissibleIn` antecedent
+    (R22 Fix B). -/
 example (A : ArbitrationProcedure Bool Bool VacuityCheck.toyPart)
         (hW : A.warrantInternalToE) :
     A.partitionRelative :=

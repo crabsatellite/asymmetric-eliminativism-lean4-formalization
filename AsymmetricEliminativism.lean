@@ -67,7 +67,7 @@
       substantive `partitionRelative` def in `Basic.lean`.
       v0.14.0 R20 STRUCTURAL FIX: `DiscourseHypothesisH` (Cat 3
       `hypothesisPredicate`) added to realise paper hypothesis
-      (H) at `\label{thm:impossibility}` line 1999-2009 as a
+      (H) at `\label{thm:impossibility}` as a
       separate explicit theorem hypothesis (NOT a conjunct of
       `SatisfiesP2`).
 
@@ -82,9 +82,9 @@
     kernel-pure that the substantive paper-faithful
     `partitionRelative` def is NON-VACUOUS (R14), the
     R15-machine-verified inconsistency is CLOSED under R16,
-    paper line 2109-2112's identification of `partitionRelative`
-    with `featureExtractsAreEInternal` holds definitionally
-    (R18), AND the R19-machine-verified P2-trivialization is
+    paper `\label{def:warrant}` typed-level identification of
+    `partitionRelative` with `featureExtractsAreEInternal` holds
+    definitionally (R18), AND the R19-machine-verified P2-trivialization is
     STRUCTURALLY FIXED under R20 by removing the
     `warrantInternalToE` conjunct from `SatisfiesP2` and lifting
     hypothesis (H) to an explicit theorem hypothesis.  Fifteen
@@ -113,8 +113,8 @@
         — the R15 attack vector is verifiably blocked.
       * `partitionRelative_iff_featureExtractsAreEInternal`
         (v0.13.0 R18) — `Iff.rfl`, depends on NO axioms.
-        Formal verification of paper line 2109-2112's
-        identification: paper's `lem:prw` reduction = paper's
+        Formal verification of paper `\label{def:warrant}` typed-
+        level identification: paper's `lem:prw` reduction = paper's
         `\label{def:warrant}` E-internality factorisation.  This
         is the structural triviality that R18 Honest Acceptance
         accepts.
@@ -143,7 +143,8 @@
         (H); on discourse states where (H) fails, theorem is
         vacuously applicable rather than yielding contradiction
         with the P2 witness's existence (paper-faithful: heat-
-        post-reform regime per paper line 2036-2053).
+        post-reform regime per paper `\label{lem:prw}` (c.4.b)
+        external-track discussion).
 
   Gap ledger:
     AsymmetricEliminativism/Ledger.lean — typed record of every

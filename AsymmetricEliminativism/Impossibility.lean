@@ -22,18 +22,18 @@
   *v0.16.0 R24 final honest convergence per round-24 brief.*  R23
   hostile validator machine-verified that R22 Fix A
   (`partitionRelative` non-degeneracy strengthening) introduced
-  axiom inconsistency: paper's uniform case (paper lines 2127-2132)
-  has CONSTANT single-$E_m$ adjudication, which fails R22's non-
-  degeneracy clause; but `prw_uniform_to_pr` under R22 derived
-  `partitionRelative` (including non-degeneracy) on the uniform
-  witness, yielding kernel-pure `False`.  R24 final honest
+  axiom inconsistency: paper's uniform case (`\label{lem:prw}`
+  uniform paragraph) has CONSTANT single-$E_m$ adjudication, which
+  fails R22's non-degeneracy clause; but `prw_uniform_to_pr` under
+  R22 derived `partitionRelative` (including non-degeneracy) on the
+  uniform witness, yielding kernel-pure `False`.  R24 final honest
   convergence:
 
   (1) REVERT R22 Fix A.  `partitionRelative` reverts to R18 form:
       literally `featureExtractsAreEInternal` (no non-degeneracy).
-      Per paper line 2109-2112, this identification IS paper-
-      faithful — paper's `lem:prw` at typed `\label{def:warrant}`
-      level is STRUCTURALLY TRIVIAL.
+      Per paper `\label{def:warrant}` typed-level paragraph, this
+      identification IS paper-faithful — paper's `lem:prw` at typed
+      `\label{def:warrant}` level is STRUCTURALLY TRIVIAL.
 
   (2) KEEP R22 Fix B.  `admissibleIn` axiom (Cat 3
       hypothesisPredicate) + restricted `DiscourseHypothesisH :=
@@ -50,12 +50,12 @@
       body `fun _ hW => hW.2`.  Under R24's reverted
       `partitionRelative = featureExtractsAreEInternal`, the
       case-bridges are paper-faithful trivial theorems per paper
-      line 2109-2112's identification.
+      `\label{def:warrant}` typed-level identification.
 
   (5) `lem_prw_reduction` proof body: 1-line `Or.inl hW.2`
       (projection of the factorisation conjunct of `hW :
-      warrantInternalToE`).  This is paper-faithful per paper line
-      2109-2112.
+      warrantInternalToE`).  This is paper-faithful per paper
+      `\label{def:warrant}` typed-level identification.
 
   (6) `thm_impossibility` proof body substantively uses (H) to
       discharge admissibility from each P2 witness:
@@ -77,12 +77,15 @@
    (a) `WarrantFeatureType` 9-constructor taxonomy (Cat 3 carrier,
        paper-cited per case).
    (b) `caseFormIsInternal` hypothesis (H) tag-exclusion (Cat 3
-       hypothesisPredicate, paper lines 2188-2237).
+       hypothesisPredicate, paper `\label{lem:prw}` (c.3)/(c.4.b)
+       paragraphs).
    (c) `featureExtractsAreEInternal` typed factorisation (Cat 3
-       structuralEquation, paper lines 2099-2107).
+       structuralEquation, paper `\label{def:warrant}`
+       E-internality clause).
    (d) `warrantInternalToE` composite (Cat 3 structuralEquation).
    (e) `admissibleIn` Cat 3 hypothesisPredicate axiom restricting
-       (H) scope per paper line 1999-2002 (R22 Fix B retained).
+       (H) scope per paper `\label{thm:impossibility}` statement
+       quantifier (R22 Fix B retained).
    (f) `DiscourseHypothesisH` restricted to admissible-within-D
        procedures (R22 Fix B refinement retained).
 
@@ -102,43 +105,46 @@ namespace AsymmetricEliminativism
   v0.8.0 R5 substantive decomposition.  The single
   `workingAssumption` axiom of v0.7.0 is decomposed into nine
   atomic Cat 3 structural-equation stipulations, each tied to
-  one constructor of `WarrantFeatureType`, one citing paper-line
-  range, and one paper-prose justification of its reduction-
-  conclusion.  Downstream theorems compose the per-case atoms via
-  case-exhaustion `match` on the typed warrant-form classifier.
+  one constructor of `WarrantFeatureType`, one citing the
+  corresponding `\label{lem:prw}` case paragraph, and one
+  paper-prose justification of its reduction-conclusion.  Downstream
+  theorems compose the per-case atoms via case-exhaustion `match`
+  on the typed warrant-form classifier.
 -/
 
 /--
-  Paper `\label{lem:prw}` uniform case (paper lines 2092-2102).
+  Paper `\label{lem:prw}` uniform case.
 
   Statement (v0.16.0 R24 final honest convergence per round-24
   brief Step 4): if `A.warrantForm = uniform` AND
   `A.warrantInternalToE` then `A.partitionRelative`.
 
   *v0.16.0 R24 axiom → derived theorem.*  Under R24's reverted
-  `partitionRelative := featureExtractsAreEInternal` (paper line
-  2109-2112 explicit identification), the case-bridge conclusion
-  is recoverable via `.2` projection of `warrantInternalToE`'s
-  `featureExtractsAreEInternal` conjunct.  Proof body
-  `fun _ hW => hW.2` — kernel-pure derivable; no axiom required.
+  `partitionRelative := featureExtractsAreEInternal` (paper
+  `\label{def:warrant}` typed-level explicit identification), the
+  case-bridge conclusion is recoverable via `.2` projection of
+  `warrantInternalToE`'s `featureExtractsAreEInternal` conjunct.
+  Proof body `fun _ hW => hW.2` — kernel-pure derivable; no axiom
+  required.
 
   *R23 attack ELIMINATED.*  Under R22 Fix A, the case-bridge was
   a Cat 3 axiom asserting non-degeneracy of the ranker on the
-  uniform witness.  But paper's uniform case (paper lines
-  2127-2132) has CONSTANT single-$E_m$ adjudication (degenerate
-  ranker by construction).  The R22 axiom + uniform-constant-
-  ranker witness derived kernel-pure `False`
+  uniform witness.  But paper's uniform case (`\label{lem:prw}`
+  uniform paragraph) has CONSTANT single-$E_m$ adjudication
+  (degenerate ranker by construction).  The R22 axiom + uniform-
+  constant-ranker witness derived kernel-pure `False`
   (`R23Attack.uniform_case_bridge_inconsistency`).  R24 reverts
   the strengthening; the case-bridge is again a paper-faithful
-  trivial theorem per paper line 2109-2112's identification.
+  trivial theorem per paper `\label{def:warrant}` typed-level
+  identification.
 
   *Status / Cat 3 sub-type.*  `gapClosed notInput notCat3` per
   R24 axiom→theorem conversion (derived theorem, no longer Cat 3
   atomic input).  The structural content (paper case-tag → paper
   identification → partition-relativity) remains paper-faithful
-  per paper line 2109-2112.
+  per paper `\label{def:warrant}` typed-level identification.
 
-  Paper-prose justification (lines 2092-2102):
+  Paper-prose justification (`\label{lem:prw}` uniform paragraph):
   "Uniform case: $W$ assigns the same $k$ to all disagreement-cases
   of $\Op_i$ vs.\ $\Op_j$.  The constant assignment to $\{i,j\}$
   selects a single $E_m \in \{E_i, E_j\}$ as preferred globally,
@@ -147,14 +153,14 @@ namespace AsymmetricEliminativism
   independence clause."
 
   *Honest scope statement (R24).*  Under R24, the case-bridge
-  carries derived content: paper line 2109-2112 explicitly
-  identifies E-internality factorisation with partition-relativity,
-  so the projection `hW.2` from `warrantInternalToE` yields the
-  partition-relative-weighting conclusion directly.  No paper-
-  content is lost (the paper-prose case-tag → partition-relativity
-  reduction is literally the typed-level identification);
-  substantive paper content lives in `WarrantFeatureType` taxonomy
-  + `admissibleIn` scope axiom.
+  carries derived content: paper `\label{def:warrant}` typed-level
+  paragraph explicitly identifies E-internality factorisation with
+  partition-relativity, so the projection `hW.2` from
+  `warrantInternalToE` yields the partition-relative-weighting
+  conclusion directly.  No paper-content is lost (the paper-prose
+  case-tag → partition-relativity reduction is literally the
+  typed-level identification); substantive paper content lives in
+  `WarrantFeatureType` taxonomy + `admissibleIn` scope axiom.
 -/
 theorem prw_uniform_to_pr
     {FolkObj Tcls : Type}
@@ -167,7 +173,7 @@ theorem prw_uniform_to_pr
   exact hW.2
 
 /--
-  Paper `\label{lem:prw}` type-(a) case (paper lines 2127-2131).
+  Paper `\label{lem:prw}` type-(a) case.
 
   Statement (v0.16.0 R24): if `A.warrantForm = typeA` AND
   `A.warrantInternalToE` then `A.partitionRelative`.  See
@@ -176,11 +182,12 @@ theorem prw_uniform_to_pr
 
   *v0.16.0 R24 axiom → derived theorem.*  Same R24 rationale as
   `prw_uniform_to_pr`: under reverted `partitionRelative :=
-  featureExtractsAreEInternal` (paper line 2109-2112 identification),
-  the case-bridge is recoverable via `.2` projection.  Proof body
-  `fun _ hW => hW.2`.  Status `gapClosed notInput notCat3`.
+  featureExtractsAreEInternal` (paper `\label{def:warrant}` typed-
+  level identification), the case-bridge is recoverable via `.2`
+  projection.  Proof body `fun _ hW => hW.2`.  Status
+  `gapClosed notInput notCat3`.
 
-  Paper-prose justification (lines 2127-2131):
+  Paper-prose justification (`\label{lem:prw}` type-(a) paragraph):
   "Type-(a): $f$ belongs to some $E_m$.  Then $R$'s appeal to $f$
   privileges $E_m$, and the resulting ranking just is single-$E_m$
   privileging — option (i)."
@@ -194,7 +201,7 @@ theorem prw_typeA_to_pr
   fun _ hW => show A.featureExtractsAreEInternal from hW.2
 
 /--
-  Paper `\label{lem:prw}` type-(b) case (paper lines 2131-2134).
+  Paper `\label{lem:prw}` type-(b) case.
 
   Statement: if `A.warrantForm = typeB` then `A.failsAdjudication`.
 
@@ -211,7 +218,7 @@ theorem prw_typeA_to_pr
   documentation (the definitional reduction is paper-stipulated);
   status `gapClosed notInput` (derived theorem).
 
-  Paper-prose justification (lines 2131-2134):
+  Paper-prose justification (`\label{lem:prw}` type-(b) paragraph):
   "Type-(b): $f$ is shared by all $E_i$ symmetrically, in which
   case $R$'s output is constant across the $E_i$ and fails to
   produce a non-trivial ranking — option (ii)."
@@ -224,7 +231,7 @@ theorem prw_typeB_no_ranking
   intro h; exact h
 
 /--
-  Paper `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185).
+  Paper `\label{lem:prw}` type-(c.1) case.
 
   Statement (v0.16.0 R24): if `A.warrantForm = typeC1` AND
   `A.warrantInternalToE` then `A.partitionRelative`.  See
@@ -232,10 +239,11 @@ theorem prw_typeB_no_ranking
   conversion rationale.
 
   *v0.16.0 R24 axiom → derived theorem.*  Proof body
-  `fun _ hW => hW.2` per paper line 2109-2112 identification.
-  Status `gapClosed notInput notCat3`.
+  `fun _ hW => hW.2` per paper `\label{def:warrant}` typed-level
+  identification.  Status `gapClosed notInput notCat3`.
 
-  Paper-prose justification (lines 2151-2185, esp. 2155-2170):
+  Paper-prose justification (`\label{lem:prw}` type-(c.1) and
+  $R_{f^*}$-routing paragraphs):
   "the procedure 'adjudicate $\Op_i$ vs.\ $\Op_j$ by routing to
   whichever of $E_i, E_j$ is higher under the $f^*$-induced ranking
   $R_{f^*}$' is a partition-relative weighting of $\{E_1, \ldots,
@@ -250,8 +258,7 @@ theorem prw_typeC1_to_pr
   fun _ hW => show A.featureExtractsAreEInternal from hW.2
 
 /--
-  Paper `\label{lem:prw}` type-(c.2) recursive-meta-appeal case
-  (paper lines 2186-2196).
+  Paper `\label{lem:prw}` type-(c.2) recursive-meta-appeal case.
 
   Statement (v0.16.0 R24): if `A.warrantForm = typeC2_recursive`
   AND `A.warrantInternalToE` then `A.partitionRelative`.  See
@@ -259,10 +266,10 @@ theorem prw_typeC1_to_pr
   conversion rationale.
 
   *v0.16.0 R24 axiom → derived theorem.*  Proof body
-  `fun _ hW => hW.2` per paper line 2109-2112 identification.
-  Status `gapClosed notInput notCat3`.
+  `fun _ hW => hW.2` per paper `\label{def:warrant}` typed-level
+  identification.  Status `gapClosed notInput notCat3`.
 
-  Paper-prose justification (lines 2186-2196):
+  Paper-prose justification (`\label{lem:prw}` type-(c.2) paragraph):
   "(c.2) appeals to further $\E$-features to warrant the meta-
   choice (returning recursively to the type-(a) / type-(b) /
   type-(c) trichotomy at the meta-level) … Recursive appeal
@@ -279,7 +286,7 @@ theorem prw_typeC2_recursive_to_pr
 
 /--
   Paper `\label{lem:prw}` type-(c.3) external-feature exclusion
-  under (H) (paper lines 2189-2191).
+  under (H).
 
   Statement: if `A.warrantInternalToE` then
   `A.warrantForm ≠ typeC3_external`.
@@ -291,7 +298,7 @@ theorem prw_typeC2_recursive_to_pr
   from `\E`-features alone — i.e., precisely excludes external-
   feature warrants.
 
-  Paper-prose justification (lines 2189-2191):
+  Paper-prose justification (`\label{lem:prw}` type-(c.3) paragraph):
   "(c.3) appeals to features outside $\E$, which is forbidden by
   (H); this sub-case's closure is conditional on (H), and within
   the discourse-state where (H) holds, (c.3) is inadmissible."
@@ -311,8 +318,7 @@ theorem prw_warrantInternalToE_excludes_typeC3
   intro h; exact h.1.1
 
 /--
-  Paper `\label{lem:prw}` type-(c.4.a) internal track-record case
-  (paper lines 2210-2218).
+  Paper `\label{lem:prw}` type-(c.4.a) internal track-record case.
 
   Statement (v0.16.0 R24): if `A.warrantForm =
   typeC4a_internal_track` AND `A.warrantInternalToE` then
@@ -320,10 +326,10 @@ theorem prw_warrantInternalToE_excludes_typeC3
   the R24 axiom→theorem conversion rationale.
 
   *v0.16.0 R24 axiom → derived theorem.*  Proof body
-  `fun _ hW => hW.2` per paper line 2109-2112 identification.
-  Status `gapClosed notInput notCat3`.
+  `fun _ hW => hW.2` per paper `\label{def:warrant}` typed-level
+  identification.  Status `gapClosed notInput notCat3`.
 
-  Paper-prose justification (lines 2210-2218):
+  Paper-prose justification (`\label{lem:prw}` type-(c.4.a) paragraph):
   "(c.4.a) The track record is internal to $\E$ (uses only
   $\E$-feature-based assessments of past cases): then the
   meta-criterion is type-(c) and recursively returns to the
@@ -339,7 +345,7 @@ theorem prw_typeC4a_internal_track_to_pr
 
 /--
   Paper `\label{lem:prw}` type-(c.4.b) external track-record
-  exclusion under (H) (paper lines 2220-2237).
+  exclusion under (H).
 
   Statement: if `A.warrantInternalToE` then
   `A.warrantForm ≠ typeC4b_external_track`.
@@ -347,7 +353,7 @@ theorem prw_typeC4a_internal_track_to_pr
   Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  Non-
   occurrence (case-exclusion) theorem parallel to typeC3.
 
-  Paper-prose justification (lines 2220-2237):
+  Paper-prose justification (`\label{lem:prw}` type-(c.4.b) paragraph):
   "(c.4.b) The track record uses external-to-$\E$ predictive
   success … this is exactly the heat-reform escape route.  If
   such a track record exists and is recognised within $D$ as
@@ -373,7 +379,7 @@ theorem prw_warrantInternalToE_excludes_typeC4b
   intro h; exact h.1.2
 
 /--
-  Paper `\label{lem:prw}` contextual case (paper lines 2257-2270).
+  Paper `\label{lem:prw}` contextual case.
 
   Statement (v0.16.0 R24): if `A.warrantForm = contextual` AND
   `A.warrantInternalToE` then `A.partitionRelative`.  See
@@ -381,10 +387,10 @@ theorem prw_warrantInternalToE_excludes_typeC4b
   conversion rationale.
 
   *v0.16.0 R24 axiom → derived theorem.*  Proof body
-  `fun _ hW => hW.2` per paper line 2109-2112 identification.
-  Status `gapClosed notInput notCat3`.
+  `fun _ hW => hW.2` per paper `\label{def:warrant}` typed-level
+  identification.  Status `gapClosed notInput notCat3`.
 
-  Paper-prose justification (lines 2257-2270):
+  Paper-prose justification (`\label{lem:prw}` contextual paragraph):
   "In case (ii), the contextual features used by $A$ to discriminate
   among $\Tcls$-members are themselves either features of the folk
   extension $\E$ or features external to $\E$.  In the $\E$-internal
@@ -442,9 +448,9 @@ theorem prw_contextual_to_pr
   by paper hypothesis (H).
 
   *v0.16.0 R24 honest convergence.*  Under R24's reverted
-  `partitionRelative := featureExtractsAreEInternal` (paper line
-  2109-2112 explicit identification at typed level), the lemma
-  reduces to a 1-line projection `Or.inl hW.2`.  This IS the
+  `partitionRelative := featureExtractsAreEInternal` (paper
+  `\label{def:warrant}` typed-level explicit identification), the
+  lemma reduces to a 1-line projection `Or.inl hW.2`.  This IS the
   canonical paper-faithful proof: paper's `lem:prw` at typed
   `\label{def:warrant}` level is structurally trivial, and the
   substantive paper content (the 9-case taxonomy + the (H) scope
@@ -459,7 +465,7 @@ theorem prw_contextual_to_pr
   is functionally equivalent under R24's identification.
 
   *Disjunctive conclusion vs the v0.7.0 unconditional one.*  The
-  paper's `\label{thm:impossibility}` proof on lines 2307-2326
+  paper's `\label{thm:impossibility}` proof discussion paragraph
   ("If P2 fails, then $\Op_i$'s verdict on $x$ is one of three:
   (a) determinate but without arbitration, (b) indeterminate,
   failing P3, or (c) determinate by stipulation") confirms that
@@ -480,7 +486,8 @@ theorem lem_prw_reduction
   -- (`fun _ hW => hW.2`); the case-exhaustion surface
   -- presentation is preserved for paper-faithful narrative
   -- alignment, but the underlying derivation is the 1-line
-  -- `Or.inl hW.2` projection per paper line 2109-2112.
+  -- `Or.inl hW.2` projection per paper `\label{def:warrant}`
+  -- typed-level identification.
   match h : A.warrantForm with
   | WarrantFeatureType.uniform =>
       exact Or.inl (prw_uniform_to_pr Part A h hW)
@@ -493,12 +500,12 @@ theorem lem_prw_reduction
   | WarrantFeatureType.typeC2_recursive =>
       exact Or.inl (prw_typeC2_recursive_to_pr Part A h hW)
   | WarrantFeatureType.typeC3_external =>
-      -- Forbidden by (H) — paper lines 2189-2191.
+      -- Forbidden by (H) — paper `\label{lem:prw}` type-(c.3) paragraph.
       exact absurd h (prw_warrantInternalToE_excludes_typeC3 Part A hW)
   | WarrantFeatureType.typeC4a_internal_track =>
       exact Or.inl (prw_typeC4a_internal_track_to_pr Part A h hW)
   | WarrantFeatureType.typeC4b_external_track =>
-      -- Forbidden by (H) — paper lines 2220-2237.
+      -- Forbidden by (H) — paper `\label{lem:prw}` type-(c.4.b) paragraph.
       exact absurd h (prw_warrantInternalToE_excludes_typeC4b Part A hW)
   | WarrantFeatureType.contextual =>
       exact Or.inl (prw_contextual_to_pr Part A h hW)
@@ -515,16 +522,18 @@ theorem lem_prw_reduction
   round-20 brief, (H) is lifted to a discourse-state hypothesis
   ON the impossibility theorem, NOT a conjunct of `SatisfiesP2`.
   This matches paper's actual structure (paper P2 at
-  `def:op-properties` line 1976-1986 doesn't include admissibility
-  as conjunct; admissibility is a discourse-state regime predicate
+  `\label{def:op-properties}` doesn't include admissibility as
+  conjunct; admissibility is a discourse-state regime predicate
   per paper `\label{thm:impossibility}` hypothesis statement
-  (paper line 1999-2009) and paper `\label{lem:prw}` (paper line
-  2114-2120)).
+  and paper `\label{lem:prw}` "Any warrant $W$ constructible from
+  $\E$ alone …" antecedent).
 
   *Paper-faithful form.*  Paper says: "assume every arbitration
   procedure $A$ admissible within $D$ for adjudicating
   operationalisations of $\C$ derives its adjudication-warrant
-  from $\E$" (paper line 1999-2002 + 2114-2116).  In the typed
+  from $\E$" (paper `\label{thm:impossibility}` statement +
+  `\label{lem:prw}` "constructible from $\E$ alone" antecedent).
+  In the typed
   Lean encoding, this is the statement that EVERY procedure
   `A : ArbitrationProcedure` satisfies `A.warrantInternalToE`
   (i.e., its warrant is E-internal per
@@ -538,29 +547,30 @@ theorem lem_prw_reduction
 /--
   *Discourse-state hypothesis (H)* — paper's load-bearing
   hypothesis on the impossibility theorem (paper
-  `\label{thm:impossibility}` line 1999-2009 + paper
-  `\label{lem:prw}` line 2114-2120).
+  `\label{thm:impossibility}` statement + paper
+  `\label{lem:prw}` "constructible from $\E$ alone" antecedent).
 
   *v0.15.0 R22 Fix B per round-22 brief.*  Restricted from the
   v0.14.0 R20 `∀ A : ArbitrationProcedure, A.warrantInternalToE`
   (universally false because non-factorising procedures are
   always Lean-constructible) to `∀ A, A.admissibleIn Op →
   A.warrantInternalToE` (paper-faithful: ranges only over
-  admissible-within-D procedures, per paper line 1999-2002
-  explicit "every arbitration procedure $A$ admissible within
-  $D$ for adjudicating operationalisations of $\C$").
+  admissible-within-D procedures, per paper
+  `\label{thm:impossibility}` explicit "every arbitration
+  procedure $A$ admissible within $D$ for adjudicating
+  operationalisations of $\C$").
 
   *Definition.*  `DiscourseHypothesisH Part Op` holds iff every
   arbitration procedure `A` THAT IS ADMISSIBLE WITHIN D FOR
   ADJUDICATING `Op` (i.e., satisfies `A.admissibleIn Op`)
   satisfies `A.warrantInternalToE`.
 
-  *Paper-faithful interpretation.*  Paper states (H) (paper line
-  1999-2009): "every arbitration procedure $A$ admissible within
-  $D$ for adjudicating operationalisations of $\C$ derives its
-  adjudication-warrant from $\E$".  The post-R22 Lean encoding
-  is the direct paper-transcription: the quantifier `∀ A` is
-  restricted by `A.admissibleIn Op →`.
+  *Paper-faithful interpretation.*  Paper states (H) at
+  `\label{thm:impossibility}`: "every arbitration procedure $A$
+  admissible within $D$ for adjudicating operationalisations of
+  $\C$ derives its adjudication-warrant from $\E$".  The post-R22
+  Lean encoding is the direct paper-transcription: the quantifier
+  `∀ A` is restricted by `A.admissibleIn Op →`.
 
   *Sub-type / status.*  Cat 3 paper-novel `hypothesisPredicate`
   per v6 §3.4.2: a paper-stated discourse-state regime predicate
@@ -625,9 +635,10 @@ def DiscourseHypothesisH
   `warrantInternalToE` conjunct, and lifts hypothesis (H) to an
   explicit theorem hypothesis `(hH : DiscourseHypothesisH Part Op)`
   on `thm_impossibility`.  This matches paper's actual structure:
-  paper P2 (def:op-properties line 1976-1986) doesn't include
+  paper P2 (`\label{def:op-properties}`) doesn't include
   admissibility-as-conjunct; admissibility is the discourse-state
-  hypothesis (H) per paper line 1999-2009 + 2114-2120.
+  hypothesis (H) per paper `\label{thm:impossibility}` statement +
+  paper `\label{lem:prw}` "constructible from $\E$ alone" antecedent.
 
   *Why P3 is omitted from the conclusion.*  Given the Boolean-
   verdict encoding of `Operationalisation.verdict`, P3 holds
@@ -668,7 +679,7 @@ def DiscourseHypothesisH
   witness `A` may have external warrant, in which case
   `lem_prw_reduction` doesn't apply, and `Op_i` may legitimately
   satisfy P2 (this is the heat-post-reform discourse state
-  per paper line 2036-2053).
+  per paper `\label{lem:prw}` (c.4.b) external-track discussion).
 -/
 theorem thm_impossibility
     {FolkObj Tcls : Type}

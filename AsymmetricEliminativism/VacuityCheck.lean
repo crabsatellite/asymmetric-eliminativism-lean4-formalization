@@ -7,15 +7,17 @@
   *v0.16.0 R24 FINAL HONEST CONVERGENCE per round-24 brief.*  R23
   hostile validator machine-verified that v0.15.0 R22 Fix A
   (`partitionRelative` non-degeneracy strengthening) introduced
-  axiom inconsistency: paper's uniform case (paper lines 2127-2132)
-  has CONSTANT single-$E_m$ adjudication (degenerate ranker), but
-  `prw_uniform_to_pr` under R22 derived `partitionRelative`
-  (including non-degeneracy) on the uniform witness, yielding
-  kernel-pure `False`.  R24 final honest convergence:
+  axiom inconsistency: paper's uniform case (`\label{lem:prw}`
+  uniform paragraph) has CONSTANT single-$E_m$ adjudication
+  (degenerate ranker), but `prw_uniform_to_pr` under R22 derived
+  `partitionRelative` (including non-degeneracy) on the uniform
+  witness, yielding kernel-pure `False`.  R24 final honest
+  convergence:
 
   - REVERT R22 Fix A.  `partitionRelative` reverts to R18 form:
     literally `featureExtractsAreEInternal` (no non-degeneracy).
-    Per paper line 2109-2112, this IS paper-faithful.
+    Per paper `\label{def:warrant}` typed-level identification,
+    this IS paper-faithful.
 
   - KEEP R22 Fix B.  `admissibleIn` axiom + restricted
     `DiscourseHypothesisH := ∀ A, admissibleIn A Op →
@@ -40,8 +42,9 @@
    - R18 v0.13.0: definitional smuggling in SatisfiesP2 → R19 killed.
    - R20 v0.14.0: 2-line bypass + (H) universal-false → R21 killed.
    - R22 v0.15.0: uniform-case axiom inconsistency → R23 killed.
-   - R24 v0.16.0: HONEST CONVERGENCE — accept paper line 2109-2112
-     typed-level trivialization; keep R22 Fix B admissibleIn.
+   - R24 v0.16.0: HONEST CONVERGENCE — accept paper
+     `\label{def:warrant}` typed-level trivialization; keep R22
+     Fix B admissibleIn.
 
   This file proves:
 
@@ -66,8 +69,8 @@
 
   (V7)  **R24 paper-faithful identification (preserved from R18)**:
         `partitionRelative ↔ featureExtractsAreEInternal` is
-        `Iff.rfl` (kernel-pure, depends on no axioms).  Paper line
-        2109-2112 identification.
+        `Iff.rfl` (kernel-pure, depends on no axioms).  Paper
+        `\label{def:warrant}` typed-level identification.
 
   (V8)  R18/R24 case-bridge derivation: derived theorems
         `fun _ hW => hW.2` apply to any factorising witness.
@@ -86,11 +89,11 @@
 
   (V11) **R24 R21 bypass IS the canonical proof, paper-faithfully**.
         Under R24, `partitionRelative ↔ featureExtractsAreEInternal`
-        per paper line 2109-2112; the 2-line `(hH A hAdm).2` IS
-        the structurally honest reduction.  The non-vacuous content
-        of `thm_impossibility` lives in (H)'s admissibleIn
-        antecedent (R22 Fix B): without (H), the proof cannot
-        proceed.
+        per paper `\label{def:warrant}` typed-level identification;
+        the 2-line `(hH A hAdm).2` IS the structurally honest
+        reduction.  The non-vacuous content of `thm_impossibility`
+        lives in (H)'s admissibleIn antecedent (R22 Fix B): without
+        (H), the proof cannot proceed.
 
   (V12) **R23 inconsistency ELIMINATED**: under R24's reverted
         `partitionRelative`, the R23 `uniform_case_bridge_inconsistency`
@@ -306,15 +309,16 @@ theorem r15_attack_requires_unprovable_antecedent :
 
 /-! ## (V7) R24 paper-faithful identification (preserved from R18).
 
-    Per paper line 2109-2112, paper's typed `\label{def:warrant}`
-    E-internality clause IS the typed-structure version of
-    partition-relative-weighting.  Under R24's reverted
-    `partitionRelative := featureExtractsAreEInternal`, this
-    identification is `Iff.rfl` — kernel-pure, no axioms.
+    Per paper `\label{def:warrant}` typed-level paragraph, paper's
+    typed `\label{def:warrant}` E-internality clause IS the
+    typed-structure version of partition-relative-weighting.  Under
+    R24's reverted `partitionRelative := featureExtractsAreEInternal`,
+    this identification is `Iff.rfl` — kernel-pure, no axioms.
 
-    This formal verification of paper line 2109-2112 is the
-    structural triviality R18 first identified and R24 finally
-    accepts after R22's failed strengthening attempt. -/
+    This formal verification of paper `\label{def:warrant}` typed-
+    level identification is the structural triviality R18 first
+    identified and R24 finally accepts after R22's failed
+    strengthening attempt. -/
 
 theorem partitionRelative_iff_featureExtractsAreEInternal
     {FolkObj Tcls : Type} {Part : MutuallyUnrankedPartition FolkObj}
@@ -396,8 +400,9 @@ theorem discourseHypothesisH_fails_when_admissibleIn_universal
 /-! ## (V11) R24 honest acknowledgment: under reverted
     `partitionRelative = featureExtractsAreEInternal`, the 2-line
     bypass `(hH A hAdm).2` IS the canonical proof, paper-faithfully
-    per paper line 2109-2112.  Non-vacuous theorem content lives
-    in (H)'s `admissibleIn` antecedent (R22 Fix B). -/
+    per paper `\label{def:warrant}` typed-level identification.
+    Non-vacuous theorem content lives in (H)'s `admissibleIn`
+    antecedent (R22 Fix B). -/
 
 /-- (V11.a) Post-R22/R24 `hH A` is an implication, not a direct
     value.  Discharge requires both `A` and an `admissibleIn`
@@ -413,8 +418,8 @@ theorem discourseHypothesisH_is_implication_typecheck
 /-- (V11.b) Under R24, `.2` projection of `warrantInternalToE`
     yields `featureExtractsAreEInternal`, which is definitionally
     `partitionRelative` per V7 `Iff.rfl`.  The 2-line bypass IS
-    the canonical reduction, paper-faithfully per paper line
-    2109-2112. -/
+    the canonical reduction, paper-faithfully per paper
+    `\label{def:warrant}` typed-level identification. -/
 theorem hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative
     (A : ArbitrationProcedure Bool Bool toyPart)
     (hW : A.warrantInternalToE) :
@@ -437,7 +442,8 @@ theorem thm_impossibility_uses_H_via_admissibleIn
     non-degeneracy of the ranker on the uniform witness.  R23
     derived kernel-pure `False` by applying the axiom to a
     uniform-constant-ranker witness (paper's actual uniform case
-    per paper lines 2127-2132 has CONSTANT $E_m$ adjudication).
+    per paper `\label{lem:prw}` uniform paragraph has CONSTANT
+    $E_m$ adjudication).
 
     Under R24, `prw_uniform_to_pr` is a derived theorem with
     proof body `fun _ hW => hW.2`.  Applied to ANY witness
@@ -450,7 +456,7 @@ theorem thm_impossibility_uses_H_via_admissibleIn
 
 /-- A uniform-form procedure with constant featureExtract AND
     constant ranker (paper's actual uniform case "constant $k$"
-    per paper lines 2127-2132). -/
+    per paper `\label{lem:prw}` uniform paragraph). -/
 def uniformConstantRankerA : ArbitrationProcedure Bool Bool toyPart where
   warrant := {
     FeatureSpace := Bool

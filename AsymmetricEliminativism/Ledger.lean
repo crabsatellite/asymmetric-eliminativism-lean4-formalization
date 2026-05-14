@@ -206,7 +206,7 @@ def gap_lem_prw_reduction : GapEntry := {
   paperSource :=
     "Li 2026, `\\label{lem:prw}` (Partition-Relative-Weighting " ++
     "Reduction) — paper Lemma 1 of the impossibility theorem's " ++
-    "proof (paper lines 2079-2270).  Statement (v0.8.0 R5 paper-" ++
+    "proof (paper `\\label{lem:prw}` proof body).  Statement (v0.8.0 R5 paper-" ++
     "faithful disjunctive form): for any arbitration procedure `A` " ++
     "whose adjudication-warrant derives from `\\E` alone (i.e., " ++
     "`A.warrantInternalToE`), either `A` reduces to a partition-" ++
@@ -285,9 +285,9 @@ def gap_lem_prw_reduction : GapEntry := {
       "constructors.  Conclusion form is paper-faithful disjunctive " ++
       "`partitionRelative ∨ failsAdjudication` (paper option (i) " ++
       "and option (ii) per `\\label{lem:prw}` proof body + paper " ++
-      "lines 2307-2326's three-failure-mode analysis).  P2 " ++
+      "`\\label{thm:impossibility}` three-failure-mode discussion's three-failure-mode analysis).  P2 " ++
       "definition correspondingly extended with " ++
-      "`¬ A.failsAdjudication` conjunct (paper line 2304 'no $A$ " ++
+      "`¬ A.failsAdjudication` conjunct (paper `\\label{thm:impossibility}` proof conclusion 'no $A$ " ++
       "satisfying the independence requirement of P2 exists').  " ++
       "Status `gapOpen workingAssumption` → `gapClosed notInput`.  " ++
       "Sub-type `workingAssumption` → `notCat3` (entry is now a " ++
@@ -341,7 +341,7 @@ def gap_lem_prw_reduction : GapEntry := {
       "the v0.11.0 R14 6 case-bridge axioms produced a kernel-pure " ++
       "proof of `False`.  Root cause: axiom signatures " ++
       "`warrantForm = X → partitionRelative` dropped paper " ++
-      "`\\label{lem:prw}` line 2116 antecedent 'constructible from " ++
+      "`\\label{lem:prw}` antecedent 'constructible from " ++
       "E alone'.  R16 Option B fix preserves this derived theorem's " ++
       "case-exhaustion structure unchanged: only the per-case " ++
       "applications now thread the existing `hW : warrantInternalToE` " ++
@@ -386,13 +386,13 @@ def gap_lem_prw_reduction : GapEntry := {
       "constant-ranker refutes R22 non-degeneracy axiom claim).  " ++
       "R24 reverts R22 Fix A; 6 case-bridges back to derived " ++
       "theorems with proof body `fun _ hW => hW.2` per paper " ++
-      "line 2109-2112 identification.  `#print axioms " ++
+      "`\\label{def:warrant}` typed-level identification paragraph identification.  `#print axioms " ++
       "lem_prw_reduction` profile now shows NO axioms again " ++
       "(project has 1 Cat 3 axiom total: `admissibleIn` from R22 " ++
       "Fix B retained).  Anti-pattern #13 GENUINELY BROKEN for " ++
       "the partition-relativity chain; the only remaining axiom " ++
       "is the paper-stipulated `admissibleIn` scope condition " ++
-      "(paper line 1999-2002), which is structurally separate " ++
+      "(paper `\\label{thm:impossibility}` statement quantifier), which is structurally separate " ++
       "from the partition-relativity derivation."
   ]
   scope :=
@@ -409,7 +409,7 @@ def gap_lem_prw_reduction : GapEntry := {
     "the `A.partitionRelative` disjunct consumes the substantive " ++
     "paper-faithful `\\label{def:warrant}` factorisation predicate " ++
     "(definitionally identical to `featureExtractsAreEInternal` " ++
-    "per paper line 2109-2112), recovered from `warrantInternalToE`'s " ++
+    "per paper `\\label{def:warrant}` typed-level identification paragraph), recovered from `warrantInternalToE`'s " ++
     "second conjunct via `And.right`."
 }
 
@@ -435,11 +435,11 @@ def gap_WarrantFeatureType_carrier : GapEntry := {
   paperSource :=
     "Li 2026, `\\label{lem:prw}` proof body (paper lines " ++
     "2079-2270) — warrant-form taxonomy with nine sub-forms: " ++
-    "uniform (lines 2092-2102), typeA (lines 2127-2131), typeB " ++
-    "(lines 2131-2134), typeC1 (lines 2151-2185), " ++
-    "typeC2_recursive (lines 2186-2196), typeC3_external (lines " ++
-    "2189-2191), typeC4a_internal_track (lines 2210-2218), " ++
-    "typeC4b_external_track (lines 2220-2237), contextual (lines " ++
+    "uniform (`\\label{lem:prw}` uniform case paragraph), typeA (`\\label{lem:prw}` type-(a) case paragraph), typeB " ++
+    "(`\\label{lem:prw}` type-(b) case paragraph), typeC1 (`\\label{lem:prw}` type-(c.1) case paragraph), " ++
+    "typeC2_recursive (`\\label{lem:prw}` type-(c.2) recursive case paragraph), typeC3_external (lines " ++
+    "2189-2191), typeC4a_internal_track (`\\label{lem:prw}` type-(c.4.a) internal-track paragraph), " ++
+    "typeC4b_external_track (`\\label{lem:prw}` type-(c.4.b) external-track / heat-reform paragraph), contextual (lines " ++
     "2257-2270)."
   attackHistory := [
     "v0.8.0 R5 introduction (2026-05-14): typed inductive added " ++
@@ -463,7 +463,7 @@ def gap_WarrantFeatureType_carrier : GapEntry := {
   scope :=
     "Typed inductive carrier for the paper-faithful 9-case " ++
     "taxonomy on the warrant's structural sub-form from " ++
-    "`\\label{lem:prw}` proof body (paper lines 2079-2270).  " ++
+    "`\\label{lem:prw}` proof body (paper `\\label{lem:prw}` proof body).  " ++
     "Encoded as a Lean `inductive`, not an `axiom`; consumed by " ++
     "the nine per-case atomic Cat 3 stipulations in " ++
     "`Impossibility.lean` via `match` exhaustion.  Definitional " ++
@@ -484,7 +484,7 @@ def gap_prw_uniform_to_pr : GapEntry := {
     "\\{E_i, E_j\\}$ as preferred globally, which is direct " ++
     "single-$E_m$ privileging — explicitly the P2-failure mode " ++
     "forbidden by Definition~\\ref{def:op-properties}'s " ++
-    "independence clause.'  Paper line 2168-2170 non-degeneracy: " ++
+    "independence clause.'  paper `\\label{lem:prw}` $R_{f^*}$-routing non-degeneracy paragraph non-degeneracy: " ++
     "'$R_{f^*}$ outputs an ordering of the $E_i$ in which some " ++
     "$E_m$ ranks first by virtue of $E_m$'s $f^*$-value.'"
   attackHistory := [
@@ -553,9 +553,9 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "line 2116 antecedent constructible from E alone — the " ++
+      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (lines 2099-2107).  R16 Option B fix: " ++
+      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -579,7 +579,7 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "Iff.rfl` let `thm_impossibility` reduce to 2-line bypass " ++
       "`exact hNotPR (hH A).2`, bypassing all substantive " ++
       "case-bridge machinery.  R22 Fix A strengthens " ++
-      "`partitionRelative` with paper line 2168-2170 non-" ++
+      "`partitionRelative` with paper `\\label{lem:prw}` $R_{f^*}$-routing non-degeneracy paragraph non-" ++
       "degeneracy conjunct ('some $E_m$ ranks first by virtue " ++
       "of $E_m$'s $f^*$-value').  Now `partitionRelative ⊋ " ++
       "featureExtractsAreEInternal`; the case-bridge can no " ++
@@ -590,14 +590,14 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "`cat3PaperNovel`; sub-type `notCat3` → " ++
       "`structuralEquation`.  Not anti-pattern #13 reinstatement: " ++
       "under R22, the partitionRelative conclusion carries " ++
-      "paper-line 2168-2170 non-degeneracy content the case-" ++
-      "analysis provides per case (paper lines 2092-2102 for " ++
+      "`\\label{lem:prw}` $R_{f^*}$-routing non-degeneracy paragraph non-degeneracy content the case-" ++
+      "analysis provides per case (paper `\\label{lem:prw}` uniform case paragraph for " ++
       "uniform: 'single-$E_m$ privileging' — the $E_m$ is " ++
       "distinguished from the other $E$-indices).",
     "v0.16.0 R24 FINAL HONEST CONVERGENCE per round-24 brief " ++
       "(2026-05-14): R23 hostile validator machine-verified that " ++
       "R22 Fix A introduced AXIOM INCONSISTENCY.  Paper's uniform " ++
-      "case (paper lines 2127-2132) explicitly states 'constant " ++
+      "case (paper `\\label{lem:prw}` uniform constant-k paragraph) explicitly states 'constant " ++
       "assignment ... single $E_m$ globally' — i.e., paper's " ++
       "actual uniform case has CONSTANT $E_m$ adjudication " ++
       "(degenerate ranker by construction).  R22's `prw_uniform_to_pr` " ++
@@ -607,7 +607,7 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "R24 reverts R22 Fix A (partitionRelative back to " ++
       "featureExtractsAreEInternal, no non-degeneracy) AND " ++
       "converts this case-bridge axiom → derived theorem with " ++
-      "proof body `fun _ hW => hW.2` per paper line 2109-2112 " ++
+      "proof body `fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph " ++
       "identification.  Status `gapDefinitional` → `gapClosed`; " ++
       "inputCategory `cat3PaperNovel` → `notInput`; sub-type " ++
       "`structuralEquation` → `notCat3`.  R23 attack vector " ++
@@ -622,10 +622,10 @@ def gap_prw_uniform_to_pr : GapEntry := {
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
     "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
     "(v0.16.0 R24 axiom → theorem) with proof body " ++
-    "`fun _ hW => hW.2` per paper line 2109-2112 identification " ++
+    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph identification " ++
     "of E-internality factorisation with partition-relative-" ++
     "weighting at typed `\\label{def:warrant}` level.  Substantive " ++
-    "paper content of the uniform case (paper lines 2092-2102) " ++
+    "paper content of the uniform case (paper `\\label{lem:prw}` uniform case paragraph) " ++
     "preserved in `WarrantFeatureType.uniform` constructor + " ++
     "paper-cited case-prose justification."
 }
@@ -679,9 +679,9 @@ def gap_prw_typeA_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "line 2116 antecedent constructible from E alone — the " ++
+      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (lines 2099-2107).  R16 Option B fix: " ++
+      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -701,7 +701,7 @@ def gap_prw_typeA_to_pr : GapEntry := {
       "Fix A (2026-05-14): R21 hostile defeated R18 via V7 " ++
       "Iff.rfl + 2-line bypass.  R22 Fix A strengthened " ++
       "`partitionRelative` with non-degeneracy clause (paper " ++
-      "line 2168-2170); case-bridge reinstated as Cat 3 axiom.  " ++
+      "`\\label{lem:prw}` $R_{f^*}$-routing non-degeneracy paragraph); case-bridge reinstated as Cat 3 axiom.  " ++
       "Status `gapClosed` → `gapDefinitional`; sub-type `notCat3` " ++
       "→ `structuralEquation`.  See `gap_prw_uniform_to_pr` for " ++
       "full R22 rationale.",
@@ -717,7 +717,7 @@ def gap_prw_typeA_to_pr : GapEntry := {
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
     "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
     "(v0.16.0 R24 axiom → theorem) with proof body " ++
-    "`fun _ hW => hW.2` per paper line 2109-2112."
+    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph."
 }
 
 def gap_prw_typeB_no_ranking : GapEntry := {
@@ -775,8 +775,7 @@ def gap_prw_typeC1_to_pr : GapEntry := {
     "v0.9.0 R7 attempted RHS concretization (2026-05-14): axiom " ++
       "signature RHS updated to concrete `∃ w : Weighting Part, " ++
       "∀ x j, w.weight j ≤ w.weight (A.adjudicate x)`; paper-" ++
-      "stipulated weighting form `R_{f^*}` per paper lines 2161-" ++
-      "2162.",
+      "stipulated weighting form `R_{f^*}` per paper `\\label{lem:prw}` $R_{f^*}$ construction paragraph.",
     "v0.10.0 R9 RHS revert (2026-05-14): R7 concretization " ++
       "machine-verified VACUOUS by constant-weight witness; per " ++
       "round-9 brief Option B, REVERTED.  Axiom RHS reverts to " ++
@@ -833,9 +832,9 @@ def gap_prw_typeC1_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "line 2116 antecedent constructible from E alone — the " ++
+      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (lines 2099-2107).  R16 Option B fix: " ++
+      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -855,7 +854,7 @@ def gap_prw_typeC1_to_pr : GapEntry := {
       "Iff.rfl + 2-line bypass.  R22 Fix A strengthened " ++
       "`partitionRelative` with non-degeneracy clause; this " ++
       "case-bridge reinstated as Cat 3 axiom carrying the " ++
-      "$R_{f^*}$-routing paper-content (paper lines 2155-2170 + " ++
+      "$R_{f^*}$-routing paper-content (paper `\\label{lem:prw}` $R_{f^*}$-routing paragraphs + " ++
       "2168-2170 non-degeneracy 'some $E_m$ ranks first by " ++
       "virtue of $E_m$'s $f^*$-value').",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
@@ -870,7 +869,7 @@ def gap_prw_typeC1_to_pr : GapEntry := {
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
     "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
     "(v0.16.0 R24 axiom → theorem) with proof body " ++
-    "`fun _ hW => hW.2` per paper line 2109-2112."
+    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph."
 }
 
 def gap_prw_typeC2_recursive_to_pr : GapEntry := {
@@ -880,7 +879,7 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{lem:prw}` type-(c.2) recursive case (paper " ++
-    "lines 2186-2196): '(c.2) appeals to further $\\E$-features to " ++
+    "`\\label{lem:prw}` type-(c.2) recursive case paragraph): '(c.2) appeals to further $\\E$-features to " ++
     "warrant the meta-choice (returning recursively to the type-" ++
     "(a) / type-(b) / type-(c) trichotomy at the meta-level) … " ++
     "Recursive appeal terminates only at types (a), (b), (c.1), " ++
@@ -947,9 +946,9 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "line 2116 antecedent constructible from E alone — the " ++
+      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (lines 2099-2107).  R16 Option B fix: " ++
+      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -982,7 +981,7 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
     "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
     "(v0.16.0 R24 axiom → theorem) with proof body " ++
-    "`fun _ hW => hW.2` per paper line 2109-2112."
+    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph."
 }
 
 def gap_prw_warrantInternalToE_excludes_typeC3 : GapEntry := {
@@ -1025,7 +1024,7 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{lem:prw}` type-(c.4.a) internal track case " ++
-    "(paper lines 2210-2218): '(c.4.a) The track record is " ++
+    "(paper `\\label{lem:prw}` type-(c.4.a) internal-track paragraph): '(c.4.a) The track record is " ++
     "internal to $\\E$ (uses only $\\E$-feature-based assessments " ++
     "of past cases): then the meta-criterion is type-(c) and " ++
     "recursively returns to the trichotomy at the meta-level.'"
@@ -1074,9 +1073,9 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "line 2116 antecedent constructible from E alone — the " ++
+      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (lines 2099-2107).  R16 Option B fix: " ++
+      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -1095,7 +1094,7 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
       "Fix A (2026-05-14): R21 hostile defeated R18 via V7 " ++
       "Iff.rfl + 2-line bypass.  R22 Fix A strengthened " ++
       "`partitionRelative` with non-degeneracy; case-bridge " ++
-      "reinstated as Cat 3 axiom carrying paper line 2210-2218 " ++
+      "reinstated as Cat 3 axiom carrying paper `\\label{lem:prw}` type-(c.4.a) internal-track paragraph " ++
       "internal-track-record recursive-descent content with " ++
       "non-degeneracy.  See `gap_prw_uniform_to_pr` for full R22 " ++
       "rationale.",
@@ -1111,7 +1110,7 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
     "→ A.warrantInternalToE → A.partitionRelative` on the paper-" ++
     "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
     "(v0.16.0 R24 axiom → theorem) with proof body " ++
-    "`fun _ hW => hW.2` per paper line 2109-2112."
+    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph."
 }
 
 def gap_prw_warrantInternalToE_excludes_typeC4b : GapEntry := {
@@ -1121,7 +1120,7 @@ def gap_prw_warrantInternalToE_excludes_typeC4b : GapEntry := {
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
     "Li 2026, `\\label{lem:prw}` type-(c.4.b) exclusion (paper " ++
-    "lines 2220-2237): '(c.4.b) The track record uses external-" ++
+    "`\\label{lem:prw}` type-(c.4.b) external-track / heat-reform paragraph): '(c.4.b) The track record uses external-" ++
     "to-$\\E$ predictive success … this is exactly the heat-" ++
     "reform escape route.  If such a track record exists and is " ++
     "recognised within $D$ as adjudication-warrant for " ++
@@ -1155,7 +1154,7 @@ def gap_warrantInternalToE_def : GapEntry := {
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` hypothesis (H) + " ++
     "`\\label{lem:prw}` external-feature case taxonomy (paper " ++
-    "lines 2189-2191 typeC3 + 2220-2237 typeC4b).  Paper " ++
+    "`\\label{lem:prw}` type-(c.3) external paragraph typeC3 + 2220-2237 typeC4b).  Paper " ++
     "hypothesis (H): 'every admissible arbitration procedure " ++
     "within $D$ for adjudicating operationalisations of $\\C$ " ++
     "derives its adjudication-warrant from $\\E$.'"
@@ -1196,9 +1195,9 @@ def gap_warrantInternalToE_def : GapEntry := {
       "pure proof of `False` from the v0.11.0 R14 6 case-bridge " ++
       "axioms.  Root cause: case-bridge axioms had signature " ++
       "`warrantForm = X → partitionRelative`, dropping paper " ++
-      "`\\label{lem:prw}` line 2116 antecedent 'constructible from " ++
+      "`\\label{lem:prw}` antecedent 'constructible from " ++
       "E alone' (the typed-structure version is paper " ++
-      "`\\label{def:warrant}` E-internality clause lines 2099-2107). " ++
+      "`\\label{def:warrant}` E-internality clause `\\label{def:warrant}` E-internality clause). " ++
       "R16 Option B fix: this `warrantInternalToE` def is EXTENDED " ++
       "with the paper-faithful E-internality factoring conjunct, " ++
       "becoming a conjunction of (i) tag-exclusion `warrantForm ∉ " ++
@@ -1220,9 +1219,9 @@ def gap_warrantInternalToE_def : GapEntry := {
       "AND `\\label{def:warrant}` factorisation) were bundled into " ++
       "one opaque conjunction.  R18 decomposes into two named " ++
       "`def`s: `caseFormIsInternal` (Cat 3 `hypothesisPredicate`, " ++
-      "paper lines 2188-2237 hypothesis (H) tag-exclusion) and " ++
+      "paper `\\label{lem:prw}` (c.3)/(c.4.b) hypothesis (H) tag-exclusion paragraphs hypothesis (H) tag-exclusion) and " ++
       "`featureExtractsAreEInternal` (Cat 3 `structuralEquation`, " ++
-      "paper lines 2099-2107 typed factorisation).  Composite def " ++
+      "paper `\\label{def:warrant}` E-internality clause typed factorisation).  Composite def " ++
       "becomes `warrantInternalToE := caseFormIsInternal ∧ " ++
       "featureExtractsAreEInternal`.  See `gap_caseFormIsInternal_" ++
       "def` and `gap_featureExtractsAreEInternal_def` for the " ++
@@ -1243,7 +1242,7 @@ def gap_warrantInternalToE_def : GapEntry := {
     "`featureExtractsAreEInternal` is paper-stipulated content " ++
     "(paper `\\label{def:warrant}` E-internality factorisation, " ++
     "definitionally identical to `partitionRelative` per paper " ++
-    "line 2109-2112)."
+    "`\\label{def:warrant}` typed-level identification paragraph)."
 }
 
 def gap_caseFormIsInternal_def : GapEntry := {
@@ -1252,12 +1251,11 @@ def gap_caseFormIsInternal_def : GapEntry := {
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body (paper lines 2188-" ++
-    "2237) — hypothesis (H) excludes two external case-forms in " ++
+    "Li 2026, `\\label{lem:prw}` proof body (paper `\\label{lem:prw}` (c.3)/(c.4.b) hypothesis (H) tag-exclusion paragraphs) — hypothesis (H) excludes two external case-forms in " ++
     "the `WarrantFeatureType` taxonomy: `typeC3_external` (paper " ++
-    "lines 2189-2191: '(c.3) appeals to features outside $\\E$, " ++
+    "`\\label{lem:prw}` type-(c.3) external paragraph: '(c.3) appeals to features outside $\\E$, " ++
     "which is forbidden by (H)') and `typeC4b_external_track` " ++
-    "(paper lines 2220-2237 heat-reform boundary)."
+    "(paper `\\label{lem:prw}` type-(c.4.b) external-track / heat-reform paragraph heat-reform boundary)."
   attackHistory := [
     "v0.13.0 R18 introduction (2026-05-14) per round-18 brief " ++
       "Step 5: R17 hostile validator flagged R16's composite " ++
@@ -1291,7 +1289,7 @@ def gap_caseFormIsInternal_def : GapEntry := {
     "typeC4b_external_track` on the paper-novel " ++
     "`ArbitrationProcedure` carrier.  Decidable hypothesis (H) " ++
     "tag-exclusion predicate per paper `\\label{lem:prw}` proof " ++
-    "body (paper lines 2188-2237).  Cat 3 `hypothesisPredicate` " ++
+    "body (paper `\\label{lem:prw}` (c.3)/(c.4.b) hypothesis (H) tag-exclusion paragraphs).  Cat 3 `hypothesisPredicate` " ++
     "per v6 §3.4.2: paper-stated regime predicate.  This is the " ++
     "FIRST conjunct of `warrantInternalToE` after R18 " ++
     "decomposition; the SECOND conjunct is " ++
@@ -1305,14 +1303,14 @@ def gap_featureExtractsAreEInternal_def : GapEntry := {
   cat3SubType := Cat3SubType.structuralEquation
   paperSource :=
     "Li 2026, `\\label{def:warrant}` E-internality clause (paper " ++
-    "lines 2099-2107): 'The warrant $W$ is *$\\E$-internal* when " ++
+    "`\\label{def:warrant}` E-internality clause): 'The warrant $W$ is *$\\E$-internal* when " ++
     "$\\phi_W$ factors through $\\E$-feature-membership: there " ++
     "exist $\\pi : \\E \\to \\{1, \\ldots, n\\}$ (partition-" ++
     "membership-class assignment on $\\E$-features) and " ++
     "$\\mathsf{feat}_E : \\{1, \\ldots, n\\} \\to \\mathsf{Feat}_W$ " ++
     "(per-class feature value) such that for all $x \\in \\Tcls$ " ++
     "and every $\\E$-feature $f$ that $x$ exhibits, $\\phi_W(x) = " ++
-    "\\mathsf{feat}_E(\\pi(f))$.'  Paper line 2109-2112: 'This is " ++
+    "\\mathsf{feat}_E(\\pi(f))$.'  paper `\\label{def:warrant}` typed-level identification paragraph: 'This is " ++
     "the typed-structure version of the prose-level description " ++
     "following Lemma~\\ref{lem:prw} of $R_{f^*}$ being constructed " ++
     "from $f^*$-values on each $E_i$ that are distributed " ++
@@ -1355,7 +1353,7 @@ def gap_featureExtractsAreEInternal_def : GapEntry := {
     "(definitional equivalence verified kernel-pure in " ++
     "`VacuityCheck.partitionRelative_iff_featureExtractsAreEInternal`)" ++
     " — both realise paper `\\label{def:warrant}` E-internality " ++
-    "factorisation per paper lines 2099-2107 + 2109-2112 " ++
+    "factorisation per paper `\\label{def:warrant}` E-internality clause + 2109-2112 " ++
     "identification.  Cat 3 `structuralEquation` per v6 §3.4.3.  " ++
     "This is the SECOND conjunct of `warrantInternalToE` after " ++
     "R18 decomposition; the FIRST conjunct is " ++
@@ -1369,10 +1367,10 @@ def gap_DiscourseHypothesisH_def : GapEntry := {
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` hypothesis (H) (paper " ++
-    "lines 1999-2009: 'every arbitration procedure $A$ admissible " ++
+    "`\\label{thm:impossibility}` statement: 'every arbitration procedure $A$ admissible " ++
     "within $D$ for adjudicating operationalisations of $\\C$ " ++
     "derives its adjudication-warrant from $\\E$') + paper " ++
-    "`\\label{lem:prw}` (paper line 2114-2120: 'Any warrant $W$ " ++
+    "`\\label{lem:prw}` (paper `\\label{lem:prw}` constructible-from-E-alone antecedent: 'Any warrant $W$ " ++
     "constructible from $\\E$ alone …')."
   attackHistory := [
     "v0.14.0 R20 introduction (2026-05-14) per round-20 brief: " ++
@@ -1391,11 +1389,11 @@ def gap_DiscourseHypothesisH_def : GapEntry := {
       "`thm_impossibility` was VACUOUSLY TRUE (false antecedent " ++
       "→ anything), trivializing the theorem.  R22 Fix B: add " ++
       "`admissibleIn` Cat 3 hypothesisPredicate axiom (paper " ++
-      "line 1999-2002 stipulated scope-condition predicate), " ++
+      "`\\label{thm:impossibility}` statement quantifier stipulated scope-condition predicate), " ++
       "restrict (H) to `∀ A, A.admissibleIn Op → " ++
       "A.warrantInternalToE`.  Post-R22 (H) is paper-faithful: " ++
       "ranges only over admissible-within-D procedures per paper " ++
-      "line 1999-2002 explicit quantifier-restriction 'every " ++
+      "`\\label{thm:impossibility}` statement quantifier explicit quantifier-restriction 'every " ++
       "arbitration procedure $A$ admissible within $D$ for " ++
       "adjudicating operationalisations of $\\C$'.",
     "v0.15.0 R22 non-vacuity verified (V10 series): " ++
@@ -1433,7 +1431,7 @@ def gap_DiscourseHypothesisH_def : GapEntry := {
     "`ArbitrationProcedure` carrier.  Cat 3 `hypothesisPredicate` " ++
     "per v6 §3.4.2: paper-stated discourse-state regime predicate " ++
     "from paper `\\label{thm:impossibility}` hypothesis (H) " ++
-    "(line 1999-2009).  Status `gapDefinitional` per v6 §1.1.  " ++
+    "(`\\label{thm:impossibility}` statement).  Status `gapDefinitional` per v6 §1.1.  " ++
     "Post-R22 non-vacuously satisfiable AND non-vacuously refutable " ++
     "depending on discourse-state's `admissibleIn` regime " ++
     "(V10.a / V10.b)."
@@ -1446,10 +1444,10 @@ def gap_ArbitrationProcedure_admissibleIn_carrier : GapEntry := {
   cat3SubType := Cat3SubType.hypothesisPredicate
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` admissibility " ++
-    "predicate (paper line 1999-2002: 'every arbitration " ++
+    "predicate (paper `\\label{thm:impossibility}` statement quantifier: 'every arbitration " ++
     "procedure $A$ admissible within $D$ for adjudicating " ++
     "operationalisations of $\\C$') + paper `\\label{lem:prw}` " ++
-    "(paper line 2114-2116: 'Any warrant $W$ constructible from " ++
+    "(paper `\\label{lem:prw}` constructible-from-E-alone antecedent: 'Any warrant $W$ constructible from " ++
     "$\\E$ alone …' — 'constructible' tracks admissibility-" ++
     "under-discourse)."
   attackHistory := [
@@ -1460,7 +1458,7 @@ def gap_ArbitrationProcedure_admissibleIn_carrier : GapEntry := {
       "because arbitrary `nonFactorisingA`-style procedures are " ++
       "always Lean-constructible.  R22 Fix B adds this Cat 3 " ++
       "`hypothesisPredicate` axiom to restrict (H) to admissible " ++
-      "procedures per paper line 1999-2002 explicit quantifier " ++
+      "procedures per paper `\\label{thm:impossibility}` statement quantifier explicit quantifier " ++
       "scope.  Axiom signature: `axiom " ++
       "ArbitrationProcedure.admissibleIn (A) (Op) : Prop`.  " ++
       "Encoded as `axiom` (not `def`) because paper does NOT " ++
@@ -1484,7 +1482,7 @@ def gap_ArbitrationProcedure_admissibleIn_carrier : GapEntry := {
     "v0.15.0 R22 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
       "infrastructure for paper-stipulated discourse-admissibility " ++
       "predicate on paper-novel `ArbitrationProcedure` + " ++
-      "`Operationalisation` carriers.  Paper line 2003-2005 " ++
+      "`Operationalisation` carriers.  paper `\\label{thm:impossibility}` operationalisation-faithfulness paragraph " ++
       "explicitly defines admissibility as a discourse-D-level " ++
       "regime ('outputs count as adjudications only if its " ++
       "warrant derives from $\\E$').",
@@ -1517,7 +1515,7 @@ def gap_failsAdjudication_def : GapEntry := {
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.structuralEquation
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` typeB clause (paper line 2133): " ++
+    "Li 2026, `\\label{lem:prw}` typeB clause (paper `\\label{lem:prw}` type-(b) option (ii) paragraph): " ++
     "'$R$'s output is constant across the $E_i$ and fails to " ++
     "produce a non-trivial ranking — option (ii).'"
   attackHistory := [
@@ -1567,7 +1565,7 @@ def gap_Warrant_carrier : GapEntry := {
     "added v0.11.0 R14 paper-Lean unification per v6 §11) — " ++
     "paper-introduced typed triple `(FeatureSpace, featureExtract, " ++
     "ranker)` realising the warrant's structure.  Paper-prose " ++
-    "source: `\\label{lem:prw}` proof body, esp. lines 2155-2170 " ++
+    "source: `\\label{lem:prw}` proof body, esp. `\\label{lem:prw}` $R_{f^*}$-routing paragraphs " ++
     "where `R_{f^*}` is described as `constructed from f^*-values " ++
     "computed on each E_i', identifying the warrant as a feature-" ++
     "extraction + ranking pair."
@@ -1575,10 +1573,10 @@ def gap_Warrant_carrier : GapEntry := {
     "v0.11.0 R14 introduction (2026-05-14): typed `Warrant` " ++
       "structure added to `Basic.lean` per `\\label{def:warrant}` " ++
       "Definition box added to paper.tex (immediately preceding " ++
-      "Lemma `\\label{lem:prw}` at paper line 2079).  Per v6 §11 " ++
+      "Lemma `\\label{lem:prw}` at paper `\\label{lem:prw}` (immediately preceding lemma statement)).  Per v6 §11 " ++
       "paper-Lean unification mandate, the paper revision " ++
       "explicitly introduces the typed-structure commitment the " ++
-      "paper's `R_{f^*}`-language at lines 2155-2170 already " ++
+      "paper's `R_{f^*}`-language at `\\label{lem:prw}` $R_{f^*}$-routing paragraphs already " ++
       "implicitly carries.  Three fields: `FeatureSpace : Type` " ++
       "(paper's f*-value codomain); `featureExtract : Tcls → " ++
       "FeatureSpace` (paper's φ_W); `ranker : FeatureSpace → " ++
@@ -1587,7 +1585,7 @@ def gap_Warrant_carrier : GapEntry := {
       "User correction: v0.10.0/v0.10.1 stopping point retreated " ++
       "from this substantive encoding citing `paper-extension " ++
       "introducing speculative commitments` — but the paper's " ++
-      "prose at lines 2155-2170 already commits to the structure; " ++
+      "prose at `\\label{lem:prw}` $R_{f^*}$-routing paragraphs already commits to the structure; " ++
       "the typed encoding is paper-transcription not paper-" ++
       "extension.",
     "v0.11.0 R14 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
@@ -1641,11 +1639,11 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
     "stipulated process-level predicate: 'φ_W factors through " ++
     "E-feature-membership' (formally: ∃ π : E → {1,...,n}, " ++
     "∃ feat_E : {1,...,n} → Feat_W, ∀ x ∈ Tcls and ∀ E-feature " ++
-    "f exhibited by x, φ_W(x) = feat_E(π(f))).  Paper line 2158: " ++
+    "f exhibited by x, φ_W(x) = feat_E(π(f))).  paper `\\label{lem:prw}` $f^*$-feature paragraph: " ++
     "'the procedure adjudicate Op_i vs. Op_j by routing to " ++
     "whichever of E_i, E_j is higher under the f^*-induced " ++
     "ranking R_{f^*} is a partition-relative weighting of " ++
-    "{E_1, ..., E_n}'.  Paper lines 2161-2162: 'R_{f^*} is " ++
+    "{E_1, ..., E_n}'.  paper `\\label{lem:prw}` $R_{f^*}$ construction paragraph: 'R_{f^*} is " ++
     "constructed from f^*-values computed on each E_i'.  Paper " ++
     "lines 2164-2165: features 'are themselves distributed " ++
     "unequally across the partition members'."
@@ -1666,7 +1664,7 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
       "(2026-05-14): per v6 §11 paper-Lean unification + §13 right " ++
       "gap-attack workflow + §18 R-#25 precedent, paper.tex revised " ++
       "with `\\label{def:warrant}` Definition box (immediately " ++
-      "preceding Lemma `\\label{lem:prw}` at paper line 2079) " ++
+      "preceding Lemma `\\label{lem:prw}` at paper `\\label{lem:prw}` (immediately preceding lemma statement)) " ++
       "introducing typed Warrant triple (FeatureSpace, φ_W, ρ_W) " ++
       "+ E-internality clause (φ_W factors through E-feature-" ++
       "membership via π and feat_E).  Lean encoding: " ++
@@ -1718,7 +1716,7 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
       "`fun _ hW => hW.2` (projecting `featureExtractsAreEInternal` " ++
       "from `warrantInternalToE`), and `thm_impossibility`'s proof " ++
       "could shortcircuit by applying the same projection directly. " ++
-      " R22 Fix A: add paper line 2168-2170 non-degeneracy clause " ++
+      " R22 Fix A: add paper `\\label{lem:prw}` $R_{f^*}$-routing non-degeneracy paragraph non-degeneracy clause " ++
       "to `partitionRelative` ('$R_{f^*}$ outputs an ordering of " ++
       "the $E_i$ in which some $E_m$ ranks first by virtue of " ++
       "$E_m$'s $f^*$-value').  New definitional equation: " ++
@@ -1738,12 +1736,12 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
     "v0.16.0 R24 REVERT of R22 Fix A per round-24 brief " ++
       "(2026-05-14): R23 hostile validator machine-verified that " ++
       "R22 Fix A introduced AXIOM INCONSISTENCY.  Paper's uniform " ++
-      "case (paper lines 2127-2132) has CONSTANT $E_m$ adjudication " ++
+      "case (paper `\\label{lem:prw}` uniform constant-k paragraph) has CONSTANT $E_m$ adjudication " ++
       "(degenerate ranker by construction).  R22's strengthened " ++
       "partitionRelative + `prw_uniform_to_pr` axiom + uniform-" ++
       "constant-ranker witness → kernel-pure `False`.  R24 reverts " ++
       "to R18 form: `A.partitionRelative := A.featureExtractsAreEInternal`.  " ++
-      "Per paper line 2109-2112, this IS paper-faithful — paper's " ++
+      "Per paper `\\label{def:warrant}` typed-level identification paragraph, this IS paper-faithful — paper's " ++
       "`lem:prw` at typed `\\label{def:warrant}` level is " ++
       "structurally trivial.  Substantive paper content lives in " ++
       "`WarrantFeatureType` 9-case taxonomy + `admissibleIn` " ++
@@ -1758,7 +1756,7 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
     "`ArbitrationProcedure` (v0.11.0 R14 substantive paper-" ++
     "faithful concretization; v0.16.0 R24 REVERT of R22 Fix A).  " ++
     "Definitional equation (post-R24): `A.partitionRelative := " ++
-    "A.featureExtractsAreEInternal`.  Per paper line 2109-2112, " ++
+    "A.featureExtractsAreEInternal`.  Per paper `\\label{def:warrant}` typed-level identification paragraph, " ++
     "this IS paper-faithful: paper's `lem:prw` reduction at typed " ++
     "`\\label{def:warrant}` level is the E-internality factorisation " ++
     "identification.  Sub-type `structuralEquation` per v6 §3.4.3.  " ++
@@ -1828,9 +1826,9 @@ def gap_prw_contextual_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "line 2116 antecedent constructible from E alone — the " ++
+      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (lines 2099-2107).  R16 Option B fix: " ++
+      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -1850,7 +1848,7 @@ def gap_prw_contextual_to_pr : GapEntry := {
       "Iff.rfl + 2-line bypass.  R22 Fix A strengthened " ++
       "`partitionRelative` with non-degeneracy; contextual " ++
       "case-bridge reinstated as Cat 3 axiom carrying paper " ++
-      "line 2257-2270 contextual-feature mapping with " ++
+      "`\\label{lem:prw}` contextual case paragraph contextual-feature mapping with " ++
       "non-degeneracy.",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
       "(2026-05-14).  R22 Fix A reverted (see `gap_prw_uniform_to_pr` " ++
@@ -1864,7 +1862,7 @@ def gap_prw_contextual_to_pr : GapEntry := {
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
     "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
     "(v0.16.0 R24 axiom → theorem) with proof body " ++
-    "`fun _ hW => hW.2` per paper line 2109-2112."
+    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph."
 }
 
 /-! ### Cat 3 paper-novel carrier types and predicates.
@@ -2342,7 +2340,7 @@ def gap_ArbitrationProcedure_carrier : GapEntry := {
       "field).  After R14: `warrant : Warrant` (new Cat 3 carrier " ++
       "per paper `\\label{def:warrant}`) + `warrantForm` + " ++
       "`exhibits : Tcls → FolkObj → Prop` (paper-stipulated " ++
-      "exhibits relation per paper line 2061).  `adjudicate` is " ++
+      "exhibits relation per paper `\\label{def:op-individuation}` exhibits-feature prose).  `adjudicate` is " ++
       "now a derived `def` composing `warrant.ranker ∘ " ++
       "warrant.featureExtract`; `partitionRelative` is now a " ++
       "derived `def` realising paper `\\label{def:warrant}` " ++
@@ -2362,7 +2360,7 @@ def gap_ArbitrationProcedure_carrier : GapEntry := {
     "Tcls Part` (new Cat 3 carrier per paper `\\label{def:warrant}`), " ++
     "`warrantForm : WarrantFeatureType`, and `exhibits : Tcls → " ++
     "FolkObj → Prop` (paper-stipulated exhibits relation per paper " ++
-    "line 2061).  All scope-condition predicates are now derived " ++
+    "`\\label{def:op-individuation}` exhibits-feature prose).  All scope-condition predicates are now derived " ++
     "`def`s on the structure: `adjudicate := warrant.ranker ∘ " ++
     "warrant.featureExtract`; `warrantInternalToE` and " ++
     "`failsAdjudication` via the `WarrantFeatureType` taxonomy " ++
@@ -2547,17 +2545,16 @@ def gap_thm_impossibility_CLOSED : GapEntry := {
       "¬ A.failsAdjudication ∧ A.warrantInternalToE` was " ++
       "internally contradictory.  Since R18's " ++
       "`warrantInternalToE.2 = featureExtractsAreEInternal = " ++
-      "partitionRelative` definitionally (paper line 2109-2112), " ++
+      "partitionRelative` definitionally (paper `\\label{def:warrant}` typed-level identification paragraph), " ++
       "the existential body was provably `False` by typing alone: " ++
       "the R19 kill `theorem r19_kill (Op) : ¬ SatisfiesP2 Op := " ++
       "fun ⟨A, hNotPR, _, hWITE⟩ => hNotPR hWITE.2` was kernel-" ++
       "pure no-axiom derivable.  This trivialised " ++
       "thm_impossibility.  R20 STRUCTURAL FIX: (i) Removed " ++
       "`warrantInternalToE` conjunct from `SatisfiesP2` (paper " ++
-      "P2 at `\\label{def:op-properties}` line 1976-1986 doesn't " ++
+      "P2 at `\\label{def:op-properties}` doesn't " ++
       "include admissibility-as-conjunct; admissibility is a " ++
-      "discourse-state regime predicate per paper lines 1999-" ++
-      "2009 + 2114-2120).  (ii) Added `DiscourseHypothesisH` " ++
+      "discourse-state regime predicate per paper `\\label{thm:impossibility}` statement + 2114-2120).  (ii) Added `DiscourseHypothesisH` " ++
       "predicate (Cat 3 `hypothesisPredicate`, paper-stated " ++
       "hypothesis (H) as universally-quantified statement on " ++
       "`ArbitrationProcedure`).  (iii) `thm_impossibility` takes " ++
@@ -2575,8 +2572,7 @@ def gap_thm_impossibility_CLOSED : GapEntry := {
   ]
   scope :=
     "Under (H) = `DiscourseHypothesisH Part Op` (paper " ++
-    "hypothesis (H) at `\\label{thm:impossibility}` line 1999-" ++
-    "2009 + paper `\\label{lem:prw}` line 2114-2120) and " ++
+    "hypothesis (H) at `\\label{thm:impossibility}` + paper `\\label{lem:prw}` ) and " ++
     "`\\label{def:unranked}`, no operationalisation satisfies " ++
     "P2 of `\\label{def:op-properties}`.  Post-R20 signature: " ++
     "`(Part) (Op) (hH : DiscourseHypothesisH Part Op) : " ++
@@ -2818,7 +2814,7 @@ def gap_thesis_independence_OPEN : GapEntry := {
   cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, `\\label{thesis:independence}` (Mutual independence " ++
-    "of the six DSC axes; paper §2547-2582 — six paper-supplied " ++
+    "of the six DSC axes; paper `\\S\\ref{sec:dsc-axes}` six-axis exhibition — six paper-supplied " ++
     "independence-witness arguments: `¬Sessional, others held` " ++
     "continuously-running inference daemon; `¬Concurrent, others " ++
     "held` serially-deployed single-instance; `¬State-inference, " ++
@@ -2826,7 +2822,8 @@ def gap_thesis_independence_OPEN : GapEntry := {
     "`¬Distributional, others held` embodied-RL simulator-trained " ++
     "agent; `¬Homogeneous, others held` hybrid scratchpad " ++
     "architecture; `¬Inversion, others held` exposed-introspective-" ++
-    "access system).  Paper §2583-2584: 'The six independence " ++
+    "access system).  Paper `\\S\\ref{sec:dsc-axes}` six-axis " ++
+    "independence sentence: 'The six independence " ++
     "witnesses show that the axes carve genuinely distinct " ++
     "dimensions of LLM-versus-biological structure.'  Resolution " ++
     "path: external philosophical-foundations debate about whether " ++
@@ -2884,7 +2881,7 @@ def gap_thesis_independence_OPEN : GapEntry := {
       "v0.6.0 R2 close-target framing (`Lean encoding of six " ++
       "counter-model witnesses as `CognitiveSystem`-instantiations " ++
       "with explicit Prop-axis assignments — paper-extension work`) " ++
-      "was a category error.  The paper §2547-2582 EXHIBITS the " ++
+      "was a category error.  The paper `\\S\\ref{sec:dsc-axes}` six-axis exhibition EXHIBITS the " ++
       "six counter-model witnesses as paper-stipulated content " ++
       "(continuously-running inference daemon; serially-deployed " ++
       "single-instance; etc.); the load-bearing question is not " ++
@@ -2900,7 +2897,7 @@ def gap_thesis_independence_OPEN : GapEntry := {
       "model witnesses)."
   ]
   scope :=
-    "The paper §2547-2582 supplies six `coherent hypothetical " ++
+    "The paper `\\S\\ref{sec:dsc-axes}` six-axis exhibition supplies six `coherent hypothetical " ++
     "system` witnesses — for each axis, a paper-stipulated " ++
     "system that fails it while satisfying the other five.  " ++
     "Encoded as a Cat 3 `phenomenologicalConjecture` ledger entry " ++
@@ -2909,7 +2906,7 @@ def gap_thesis_independence_OPEN : GapEntry := {
     "counter-model witnesses are architecturally coherent — i.e., " ++
     "whether each paper-stipulated system actually fails its " ++
     "named axis while preserving the residual five.  This is not " ++
-    "Lean encoding work (paper §2547-2582 is paper-stipulated " ++
+    "Lean encoding work (paper `\\S\\ref{sec:dsc-axes}` six-axis exhibition is paper-stipulated " ++
     "content, not pending derivation); it is interpretive debate " ++
     "over architectural feasibility of the paper-stipulated " ++
     "witnesses.  Resolution is external (philosophy-of-mind / " ++
@@ -2924,12 +2921,13 @@ def gap_thesis_joint_OPEN : GapEntry := {
   cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, `\\label{thesis:joint}` (Joint satisfaction for " ++
-    "current LLMs; paper §2586-2624 — 'The six axes are jointly " ++
+    "current LLMs; paper `\\S\\ref{sec:dsc-axes}` joint-sufficiency paragraph — 'The six axes are jointly " ++
     "satisfied by all contemporary deployed LLM systems, where " ++
     "''contemporary'' designates transformer-based autoregressive " ++
     "language models trained on internet-scale text corpora and " ++
     "deployed in stateless inference servers' + per-axis " ++
-    "evidence chain).  Paper §2598-2605 `Re-evaluation trigger`: " ++
+    "evidence chain).  Paper `\\S\\ref{sec:dsc-axes}` " ++
+    "re-evaluation-trigger paragraph `Re-evaluation trigger`: " ++
     "'This thesis must be reapplied to any deployed system that " ++
     "departs from the contemporary-LLM definition by design " ++
     "(e.g., persistent-memory architectures, online-learning " ++
@@ -2962,7 +2960,7 @@ def gap_thesis_joint_OPEN : GapEntry := {
       "is a paper-PUBLISHED substantive claim about phenomena " ++
       "(current deployed LLM architectures) awaiting external " ++
       "validation (empirical observation of next-generation " ++
-      "deployed systems; paper §2598-2605 explicit reapplication-" ++
+      "deployed systems; paper `\\S\\ref{sec:dsc-axes}` re-evaluation-trigger paragraph explicit reapplication-" ++
       "trigger language identifies the exact trigger conditions: " ++
       "`persistent-memory architectures, online-learning systems, " ++
       "multi-modal embodied systems`).  Per v6 §3.4.6, " ++
@@ -2983,7 +2981,7 @@ def gap_thesis_joint_OPEN : GapEntry := {
     "autoregressive LLMs jointly satisfy the six DSC axes.  " ++
     "Encoded as a Cat 3 `phenomenologicalConjecture` ledger " ++
     "entry per v6 §3.4.6 (2026-05-14).  Resolution path " ++
-    "(paper §2598-2605 `Re-evaluation trigger`): empirical " ++
+    "(paper `\\S\\ref{sec:dsc-axes}` re-evaluation-trigger paragraph `Re-evaluation trigger`): empirical " ++
     "re-assessment when next-generation deployed systems " ++
     "(persistent-memory architectures, online-learning systems, " ++
     "multi-modal embodied systems) reach scale.  Paper " ++
@@ -3002,7 +3000,7 @@ def gap_thesis_minimality_OPEN : GapEntry := {
   cat3SubType := Cat3SubType.phenomenologicalConjecture
   paperSource :=
     "Li 2026, `\\label{thesis:minimality}` (Minimality with " ++
-    "respect to identified blocking jobs; paper §2629-2699 " ++
+    "respect to identified blocking jobs; paper `\\S\\ref{sec:dsc-axes}` blocking-jobs exhibition " ++
     "exhibits six locution-axis-blocking witnesses — `Drop " ++
     "sessional existence` ⇒ inter-session reflection unblocked; " ++
     "`Drop concurrent multiplicity` ⇒ system-wide-unified-" ++
@@ -3012,7 +3010,7 @@ def gap_thesis_minimality_OPEN : GapEntry := {
     "unblocked; `Drop homogeneous generation` ⇒ silent-" ++
     "deliberation locution unblocked; `Drop interpretability " ++
     "inversion` ⇒ privileged-access locution unblocked).  " ++
-    "Resolution path (paper §2701-2716 `Relativity of the " ++
+    "Resolution path (paper `\\S\\ref{sec:dsc-axes}` relativity-of-taxonomy paragraph `Relativity of the " ++
     "minimality claim`): paper EXPLICITLY frames the " ++
     "minimality claim as relative-to-the-taxonomy, not " ++
     "absolute — 'the framework does not foreclose [the " ++
@@ -3063,7 +3061,7 @@ def gap_thesis_minimality_OPEN : GapEntry := {
     "v0.7.0 R4 reclassification (2026-05-14, R3-MC3 per v6 " ++
       "§3.4.6 Manufactured Recognition R-#27): sub-type " ++
       "changed `workingAssumption` → `phenomenologicalConjecture`.  " ++
-      "Hostile-validator verdict: paper §2701-2716 `Relativity " ++
+      "Hostile-validator verdict: paper `\\S\\ref{sec:dsc-axes}` relativity-of-taxonomy paragraph `Relativity " ++
       "of the minimality claim` EXPLICITLY frames the " ++
       "minimality argument as relative-to-the-taxonomy, not " ++
       "absolute — 'the framework does not foreclose [the " ++
@@ -3081,7 +3079,7 @@ def gap_thesis_minimality_OPEN : GapEntry := {
       "minimality — paper-extension work`) was a category " ++
       "error: even with the typed carrier, the load-bearing " ++
       "question is `is the six-leak taxonomy itself the right " ++
-      "taxonomy?` — paper §2701-2716 declines to foreclose this " ++
+      "taxonomy?` — paper `\\S\\ref{sec:dsc-axes}` relativity-of-taxonomy paragraph declines to foreclose this " ++
       "interpretively.  Per v6 §3.4.6, " ++
       "`phenomenologicalConjecture` is the canonical sub-type.  " ++
       "Status remains `gapOpen` (not Lean-closeable; " ++
@@ -3089,11 +3087,11 @@ def gap_thesis_minimality_OPEN : GapEntry := {
       "alternative leak taxonomies)."
   ]
   scope :=
-    "For each of the six DSC axes, the paper §2629-2699 exhibits " ++
+    "For each of the six DSC axes, the paper `\\S\\ref{sec:dsc-axes}` blocking-jobs exhibition exhibits " ++
     "a biological-vocabulary locution that the remaining five " ++
     "jointly fail to block.  Encoded as a Cat 3 " ++
     "`phenomenologicalConjecture` ledger entry per v6 §3.4.6 " ++
-    "(2026-05-14).  Resolution path (paper §2701-2716 " ++
+    "(2026-05-14).  Resolution path (paper `\\S\\ref{sec:dsc-axes}` relativity-of-taxonomy paragraph " ++
     "`Relativity of the minimality claim`): identification of " ++
     "alternative leak taxonomies + philosophical-foundations " ++
     "debate about whether the paper's six-leak taxonomy is " ++
@@ -3129,8 +3127,7 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
     "grained substrate decomposition achieves consensus in " ++
     "cognitive neuroscience or (b) the cross-substrate " ++
     "disagreements among IIT/GWT/HOT/AST are shown to track that " ++
-    "finer-grained substrate.'  Resolution path (paper lines 485-" ++
-    "492): operational reapplication threshold — Cochrane/PRISMA-" ++
+    "finer-grained substrate.'  Resolution path (paper `\\S\\ref{sec:evidence-base}` Cochrane/PRISMA paragraph): operational reapplication threshold — Cochrane/PRISMA-" ++
     "style systematic review or major-society position statement " ++
     "endorsing a finer-grained substrate decomposition OR a " ++
     "finding that IIT/GWT/HOT/AST cross-substrate disagreements " ++
@@ -3197,7 +3194,7 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
       "(cognitive-neuroscience consensus on finer-grained " ++
       "substrate decomposition OR finding that IIT/GWT/HOT/AST " ++
       "cross-substrate disagreements track that finer-grained " ++
-      "substrate) — paper lines 485-492 specify the operational " ++
+      "substrate) — paper `\\S\\ref{sec:evidence-base}` Cochrane/PRISMA paragraph specify the operational " ++
       "threshold for reapplication: Cochrane/PRISMA-style " ++
       "systematic review or major-society position statement.  " ++
       "Resolution path is empirical-consensus, NOT Lean derivation; " ++
@@ -3256,7 +3253,7 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
     "`phenomenologicalConjecture` per v6 §3.4.6 (2026-05-14): " ++
     "the paper publishes the premise as a defeasible empirical " ++
     "claim, with an explicit operational reapplication threshold " ++
-    "(paper lines 485-492: Cochrane/PRISMA-style systematic " ++
+    "(paper `\\S\\ref{sec:evidence-base}` Cochrane/PRISMA paragraph: Cochrane/PRISMA-style systematic " ++
     "review of finer-grained substrate decomposition OR major-" ++
     "society position statement that IIT/GWT/HOT/AST cross-" ++
     "substrate disagreements track a finer-grained substrate).  " ++
@@ -3336,7 +3333,8 @@ def gap_calibration_table_OPEN : GapEntry := {
     "`\\label{thesis:calibration}` ('The discriminator correctly " ++
     "retrodicts the eliminate-versus-reform trajectory of all ten " ++
     "historical paradigm cases when applied with information " ++
-    "available at peak contestation').  Paper §1653-1668 " ++
+    "available at peak contestation').  Paper " ++
+    "`\\S\\ref{sec:retrodictive-labels}` retrodictive-label paragraph " ++
     "`Caveat on retrodictive D3`: 'D3 (successor-program " ++
     "productivity) is the discriminator condition most vulnerable " ++
     "to retrodictive bias: in five of the eliminated cases, the " ++
@@ -3368,7 +3366,7 @@ def gap_calibration_table_OPEN : GapEntry := {
       "historical concepts + the overall retrodiction-correctness " ++
       "verdict `\\label{thesis:calibration}`) awaiting external " ++
       "validation (historian / philosopher-of-science debate " ++
-      "about the retrodictive labels; paper §1653-1668 " ++
+      "about the retrodictive labels; paper `\\S\\ref{sec:retrodictive-labels}` retrodictive-label paragraph " ++
       "EXPLICITLY hedges D3 as 'most vulnerable to retrodictive " ++
       "bias' and supplies a D1+D2-only sub-rule retrodicting " ++
       "9/10 unambiguously plus 1/10 borderline as a falsifiability " ++
@@ -3396,7 +3394,7 @@ def gap_calibration_table_OPEN : GapEntry := {
     "cases when applied with information available at peak " ++
     "contestation').  Encoded as a Cat 3 " ++
     "`phenomenologicalConjecture` ledger entry per v6 §3.4.6 " ++
-    "(2026-05-14).  Resolution path (paper §1653-1668 " ++
+    "(2026-05-14).  Resolution path (paper `\\S\\ref{sec:retrodictive-labels}` retrodictive-label paragraph " ++
     "`Caveat on retrodictive D3` + `\\label{thesis:calibration}`): " ++
     "historian / philosopher-of-science debate about the " ++
     "retrodictive D1/D2/D3 labels per case.  Paper EXPLICITLY " ++
@@ -3502,12 +3500,12 @@ def allGaps : List GapEntry := [
   gap_featureExtractsAreEInternal_def,
   -- v0.14.0 R20 STRUCTURAL FIX: paper-novel discourse-state
   -- hypothesis predicate (paper hypothesis (H) at
-  -- `\\label{thm:impossibility}` line 1999-2009); restricted in
+  -- `\\label{thm:impossibility}` `\label{thm:impossibility}` statement); restricted in
   -- v0.15.0 R22 to `∀ A, admissibleIn A Op → warrantInternalToE`.
   gap_DiscourseHypothesisH_def,
   -- v0.15.0 R22 DUAL FIX (Fix B): paper-novel admissibility
   -- predicate axiom restricting (H) to admissible-within-D
-  -- procedures (paper line 1999-2002).
+  -- procedures (paper `\label{thm:impossibility}` statement quantifier).
   gap_ArbitrationProcedure_admissibleIn_carrier,
   gap_failsAdjudication_def,
   gap_Warrant_carrier,
@@ -3637,7 +3635,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
     ∧ featureExtractsAreEInternal` makes the case-bridge
     conclusion (`partitionRelative`) recoverable via `And.right`
     on `featureExtractsAreEInternal`, which is definitionally
-    `partitionRelative` per paper line 2109-2112:
+    `partitionRelative` per paper `\label{def:warrant}` typed-level identification paragraph:
       prw_uniform_to_pr, prw_typeA_to_pr,
       prw_typeC1_to_pr, prw_typeC2_recursive_to_pr,
       prw_typeC4a_internal_track_to_pr,
@@ -3648,8 +3646,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       `lake env lean AsymmetricEliminativism/AxiomAudit.lean`).
 
     R18 honest scope statement: paper's `lem:prw` IS Lean-trivial
-    under typed Definition `\\label{def:warrant}` (paper line
-    2109-2112 explicitly identifies E-internality factorisation
+    under typed Definition `\\label{def:warrant}` (paper `\label{def:warrant}` typed-level identification paragraph explicitly identifies E-internality factorisation
     with partition-relative-weighting predicate).  The case-
     analysis in paper's `lem:prw` proof body is auxiliary
     commentary (one paper-prose justification per
@@ -3659,9 +3656,9 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       (a) `WarrantFeatureType` 9-constructor taxonomy (Cat 3
           `carrier`, paper-cited per case);
       (b) `caseFormIsInternal` hypothesis (H) tag-exclusion
-          (Cat 3 `hypothesisPredicate`, paper lines 2188-2237);
+          (Cat 3 `hypothesisPredicate`, paper `\label{lem:prw}` (c.3)/(c.4.b) hypothesis (H) tag-exclusion paragraphs);
       (c) `featureExtractsAreEInternal` typed factorisation
-          (Cat 3 `structuralEquation`, paper lines 2099-2107);
+          (Cat 3 `structuralEquation`, paper `\label{def:warrant}` E-internality clause);
       (d) `warrantInternalToE` composite `caseFormIsInternal ∧
           featureExtractsAreEInternal` (Cat 3 `structuralEquation`).
     All four are paper-stipulated definitional commitments
@@ -3672,9 +3669,9 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
     #14: composite `warrantInternalToE` def split into named
     sub-`def`s for paper-distinct conditions):
       gap_caseFormIsInternal_def (R18 new — Cat 3
-        `hypothesisPredicate`, paper lines 2188-2237),
+        `hypothesisPredicate`, paper `\label{lem:prw}` (c.3)/(c.4.b) hypothesis (H) tag-exclusion paragraphs),
       gap_featureExtractsAreEInternal_def (R18 new — Cat 3
-        `structuralEquation`, paper lines 2099-2107),
+        `structuralEquation`, paper `\label{def:warrant}` E-internality clause),
       gap_warrantInternalToE_def (R18 redefined as conjunction
         of the two sub-`def`s — Cat 3 `structuralEquation`),
       gap_failsAdjudication_def (R5 Issue 3 preserved).
@@ -3682,7 +3679,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
     `ArbitrationProcedure.partitionRelative` consuming the
     `Warrant` carrier + `exhibits` field (v0.11.0 R14;
     definitionally equivalent to `featureExtractsAreEInternal`
-    per paper line 2109-2112, verified kernel-pure in
+    per paper `\label{def:warrant}` typed-level identification paragraph, verified kernel-pure in
     `VacuityCheck.partitionRelative_iff_featureExtractsAreEInternal`):
       gap_ArbitrationProcedure_partitionRelative_def
       (status `gapDefinitional`, sub-type `structuralEquation`;
@@ -3731,28 +3728,28 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       substrate_independence_triple_use_premise (R4 R3-MC1
         sub-type `workingAssumption` → `phenomenologicalConjecture`;
         resolution path = operational reapplication threshold
-        per paper lines 485-492),
+        per paper `\S\ref{sec:evidence-base}` Cochrane/PRISMA paragraph),
       thesis_independence (R4 R3-MC2 sub-type
         `workingAssumption` → `phenomenologicalConjecture`;
         resolution path = philosophical-foundations debate about
         architectural coherence of the six counter-model
-        witnesses per paper §2547-2582),
+        witnesses per paper `\S\ref{sec:dsc-axes}` six-axis exhibition),
       thesis_minimality (R4 R3-MC3 sub-type
         `workingAssumption` → `phenomenologicalConjecture`;
         resolution path = identification of alternative leak
-        taxonomies per paper §2701-2716),
+        taxonomies per paper `\S\ref{sec:dsc-axes}` relativity-of-taxonomy paragraph),
       thesis_joint (R4 R3-RC1 status `gapBlocked` → `gapOpen`,
         inputCategory `notInput` → `cat3PaperNovel`, sub-type
         `notCat3` → `phenomenologicalConjecture`; resolution
         path = empirical reapplication trigger for
         persistent-memory / online-learning / multi-modal
-        embodied architectures per paper §2598-2605),
+        embodied architectures per paper `\S\ref{sec:dsc-axes}` re-evaluation-trigger paragraph),
       tab_calibration (R4 R3-RC2 status `gapBlocked` →
         `gapOpen`, inputCategory `notInput` → `cat3PaperNovel`,
         sub-type `notCat3` → `phenomenologicalConjecture`;
         resolution path = historian / philosopher-of-science
         debate about the retrodictive D1/D2/D3 labels per
-        paper §1653-1668).
+        paper `\S\ref{sec:retrodictive-labels}` retrodictive-label paragraph).
 
   *Derived theorems and `notInput`-classified entries* (encoded as
   Lean `theorem` declarations, NOT as `axiom`):
@@ -3827,8 +3824,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
           ∃ k₁ k₂ feat₁ feat₂, A.warrant.ranker feat₁ = k₁ ∧
                               A.warrant.ranker feat₂ = k₂ ∧
                               k₁ ≠ k₂
-      The added non-degeneracy conjunct paper-cites paper line
-      2168-2170 ('$R_{f^*}$ outputs an ordering of the $E_i$ in
+      The added non-degeneracy conjunct paper-cites paper `\label{lem:prw}` $R_{f^*}$-routing non-degeneracy paragraph ('$R_{f^*}$ outputs an ordering of the $E_i$ in
       which some $E_m$ ranks first by virtue of $E_m$'s
       $f^*$-value').  Now `partitionRelative ⊋
       featureExtractsAreEInternal`; V7 separation proven kernel-
@@ -3840,7 +3836,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
     * R22 Fix B — `admissibleIn` axiom + `DiscourseHypothesisH`
       restriction (Basic.lean + Impossibility.lean):
         axiom ArbitrationProcedure.admissibleIn (A) (Op) : Prop
-      The axiom encodes paper line 1999-2002's quantifier-
+      The axiom encodes paper `\label{thm:impossibility}` statement quantifier's quantifier-
       restriction predicate ('admissible within $D$').  Cat 3
       `hypothesisPredicate`; status `gapDefinitional`.  Used
       to restrict (H):
@@ -3904,9 +3900,9 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
       Root cause: each `prw_X_to_pr` axiom had signature
       `A.warrantForm = X → A.partitionRelative`, dropping paper
-      `\\label{lem:prw}` line 2116 antecedent ''constructible from
+      `\\label{lem:prw}` `\label{lem:prw}` constructible-from-E-alone antecedent antecedent ''constructible from
       E alone'' (the typed-structure version being paper
-      `\\label{def:warrant}` E-internality clause lines 2099-2107).
+      `\\label{def:warrant}` E-internality clause `\label{def:warrant}` E-internality clause).
       With R14's substantive `partitionRelative` (E-feature
       factorisation), non-factorising warrants with
       `warrantForm = uniform` are direct counter-witnesses
@@ -3923,8 +3919,8 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
          (∃ memberClass featByClass, ∀ x f, A.exhibits x f →
            A.warrant.featureExtract x = featByClass (memberClass f))`
       The second conjunct IS paper `\\label{def:warrant}`
-      E-internality clause (paper lines 2099-2107) at the
-      typed-structure level (paper line 2109-2112 explicitly
+      E-internality clause (paper `\label{def:warrant}` E-internality clause) at the
+      typed-structure level (paper `\label{def:warrant}` typed-level identification paragraph explicitly
       identifies the typed-structure version with the
       partition-relative-weighting prose).
 
@@ -3936,7 +3932,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
           A.warrantInternalToE → A.partitionRelative`
       The axioms now carry BOTH `warrantForm = X` AND
       `warrantInternalToE` as antecedents — paper-faithful per
-      `\\label{lem:prw}` line 2116 "constructible from E alone".
+      `\\label{lem:prw}` `\label{lem:prw}` constructible-from-E-alone antecedent "constructible from E alone".
 
     * R16-Step3 (`lem_prw_reduction` proof body): updated to
       thread the existing `hW : A.warrantInternalToE` hypothesis
@@ -4012,7 +4008,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       attempt verifiably blocked.  Anti-pattern #15
       (conditional-as-unconditional) RESOLVED: each case-bridge
       axiom now carries the paper-faithful antecedent
-      ''constructible from E alone'' per paper line 2116 /
+      ''constructible from E alone'' per paper `\label{lem:prw}` constructible-from-E-alone antecedent /
       `\\label{def:warrant}`.  Per v6 §1.6 #15: "conditional
       theorem axiomatized without the hypothesis in the
       signature" — this is the exact pattern R14 violated and
@@ -4037,12 +4033,12 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       Recognition R-#25 precedent, the substantive paper-faithful
       encoding IS the work to do.  Paper.tex revision is
       paper-transcription not paper-extension: the paper's
-      `R_{f^*}`-language at `\\label{lem:prw}` lines 2155-2170
+      `R_{f^*}`-language at `\\label{lem:prw}` `\label{lem:prw}` $R_{f^*}$-routing paragraphs
       already implicitly carries the typed warrant structure.
 
     * R14-Step1 (paper revision per §11): paper.tex revised with
       `\\label{def:warrant}` Definition box immediately preceding
-      Lemma `\\label{lem:prw}` (paper line 2079).  Definition
+      Lemma `\\label{lem:prw}` (paper `\label{lem:prw}` (immediately preceding lemma statement)).  Definition
       introduces typed triple `(\mathsf{Feat}_W, \phi_W, \rho_W)`
       with E-internality factorisation clause: `\phi_W` factors
       through E-feature-membership via `\pi : \E → \{1,\ldots,n\}`
@@ -4261,7 +4257,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       *Honest assessment.*  v0.10.0 R9 is an HONEST RETREAT
       (Option B per round-9 brief), not a substantive R7 fix.
       The paper's partition-relativity is genuinely PROCESS-LEVEL
-      (`\\label{lem:prw}` lines 2155-2170 — the warrant's
+      (`\\label{lem:prw}` `\label{lem:prw}` $R_{f^*}$-routing paragraphs — the warrant's
       adjudication factors through `\E`-feature extraction and
       ranking); the current `ArbitrationProcedure` Lean carrier
       is OUTPUT-LEVEL (`adjudicate : Tcls → Fin Part.n` — only
@@ -4419,7 +4415,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       Conclusion form is paper-faithful disjunctive
       `partitionRelative ∨ failsAdjudication`.  P2 definition
       extended with `¬ A.failsAdjudication` conjunct (paper option
-      (ii) parallel to option (i) per paper lines 2304-2305 +
+      (ii) parallel to option (i) per paper `\label{thm:impossibility}` proof conclusion +
       2307-2326).  10 new GapEntry added (1 WarrantFeatureType
       carrier + 9 per-case atoms).
 
@@ -4524,8 +4520,9 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       when paper-extension work introduces the appropriate
       typed carrier`) was a category error: the premise is
       not pending Lean derivation, it is pending external
-      empirical falsification or endorsement.  Paper lines
-      485-492 supply the operational reapplication threshold
+      empirical falsification or endorsement.  Paper
+      `\S\ref{sec:evidence-base}` Cochrane/PRISMA paragraph
+      supplies the operational reapplication threshold
       (Cochrane/PRISMA systematic review or major-society
       position statement).
 
@@ -4533,7 +4530,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       `workingAssumption` → `phenomenologicalConjecture`.  The
       v0.6.0 R2 close-target framing (`Lean encoding of six
       counter-model witnesses — paper-extension work`) was a
-      category error: paper §2547-2582 EXHIBITS the six
+      category error: paper `\S\ref{sec:dsc-axes}` six-axis exhibition EXHIBITS the six
       counter-model witnesses as paper-stipulated content; the
       load-bearing question is `are they architecturally
       coherent under the paper's coherence judgement?` — a
@@ -4542,7 +4539,8 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
     * R3-MC3: `thesis_minimality` reclassified
       `workingAssumption` → `phenomenologicalConjecture`.
-      Paper §2701-2716 `Relativity of the minimality claim`
+      Paper `\S\ref{sec:dsc-axes}` relativity-of-taxonomy
+      paragraph `Relativity of the minimality claim`
       EXPLICITLY frames the minimality argument as relative-
       to-the-taxonomy, not absolute; resolution path =
       identification of alternative leak taxonomies via
@@ -4557,7 +4555,8 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       claim about phenomena (current deployed LLM
       architectures) awaiting external validation (empirical
       observation of next-generation deployed systems; paper
-      §2598-2605 explicit reapplication-trigger language).
+      `\S\ref{sec:dsc-axes}` re-evaluation-trigger paragraph
+      explicit reapplication-trigger language).
 
     * R3-RC2: `tab_calibration` reclassified `gapBlocked` →
       `gapOpen` + `notInput` → `cat3PaperNovel` + `notCat3`
@@ -4568,7 +4567,8 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       ratings + `\\label{thesis:calibration}`
       10/10-retrodiction verdict) awaiting external validation
       (historian / philosopher-of-science debate per paper
-      §1653-1668 `Caveat on retrodictive D3`).
+      `\S\ref{sec:retrodictive-labels}` retrodictive-label
+      paragraph `Caveat on retrodictive D3`).
 
     * R3-C / R3-D: root module + Ledger top docstring
       narratives updated to list 6 sub-types (the 6th sub-type

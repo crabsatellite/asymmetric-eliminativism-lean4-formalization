@@ -16,8 +16,9 @@
   was the seed defect.
 
   ATTACK E (E.1.a / E.1.b / E.1.c): the killing vector itself.
-  Paper's uniform case (paper lines 2127-2132) explicitly states
-  "constant assignment to $\{i,j\}$ selects a single $E_m$" — i.e.,
+  Paper's uniform case (`\label{lem:prw}` uniform paragraph)
+  explicitly states "constant assignment to $\{i,j\}$ selects a
+  single $E_m$" — i.e.,
   paper's actual uniform case has CONSTANT adjudication (single
   $E_m$ globally), hence CONSTANT ranker on the featureExtract
   image.  But R22's strengthened `partitionRelative` required NON-
@@ -38,8 +39,9 @@
 
   *v0.16.0 R24 RESOLUTION.*  R22 Fix A is REVERTED.
   `partitionRelative` is again literally `featureExtractsAreEInternal`
-  (paper line 2109-2112 identification).  The 6 case-bridges
-  become derived theorems with proof body `fun _ hW => hW.2`.
+  (paper `\label{def:warrant}` typed-level identification).  The 6
+  case-bridges become derived theorems with proof body
+  `fun _ hW => hW.2`.
   Anti-pattern #13 (conclusion-as-axiom) is GENUINELY BROKEN:
   zero Cat 3 axioms for the partition-relativity derivation
   chain.
@@ -56,8 +58,8 @@
     requires (H) via R22 Fix B's `admissibleIn` antecedent.
   - ATTACK A (admissibleIn opaque): preserved.  This IS paper-
     faithful — `admissibleIn` is a paper-stipulated discourse-
-    state predicate per paper line 1999-2002, not Lean-derivable
-    for arbitrary procedures.
+    state predicate per paper `\label{thm:impossibility}` statement
+    quantifier, not Lean-derivable for arbitrary procedures.
 
   This file documents each R23 attack vector + verifies its
   resolution under R24.
@@ -73,11 +75,12 @@ namespace R24R23Resolution
 /-! ## ATTACK A — admissibleIn opaque axiom: PRESERVED as
     paper-faithful.
 
-    `admissibleIn` is paper-stated per paper line 1999-2002 as a
-    discourse-state regime predicate.  Lean cannot discharge it
-    kernel-pure for arbitrary procedures; this is the paper-
-    faithful encoding of the paper's "admissible within D"
-    qualifier on the (H) hypothesis. -/
+    `admissibleIn` is paper-stated per paper
+    `\label{thm:impossibility}` statement quantifier as a discourse-
+    state regime predicate.  Lean cannot discharge it kernel-pure
+    for arbitrary procedures; this is the paper-faithful encoding of
+    the paper's "admissible within D" qualifier on the (H)
+    hypothesis. -/
 
 /-- A.1: For arbitrary A, Op, decidability requires Classical EM
     (paper-faithful: admissibleIn is opaque). -/
