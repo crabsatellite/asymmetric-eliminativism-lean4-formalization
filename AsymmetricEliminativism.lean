@@ -84,67 +84,54 @@
     R15-machine-verified inconsistency is CLOSED under R16,
     paper `\label{def:warrant}` typed-level identification of
     `partitionRelative` with `featureExtractsAreEInternal` holds
-    definitionally (R18), AND the R19-machine-verified P2-trivialization is
-    STRUCTURALLY FIXED under R20 by removing the
-    `warrantInternalToE` conjunct from `SatisfiesP2` and lifting
-    hypothesis (H) to an explicit theorem hypothesis.  Fifteen
-    theorems, all kernel-pure `[propext, Quot.sound]` or empty:
-      * `exists_non_partition_relative` — `∃ A, ¬ A.partitionRelative`
-        constructible via explicit `nonFactorisingA` witness.
-      * `not_forall_partition_relative` — `¬ (∀ A, A.partitionRelative)`
-        follows from the above.
-      * `exists_partition_relative` — `∃ A, A.partitionRelative`
-        (the predicate is satisfiable, not universally-false).
-      * `case_bridge_uniform_unconditional_not_derivable` —
-        kernel-pure refutation of `∀ A, warrantForm = uniform →
-        A.partitionRelative` (the v0.11.0 R14 case-bridge
-        signature was REFUTABLE).
-      * `nonFactorisingA_not_warrantInternalToE` (v0.12.0 R16
-        consistency verification) — the R15 attack's would-be
-        antecedent is itself kernel-pure refutable.
-      * `exists_uniform_not_warrantInternalToE` (v0.12.0 R16) —
-        existence form: `∃ A, A.warrantForm = uniform ∧ ¬
-        A.warrantInternalToE`.
-      * `factorisingA_satisfies_all_antecedents` (v0.12.0 R16) —
-        positive instance: `factorisingA` satisfies both
-        case-bridge antecedents AND the conclusion (theorem is
-        non-trivially applicable post-R18).
-      * `r15_attack_requires_unprovable_antecedent` (v0.12.0 R16)
-        — the R15 attack vector is verifiably blocked.
-      * `partitionRelative_iff_featureExtractsAreEInternal`
-        (v0.13.0 R18) — `Iff.rfl`, depends on NO axioms.
-        Formal verification of paper `\label{def:warrant}` typed-
-        level identification: paper's `lem:prw` reduction = paper's
+    definitionally (R18), the R20 structural fix lifts hypothesis
+    (H) to an explicit theorem hypothesis, and the R22 Fix B
+    `admissibleIn` axiom restricts (H)'s quantifier to the
+    admissibility-positive discourse regime (R23/R24 honest
+    convergence).  V1-V12 theorems, all kernel-pure
+    `[propext, Quot.sound]` / `[propext]` / empty:
+      * V1-V3 — `partitionRelative` non-vacuity:
+        `exists_non_partition_relative` + `not_forall_partition_relative`
+        + `exists_partition_relative` exhibit both polarities.
+      * V4 — `case_bridge_uniform_unconditional_not_derivable`
+        refutes the v0.11.0 R14 case-bridge signature.
+      * V5-V6 — R16 antecedent-existence: `nonFactorisingA_not_warrantInternalToE`,
+        `exists_uniform_not_warrantInternalToE`,
+        `factorisingA_satisfies_all_antecedents`,
+        `r15_attack_requires_unprovable_antecedent`.
+      * V7 (R18) — `partitionRelative_iff_featureExtractsAreEInternal`
+        is `Iff.rfl`, depends on NO axioms.  Formal verification
+        of paper `\label{def:warrant}` typed-level identification:
+        paper's `\label{lem:prw}` reduction = paper's
         `\label{def:warrant}` E-internality factorisation.  This
         is the structural triviality that R18 Honest Acceptance
         accepts.
-      * `prw_uniform_to_pr_applied_to_factorisingA` (v0.13.0
-        R18) — R18 case-bridge transparency test on `factorisingA`.
-      * `lem_prw_reduction_applied_to_factorisingA` (v0.13.0
-        R18) — derived theorem post-R18 routes correctly via
-        `prw_uniform_to_pr`'s `And.right` derivation.
-      * `discourseHypothesisH_toyPart_fails` (v0.14.0 R20) —
-        (H) is NOT trivially-true on toyPart: `nonFactorisingA`
-        is a counter-witness with `¬ A.warrantInternalToE`,
-        refuting `DiscourseHypothesisH toyPart Op` for any Op.
-        Refutes any claim that R20 relocates the trivialization
-        into (H).
-      * `r19_kill_destructuring_has_two_conjuncts` (v0.14.0
-        R20) — post-R20 `SatisfiesP2` destructuring has exactly
-        2 conjuncts.  R19's 4-binding pattern `⟨A, hNotPR, _,
-        hWITE⟩` FAILS to type-check.
-      * `r19_redux_blocked_by_satisfiability` (v0.14.0 R20) —
-        post-R20 `SatisfiesP2 toyPart Op` is SATISFIABLE: we
-        exhibit `nonFactorisingA` as the witness to the
-        existential body, blocking any "P2 trivially false"
-        claim.
-      * `thm_impossibility_substantively_uses_H` (v0.14.0 R20)
-        — capstone: `thm_impossibility` non-trivially requires
-        (H); on discourse states where (H) fails, theorem is
-        vacuously applicable rather than yielding contradiction
-        with the P2 witness's existence (paper-faithful: heat-
-        post-reform regime per paper `\label{lem:prw}` (c.4.b)
-        external-track discussion).
+      * V8 (R18) — `prw_uniform_to_pr_applied_to_factorisingA`
+        and `lem_prw_reduction_applied_to_factorisingA` route
+        correctly via `prw_uniform_to_pr`'s `And.right` derivation.
+      * V9 (R22) — `r19_kill_destructuring_has_three_conjuncts`:
+        post-R22 `SatisfiesP2` has exactly 3 conjuncts
+        (`admissibleIn ∧ ¬partitionRelative ∧ ¬failsAdjudication`);
+        R19's destructuring pattern FAILS to type-check.
+      * V10 (R22 Fix B) — `DiscourseHypothesisH` non-vacuity:
+        `discourseHypothesisH_satisfiable_when_admissibleIn_empty`
+        and `discourseHypothesisH_fails_when_admissibleIn_universal`
+        exhibit both regimes (vacuously-true on empty
+        `admissibleIn`; refutable via `nonFactorisingA` on
+        universal `admissibleIn`).
+      * V11 (R24) — honest acknowledgment of the typed-level
+        identification: `discourseHypothesisH_is_implication_typecheck`,
+        `hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative`,
+        `thm_impossibility_uses_H_via_admissibleIn` — the
+        2-line `(hH A hAdm).2` bypass IS the canonical proof,
+        paper-faithfully per paper `\label{def:warrant}` typed-level
+        identification.  Non-vacuous theorem content lives in
+        (H)'s `admissibleIn` antecedent.
+      * V12 (R24) — `r23_inconsistency_eliminated`: under reverted
+        derived-theorem status of `prw_uniform_to_pr`, the R23
+        attack vector no longer yields `False` (a uniform-constant-
+        ranker witness `uniformConstantRankerA` is constructible
+        with both `warrantInternalToE` and `partitionRelative`).
 
   Gap ledger:
     AsymmetricEliminativism/Ledger.lean — typed record of every

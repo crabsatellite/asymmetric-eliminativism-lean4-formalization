@@ -457,10 +457,11 @@ inductive WarrantFeatureType
   extraction map, ranker — and stipulating $\E$-internality of a
   warrant as: $\phi_W$ factors through $\E$-feature-membership.
   This is paper-transcription not paper-extension: paper's
-  prose-level $R_{f^*}$ language at lines 2155-2170 already commits
-  to feature-extraction + ranking as the structural shape of the
-  warrant; the new Definition makes that typed-structure commitment
-  explicit.
+  prose-level $R_{f^*}$-routing language in the
+  `\label{lem:prw}` partition-internality paragraph already
+  commits to feature-extraction + ranking as the structural
+  shape of the warrant; the new Definition makes that
+  typed-structure commitment explicit.
 
   *Lean refactor (per §13 + §18).*
   - New Cat 3 carrier `Warrant Part Tcls` (FeatureSpace +

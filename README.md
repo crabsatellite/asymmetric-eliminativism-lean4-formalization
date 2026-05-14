@@ -54,9 +54,10 @@ anti-pattern spiral, resolved at R24):
   killed (2 defects).
 - **v0.15.0 R22**: uniform-case axiom inconsistency → R23 killed
   via constant-ranker contradiction.
-- **v0.16.0 R24**: FINAL HONEST CONVERGENCE — accept paper line
-  2109-2112 typed-level trivialization; keep R22 Fix B
-  admissibleIn.  **1 Cat 3 axiom total** (admissibleIn only).
+- **v0.16.0 R24**: FINAL HONEST CONVERGENCE — accept paper
+  `\label{def:warrant}` E-internality typed-level trivialization;
+  keep R22 Fix B admissibleIn.  **1 Cat 3 axiom total**
+  (admissibleIn only).
 - **v0.17.0 R26**: cosmetic Tier 1 Part A — 6 per-case Cat 3
   axioms encoding paper case-analysis surface structure → R27
   killed.  R27 hostile validator machine-verified that the 6
@@ -64,7 +65,8 @@ anti-pattern spiral, resolved at R24):
   remains provable kernel-pure WITHOUT any R26 axiom, using
   only R24's `admissibleIn`; 4 of the 6 axioms had identical
   propositional bodies; uniform axiom captured wrong level
-  (memberClass vs adjudicate); contradicted paper line 2213-2218
+  (memberClass vs adjudicate); contradicted paper
+  `\label{lem:prw}` consequence paragraph
   ("two surface forms of same failure").
 - **v0.18.0 R28**: HONEST REVERT of v0.17.0 R26 — content
   restored to v0.16.0 R24 state per `feedback_truth_over_publication`
@@ -73,8 +75,9 @@ anti-pattern spiral, resolved at R24):
   removed; `test/R27Audit.lean` deleted; history preserved
   (R26 + R27 + R28 commits remain as iteration trail).
   Lesson: paper's `lem:prw` at typed `\label{def:warrant}`
-  level is STRUCTURALLY TRIVIAL per paper line 2109-2112
-  identification.  Each fix-attempt (R7/R14/R16/R18/R20/R22/R23/R26
+  level is STRUCTURALLY TRIVIAL per `\label{def:warrant}`
+  E-internality identification.  Each fix-attempt
+  (R7/R14/R16/R18/R20/R22/R23/R26
   — 8-round spiral) at making it substantively non-trivial
   introduces a different defect pattern.  Tier 1 Part A as
   user-framed (case-analysis Lean-ification) DOES NOT
@@ -83,17 +86,19 @@ anti-pattern spiral, resolved at R24):
 **v0.16.0 R24 FINAL HONEST CONVERGENCE details.**  R23 hostile
 validator machine-verified that v0.15.0 R22 Fix A
 (`partitionRelative` non-degeneracy strengthening) introduced
-axiom inconsistency.  Paper's uniform case (paper lines 2127-2132)
-explicitly says "constant assignment ... selects a single $E_m$
+axiom inconsistency.  Paper's uniform case (paper `\label{lem:prw}`
+uniform case paragraph) explicitly says
+"constant assignment ... selects a single $E_m$
 globally" — i.e., paper's actual uniform case has CONSTANT $E_m$
 adjudication (degenerate ranker by construction).  R22's
 `prw_uniform_to_pr` axiom + uniform-constant-ranker witness
 derived kernel-pure `False`.
 
 Per R24 root-cause analysis: paper's `lem:prw` at typed
-`\label{def:warrant}` level is STRUCTURALLY TRIVIAL.  Paper line
-2109-2112 explicitly identifies E-internality factorisation with
-partition-relative-weighting at the typed structure level.  Prior
+`\label{def:warrant}` level is STRUCTURALLY TRIVIAL.  Paper
+`\label{def:warrant}` E-internality clause explicitly identifies
+E-internality factorisation with partition-relative-weighting at
+the typed structure level.  Prior
 rounds (R7/R14/R16/R18/R20/R22) all tried to make `lem:prw` non-
 trivial at the typed level via encoding strengthenings; each
 strengthening relocated the defect (vacuity / inconsistency /
@@ -102,8 +107,9 @@ trivialization / bypass / inconsistency).
 R24 final honest convergence:
 
 - **Revert R22 Fix A.**  `partitionRelative` reverts to R18 form,
-  literally `featureExtractsAreEInternal`.  Per paper line
-  2109-2112 identification, this IS paper-faithful.
+  literally `featureExtractsAreEInternal`.  Per paper
+  `\label{def:warrant}` E-internality identification, this IS
+  paper-faithful.
 - **Keep R22 Fix B.**  `admissibleIn` Cat 3 hypothesisPredicate
   axiom retained.  `DiscourseHypothesisH := ∀ A, admissibleIn A
   Op → warrantInternalToE`.  `SatisfiesP2` has 3 conjuncts
@@ -130,13 +136,16 @@ featureExtractsAreEInternal` consistently, NO `False`.  See
 Substantive paper content preserved in:
 1. `WarrantFeatureType` 9-constructor taxonomy (Cat 3 carrier).
 2. `admissibleIn` axiom restricting (H) scope (Cat 3
-   hypothesisPredicate; R22 Fix B retained; paper line 1999-2002).
+   hypothesisPredicate; R22 Fix B retained; paper
+   `\label{thm:impossibility}` (H) statement).
 3. `caseFormIsInternal` hypothesis (H) tag-exclusion (Cat 3
-   structuralEquation; paper lines 2188-2237).
+   structuralEquation; paper `\label{lem:prw}` hypothesis-(H)
+   tag-exclusion paragraph).
 4. `featureExtractsAreEInternal` typed factorisation (Cat 3
-   structuralEquation; paper lines 2099-2107).
+   structuralEquation; paper `\label{def:warrant}` typed-structure
+   clause).
 5. `DiscourseHypothesisH` restricted predicate (R22 Fix B
-   retained; paper line 1999-2009).
+   retained; paper `\label{thm:impossibility}` statement and proof).
 
 The downstream `lem_prw_reduction` is a derived `theorem`,
 obtained by case-exhaustion `match` on `A.warrantForm :
@@ -157,20 +166,22 @@ declarations):
   `(FeatureSpace, featureExtract, ranker)` realising
   `\label{def:warrant}`).
 * **`caseFormIsInternal`** — Cat 3 `hypothesisPredicate` (paper
-  lines 2188-2237 hypothesis (H) tag-exclusion of external case-
-  forms).
+  `\label{lem:prw}` hypothesis (H) tag-exclusion paragraph: external
+  case-forms).
 * **`featureExtractsAreEInternal`** — Cat 3 `structuralEquation`
-  (paper lines 2099-2107 typed factorisation; under v0.16.0 R24
-  reverted predicate, definitionally identical to
-  `partitionRelative` per paper line 2109-2112).
+  (paper `\label{def:warrant}` typed factorisation clause; under
+  v0.16.0 R24 reverted predicate, definitionally identical to
+  `partitionRelative` per paper `\label{def:warrant}`
+  E-internality identification).
 * **`warrantInternalToE`** — Cat 3 `structuralEquation`
   (composite `caseFormIsInternal ∧ featureExtractsAreEInternal`).
 * **`partitionRelative`** — Cat 3 `structuralEquation`
   (v0.16.0 R24 reverted: literally `featureExtractsAreEInternal`
-  per paper line 2109-2112 identification).
+  per paper `\label{def:warrant}` E-internality identification).
 * **`admissibleIn`** — Cat 3 `hypothesisPredicate` AXIOM (v0.15.0
   R22 NEW, retained v0.16.0 R24: paper-stipulated discourse-D
-  admissibility predicate per paper line 1999-2002).
+  admissibility predicate per paper `\label{thm:impossibility}`
+  (H) statement).
 * **`DiscourseHypothesisH`** — Cat 3 `hypothesisPredicate`
   (paper hypothesis (H); v0.15.0 R22 restricted, retained v0.16.0
   R24: `∀ A, A.admissibleIn Op → A.warrantInternalToE`).
@@ -193,10 +204,10 @@ E-internality factorisation.
 
 **v0.12.0 R16 critical fix per round-16 brief Option B.**  The
 v0.11.0 R14 case-bridge axioms had signature `warrantForm = X →
-A.partitionRelative`, dropping paper `\label{lem:prw}` line 2116
+A.partitionRelative`, dropping paper `\label{lem:prw}`
 antecedent ''constructible from E alone'' (the typed-structure
-version being paper `\label{def:warrant}` E-internality clause
-lines 2099-2107).  R15 hostile validator machine-verified that
+version being paper `\label{def:warrant}` E-internality
+clause).  R15 hostile validator machine-verified that
 this produced kernel-pure proof of `False`: `nonFactorisingA` has
 `warrantForm = uniform` AND `¬ partitionRelative` (per
 `VacuityCheck` V2 witness), so `prw_uniform_to_pr` applied to it
@@ -211,7 +222,8 @@ through each per-case invocation.
 hostile validator found R16's Option B fix trivialised
 `lem:prw`: R16's `warrantInternalToE = caseFormOK ∧ factorisation`,
 and the factorisation clause is *definitionally* identical to
-`partitionRelative` per paper line 2109-2112 ("the typed-structure
+`partitionRelative` per paper `\label{def:warrant}` E-internality
+identification ("the typed-structure
 version of the prose-level description following
 Lemma~\ref{lem:prw} of $R_{f^*}$ being constructed from $f^*$-
 values on each $E_i$ that are distributed unequally across the
@@ -240,7 +252,8 @@ validator found that R18's `SatisfiesP2 := ∃ A,
 ¬ A.partitionRelative ∧ ¬ A.failsAdjudication ∧ A.warrantInternalToE`
 was internally contradictory.  Since R18's `warrantInternalToE.2
 = featureExtractsAreEInternal = partitionRelative` definitionally
-(paper line 2109-2112), the existential body was provably `False`
+(paper `\label{def:warrant}` E-internality identification), the
+existential body was provably `False`
 by typing alone: the R19 kill body `fun ⟨A, hNotPR, _, hWITE⟩ =>
 hNotPR hWITE.2` was a kernel-pure no-axiom proof of
 `¬ SatisfiesP2`, trivializing `thm_impossibility`.
@@ -248,13 +261,13 @@ hNotPR hWITE.2` was a kernel-pure no-axiom proof of
 R20 STRUCTURAL FIX restructures `SatisfiesP2` itself (rather
 than tweaking case-bridge axiom signatures as R14/R16/R18 did):
 - Remove `A.warrantInternalToE` conjunct from `SatisfiesP2`'s
-  definition (paper P2 at `\label{def:op-properties}` line
-  1976-1986 doesn't include admissibility-as-conjunct).
+  definition (paper P2 at `\label{def:op-properties}` doesn't
+  include admissibility-as-conjunct).
 - Add new `DiscourseHypothesisH` predicate (Cat 3
   `hypothesisPredicate`) realising paper hypothesis (H) at
-  `\label{thm:impossibility}` line 1999-2009 + paper
-  `\label{lem:prw}` line 2114-2120 as a universally-quantified
-  statement on `ArbitrationProcedure`.
+  `\label{thm:impossibility}` + paper `\label{lem:prw}` lemma
+  statement as a universally-quantified statement on
+  `ArbitrationProcedure`.
 - `thm_impossibility` takes (H) as EXPLICIT hypothesis: signature
   `(Part) (Op) (hH : DiscourseHypothesisH Part Op) : ¬ SatisfiesP2 Op`.
 - Proof body substantively USES (H): extract `A.warrantInternalToE`
@@ -267,8 +280,9 @@ than tweaking case-bridge axiom signatures as R14/R16/R18 did):
 The R20 fix is STRUCTURAL not cosmetic: it changes the shape of
 `SatisfiesP2` and the signature of `thm_impossibility`, matching
 paper's actual structure where (H) is a discourse-state hypothesis
-on the impossibility theorem (paper line 1999-2009) NOT a
-conjunct of P2's definition (paper line 1976-1986).  The 4-round
+on the impossibility theorem (paper `\label{thm:impossibility}`
+statement) NOT a conjunct of P2's definition (paper
+`\label{def:op-properties}` P2 definition).  The 4-round
 anti-pattern history (R7/R14/R16/R18) of tweaking case-bridge
 axiom signatures while leaving `SatisfiesP2` bundling the
 antecedent is finally broken at the right level.
@@ -286,7 +300,8 @@ R21 hostile validator found 2 critical defects in v0.14.0 R20:
 R22 dual fix:
 
 - **Fix A** (REVERTED v0.16.0 R24): `partitionRelative` strengthened
-  with paper line 2168-2170 non-degeneracy conjunct.  R23 hostile
+  with paper `\label{lem:prw}` non-degeneracy paragraph (now
+  $R_{f^*}$-routing partition-internality) conjunct.  R23 hostile
   validator found this introduced axiom inconsistency on paper's
   uniform case (constant ranker required by paper).  R24 reverts;
   case-bridges back to derived theorems.
@@ -298,7 +313,8 @@ R22 dual fix:
 
 **v0.16.0 R24 FINAL HONEST CONVERGENCE.**  R23 hostile validator
 machine-verified R22 Fix A inconsistency: paper's uniform case
-has constant ranker (paper lines 2127-2132), failing R22's
+has constant ranker (paper `\label{lem:prw}` uniform case
+paragraph), failing R22's
 non-degeneracy requirement; R22 axiom + uniform-constant-ranker
 witness derived kernel-pure `False`.  R24 reverts R22 Fix A;
 keeps R22 Fix B.
@@ -313,7 +329,8 @@ unconditional case-bridge refutable + (V4)
 `factorisingA_satisfies_all_antecedents` + (V6)
 `r15_attack_requires_unprovable_antecedent` + (V7)
 `partitionRelative_iff_featureExtractsAreEInternal` (`Iff.rfl`,
-no axioms — paper line 2109-2112 identification verified) +
+no axioms — paper `\label{def:warrant}` E-internality
+identification verified) +
 (V8) case-bridge derivation on factorisingA + (V9) R20 structural
 verification (R22 Fix B 3-conjunct P2) + (V10.a)
 `discourseHypothesisH_satisfiable_when_admissibleIn_empty` (R22
@@ -322,7 +339,8 @@ Fix B: (H) non-vacuously satisfiable on admissibleIn-empty states) +
 (R22 Fix B: (H) non-vacuously refutable when admissibleIn is
 universal — `nonFactorisingA` is the counter-witness) + (V11)
 R24 honest acknowledgment: `(hH A hAdm).2` IS the canonical
-2-line reduction per paper line 2109-2112 + (V12) R23
+2-line reduction per paper `\label{def:warrant}` E-internality
+identification + (V12) R23
 inconsistency ELIMINATED:
 `uniformConstantRankerA_partitionRelative` is a consistent
 positive theorem, NOT a `False` derivation.
@@ -338,9 +356,10 @@ What is preserved from R18: zero Cat 3 atomic axioms; the
 structure realising `\label{def:warrant}`; `caseFormIsInternal`
 + `featureExtractsAreEInternal` paper-distinct conditions of
 E-internality.  What R20 adds: structural paper-faithfulness for
-`SatisfiesP2` (matches paper P2 line 1976-1986 by removing
-non-paper conjunct); explicit theorem-level hypothesis (H) as
-`DiscourseHypothesisH` (matches paper line 1999-2009); proof
+`SatisfiesP2` (matches paper `\label{def:op-properties}` P2
+definition by removing non-paper conjunct); explicit theorem-level
+hypothesis (H) as `DiscourseHypothesisH` (matches paper
+`\label{thm:impossibility}` statement and proof); proof
 body that substantively consumes (H) (matches paper's load-
 bearing use of (H) in the impossibility proof).  What is
 genuinely better: anti-pattern #13 broken at case-bridge level
@@ -355,10 +374,11 @@ exactly (paper's "under (H), no Op satisfies P2" ↔ Lean's
 The project has zero Cat 1 axioms (no Mathlib-derivability
 claims pending discharge), zero Cat 2 axioms (no external
 textbook citations).  Post-v0.16.0 R24: **1 Cat 3 atomic axiom**
-(`admissibleIn` only; R22 Fix B retained, paper line 1999-2002).
+(`admissibleIn` only; R22 Fix B retained, paper
+`\label{thm:impossibility}` (H) statement).
 The 6 case-bridges (`prw_uniform_to_pr`, etc.) are derived
-theorems with proof body `fun _ hW => hW.2` per paper line
-2109-2112 identification.
+theorems with proof body `fun _ hW => hW.2` per paper
+`\label{def:warrant}` E-internality identification.
 
 Most paper-novel content (the typed carriers for reverse-defined
 concepts, partitions, operationalisations, etc.) is encoded as
@@ -421,7 +441,7 @@ AsymmetricEliminativism/AxiomAudit.lean` output combined with the
 | [`AsymmetricEliminativism/Diagnostic.lean`](AsymmetricEliminativism/Diagnostic.lean) | Discriminator (`def:discriminator`) rules (R1) and (R2), with derived structural lemmas on threshold-rule firing patterns |
 | [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (post-R20 signature: `(Part) (Op) (hH : DiscourseHypothesisH Part Op) : ¬ SatisfiesP2 Op`; depends only on `admissibleIn` axiom post-R24) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3) + Lemma `\label{lem:prw}` (derived theorem `lem_prw_reduction` composing 6 R24-converted case-bridge derived theorems with 3 derived case-theorems via case-exhaustion on `WarrantFeatureType`; depends on NO axioms post-R24) + `DiscourseHypothesisH` (R22 Fix B retained: paper hypothesis (H) restricted to `∀ A, admissibleIn A Op → warrantInternalToE`) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
 | [`AsymmetricEliminativism/AxiomAudit.lean`](AsymmetricEliminativism/AxiomAudit.lean) | Trust audit: prints `#print axioms` for every paper-level theorem.  Post-R24: `thm_impossibility` depends ONLY on `admissibleIn` axiom; all 6 case-bridges and `lem_prw_reduction` depend on NO axioms. |
-| [`AsymmetricEliminativism/VacuityCheck.lean`](AsymmetricEliminativism/VacuityCheck.lean) | Vacuity + consistency + paper-line-2109-2112 identification + R22 Fix B + R23 inconsistency elimination verification: 18 kernel-pure theorems — (V1)-(V3) vacuity preserved (nonFactorisingA refutes partitionRelative; factorisingA witnesses partition-relativity; unconditional case-bridge refutable) + (V4)-(V6) R16 consistency preserved + (V7) `partitionRelative_iff_featureExtractsAreEInternal` (`Iff.rfl`, no axioms — paper line 2109-2112 identification) + (V8) case-bridge derivation on factorisingA + (V9) post-R22 3-conjunct P2 structural verification + (V10.a)-(V10.b) `DiscourseHypothesisH` non-vacuously-true and non-vacuously-false on admissibleIn-empty / admissibleIn-universal states + (V11) R24 honest acknowledgment of (hH A hAdm).2 canonical reduction + (V12) R23 inconsistency ELIMINATED: `uniformConstantRankerA_partitionRelative` is a consistent positive theorem |
+| [`AsymmetricEliminativism/VacuityCheck.lean`](AsymmetricEliminativism/VacuityCheck.lean) | Vacuity + consistency + paper `\label{def:warrant}` E-internality identification + R22 Fix B + R23 inconsistency elimination verification: 18 kernel-pure theorems — (V1)-(V3) vacuity preserved (nonFactorisingA refutes partitionRelative; factorisingA witnesses partition-relativity; unconditional case-bridge refutable) + (V4)-(V6) R16 consistency preserved + (V7) `partitionRelative_iff_featureExtractsAreEInternal` (`Iff.rfl`, no axioms — paper `\label{def:warrant}` E-internality identification) + (V8) case-bridge derivation on factorisingA + (V9) post-R22 3-conjunct P2 structural verification + (V10.a)-(V10.b) `DiscourseHypothesisH` non-vacuously-true and non-vacuously-false on admissibleIn-empty / admissibleIn-universal states + (V11) R24 honest acknowledgment of (hH A hAdm).2 canonical reduction + (V12) R23 inconsistency ELIMINATED: `uniformConstantRankerA_partitionRelative` is a consistent positive theorem |
 | [`AsymmetricEliminativism/Ledger.lean`](AsymmetricEliminativism/Ledger.lean) | Typed gap ledger: `GapStatus` × `InputCategory` orthogonal classification, with one `GapEntry` per atomic axiom, paper-novel carrier, and closed top-level result |
 
 ## Building

@@ -298,8 +298,9 @@ def gap_lem_prw_reduction : GapEntry := {
       "Mathlib derivation closed the original gap; the closure " ++
       "is via composition of nine Cat 3 atoms, not via Mathlib.",
     "v0.8.0 R5 reductionism Cat 2?: CLEAR-NO — the nine Cat 3 " ++
-      "atoms are individually paper-novel (paper-line cited; no " ++
-      "external textbook covers them on these typed carriers).",
+      "atoms are individually paper-novel (each cited via " ++
+      "`\\label{lem:prw}` sub-paragraph; no external textbook " ++
+      "covers them on these typed carriers).",
     "v0.9.0 R7 attempted partitionRelative concretization " ++
       "(2026-05-14): no signature change to the derived theorem " ++
       "itself; the `A.partitionRelative` disjunct in the conclusion " ++
@@ -325,8 +326,8 @@ def gap_lem_prw_reduction : GapEntry := {
       "`partitionRelative` is now a derived `def` consuming the " ++
       "new `Warrant` carrier + the `exhibits` field per paper " ++
       "`\\label{def:warrant}` Definition box (added to paper.tex " ++
-      "immediately before Lemma `\\label{lem:prw}` at paper line " ++
-      "2079).  The case-exhaustion derivation is unchanged " ++
+      "immediately before Lemma `\\label{lem:prw}`).  The " ++
+      "case-exhaustion derivation is unchanged " ++
       "structurally (still composes the 6 case-bridge atoms + 3 " ++
       "derived theorems via the `WarrantFeatureType` `match`); the " ++
       "atomic-axiom RHS conclusions now carry substantive paper-" ++
@@ -433,23 +434,25 @@ def gap_WarrantFeatureType_carrier : GapEntry := {
   inputCategory := InputCategory.cat3PaperNovel
   cat3SubType := Cat3SubType.carrier
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` proof body (paper lines " ++
-    "2079-2270) — warrant-form taxonomy with nine sub-forms: " ++
-    "uniform (`\\label{lem:prw}` uniform case paragraph), typeA (`\\label{lem:prw}` type-(a) case paragraph), typeB " ++
-    "(`\\label{lem:prw}` type-(b) case paragraph), typeC1 (`\\label{lem:prw}` type-(c.1) case paragraph), " ++
-    "typeC2_recursive (`\\label{lem:prw}` type-(c.2) recursive case paragraph), typeC3_external (lines " ++
-    "2189-2191), typeC4a_internal_track (`\\label{lem:prw}` type-(c.4.a) internal-track paragraph), " ++
-    "typeC4b_external_track (`\\label{lem:prw}` type-(c.4.b) external-track / heat-reform paragraph), contextual (lines " ++
-    "2257-2270)."
+    "Li 2026, `\\label{lem:prw}` proof body — warrant-form " ++
+    "taxonomy with nine sub-forms: uniform (uniform case " ++
+    "paragraph), typeA (type-(a) case paragraph), typeB " ++
+    "(type-(b) case paragraph), typeC1 (type-(c.1) case " ++
+    "paragraph), typeC2_recursive (type-(c.2) recursive case " ++
+    "paragraph), typeC3_external (external-feature exclusion " ++
+    "under (H)), typeC4a_internal_track (type-(c.4.a) " ++
+    "internal-track paragraph), typeC4b_external_track " ++
+    "(type-(c.4.b) external-track / heat-reform paragraph), " ++
+    "contextual (contextual-case paragraph)."
   attackHistory := [
     "v0.8.0 R5 introduction (2026-05-14): typed inductive added " ++
       "to `Basic.lean` to surface the paper's `\\label{lem:prw}` " ++
       "warrant-form sub-form taxonomy.  Replaces the v0.6.0 R2 " ++
       "and v0.7.0 R4 single-axiom encoding of `lem_prw_reduction` " ++
       "(which the user flagged as LAZY).  Each constructor cites " ++
-      "its paper-line range in its docstring; consumed by the " ++
-      "nine per-case atomic Cat 3 stipulations in " ++
-      "`Impossibility.lean`.  Sub-type `carrier` per v6 §3.4.1: " ++
+      "its `\\label{lem:prw}` sub-paragraph in its docstring; " ++
+      "consumed by the nine per-case atomic Cat 3 stipulations " ++
+      "in `Impossibility.lean`.  Sub-type `carrier` per v6 §3.4.1: " ++
       "paper-introduced typed enumeration of warrant sub-forms.",
     "v0.8.0 R5 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
       "predicate for 'warrant-form sub-form taxonomy on " ++
@@ -477,8 +480,8 @@ def gap_prw_uniform_to_pr : GapEntry := {
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` uniform case (paper lines " ++
-    "2092-2102): 'Uniform case: $W$ assigns the same $k$ to all " ++
+    "Li 2026, `\\label{lem:prw}` uniform case paragraph: " ++
+    "'Uniform case: $W$ assigns the same $k$ to all " ++
     "disagreement-cases of $\\Op_i$ vs.\\ $\\Op_j$.  The constant " ++
     "assignment to $\\{i,j\\}$ selects a single $E_m \\in " ++
     "\\{E_i, E_j\\}$ as preferred globally, which is direct " ++
@@ -636,8 +639,8 @@ def gap_prw_typeA_to_pr : GapEntry := {
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(a) case (paper lines " ++
-    "2127-2131): 'Type-(a): $f$ belongs to some $E_m$.  Then " ++
+    "Li 2026, `\\label{lem:prw}` type-(a) case paragraph: " ++
+    "'Type-(a): $f$ belongs to some $E_m$.  Then " ++
     "$R$'s appeal to $f$ privileges $E_m$, and the resulting " ++
     "ranking just is single-$E_m$ privileging — option (i).'"
   attackHistory := [
@@ -707,8 +710,9 @@ def gap_prw_typeA_to_pr : GapEntry := {
       "full R22 rationale.",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
       "(2026-05-14).  R22 Fix A reverted (see `gap_prw_uniform_to_pr` " ++
-      "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
-      "2109-2112 identification.  Status `gapDefinitional` → " ++
+      "R24 entry); proof body `fun _ hW => hW.2` per paper " ++
+      "`\\label{def:warrant}` E-internality identification.  " ++
+      "Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
       "sub-type `structuralEquation` → `notCat3`."
   ]
@@ -726,8 +730,8 @@ def gap_prw_typeB_no_ranking : GapEntry := {
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(b) case (paper lines " ++
-    "2131-2134): 'Type-(b): $f$ is shared by all $E_i$ " ++
+    "Li 2026, `\\label{lem:prw}` type-(b) case paragraph: " ++
+    "'Type-(b): $f$ is shared by all $E_i$ " ++
     "symmetrically, in which case $R$'s output is constant " ++
     "across the $E_i$ and fails to produce a non-trivial " ++
     "ranking — option (ii).'"
@@ -759,8 +763,9 @@ def gap_prw_typeC1_to_pr : GapEntry := {
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(c.1) case (paper lines " ++
-    "2151-2185, esp. 2155-2170): 'the procedure ''adjudicate " ++
+    "Li 2026, `\\label{lem:prw}` type-(c.1) case paragraph " ++
+    "(including $R_{f^*}$-routing partition-internality lemma): " ++
+    "'the procedure ''adjudicate " ++
     "$\\Op_i$ vs.\\ $\\Op_j$ by routing to whichever of $E_i, " ++
     "E_j$ is higher under the $f^*$-induced ranking $R_{f^*}$'' " ++
     "is a partition-relative weighting of $\\{E_1, \\ldots, " ++
@@ -859,8 +864,9 @@ def gap_prw_typeC1_to_pr : GapEntry := {
       "virtue of $E_m$'s $f^*$-value').",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
       "(2026-05-14).  R22 Fix A reverted (see `gap_prw_uniform_to_pr` " ++
-      "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
-      "2109-2112 identification.  Status `gapDefinitional` → " ++
+      "R24 entry); proof body `fun _ hW => hW.2` per paper " ++
+      "`\\label{def:warrant}` E-internality identification.  " ++
+      "Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
       "sub-type `structuralEquation` → `notCat3`."
   ]
@@ -971,8 +977,9 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
       "for full R22 rationale.",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
       "(2026-05-14).  R22 Fix A reverted (see `gap_prw_uniform_to_pr` " ++
-      "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
-      "2109-2112 identification.  Status `gapDefinitional` → " ++
+      "R24 entry); proof body `fun _ hW => hW.2` per paper " ++
+      "`\\label{def:warrant}` E-internality identification.  " ++
+      "Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
       "sub-type `structuralEquation` → `notCat3`."
   ]
@@ -990,8 +997,8 @@ def gap_prw_warrantInternalToE_excludes_typeC3 : GapEntry := {
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(c.3) exclusion (paper lines " ++
-    "2189-2191): '(c.3) appeals to features outside $\\E$, which " ++
+    "Li 2026, `\\label{lem:prw}` type-(c.3) exclusion paragraph: " ++
+    "'(c.3) appeals to features outside $\\E$, which " ++
     "is forbidden by (H); this sub-case's closure is conditional " ++
     "on (H), and within the discourse-state where (H) holds, " ++
     "(c.3) is inadmissible.'"
@@ -1100,8 +1107,9 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
       "rationale.",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
       "(2026-05-14).  R22 Fix A reverted (see `gap_prw_uniform_to_pr` " ++
-      "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
-      "2109-2112 identification.  Status `gapDefinitional` → " ++
+      "R24 entry); proof body `fun _ hW => hW.2` per paper " ++
+      "`\\label{def:warrant}` E-internality identification.  " ++
+      "Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
       "sub-type `structuralEquation` → `notCat3`."
   ]
@@ -1154,7 +1162,8 @@ def gap_warrantInternalToE_def : GapEntry := {
   paperSource :=
     "Li 2026, `\\label{thm:impossibility}` hypothesis (H) + " ++
     "`\\label{lem:prw}` external-feature case taxonomy (paper " ++
-    "`\\label{lem:prw}` type-(c.3) external paragraph typeC3 + 2220-2237 typeC4b).  Paper " ++
+    "`\\label{lem:prw}` type-(c.3) external paragraph and " ++
+    "type-(c.4.b) external-track / heat-reform paragraph).  Paper " ++
     "hypothesis (H): 'every admissible arbitration procedure " ++
     "within $D$ for adjudicating operationalisations of $\\C$ " ++
     "derives its adjudication-warrant from $\\E$.'"
@@ -1197,7 +1206,7 @@ def gap_warrantInternalToE_def : GapEntry := {
       "`warrantForm = X → partitionRelative`, dropping paper " ++
       "`\\label{lem:prw}` antecedent 'constructible from " ++
       "E alone' (the typed-structure version is paper " ++
-      "`\\label{def:warrant}` E-internality clause `\\label{def:warrant}` E-internality clause). " ++
+      "`\\label{def:warrant}` E-internality clause). " ++
       "R16 Option B fix: this `warrantInternalToE` def is EXTENDED " ++
       "with the paper-faithful E-internality factoring conjunct, " ++
       "becoming a conjunction of (i) tag-exclusion `warrantForm ∉ " ++
@@ -1212,7 +1221,7 @@ def gap_warrantInternalToE_def : GapEntry := {
       "`structuralEquation` and status `gapDefinitional` retained " ++
       "(paper-stipulated definitional equation; never to close).",
     "v0.13.0 R18 Honest Acceptance per round-18 brief " ++
-      "(2026-05-14): R17 hostile validator flagged the R16 R16 " ++
+      "(2026-05-14): R17 hostile validator flagged the R16 " ++
       "compound-`def` as anti-pattern #14 (composite-axiom " ++
       "bundling, lifted to composite-`def` bundling): the two " ++
       "paper-distinct conditions (hypothesis (H) tag-exclusion " ++
@@ -1328,8 +1337,9 @@ def gap_featureExtractsAreEInternal_def : GapEntry := {
       "x = featByClass (memberClass f)`.  IMPORTANT: this " ++
       "predicate is structurally identical to " ++
       "`A.partitionRelative` (both encode paper's φ_W " ++
-      "factorisation at the typed-structure level; paper line " ++
-      "2109-2112 explicitly identifies them).  R18 Honest " ++
+      "factorisation at the typed-structure level; paper " ++
+      "`\\label{def:warrant}` E-internality clause explicitly " ++
+      "identifies them).  R18 Honest " ++
       "Acceptance accepts this identification: paper's `lem:prw` " ++
       "is Lean-trivial under typed Definition " ++
       "`\\label{def:warrant}`.  Sub-type `structuralEquation` per " ++
@@ -1635,17 +1645,19 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
   paperSource :=
     "Li 2026, `\\label{def:warrant}` (Warrant typed structure; " ++
     "added v0.11.0 R14 paper revision) E-internality clause + " ++
-    "`\\label{lem:prw}` lines 2079-2085, 2155-2170 — paper-" ++
-    "stipulated process-level predicate: 'φ_W factors through " ++
-    "E-feature-membership' (formally: ∃ π : E → {1,...,n}, " ++
-    "∃ feat_E : {1,...,n} → Feat_W, ∀ x ∈ Tcls and ∀ E-feature " ++
-    "f exhibited by x, φ_W(x) = feat_E(π(f))).  paper `\\label{lem:prw}` $f^*$-feature paragraph: " ++
-    "'the procedure adjudicate Op_i vs. Op_j by routing to " ++
-    "whichever of E_i, E_j is higher under the f^*-induced " ++
-    "ranking R_{f^*} is a partition-relative weighting of " ++
-    "{E_1, ..., E_n}'.  paper `\\label{lem:prw}` $R_{f^*}$ construction paragraph: 'R_{f^*} is " ++
-    "constructed from f^*-values computed on each E_i'.  Paper " ++
-    "lines 2164-2165: features 'are themselves distributed " ++
+    "`\\label{lem:prw}` $R_{f^*}$-routing partition-internality " ++
+    "lemma — paper-stipulated process-level predicate: 'φ_W " ++
+    "factors through E-feature-membership' (formally: ∃ π : " ++
+    "E → {1,...,n}, ∃ feat_E : {1,...,n} → Feat_W, ∀ x ∈ " ++
+    "Tcls and ∀ E-feature f exhibited by x, " ++
+    "φ_W(x) = feat_E(π(f))).  Paper `\\label{lem:prw}` " ++
+    "$f^*$-feature paragraph: 'the procedure adjudicate Op_i " ++
+    "vs. Op_j by routing to whichever of E_i, E_j is higher " ++
+    "under the f^*-induced ranking R_{f^*} is a partition-" ++
+    "relative weighting of {E_1, ..., E_n}'.  Paper " ++
+    "`\\label{lem:prw}` $R_{f^*}$ construction paragraph: " ++
+    "'R_{f^*} is constructed from f^*-values computed on each " ++
+    "E_i' and the $f^*$-values 'are themselves distributed " ++
     "unequally across the partition members'."
   attackHistory := [
     "v0.8.0 R5 baseline (2026-05-14): bare-Prop field on " ++
@@ -1747,8 +1759,9 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
       "`WarrantFeatureType` 9-case taxonomy + `admissibleIn` " ++
       "scope axiom (R22 Fix B retained).  Sub-type " ++
       "`structuralEquation` and status `gapDefinitional` retained " ++
-      "(paper-stipulated definitional commitment per paper line " ++
-      "2109-2112 identification, encoded as derived `def`)."
+      "(paper-stipulated definitional commitment per paper " ++
+      "`\\label{def:warrant}` E-internality identification, " ++
+      "encoded as derived `def`)."
   ]
   scope :=
     "Derived `def` `ArbitrationProcedure.partitionRelative` " ++
@@ -1771,8 +1784,8 @@ def gap_prw_contextual_to_pr : GapEntry := {
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
-    "Li 2026, `\\label{lem:prw}` contextual case (paper lines " ++
-    "2257-2270): 'In case (ii), the contextual features used by " ++
+    "Li 2026, `\\label{lem:prw}` contextual case paragraph: " ++
+    "'In case (ii), the contextual features used by " ++
     "$A$ to discriminate among $\\Tcls$-members are themselves " ++
     "either features of the folk extension $\\E$ or features " ++
     "external to $\\E$.  In the $\\E$-internal sub-case, " ++
@@ -1852,8 +1865,9 @@ def gap_prw_contextual_to_pr : GapEntry := {
       "non-degeneracy.",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
       "(2026-05-14).  R22 Fix A reverted (see `gap_prw_uniform_to_pr` " ++
-      "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
-      "2109-2112 identification.  Status `gapDefinitional` → " ++
+      "R24 entry); proof body `fun _ hW => hW.2` per paper " ++
+      "`\\label{def:warrant}` E-internality identification.  " ++
+      "Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
       "sub-type `structuralEquation` → `notCat3`."
   ]
@@ -4304,7 +4318,8 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
       R7-Step1: New Cat 3 carrier `Weighting Part` in
       `Basic.lean` (paper-faithful typed primitive per
-      `\\label{lem:prw}` lines 2083-2085, 2155-2170).  Single
+      `\\label{lem:prw}` $R_{f^*}$-routing partition-internality
+      lemma).  Single
       field `weight : Fin Part.n → ℝ` encodes paper's `R_{f^*}`-
       style ranking on the partition members.
 
@@ -4484,7 +4499,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
     * `AxiomAudit.lean` rewritten: 1 axiom → 6 axioms (Issue 2
       added 9, Issue 3 concretized 3 to theorems; the remaining
       6 are paper-prose case-reasoning content).  All 6 cite
-      paper-line ranges.
+      `\label{lem:prw}` sub-paragraphs.
 
     * Build GREEN.  Zero sorries.  `#print axioms thm_impossibility`
       shows the 6 paper-cited atomic stipulations — no bundled
