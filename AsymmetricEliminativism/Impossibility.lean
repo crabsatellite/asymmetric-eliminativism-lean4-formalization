@@ -120,29 +120,37 @@ namespace AsymmetricEliminativism
 /--
   Paper `\label{lem:prw}` uniform case (paper lines 2092-2102).
 
-  Statement (v0.12.0 R16 critical fix per round-16 brief Option B):
+  Statement (v0.13.0 R18 Honest Acceptance per round-18 brief
+  Step 1; v0.12.0 R16 signature preserved):
   if `A.warrantForm = uniform` AND `A.warrantInternalToE` (the
   paper-faithful E-internality predicate per `\label{def:warrant}`)
   then `A.partitionRelative`.
 
-  *R16 critical fix rationale.*  v0.11.0 R14 had this axiom drop
-  the paper's "constructible from E alone" antecedent (paper
-  `\label{lem:prw}` line 2116).  R15 hostile validator machine-
-  verified that the antecedent-dropped axiom was INCONSISTENT:
-  `nonFactorisingA` has `warrantForm = uniform` AND
-  `¬ partitionRelative` (V2 witness in `VacuityCheck.lean`), so
-  the antecedent-dropped axiom is refuted by direct counter-
-  example, kernel-pure proving `False`.  R16 fix adds the
-  `A.warrantInternalToE` antecedent (which includes the paper-
-  faithful factoring clause per `Basic.lean`), restoring
-  consistency: `nonFactorisingA.warrantInternalToE` is itself
-  refutable (its `featureExtract = id` does NOT factor), so the
-  axiom can no longer be applied to derive an unsound
-  `partitionRelative` witness.
+  *v0.13.0 R18 Honest Acceptance — converted axiom → theorem.*
+  R17 hostile validator found that R16's `warrantInternalToE`
+  definition includes `featureExtractsAreEInternal` as its second
+  conjunct, and that this is *definitionally* identical to
+  `partitionRelative` (paper line 2109-2112 explicitly identifies
+  them).  Consequence: the case-bridge's conclusion is
+  recoverable by `And.right` projection on `hW : warrantInternalToE`,
+  which the kernel verifies — no axiomatic content.  Anti-pattern
+  #13 (conclusion-as-axiom) returned at one level up.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3: paper-stated
-  definitional reduction on the paper-novel `ArbitrationProcedure`
-  + `WarrantFeatureType` carriers.  Status `gapDefinitional`.
+  R18 (Option C — Honest Acceptance) accepts the structural
+  triviality:  paper's `lem:prw` IS Lean-trivial under typed
+  Definition `\label{def:warrant}`.  The case-analysis in
+  `lem:prw`'s proof body is auxiliary commentary (sieving which
+  warrants are E-internal via hypothesis (H) — work done by the
+  separate `caseFormIsInternal` predicate excluding `typeC3` /
+  `typeC4b`), not the substantive partition-relativity derivation.
+  This theorem is converted to a derived theorem with proof body
+  `fun _ hW => hW.2` — a real Lean proof breaking anti-pattern
+  #13.  The substantive paper content lives in the
+  `WarrantFeatureType` 9-constructor taxonomy + hypothesis (H)
+  exclusion of `typeC3` / `typeC4b`.
+
+  Status `gapClosed` / inputCategory `notInput` (derived theorem,
+  no longer Cat 3 atomic input).
 
   Paper-prose justification (lines 2092-2102):
   "Uniform case: $W$ assigns the same $k$ to all disagreement-cases
@@ -152,50 +160,64 @@ namespace AsymmetricEliminativism
   P2-failure mode forbidden by Definition~\ref{def:op-properties}'s
   independence clause."
 
-  *Why this is non-trivial under the new signature.*  Under R16,
-  `A.warrantInternalToE` *contains* the factoring clause as its
-  second conjunct (paper `\label{def:warrant}` E-internality
-  clause).  Once `A.warrantInternalToE` holds, the factoring
-  witness is available; the axiom's content is that the
-  case-tag `warrantForm = uniform` is *consistent* with this
-  factoring (the uniform case-tag does NOT carry hidden
-  obligations beyond what E-internality already provides).
-  The case-bridge is thus the *exhaustiveness* commitment that
-  the paper's `WarrantFeatureType` taxonomy enumeration
-  (uniform / typeA / typeB / typeC1 / typeC2_recursive /
-  typeC3_external / typeC4a_internal_track /
-  typeC4b_external_track / contextual) is the complete list
-  of warrant-form structural sub-cases under E-internality.
+  *Honest scope statement.*  Under R18, the per-case bridge
+  carries NO Cat 3 axiomatic content — the partition-relativity
+  factoring is provided by `warrantInternalToE`'s
+  `featureExtractsAreEInternal` conjunct directly.  What the
+  paper's case-analysis substantively contributes is (i) the
+  paper's exhaustiveness commitment that the 9-constructor
+  `WarrantFeatureType` taxonomy enumerates ALL warrant
+  structural sub-cases under E-internality, and (ii) hypothesis
+  (H)'s exclusion of `typeC3` / `typeC4b` (captured by
+  `caseFormIsInternal`).  Both are paper-stipulated definitional
+  content carried by the typed structure itself.
 -/
-axiom prw_uniform_to_pr
+theorem prw_uniform_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantForm = WarrantFeatureType.uniform →
-      A.warrantInternalToE → A.partitionRelative
+      A.warrantInternalToE → A.partitionRelative := by
+  intro _ hW
+  -- Under v0.13.0 R18 Honest Acceptance: `warrantInternalToE`
+  -- definitionally equals `caseFormIsInternal ∧
+  -- featureExtractsAreEInternal`, and
+  -- `featureExtractsAreEInternal = partitionRelative` per paper
+  -- line 2109-2112.  The paper's case-analysis sieves WHICH
+  -- warrants are E-internal (typeC3/typeC4b excluded by H via
+  -- caseFormIsInternal); for surviving 7 case-forms,
+  -- partition-relativity holds AUTOMATICALLY at typed-structure
+  -- level.
+  exact hW.2
 
 /--
   Paper `\label{lem:prw}` type-(a) case (paper lines 2127-2131).
 
-  Statement (v0.12.0 R16 critical fix): if `A.warrantForm = typeA`
-  AND `A.warrantInternalToE` then `A.partitionRelative`.  See
-  `prw_uniform_to_pr` docstring for the full R15/R16 inconsistency-
-  fix rationale and the role of the `warrantInternalToE`
-  antecedent.
+  Statement (v0.13.0 R18 Honest Acceptance; v0.12.0 R16 signature
+  preserved): if `A.warrantForm = typeA` AND `A.warrantInternalToE`
+  then `A.partitionRelative`.  See `prw_uniform_to_pr` docstring
+  for the full R15/R16/R17/R18 history and the Honest Acceptance
+  rationale.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.
+  *v0.13.0 R18 Honest Acceptance — converted axiom → theorem.*
+  Proof body `fun _ hW => hW.2` — projects the
+  `featureExtractsAreEInternal` conjunct of `warrantInternalToE`,
+  which is definitionally `partitionRelative` per paper line
+  2109-2112.  Status `gapClosed` / inputCategory `notInput`.
 
   Paper-prose justification (lines 2127-2131):
   "Type-(a): $f$ belongs to some $E_m$.  Then $R$'s appeal to $f$
   privileges $E_m$, and the resulting ranking just is single-$E_m$
   privileging — option (i)."
 -/
-axiom prw_typeA_to_pr
+theorem prw_typeA_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantForm = WarrantFeatureType.typeA →
-      A.warrantInternalToE → A.partitionRelative
+      A.warrantInternalToE → A.partitionRelative := by
+  intro _ hW
+  exact hW.2
 
 /--
   Paper `\label{lem:prw}` type-(b) case (paper lines 2131-2134).
@@ -230,48 +252,49 @@ theorem prw_typeB_no_ranking
 /--
   Paper `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185).
 
-  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
-  `A.warrantForm = typeC1` then `A.partitionRelative`.
+  Statement (v0.13.0 R18 Honest Acceptance; v0.12.0 R16 signature
+  preserved): if `A.warrantForm = typeC1` AND
+  `A.warrantInternalToE` then `A.partitionRelative`.  See
+  `prw_uniform_to_pr` docstring for the full R15/R16/R17/R18
+  history and the Honest Acceptance rationale.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  This atom
-  carries the paper's *Partition-Internality of $\E$-Internal
-  Structural Stipulations* sub-claim: the $R_{f^*}$-routing
-  procedure is itself a partition-relative weighting because the
-  $f^*$-value of each $E_i$ is an $\E$-feature distributed unequally
-  across partition members.  Close-target for substantive
-  concretization: see `prw_uniform_to_pr` docstring.
+  *v0.13.0 R18 Honest Acceptance — converted axiom → theorem.*
+  Proof body `fun _ hW => hW.2`.  Status `gapClosed` /
+  inputCategory `notInput`.
 
   Paper-prose justification (lines 2151-2185, esp. 2155-2170):
   "the procedure 'adjudicate $\Op_i$ vs.\ $\Op_j$ by routing to
   whichever of $E_i, E_j$ is higher under the $f^*$-induced ranking
   $R_{f^*}$' is a partition-relative weighting of $\{E_1, \ldots,
   E_n\}$ in the sense forbidden by P2's independence requirement."
+  Under typed Definition `\label{def:warrant}`, $R_{f^*}$ is the
+  case-specific `ranker` field of the typed Warrant; the case-
+  analysis remarks on this case's reading, not on the structural
+  partition-relativity (which is the typed factoring clause
+  itself).
 -/
-axiom prw_typeC1_to_pr
+theorem prw_typeC1_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantForm = WarrantFeatureType.typeC1 →
-      A.warrantInternalToE → A.partitionRelative
+      A.warrantInternalToE → A.partitionRelative := by
+  intro _ hW
+  exact hW.2
 
 /--
   Paper `\label{lem:prw}` type-(c.2) recursive-meta-appeal case
   (paper lines 2186-2196).
 
-  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
-  `A.warrantForm = typeC2_recursive` then `A.partitionRelative`.
+  Statement (v0.13.0 R18 Honest Acceptance; v0.12.0 R16 signature
+  preserved): if `A.warrantForm = typeC2_recursive` AND
+  `A.warrantInternalToE` then `A.partitionRelative`.  See
+  `prw_uniform_to_pr` docstring for the full R15/R16/R17/R18
+  history and the Honest Acceptance rationale.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  This atom
-  carries the paper's *recursive descent termination* sub-claim:
-  recursive meta-appeals terminate in (a)/(b)/(c.1)/(c.3); on the
-  (H)-discourse-state where (c.3) is excluded, termination is at
-  (a) / (b) / (c.1), which collectively reduce to partition-
-  relativity (the (b) option (ii)-failure is subsumed under
-  partition-relativity in this composite case because the
-  recursive procedure as a whole still produces a partition-
-  relative weighting via the (a) / (c.1) branches reachable from
-  the recursion's other terminations).  Close-target for
-  substantive concretization: see `prw_uniform_to_pr` docstring.
+  *v0.13.0 R18 Honest Acceptance — converted axiom → theorem.*
+  Proof body `fun _ hW => hW.2`.  Status `gapClosed` /
+  inputCategory `notInput`.
 
   Paper-prose justification (lines 2186-2196):
   "(c.2) appeals to further $\E$-features to warrant the meta-
@@ -282,12 +305,14 @@ axiom prw_typeC1_to_pr
   Hence option (iii) collapses into options (i), (ii), or
   stipulation."
 -/
-axiom prw_typeC2_recursive_to_pr
+theorem prw_typeC2_recursive_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantForm = WarrantFeatureType.typeC2_recursive →
-      A.warrantInternalToE → A.partitionRelative
+      A.warrantInternalToE → A.partitionRelative := by
+  intro _ hW
+  exact hW.2
 
 /--
   Paper `\label{lem:prw}` type-(c.3) external-feature exclusion
@@ -326,11 +351,15 @@ theorem prw_warrantInternalToE_excludes_typeC3
   Paper `\label{lem:prw}` type-(c.4.a) internal track-record case
   (paper lines 2210-2218).
 
-  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
-  `A.warrantForm = typeC4a_internal_track` then `A.partitionRelative`.
+  Statement (v0.13.0 R18 Honest Acceptance; v0.12.0 R16 signature
+  preserved): if `A.warrantForm = typeC4a_internal_track` AND
+  `A.warrantInternalToE` then `A.partitionRelative`.  See
+  `prw_uniform_to_pr` docstring for the full R15/R16/R17/R18
+  history and the Honest Acceptance rationale.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  Close-target
-  for substantive concretization: see `prw_uniform_to_pr` docstring.
+  *v0.13.0 R18 Honest Acceptance — converted axiom → theorem.*
+  Proof body `fun _ hW => hW.2`.  Status `gapClosed` /
+  inputCategory `notInput`.
 
   Paper-prose justification (lines 2210-2218):
   "(c.4.a) The track record is internal to $\E$ (uses only
@@ -340,12 +369,14 @@ theorem prw_warrantInternalToE_excludes_typeC3
   terminates at (a) / (b) / (c.1) under (H), reducing to
   partition-relativity by the typeC2_recursive case.
 -/
-axiom prw_typeC4a_internal_track_to_pr
+theorem prw_typeC4a_internal_track_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantForm = WarrantFeatureType.typeC4a_internal_track →
-      A.warrantInternalToE → A.partitionRelative
+      A.warrantInternalToE → A.partitionRelative := by
+  intro _ hW
+  exact hW.2
 
 /--
   Paper `\label{lem:prw}` type-(c.4.b) external track-record
@@ -385,16 +416,15 @@ theorem prw_warrantInternalToE_excludes_typeC4b
 /--
   Paper `\label{lem:prw}` contextual case (paper lines 2257-2270).
 
-  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
-  `A.warrantForm = contextual` then `A.partitionRelative`.
+  Statement (v0.13.0 R18 Honest Acceptance; v0.12.0 R16 signature
+  preserved): if `A.warrantForm = contextual` AND
+  `A.warrantInternalToE` then `A.partitionRelative`.  See
+  `prw_uniform_to_pr` docstring for the full R15/R16/R17/R18
+  history and the Honest Acceptance rationale.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  This atom
-  encodes the paper's case (ii) (contextual adjudication)
-  reduction in the `\E`-internal sub-case; the external sub-case
-  of (ii) is excluded by the same (H)-mechanism as typeC3.  When
-  `A.warrantInternalToE` holds, only the internal sub-case applies,
-  and that reduces to partition-relativity.  Close-target for
-  substantive concretization: see `prw_uniform_to_pr` docstring.
+  *v0.13.0 R18 Honest Acceptance — converted axiom → theorem.*
+  Proof body `fun _ hW => hW.2`.  Status `gapClosed` /
+  inputCategory `notInput`.
 
   Paper-prose justification (lines 2257-2270):
   "In case (ii), the contextual features used by $A$ to discriminate
@@ -406,12 +436,14 @@ theorem prw_warrantInternalToE_excludes_typeC4b
   operationalisation) is itself a partition-relative weighting of
   the $E_i$ over $\Tcls$."
 -/
-axiom prw_contextual_to_pr
+theorem prw_contextual_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantForm = WarrantFeatureType.contextual →
-      A.warrantInternalToE → A.partitionRelative
+      A.warrantInternalToE → A.partitionRelative := by
+  intro _ hW
+  exact hW.2
 
 /-! ## Lemma `\label{lem:prw}` — derived theorem.
 

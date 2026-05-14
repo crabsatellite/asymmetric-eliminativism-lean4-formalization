@@ -31,85 +31,89 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.12.0 R16 critical fix per round-16
-  brief Option B; v0.11.0 R14 substantive paper-faithful Warrant
-  typed-structure refactor per v6 §11 + §13 + §18; v0.8.0 R5
-  substantive decomposition + v0.10.0 R9 baseline preserved where
-  applicable; live counts: see `lake env lean
+  Inventory by category (v0.13.0 R18 Honest Acceptance per round-18
+  brief; v0.12.0 R16 critical fix preserved; v0.11.0 R14 substantive
+  paper-faithful Warrant typed-structure refactor preserved;
+  v0.8.0 R5 substantive decomposition + v0.10.0 R9 baseline
+  preserved where applicable; live counts: see `lake env lean
   AsymmetricEliminativism/Ledger.lean`):
 
-    Cat 3 paper-novel atomic stipulations for Lemma `\label{lem:prw}`
-    (Li 2026), the SIX `axiom` declarations in
-    `AsymmetricEliminativism/Impossibility.lean`.  v0.8.0 R5
-    Issue 3 concretization reduced 9 axioms → 6 axioms + 3 derived
-    theorems; v0.11.0 R14 substantive paper-faithful refactor:
-    axiom RHS conclusions consume the substantive
-    `\label{def:warrant}` E-internality factorisation predicate
-    via the new `Warrant` carrier; v0.12.0 R16 critical fix:
-    each case-bridge axiom signature extended with a
-    `warrantInternalToE` antecedent (paper `\label{lem:prw}`
-    line 2116 "constructible from E alone" antecedent), resolving
-    the R15-machine-verified inconsistency.  Machine-verified
-    non-vacuous + consistent per `AsymmetricEliminativism/
-    VacuityCheck.lean`:
+    **v0.13.0 R18 Honest Acceptance** — converted the 6 R16
+    case-bridge `axiom` declarations to `theorem` declarations.
+    R17 hostile validator found that R16's `warrantInternalToE`
+    contains `featureExtractsAreEInternal` as its second conjunct,
+    which is *definitionally* identical to `partitionRelative`
+    (paper line 2109-2112: "the typed-structure version of the
+    prose-level description following Lemma~\ref{lem:prw} of
+    $R_{f^*}$ being constructed from $f^*$-values on each $E_i$
+    that are distributed unequally across the partition members").
+    Consequence: each `prw_X_to_pr` reduces to `fun _ hW => hW.2`
+    — kernel-pure derivable.  R18 (Option C) accepts the
+    structural triviality: paper's `lem:prw` IS Lean-trivial under
+    typed Definition `\label{def:warrant}`; the substantive paper
+    content lives in (i) the `WarrantFeatureType` 9-constructor
+    taxonomy and (ii) hypothesis (H) exclusion of
+    `typeC3`/`typeC4b` (captured by `caseFormIsInternal`).  Each
+    of the 6 case-bridges is now a derived theorem with proof
+    body `fun _ hW => hW.2` — genuinely breaking anti-pattern #13
+    (no Cat 3 conclusion-as-axiom remains for the partition-
+    relativity chain).
 
-      prw_uniform_to_pr
+    *Project now has ZERO project axioms* (only Lean kernel
+    `propext` / `Quot.sound` appear in `VacuityCheck` outputs;
+    `thm_impossibility` and its corollaries depend on NO axioms
+    at all).
+
+      prw_uniform_to_pr  (R18: axiom → theorem)
         ← `\label{lem:prw}` uniform case (paper lines 2092-2102);
-          v0.12.0 R16 signature: `A.warrantForm = uniform →
-          A.warrantInternalToE → A.partitionRelative` (the
-          `warrantInternalToE` antecedent IS paper `\label{lem:prw}`
-          line 2116 "constructible from E alone" antecedent, the
-          typed-structure version being paper `\label{def:warrant}`
-          E-internality clause lines 2099-2107).  R16 antecedent
-          addition resolves the R15 inconsistency.  RHS still the
-          substantive `\label{def:warrant}` factorisation predicate.
-      prw_typeA_to_pr
+          R18 signature: `A.warrantForm = uniform →
+          A.warrantInternalToE → A.partitionRelative` (same as
+          R16).  Proof body `fun _ hW => hW.2` — projects
+          `featureExtractsAreEInternal` conjunct (= `partitionRelative`
+          definitionally per paper line 2109-2112).
+      prw_typeA_to_pr  (R18: axiom → theorem)
         ← `\label{lem:prw}` type-(a) case (paper lines 2127-2131);
-          same R16 signature (`warrantForm = X → warrantInternalToE
-          → partitionRelative`).
+          same R18 conversion.
       prw_typeB_no_ranking
         ← `\label{lem:prw}` type-(b) case (paper lines 2131-2134);
           single-step typed bridge `A.warrantForm = typeB →
           A.failsAdjudication`.  Derived theorem (v0.8.0 R5
-          Issue 3 concretization).
-      prw_typeC1_to_pr
+          Issue 3 concretization).  Unchanged R18.
+      prw_typeC1_to_pr  (R18: axiom → theorem)
         ← `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185);
-          same R16 signature.  Paper's `R_{f^*}` ranking is now
+          same R18 conversion.  Paper's `R_{f^*}` ranking is
           ρ_W (the `ranker` field of the typed `Warrant` carrier)
           per paper `\label{def:warrant}`.
-      prw_typeC2_recursive_to_pr
+      prw_typeC2_recursive_to_pr  (R18: axiom → theorem)
         ← `\label{lem:prw}` type-(c.2) recursive case (paper lines
-          2186-2196); same R16 signature.
+          2186-2196); same R18 conversion.
       prw_warrantInternalToE_excludes_typeC3
         ← `\label{lem:prw}` type-(c.3) exclusion (paper lines
           2189-2191); non-occurrence excluder `A.warrantInternalToE
           → A.warrantForm ≠ typeC3_external`.  Derived theorem;
-          under v0.12.0 R16 projects the tag-exclusion conjunct
-          via `.1.1` (the first conjunct of `warrantInternalToE`).
-      prw_typeC4a_internal_track_to_pr
+          projects the `caseFormIsInternal.1` conjunct via `.1.1`
+          on the new R18 decomposition `caseFormIsInternal ∧
+          featureExtractsAreEInternal`.  Unchanged structurally.
+      prw_typeC4a_internal_track_to_pr  (R18: axiom → theorem)
         ← `\label{lem:prw}` type-(c.4.a) internal track case (paper
-          lines 2210-2218); same R16 signature.
+          lines 2210-2218); same R18 conversion.
       prw_warrantInternalToE_excludes_typeC4b
         ← `\label{lem:prw}` type-(c.4.b) exclusion (paper lines
-          2220-2237); non-occurrence excluder `A.warrantInternalToE
-          → A.warrantForm ≠ typeC4b_external_track`.  Derived
-          theorem; under v0.12.0 R16 projects the tag-exclusion
-          conjunct via `.1.2` (the first conjunct of
-          `warrantInternalToE`).
-      prw_contextual_to_pr
+          2220-2237); non-occurrence excluder
+          `A.warrantInternalToE → A.warrantForm ≠
+          typeC4b_external_track`.  Derived theorem; projects
+          `caseFormIsInternal.2` via `.1.2`.  Unchanged
+          structurally.
+      prw_contextual_to_pr  (R18: axiom → theorem)
         ← `\label{lem:prw}` contextual case (paper lines 2257-2270);
-          same R16 signature.
+          same R18 conversion.
 
-    All nine carry sub-type Cat 3 `structuralEquation` (v6 §3.4.3),
-    status `gapDefinitional` (v6 §1.1) — paper-stipulated
-    definitional reduction on paper-novel carriers.  The 6 axioms
-    have substantive paper-faithful RHS (`A.partitionRelative`
-    unfolds to the `\label{def:warrant}` E-internality
-    factorisation predicate) per v0.11.0 R14; v0.12.0 R16
-    extended each axiom signature with the
-    `warrantInternalToE` antecedent (paper `\label{lem:prw}`
-    line 2116 "constructible from E alone" antecedent), resolving
-    the R15-machine-verified inconsistency.
+    All nine are now derived theorems.  Status `gapClosed`
+    inputCategory `notInput` sub-type `notCat3` for the 6
+    R18-converted entries (uniform / typeA / typeC1 /
+    typeC2_recursive / typeC4a_internal_track / contextual).
+    The 3 already-derived entries (typeB / excluders) retain
+    their R5-Issue-3 `gapClosed notInput notCat3` classification.
 
     Cat 3 typed carriers / scope-condition bundles (encoded as
     Lean `structure` / `def` / `class` / `inductive`, NOT `axiom`
@@ -141,36 +145,75 @@
   `AsymmetricEliminativism.Ledger`.
 
   Per-theorem axiom dependency profile (verified by `#print
-  axioms` below; post-v0.8.0 R5 substantive decomposition):
+  axioms` below; v0.13.0 R18 Honest Acceptance):
 
-    * Depends on no axioms whatsoever (does not even use
-      `propext` / `Classical.choice` / `Quot.sound`):
+    * Depends on no axioms whatsoever (project has NO Cat 3
+      axioms after R18; the 6 case-bridges are now derived
+      theorems with proof body `fun _ hW => hW.2`):
         satisfiesP3_of_boolean, bridging_dsc_iff_sc,
         R1_fires_on_all_yes, R1_fires_on_yes_yes_weak,
         R1_does_not_fire_on_yes_weak_weak,
         R2_pattern_fires_on_yes_weak_weak,
         predictsEliminate_of_all_yes,
         predictsEliminate_of_yes_weak_weak_with_indep,
-        not_R2_satisfied_without_indep.
-
-    * Depends on the SIX Cat 3 atomic axioms (paper-faithful
-      `\label{lem:prw}` decomposition; v0.8.0 R5 Issue 3
-      concretized 3 of the original 9 atoms to derived theorems):
-        lem_prw_reduction (now a derived `theorem`),
+        not_R2_satisfied_without_indep,
+        prw_uniform_to_pr (R18 converted axiom → theorem),
+        prw_typeA_to_pr (R18 converted),
+        prw_typeB_no_ranking (R5 Issue 3 derived),
+        prw_typeC1_to_pr (R18 converted),
+        prw_typeC2_recursive_to_pr (R18 converted),
+        prw_warrantInternalToE_excludes_typeC3 (R5 Issue 3
+          derived; R18 still uses `.1.1` projection on
+          decomposed conjunction),
+        prw_typeC4a_internal_track_to_pr (R18 converted),
+        prw_warrantInternalToE_excludes_typeC4b (R5 Issue 3
+          derived; R18 still uses `.1.2`),
+        prw_contextual_to_pr (R18 converted),
+        lem_prw_reduction (derived theorem),
         thm_impossibility, thm_impossibility_paper_form,
         no_partition_independent_admissible_warrant,
         ensemble_methods_fail_P2, impossibility_uniform_family.
 
-    * Now derived theorems by `decide` on `WarrantFeatureType`
-      decidable-equality (Issue 3 concretization of the
-      ArbitrationProcedure bare-Prop fields `warrantInternalToE`
-      and `failsAdjudication`):
-        prw_typeB_no_ranking,
-        prw_warrantInternalToE_excludes_typeC3,
-        prw_warrantInternalToE_excludes_typeC4b.
+    * Depends only on kernel axioms `[propext, Quot.sound]`
+      (vacuity / consistency machine-verified):
+        VacuityCheck.exists_non_partition_relative,
+        VacuityCheck.not_forall_partition_relative,
+        VacuityCheck.exists_partition_relative,
+        VacuityCheck.case_bridge_uniform_unconditional_not_derivable,
+        VacuityCheck.nonFactorisingA_not_warrantInternalToE,
+        VacuityCheck.exists_uniform_not_warrantInternalToE,
+        VacuityCheck.factorisingA_satisfies_all_antecedents,
+        VacuityCheck.r15_attack_requires_unprovable_antecedent.
 
   Any axiom outside the inventory above is a RED FLAG —
   investigate.
+
+  *Honest scope statement (v0.13.0 R18).*  After R18 Honest
+  Acceptance, the project has ZERO Cat 3 atomic axioms.  Paper's
+  `lem:prw` is Lean-trivial under typed Definition
+  `\label{def:warrant}` (paper line 2109-2112 explicitly
+  identifies the E-internality factoring clause with paper's
+  partition-relative-weighting predicate).  What the typed Lean
+  encoding captures of paper's substantive content:
+   (a) the `WarrantFeatureType` 9-constructor taxonomy (Cat 3
+       `carrier`, paper-cited per case);
+   (b) the typed `Warrant` carrier structure (Cat 3 `carrier`,
+       paper `\label{def:warrant}`);
+   (c) the `caseFormIsInternal` hypothesis (H) tag-exclusion
+       predicate (Cat 3 `hypothesisPredicate`, paper lines
+       2188-2237);
+   (d) the `featureExtractsAreEInternal` typed-structure
+       factorisation predicate (Cat 3 `structuralEquation`, paper
+       lines 2099-2107);
+   (e) the `warrantInternalToE` composite predicate `(a) ∧ (b)`
+       (Cat 3 `structuralEquation`).
+  These are paper-stipulated definitional commitments, encoded
+  as Lean `inductive` / `structure` / `def`, NOT as `axiom`
+  declarations.  No `lem:prw`-level Cat 3 axiom is required;
+  the case-analysis in paper's proof body is auxiliary commentary
+  (one paper-prose justification per `WarrantFeatureType`
+  constructor) rather than substantive partition-relativity
+  derivation content.
 
   Usage:
     lake exe cache get
@@ -192,9 +235,15 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.predictsEliminate_of_yes_weak_weak_with_indep
 #print axioms AsymmetricEliminativism.not_R2_satisfied_without_indep
 
--- Nine Cat 3 atomic axioms for Lemma `\label{lem:prw}` (v0.8.0 R5
--- substantive paper-faithful decomposition; replaces v0.6.0 R2
--- single-axiom encoding).
+-- Nine derived theorems for Lemma `\label{lem:prw}` per-case
+-- bridges (v0.8.0 R5 introduced the 9-case decomposition with 6
+-- axioms + 3 derived theorems; v0.13.0 R18 Honest Acceptance
+-- converted the 6 remaining axioms to derived theorems with proof
+-- body `fun _ hW => hW.2` — the partition-relativity is recovered
+-- by projecting `warrantInternalToE`'s `featureExtractsAreEInternal`
+-- conjunct, which is definitionally `partitionRelative` per paper
+-- line 2109-2112).  All nine expected to show "does not depend on
+-- any axioms" post-R18.
 #print axioms AsymmetricEliminativism.prw_uniform_to_pr
 #print axioms AsymmetricEliminativism.prw_typeA_to_pr
 #print axioms AsymmetricEliminativism.prw_typeB_no_ranking
@@ -205,7 +254,9 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.prw_warrantInternalToE_excludes_typeC4b
 #print axioms AsymmetricEliminativism.prw_contextual_to_pr
 
--- Derived theorem (v0.8.0 R5: was axiom, now `theorem`).
+-- Derived theorem (v0.8.0 R5: was axiom, now `theorem`; v0.13.0
+-- R18: now depends on no axioms because all per-case bridges are
+-- also derived theorems).
 #print axioms AsymmetricEliminativism.lem_prw_reduction
 
 -- Impossibility theorem and its corollaries.
@@ -216,10 +267,13 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.impossibility_uniform_family
 
 -- v0.11.0 R14 vacuity verification + v0.12.0 R16 consistency
--- verification — kernel-pure proofs that the new substantive
--- paper-faithful `partitionRelative` def is non-vacuous AND that
--- the R15 attack vector is closed under R16.  All eight expected
--- to show only `[propext, Quot.sound]` (or less).
+-- verification + v0.13.0 R18 definitional-equivalence verification.
+-- Kernel-pure proofs that the substantive paper-faithful
+-- `partitionRelative` def is non-vacuous, the R15 attack vector
+-- is closed under R16, and that R18 Honest Acceptance is
+-- structurally correct (paper's `lem:prw` reduction = paper's
+-- E-internality factorisation per paper line 2109-2112).  All
+-- expected to show only `[propext, Quot.sound]` (or empty).
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_non_partition_relative
 #print axioms AsymmetricEliminativism.VacuityCheck.not_forall_partition_relative
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_partition_relative
@@ -229,3 +283,7 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_uniform_not_warrantInternalToE
 #print axioms AsymmetricEliminativism.VacuityCheck.factorisingA_satisfies_all_antecedents
 #print axioms AsymmetricEliminativism.VacuityCheck.r15_attack_requires_unprovable_antecedent
+-- v0.13.0 R18 definitional-equivalence + transparency tests:
+#print axioms AsymmetricEliminativism.VacuityCheck.partitionRelative_iff_featureExtractsAreEInternal
+#print axioms AsymmetricEliminativism.VacuityCheck.prw_uniform_to_pr_applied_to_factorisingA
+#print axioms AsymmetricEliminativism.VacuityCheck.lem_prw_reduction_applied_to_factorisingA

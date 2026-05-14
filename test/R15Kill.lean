@@ -1,6 +1,6 @@
 import AsymmetricEliminativism
 
-/-! R15 kill attack — VERIFIES BLOCKED UNDER v0.12.0 R16.
+/-! R15 kill attack — VERIFIES BLOCKED UNDER v0.12.0 R16 + R18.
 
     Per R15 hostile validator's machine-verified killing report (round
     15), the following attack derived a kernel-pure proof of `False`
@@ -29,6 +29,17 @@ import AsymmetricEliminativism
     would need `nonFactorisingA.warrantInternalToE`, but this is
     itself unprovable kernel-pure (see VacuityCheck
     `nonFactorisingA_not_warrantInternalToE`).
+
+    Under v0.13.0 R18 Honest Acceptance, `prw_uniform_to_pr` is now
+    a derived theorem with the same signature as R16 (and proof
+    body `fun _ hW => hW.2`).  The R15 attack vector remains
+    blocked for the same reason: the antecedent
+    `nonFactorisingA.warrantInternalToE` is still kernel-pure
+    refutable.  The R18 conversion neither weakens the R16
+    consistency guarantee nor enables new kill vectors —
+    `case_bridge_uniform_unconditional_not_derivable` (the
+    antecedent-dropped form refuted by `nonFactorisingA`) remains
+    the kill-blocking witness.
 
     This file does NOT define the kill proof (which would fail to
     typecheck); it documents the attack vector and points to the

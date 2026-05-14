@@ -70,13 +70,17 @@
     AsymmetricEliminativism/AxiomAudit.lean — prints axiom
     dependencies of every paper-level theorem.
 
-  Vacuity + consistency verification (v0.11.0 R14 + v0.12.0 R16,
+  Vacuity + consistency + R18 definitional-equivalence
+  verification (v0.11.0 R14 + v0.12.0 R16 + v0.13.0 R18,
   MANDATORY per round briefs):
     AsymmetricEliminativism/VacuityCheck.lean — machine-verifies
     kernel-pure that the substantive paper-faithful
-    `partitionRelative` def is NON-VACUOUS (R14) AND that the
-    R15-machine-verified inconsistency is CLOSED under R16.
-    Eight theorems all kernel-pure `[propext, Quot.sound]`:
+    `partitionRelative` def is NON-VACUOUS (R14), the
+    R15-machine-verified inconsistency is CLOSED under R16, AND
+    paper line 2109-2112's identification of `partitionRelative`
+    with `featureExtractsAreEInternal` holds definitionally
+    (R18).  Eleven theorems, all kernel-pure `[propext,
+    Quot.sound]` or empty:
       * `exists_non_partition_relative` — `∃ A, ¬ A.partitionRelative`
         constructible via explicit `nonFactorisingA` witness.
       * `not_forall_partition_relative` — `¬ (∀ A, A.partitionRelative)`
@@ -85,9 +89,8 @@
         (the predicate is satisfiable, not universally-false).
       * `case_bridge_uniform_unconditional_not_derivable` —
         kernel-pure refutation of `∀ A, warrantForm = uniform →
-        A.partitionRelative` (i.e., the v0.11.0 R14 case-bridge
-        signature was REFUTABLE — proving the R16 antecedent
-        addition is necessary, not optional).
+        A.partitionRelative` (the v0.11.0 R14 case-bridge
+        signature was REFUTABLE).
       * `nonFactorisingA_not_warrantInternalToE` (v0.12.0 R16
         consistency verification) — the R15 attack's would-be
         antecedent is itself kernel-pure refutable.
@@ -96,14 +99,22 @@
         A.warrantInternalToE`.
       * `factorisingA_satisfies_all_antecedents` (v0.12.0 R16) —
         positive instance: `factorisingA` satisfies both
-        case-bridge antecedents AND the conclusion (axiom is
-        non-trivially applicable).
+        case-bridge antecedents AND the conclusion (theorem is
+        non-trivially applicable post-R18).
       * `r15_attack_requires_unprovable_antecedent` (v0.12.0 R16)
-        — the R15 attack vector is verifiably blocked: any
-        derivation of `nonFactorisingA.partitionRelative` via
-        the case-bridge requires a proof of
-        `nonFactorisingA.warrantInternalToE`, which is itself
-        kernel-pure refutable.
+        — the R15 attack vector is verifiably blocked.
+      * `partitionRelative_iff_featureExtractsAreEInternal`
+        (v0.13.0 R18) — `Iff.rfl`, depends on NO axioms.
+        Formal verification of paper line 2109-2112's
+        identification: paper's `lem:prw` reduction = paper's
+        `\label{def:warrant}` E-internality factorisation.  This
+        is the structural triviality that R18 Honest Acceptance
+        accepts.
+      * `prw_uniform_to_pr_applied_to_factorisingA` (v0.13.0
+        R18) — R18 case-bridge transparency test on `factorisingA`.
+      * `lem_prw_reduction_applied_to_factorisingA` (v0.13.0
+        R18) — derived theorem post-R18 routes correctly via
+        `prw_uniform_to_pr`'s `And.right` derivation.
 
   Gap ledger:
     AsymmetricEliminativism/Ledger.lean — typed record of every
