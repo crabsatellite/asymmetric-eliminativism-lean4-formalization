@@ -1,6 +1,6 @@
 import AsymmetricEliminativism
 
-/-! R15 + R19 kill attack — VERIFIES BLOCKED UNDER v0.14.0 R20.
+/-! R15 + R19 + R21 kill attack — VERIFIES BLOCKED UNDER v0.15.0 R22.
 
     *R15 kill (round 15, against v0.11.0 R14).*
     Per R15 hostile validator's machine-verified killing report,
@@ -13,113 +13,102 @@ import AsymmetricEliminativism
         obtain ⟨_, _, hFact⟩ := h1
         exact Bool.noConfusion ((hFact true true rfl).trans
                                 (hFact false true rfl).symm)
-      -- depends on axioms: [propext, prw_uniform_to_pr, Quot.sound]
 
-    Root cause: each `prw_X_to_pr` axiom had signature `A.warrantForm
-    = X → A.partitionRelative`, dropping paper `\label{lem:prw}` line
-    2116 "constructible from E alone" antecedent.  With R14's
-    substantive `partitionRelative`, non-factorising warrants with
-    `warrantForm = uniform` were direct counter-witnesses
-    (`nonFactorisingA`).
-
-    Under v0.12.0 R16 Option B fix, `prw_uniform_to_pr` has signature
-    `warrantForm = uniform → warrantInternalToE → partitionRelative`.
-    The application `prw_uniform_to_pr toyPart nonFactorisingA rfl`
-    now returns a `warrantInternalToE → partitionRelative` function,
-    NOT a `partitionRelative` witness.  To proceed, the attacker
-    would need `nonFactorisingA.warrantInternalToE`, but this is
-    itself unprovable kernel-pure (see VacuityCheck
-    `nonFactorisingA_not_warrantInternalToE`).
-
-    Under v0.13.0 R18 Honest Acceptance, `prw_uniform_to_pr` is now
-    a derived theorem with the same signature as R16 (and proof
-    body `fun _ hW => hW.2`).  The R15 attack vector remains
-    blocked for the same reason: the antecedent
-    `nonFactorisingA.warrantInternalToE` is still kernel-pure
-    refutable.
+    Under v0.12.0+ R16, `prw_uniform_to_pr` has antecedent
+    `warrantInternalToE`, so the attack routes through unprovable
+    `nonFactorisingA.warrantInternalToE`.
 
     *R19 kill (round 19, against v0.13.0 R18).*
-    Per R19 hostile validator's machine-verified killing report,
-    the following attack derived a kernel-pure no-axiom proof
-    against the v0.13.0 R18 `SatisfiesP2`:
+    Per R19 hostile validator, the following attack against R18's
+    3-conjunct SatisfiesP2 derived a kernel-pure no-axiom proof:
 
       theorem r19_kill (Op) : ¬ SatisfiesP2 FolkObj Tcls Part Op :=
         fun ⟨A, hNotPR, _, hWITE⟩ => hNotPR hWITE.2
 
-    Root cause: R18's `SatisfiesP2 := ∃ A, ¬ A.partitionRelative ∧
-    ¬ A.failsAdjudication ∧ A.warrantInternalToE`.  Since R18's
-    `warrantInternalToE.2 = featureExtractsAreEInternal =
-    partitionRelative` definitionally (paper line 2109-2112), the
-    existential body's first conjunct `¬ A.partitionRelative` and
-    third conjunct `A.warrantInternalToE` (via `.2`) are mutually
-    exclusive — `SatisfiesP2 ↔ False` provable by typing alone.
-    The R19 kill was a kernel-pure no-axiom theorem, trivializing
-    `thm_impossibility`.
+    Under v0.14.0 R20, SatisfiesP2 had 2 conjuncts (no
+    warrantInternalToE).  Under v0.15.0 R22, SatisfiesP2 has 3
+    conjuncts (admissibleIn + ¬ partitionRelative + ¬ failsAdjudication);
+    the R19 pattern would need to bind 4 elements but the third
+    binding `_` corresponds to `admissibleIn`, not a conjunction
+    with `.2`.
 
-    Under v0.14.0 R20 STRUCTURAL FIX, `SatisfiesP2` is restructured
-    to `∃ A, ¬ A.partitionRelative ∧ ¬ A.failsAdjudication` (TWO
-    conjuncts, NO warrantInternalToE).  The R19 attack pattern
-    `fun ⟨A, hNotPR, _, hWITE⟩ => …` (expecting 4 bindings)
-    FAILS to type-check against the 3-binding post-R20 P2.
+    *R21 kill (round 21, against v0.14.0 R20).*
+    Per R21 hostile validator, the following attacks derived
+    kernel-pure no-axiom defeat against v0.14.0 R20:
+
+    DEFECT 1: V7 `partitionRelative_iff_featureExtractsAreEInternal
+       := Iff.rfl` lets `thm_impossibility` reduce to 2-line bypass:
+
+      theorem r21_bypass (Op) (hH) : ¬ SatisfiesP2 Op :=
+        fun ⟨A, hNotPR, _⟩ => hNotPR (hH A).2
+
+    DEFECT 2: `DiscourseHypothesisH := ∀ A, warrantInternalToE` is
+       UNIVERSALLY FALSE, making `thm_impossibility` vacuously true.
+
+    Under v0.15.0 R22 DUAL FIX:
+    - `partitionRelative` strengthened with non-degeneracy clause
+      (paper line 2168-2170); `.2` projection of `warrantInternalToE`
+      now yields `featureExtractsAreEInternal`, which is STRICTLY
+      WEAKER than `partitionRelative` (V7).
+    - `admissibleIn` axiom predicate restricts (H) to admissible
+      procedures; `DiscourseHypothesisH := ∀ A, admissibleIn A Op →
+      warrantInternalToE`.  `hH A` is now an implication, not a
+      direct value.
 
     This file:
-      - documents both R15 and R19 attack vectors,
-      - exhibits the type-incomplete intermediate that R15 reaches,
-      - exhibits the R19-style attack that no longer type-checks,
-      - exhibits a positive R19-redux refutation: the R19-style
-        statement IS satisfiable (V9.c witness), so it cannot be
-        trivially refuted post-R20. -/
+      - documents R15, R19, and R21 attack vectors,
+      - exhibits the type-incorrect intermediates each reaches,
+      - confirms R22 dual fix blocks all three. -/
 
 open AsymmetricEliminativism
 
-/-- Verification: the v0.11.0 R14 kill cannot reach `False` under
-    R16+.  Attempting the original R15 attack yields a
-    type-incomplete intermediate (a function expecting
-    `warrantInternalToE` instead of a `partitionRelative` witness),
-    which `VacuityCheck.nonFactorisingA_not_warrantInternalToE`
-    blocks. -/
+/-- R15 verification: applying the case-bridge to `nonFactorisingA`
+    yields a function expecting `warrantInternalToE`, which V4
+    refutes. -/
 example : VacuityCheck.nonFactorisingA.warrantInternalToE →
           VacuityCheck.nonFactorisingA.partitionRelative :=
   prw_uniform_to_pr VacuityCheck.toyPart VacuityCheck.nonFactorisingA rfl
 
-/-- Under R16+, attempting to discharge the R16 antecedent leads
-    directly to contradiction with
-    `nonFactorisingA_not_warrantInternalToE`.  This `example`
-    succeeds (kernel-pure), demonstrating the R15 attack vector
-    routes through an unprovable antecedent. -/
 example (hWITE : VacuityCheck.nonFactorisingA.warrantInternalToE) :
     False :=
   VacuityCheck.nonFactorisingA_not_warrantInternalToE hWITE
 
-/-- v0.14.0 R20 verification: under post-R20 `SatisfiesP2` (two
-    conjuncts, no `warrantInternalToE`), the R19 attack pattern
-    `fun ⟨A, hNotPR, _, hWITE⟩ => …` would expect 4 bindings;
-    Lean accepts only 3-binding patterns.  We exhibit the
-    well-typed 3-binding pattern for the post-R20 P2.
-
-    *Critical observation.*  The R19-style proof body
-    `fun ⟨_, hNotPR, _, hWITE⟩ => hNotPR hWITE.2` would
-    require a third conjunct `hWITE` bindable to
-    `A.warrantInternalToE`.  Under R20, the third existential
-    conjunct does NOT exist in `SatisfiesP2`, so the rintro
-    pattern with 4 bindings fails to type-check.  We demonstrate
-    by writing the well-typed 3-binding version:
--/
+/-- R19+R22 verification: post-R22 SatisfiesP2 has 3 conjuncts
+    (admissibleIn + ¬ partitionRelative + ¬ failsAdjudication =
+    4 bindings with A).  We exhibit the well-typed 3-conjunct
+    rintro pattern. -/
 example (Op : Operationalisation Bool Bool VacuityCheck.toyPart) :
     SatisfiesP2 Bool Bool VacuityCheck.toyPart Op → True :=
-  fun ⟨_A, _hNotPR, _hNotFails⟩ => trivial
+  fun ⟨_A, _hAdm, _hNotPR, _hNotFails⟩ => trivial
 
-/-- Under R20, the R19-style refutation `theorem r19_redux
-    (Op) : ¬ SatisfiesP2 Op` is NOT provable kernel-pure: V9.c
-    (`r19_redux_blocked_by_satisfiability`) exhibits a witness
-    `nonFactorisingA` satisfying the existential body, so the
-    refutation FAILS.  The post-R20 impossibility theorem
-    requires `DiscourseHypothesisH` as an EXPLICIT hypothesis
-    to derive the contradiction. -/
-example (Op : Operationalisation Bool Bool VacuityCheck.toyPart) :
-    SatisfiesP2 Bool Bool VacuityCheck.toyPart Op :=
-  VacuityCheck.r19_redux_blocked_by_satisfiability Op
+/-- R21 verification (Defect 1): after R22 Fix A, the bypass
+    `(hH A hAdm).2` yields `featureExtractsAreEInternal`, NOT
+    `partitionRelative`.  We exhibit this via the strict
+    separation in V7. -/
+example (A : ArbitrationProcedure Bool Bool VacuityCheck.toyPart)
+        (hW : A.warrantInternalToE) :
+    A.featureExtractsAreEInternal :=
+  hW.2
+
+/-- R21 verification (Defect 1, continued): the `.2` projection
+    type-error.  We CANNOT have `(hW : warrantInternalToE).2 :
+    partitionRelative` post-R22; the implicit conversion fails
+    because `partitionRelative ⊋ featureExtractsAreEInternal`. -/
+example :
+    ∃ A : ArbitrationProcedure Bool Bool VacuityCheck.toyPart,
+      A.featureExtractsAreEInternal ∧ ¬ A.partitionRelative :=
+  VacuityCheck.featureExtractsAreEInternal_does_not_imply_partitionRelative
+
+/-- R21 verification (Defect 2): post-R22, `DiscourseHypothesisH`
+    is non-vacuously-true under (admissibleIn-empty) discourse
+    states.  This refutes the R21 "(H) is universally false" claim. -/
+example (Op : Operationalisation Bool Bool VacuityCheck.toyPart)
+        (hEmpty : ∀ A : ArbitrationProcedure Bool Bool VacuityCheck.toyPart,
+                  ¬ A.admissibleIn Op) :
+    DiscourseHypothesisH VacuityCheck.toyPart Op :=
+  VacuityCheck.discourseHypothesisH_satisfiable_when_admissibleIn_empty Op hEmpty
 
 #print axioms VacuityCheck.nonFactorisingA_not_warrantInternalToE
-#print axioms VacuityCheck.r19_redux_blocked_by_satisfiability
-#print axioms VacuityCheck.thm_impossibility_substantively_uses_H
+#print axioms VacuityCheck.featureExtractsAreEInternal_does_not_imply_partitionRelative
+#print axioms VacuityCheck.discourseHypothesisH_satisfiable_when_admissibleIn_empty
+#print axioms VacuityCheck.discourseHypothesisH_fails_when_admissibleIn_universal

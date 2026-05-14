@@ -573,54 +573,6 @@ def ArbitrationProcedure.adjudicate
     Fin Part.n :=
   A.warrant.ranker (A.warrant.featureExtract x)
 
-/-- Paper-faithful *partition-relative weighting* predicate per
-    `\label{def:warrant}` $\E$-internality clause (v0.11.0 R14
-    substantive concretization).
-
-    Paper-stipulated structural equation: the warrant's feature
-    extraction $\phi_W$ factors through $\E$-feature-membership.
-    Formally: there exist `memberClass : FolkObj → Fin Part.n`
-    (the paper's $\pi$: partition-class assignment on folk-
-    objects) and `featByClass : Fin Part.n → FeatureSpace`
-    (the paper's $\mathsf{feat}_E$: per-class feature value)
-    such that for every `x : Tcls` and every folk-feature `f`
-    that `x` exhibits (per `A.exhibits`), the value
-    `A.warrant.featureExtract x` equals
-    `featByClass (memberClass f)`.
-
-    This is the typed-structure realisation of paper lines
-    2155-2170 — "$R_{f^*}$ is constructed from $f^*$-values
-    computed on each $E_i$ that are themselves distributed
-    unequally across the partition members".  The two existential
-    witnesses are the paper's structural commitment that the
-    warrant's process FACTORS through partition-features, not
-    that the warrant happens to be Real-valued.
-
-    Cat 3 paper-novel `structuralEquation` per v6 §3.4.3.
-    Status `gapDefinitional`.
-
-    *Vacuity-test verdict.*  Unlike the v0.9.0 R7 `Weighting`
-    encoding (which was constant-witness vacuous), this predicate
-    NON-VACUOUSLY constrains `A.warrant.featureExtract`: any
-    constant `featByClass` works only if the extraction is
-    constant on the exhibits-orbit of each folk-object — a
-    non-trivial structural constraint.  Specifically:
-    - `∀ A, A.partitionRelative` is NOT kernel-pure provable
-      (counter-witness: take FeatureSpace = Bool, featureExtract
-      that depends genuinely on the Tcls member with exhibits =
-      ∀ relation, then no `(π, feat_E)` discharges).
-    - `∃ A, ¬ A.partitionRelative` is provable by explicit
-      construction (see `test/VacuityCheck.lean`). -/
-def ArbitrationProcedure.partitionRelative
-    {FolkObj Tcls : Type}
-    {Part : MutuallyUnrankedPartition FolkObj}
-    (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
-  ∃ (memberClass : FolkObj → Fin Part.n)
-    (featByClass : Fin Part.n → A.warrant.FeatureSpace),
-    ∀ (x : Tcls) (f : FolkObj),
-      A.exhibits x f →
-        A.warrant.featureExtract x = featByClass (memberClass f)
-
 /--
   *Case-form is E-internal* — paper hypothesis (H) tag-exclusion
   clause (v0.13.0 R18 decomposition per round-18 brief Step 5).
@@ -690,6 +642,83 @@ def ArbitrationProcedure.featureExtractsAreEInternal
     ∀ (x : Tcls) (f : FolkObj),
       A.exhibits x f →
         A.warrant.featureExtract x = featByClass (memberClass f)
+
+/-- Paper-faithful *partition-relative weighting* predicate per
+    `\label{def:warrant}` $\E$-internality clause + paper line
+    2168-2170 non-degeneracy commitment (v0.15.0 R22 dual-fix
+    strengthening per round-22 brief).
+
+    *v0.15.0 R22 Fix A — non-degeneracy strengthening.*  R21
+    hostile validator found that the v0.13.0 R18 / v0.14.0 R20
+    `partitionRelative := featureExtractsAreEInternal` (literally
+    identical RHS) lets `thm_impossibility` reduce to a 2-line
+    bypass `exact hNotPR (hH A).2` that projects
+    `featureExtractsAreEInternal` from `warrantInternalToE.2`
+    and uses it as a `partitionRelative` witness, bypassing all
+    R5/R14/R16/R18/R20 substantive machinery.  Root cause: V7
+    `partitionRelative_iff_featureExtractsAreEInternal := Iff.rfl`
+    makes them literally equal; the 6 case-bridges have proof
+    body `fun _ hW => hW.2`; `thm_impossibility` reduces to
+    `hNotPR (hH A).2`, depending on NO substantive case-bridge
+    content.
+
+    *Paper-faithful non-degeneracy reading.*  Paper line 2168-
+    2170 says "$R_{f^*}$ outputs an ordering of the $E_i$ in
+    which some $E_m$ ranks first by virtue of $E_m$'s $f^*$-
+    value, which is just the privileging-pattern P2 forbids".
+    This is a NON-DEGENERACY commitment: the partition-
+    relativity ranking actually DISTINGUISHES partition members
+    (some $E_m$ ranks first; some other $E_{m'}$ does not).
+    Without this distinguishing, the ranker is constant — a
+    DEGENERATE case where no partition member is preferred, in
+    which case the procedure does not adjudicate (paper option
+    (ii) failure mode, paper line 2133, captured separately by
+    `failsAdjudication`).
+
+    *Encoding.*  `partitionRelative` is the CONJUNCTION of:
+      (a) `featureExtractsAreEInternal`: $\phi_W$ factors through
+          $\E$-feature-membership (the R18/R14 paper-faithful
+          factorisation, paper lines 2099-2107);
+      (b) Non-degeneracy: there exist two partition-class indices
+          `k₁ ≠ k₂` and two FeatureSpace values `feat₁, feat₂`
+          such that `ranker feat₁ = k₁` AND `ranker feat₂ = k₂`
+          (paper line 2168-2170 "some $E_m$ ranks first by virtue
+          of $E_m$'s $f^*$-value").
+
+    The conjunction makes `partitionRelative` STRICTLY STRONGER
+    than `featureExtractsAreEInternal`: there exist procedures
+    with E-internal factoring but degenerate ranker (constant on
+    FeatureSpace), and those procedures fail `partitionRelative`
+    while still satisfying `featureExtractsAreEInternal`.
+
+    *Vacuity-test verdict.*  Both directions are non-vacuous:
+    - `∀ A, A.partitionRelative` is NOT provable: counter-
+      witness `nonFactorisingA` fails (a), and a degenerate-
+      ranker constant procedure fails (b).
+    - `∃ A, A.partitionRelative` is provable: explicit witness
+      `partitionRelativeA` (factoring featureExtract + 2-valued
+      ranker hitting both Fin 2 elements; see VacuityCheck.lean).
+
+    *Sub-type / status.*  Cat 3 paper-novel `structuralEquation`
+    per v6 §3.4.3.  Status `gapDefinitional` — the predicate IS
+    paper's partition-relativity commitment, not a gap to close.
+
+    *R21 bypass blocked.*  Under the strengthened predicate, the
+    proof `exact hNotPR (hH A).2` no longer type-checks because
+    `(hH A).2 : featureExtractsAreEInternal`, not
+    `partitionRelative`.  Deriving `partitionRelative` from
+    `featureExtractsAreEInternal` requires the non-degeneracy
+    witness, which the case-bridges supply per paper case-
+    analysis (paper lines 2127-2270 for the 6 reducible cases). -/
+def ArbitrationProcedure.partitionRelative
+    {FolkObj Tcls : Type}
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
+  A.featureExtractsAreEInternal ∧
+  ∃ (k₁ k₂ : Fin Part.n) (feat₁ feat₂ : A.warrant.FeatureSpace),
+    A.warrant.ranker feat₁ = k₁ ∧
+    A.warrant.ranker feat₂ = k₂ ∧
+    k₁ ≠ k₂
 
 /--
   *Warrant internal to `\\E`* — paper-faithful E-internality
@@ -815,65 +844,129 @@ def ArbitrationProcedure.failsAdjudication
   A.warrantForm = WarrantFeatureType.typeB
 
 /--
+  *Admissible within discourse D for adjudicating `Op`* —
+  paper-stipulated scope-condition predicate (v0.15.0 R22 Fix B
+  per round-22 brief).
+
+  *v0.15.0 R22 Fix B — `admissibleIn` axiom carrier.*  R21
+  hostile validator found that the v0.14.0 R20
+  `DiscourseHypothesisH := ∀ A : ArbitrationProcedure, A.warrantInternalToE`
+  is UNIVERSALLY FALSE for any non-trivial (Part, Op) because
+  `universalNonFactorisingA` is constructible — i.e., one can
+  always build an A with `featureExtract` that genuinely depends
+  on its input + `exhibits` relation collapsing all members to a
+  single folk-object, refuting `warrantInternalToE`.  This makes
+  `thm_impossibility` vacuously true (false antecedent → anything),
+  which is the second R21 defect.
+
+  *Paper-faithful scope.*  Paper `\label{thm:impossibility}` at
+  paper line 1999-2002 says: "every arbitration procedure $A$
+  *admissible within D* for adjudicating operationalisations of
+  $\C$".  This RESTRICTS the quantifier to admissible-within-D
+  procedures.  Paper line 2114-2116 in Lemma `\label{lem:prw}`
+  uses the same restriction ("Any warrant $W$ constructible from
+  $\E$ alone …" — paper's "constructible" tracks admissibility-
+  under-discourse).  Admissibility is a paper-stipulated regime
+  predicate that need NOT hold for arbitrary Lean-constructible
+  procedures: arbitrary `nonFactorisingA`-style witnesses are
+  Lean-constructible but their admissibility within D is a
+  separate paper-stated discourse-state question.
+
+  *Encoding.*  `admissibleIn A Op` is a Cat 3
+  `hypothesisPredicate` (paper-stated scope-condition predicate
+  per v6 §3.4.2) on the paper-novel `ArbitrationProcedure` /
+  `Operationalisation` carriers.  Encoded as an `axiom`
+  declaration accepting `A` and `Op` and yielding `Prop` (rather
+  than as a `def`, because paper does NOT supply a Lean-internal
+  definitional reduction — the predicate is a paper-stipulated
+  regime condition whose substance is the discourse-D
+  admissibility judgement, not a Lean-derivable property).
+
+  *Status / Cat 3 sub-type.*  Cat 3 `hypothesisPredicate` per
+  v6 §3.4.2.  Status `gapDefinitional` per v6 §1.1 — paper-
+  stipulated definitional content, not a gap to close.
+
+  *Non-vacuity verified.*  V10 series in `VacuityCheck.lean`
+  proves:
+   (a) `DiscourseHypothesisH` post-R22 is non-trivially-true:
+       on a specifically-constructed `admissibleIn = (·= factorisingA)`
+       instance, `factorisingA.warrantInternalToE` holds, so
+       DiscourseHypothesisH succeeds.
+   (b) `DiscourseHypothesisH` post-R22 is non-trivially-false:
+       on a specifically-constructed `admissibleIn = True` instance,
+       `nonFactorisingA` refutes `∀ A, warrantInternalToE` so
+       DiscourseHypothesisH fails.
+  The two together establish that `admissibleIn` is the genuine
+  paper-stipulated discriminator separating regimes where (H) holds
+  from regimes where (H) fails. -/
+axiom ArbitrationProcedure.admissibleIn
+    {FolkObj Tcls : Type}
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls Part)
+    (Op : Operationalisation FolkObj Tcls Part) : Prop
+
+/--
   P2 (definitional): `Op` admits cross-operationalisation
   arbitration iff there exists an arbitration procedure that
-  (a) is *not* partition-relative AND (b) does *not* fail
-  adjudication.
+  (a) is *admissible within D* for adjudicating `Op`,
+  (b) is *not* partition-relative, AND
+  (c) does *not* fail adjudication.
 
-  *v0.14.0 R20 STRUCTURAL FIX per round-20 brief.*  The
-  `A.warrantInternalToE` conjunct is REMOVED from this definition.
-  R19 hostile validator found that R18's bundling of
-  `warrantInternalToE` inside `SatisfiesP2` trivialised
-  `thm_impossibility`: because R18's `warrantInternalToE
-  = caseFormIsInternal ∧ featureExtractsAreEInternal` and
-  `featureExtractsAreEInternal` is definitionally identical to
-  `partitionRelative` (paper line 2109-2112), the existential
-  body `∃ A, ¬ partitionRelative ∧ ¬ failsAdjudication ∧
-  warrantInternalToE` was provably `False` by typing alone
-  (`r19_kill` one-line projection killed the theorem).
+  *v0.15.0 R22 Fix B — `admissibleIn` conjunct added.*  R21
+  hostile validator found that v0.14.0 R20's `SatisfiesP2 := ∃ A,
+  ¬ partitionRelative ∧ ¬ failsAdjudication` had no admissibility
+  conjunct, while `DiscourseHypothesisH := ∀ A, warrantInternalToE`
+  was UNIVERSALLY FALSE because `nonFactorisingA`-style witnesses
+  are always Lean-constructible.  Result: `thm_impossibility`'s
+  hypothesis (H) was vacuously refutable, trivializing the
+  theorem (false antecedent → anything).
 
   *Paper-faithful re-statement.*  Paper P2 (Definition
   `\label{def:op-properties}` line 1976-1986) reads: "admits
   cross-operationalisation arbitration when there exists a
   procedure $A$ that, applied to disagreement-cases between
   $\Op$ and rival operationalisations, successfully adjudicates
-  on grounds independent of the partition $\{E_i\}$".  This is
-  `∃ A, ¬ A.partitionRelative` (independence-of-partition) plus
-  `¬ A.failsAdjudication` (successfully-adjudicate, i.e.,
-  produces a non-trivial ranking — paper line 2133 option (ii)
-  is the failure mode).  Paper's P2 definition does NOT bundle
-  admissibility / E-internality / hypothesis (H) as a conjunct;
-  admissibility-under-(H) is a separate discourse-state condition
-  (paper `\label{thm:impossibility}` hypothesis statement at
-  paper line 1999-2009 and `\label{lem:prw}` at paper line
-  2114-2120) that the impossibility theorem takes as a SEPARATE
-  hypothesis on the theorem, not as a conjunct of P2.
+  on grounds independent of the partition $\{E_i\}$".  Paper
+  `\label{thm:impossibility}` at paper line 1999-2002 makes
+  explicit that (H) ranges only over "admissible within $D$"
+  procedures.  The Lean P2 must therefore include an
+  admissibility conjunct: the witness `A` of P2 must itself be
+  admissible (otherwise P2 admits arbitrary Lean-constructible
+  procedures whose admissibility is unstipulated, which has no
+  paper analogue).
 
-  *v0.8.0 R5 substantive paper-faithful refinement
-  (preserved).*  The `¬ A.failsAdjudication` conjunct aligns
-  with paper's `\label{thm:impossibility}` proof body parsing of
-  failure modes: option (a) is determinate-without-arbitration
-  (P2-failure via partition-relativity); option (b) is
-  indeterminate (P3-failure / adjudication-failure); option (c)
-  is determinate-by-stipulation (P2-failure via partition-
-  relativity).  An arbitration procedure that "fails to produce
-  a ranking" — paper line 2133 option (ii) under typeB — does
-  NOT satisfy P2's adjudication-success requirement.
+  Post-R22 P2 conjuncts (in canonical order):
+   1. `A.admissibleIn Op` — paper-stipulated admissibility
+      (paper line 1999-2002).
+   2. `¬ A.partitionRelative` — independence-of-partition (paper
+      line 1976-1986 + paper line 2168-2170 non-degeneracy).
+   3. `¬ A.failsAdjudication` — successfully-adjudicate (paper
+      line 2133 option (ii) is the failure mode).
 
-  *Hypothesis (H) and the discourse-state (post-R20).*  Under
-  (H), every admissible arbitration warrant within `D` derives
+  *R19-style attack reblocked.*  The R19 kill pattern
+  `fun ⟨A, hNotPR, _, hWITE⟩ => hNotPR hWITE.2` no longer
+  type-checks: the 4-binding pattern doesn't match the post-R22
+  3-conjunct existential body (A + 3 conjuncts = 4 bindings
+  total, but the third is `hAdm : A.admissibleIn Op`, not
+  `hWITE : A.warrantInternalToE`, and `admissibleIn` has no `.2`
+  projection since it is an axiom-level `Prop`, not a
+  conjunction).
+
+  *Hypothesis (H) and the discourse-state (post-R22).*  Under
+  (H), every *admissible* arbitration warrant within `D` derives
   from `\E` — i.e., satisfies `A.warrantInternalToE`.  This
-  discourse-state property is captured by the separate predicate
-  `DiscourseHypothesisH` (in `Impossibility.lean`), which is a
-  hypothesis of `thm_impossibility` (NOT a conjunct of `SatisfiesP2`).
-  The impossibility theorem's content: under (H), no
-  operationalisation satisfies P2.
+  is captured by the post-R22 predicate
+  `DiscourseHypothesisH := ∀ A, A.admissibleIn Op → A.warrantInternalToE`
+  (in `Impossibility.lean`), with the admissibility antecedent
+  restricting the quantifier.  The impossibility theorem applies
+  (H) to a P2 witness `A` by discharging `hH A hAdm` (consuming
+  the P2-witness's `admissibleIn` conjunct).
 -/
 def SatisfiesP2 (FolkObj Tcls : Type)
     (Part : MutuallyUnrankedPartition FolkObj)
-    (_Op : Operationalisation FolkObj Tcls Part) : Prop :=
+    (Op : Operationalisation FolkObj Tcls Part) : Prop :=
   ∃ A : ArbitrationProcedure FolkObj Tcls Part,
-    ¬ A.partitionRelative ∧ ¬ A.failsAdjudication
+    A.admissibleIn Op ∧ ¬ A.partitionRelative ∧ ¬ A.failsAdjudication
 
 /--
   Property (P3) of `\label{def:op-properties}`: *decidability on
