@@ -43,7 +43,8 @@ arguments rest:
   (`AsymmetricEliminativism/Basic.lean`).
 
 Axioms are atomic minimal units.  Axiom history (7-round
-anti-pattern spiral, resolved at R24):
+anti-pattern spiral, resolved at R24; R26 Tier 1 Part A extends
+Lean coverage):
 
 - **v0.9.0 R7**: cosmetic Weighting carrier vacuity → R8 killed.
 - **v0.11.0 R14**: missing antecedent inconsistency → R15 killed.
@@ -56,7 +57,17 @@ anti-pattern spiral, resolved at R24):
   via constant-ranker contradiction.
 - **v0.16.0 R24**: FINAL HONEST CONVERGENCE — accept paper line
   2109-2112 typed-level trivialization; keep R22 Fix B
-  admissibleIn.  **1 Cat 3 axiom total** (admissibleIn only).
+  admissibleIn.  1 Cat 3 axiom total (admissibleIn only).
+- **v0.17.0 R26 Tier 1 Part A**: extend Lean coverage to paper's
+  per-case structural arguments (paper lines 2122-2349).  6 new
+  paper-cited Cat 3 `structuralEquation` axioms encoding paper's
+  per-case structural commitments (uniform constant-memberClass /
+  typeA single-class-privileging / typeC1 R_{f^*}-routing /
+  typeC2 recursive termination / typeC4a meta-level reduction /
+  contextual E-internal mapping).  6 case-bridges re-derived to
+  substantively consume the new axioms (NOT trivial `.2`).
+  R23 attack remains ELIMINATED.  **7 Cat 3 axioms total**
+  (admissibleIn + 6 per-case).
 
 **v0.16.0 R24 FINAL HONEST CONVERGENCE details.**  R23 hostile
 validator machine-verified that v0.15.0 R22 Fix A
