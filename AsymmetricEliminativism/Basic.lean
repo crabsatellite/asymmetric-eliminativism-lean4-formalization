@@ -439,134 +439,187 @@ inductive WarrantFeatureType
   deriving DecidableEq, Repr
 
 /-
-  Design note (v0.10.0 R9 honest revert of R7 cosmetic
-  concretization; preserves R5 substantive achievements).
+  Design note (v0.11.0 R14 substantive paper-faithful Warrant
+  typed structure; supersedes v0.10.0 R9 honest retreat).
 
-  *What R9 retracts (Option B per round-9 brief).*  Round 8
-  hostile validator catastrophically verified that v0.9.0 R7's
-  `partitionRelative` concretization via the `Weighting` carrier
-  is VACUOUSLY satisfied by constant weight: take
-  `w := ⟨fun _ => 0⟩`, then for every `A` and every `x, j`,
-  `w.weight j = w.weight (A.adjudicate x) = 0`, so
-  `0 ≤ 0` discharges the predicate.  Machine-verified kernel-pure.
-  The R7 `Weighting`-based `partitionRelative` def added zero
-  mathematical content beyond the v0.8.0 bare-Prop encoding — it
-  re-introduced anti-pattern #13 (conclusion-as-cosmetic-shape)
-  at one level removed.  Same anti-pattern v0.6.0 R2 honestly
-  reverted (the R1 `Prop := True` case-tags); R7 reintroduced it
-  at the partition-relative RHS level.
+  *What R14 accomplishes.*  Round 14 implements the substantive
+  paper-faithful encoding that v0.10.0/v0.10.1 honestly retreated
+  from.  The user's correction (v6 §11 paper-Lean unification
+  mandate + §13 right gap-attack workflow + §18 Manufactured
+  Recognition R-#25 precedent) authorised paper-side revision to
+  introduce the typed Warrant structure the paper's `R_{f^*}`-
+  language already implicitly commits to.
 
-  *Why Option B (honest revert) rather than Option A (full
-  refactor).*  The paper's partition-relativity (`\label{lem:prw}`
-  lines 2079-2270) is genuinely PROCESS-LEVEL: an arbitration
-  procedure is partition-relative when its adjudication-warrant
-  FACTORS THROUGH a feature-extraction-and-ranking process on the
-  partition (paper lines 2155-2170: "$R_{f^*}$ is constructed
-  from $f^*$-values computed on each $E_i$ … features that are
-  themselves distributed unequally across the partition members";
-  paper lines 2168-2170: "outputs an ordering of the $E_i$ in
-  which some $E_m$ ranks first by virtue of $E_m$'s $f^*$-value").
-  The current `ArbitrationProcedure` carrier has only OUTPUT-LEVEL
-  `adjudicate : Tcls → Fin Part.n` — no process-level Warrant
-  sub-structure.
+  *Paper revision (per §11).*  Paper.tex now contains
+  `\label{def:warrant}` Definition box immediately preceding
+  Lemma `\label{lem:prw}`, introducing the typed triple
+  $(\mathsf{Feat}_W, \phi_W, \rho_W)$ — feature space, feature-
+  extraction map, ranker — and stipulating $\E$-internality of a
+  warrant as: $\phi_W$ factors through $\E$-feature-membership.
+  This is paper-transcription not paper-extension: paper's
+  prose-level $R_{f^*}$ language at lines 2155-2170 already commits
+  to feature-extraction + ranking as the structural shape of the
+  warrant; the new Definition makes that typed-structure commitment
+  explicit.
 
-  Concretizing `partitionRelative` non-vacuously requires:
-  (1) a process-level `Warrant` sub-structure with `Feature` type
-      + `featureExtract : Tcls → Feature` + `ranker : Feature →
-      Fin Part.n` — a Cat 3 carrier the paper does not write
-      out as a Lean-friendly typed primitive (paper writes it
-      out as English prose);
-  (2) modeling an `ExternalFeature` carrier (paper-distinguished
-      `\E`-internal vs external features per lines 2168-2191);
-  (3) paper-stipulated structural-equation axioms tying
-      `Warrant.featureExtract` to partition-membership-on-`\E`
-      (paper-stipulated content the paper does not Lean-formalise).
+  *Lean refactor (per §13 + §18).*
+  - New Cat 3 carrier `Warrant Part Tcls` (FeatureSpace +
+    featureExtract + ranker), per paper `\label{def:warrant}`.
+  - `ArbitrationProcedure` refactored to carry `warrant : Warrant`
+    + `warrantForm` + `exhibits` relation; `adjudicate` is now a
+    derived `def` composing `warrant.ranker ∘ warrant.featureExtract`.
+  - `partitionRelative` concretized paper-faithfully (NOT
+    cosmetically) as the `\label{def:warrant}` $\E$-internality
+    factorisation: `∃ memberClass featByClass, ∀ x f, A.exhibits
+    x f → A.warrant.featureExtract x = featByClass (memberClass f)`.
 
-  This is paper-extension work introducing structural commitments
-  the paper does not Lean-formalise; per `feedback_truth_over_
-  publication` and the round-9 brief's honest-retreat clause,
-  Option B (revert to bare-Prop with explicit close-target) is
-  the truthful move.  Option A (full refactor) is acceptable only
-  if it does not introduce speculative commitments; here it does
-  (the paper's `\E`-internal-vs-external feature distinction lives
-  in paper-discursive prose, not in a typed Lean carrier the paper
-  stipulates).
+  *Vacuity verified.*  Vacuity test file
+  `test/VacuityCheck.lean` proves:
+  - `∀ A, A.partitionRelative` is NOT kernel-pure provable —
+    construct an A whose `featureExtract` genuinely depends on `x`
+    (not factoring through any `memberClass`), proving
+    `∃ A, ¬ A.partitionRelative`.
+  - The 6 case-bridge axioms retain their structural-equation
+    Cat 3 status (paper-stipulated reductions from warrant-form
+    case-tags to the new substantive `partitionRelative` shape).
+  - Constant-witness attack — the R7 vacuity mode — does NOT
+    discharge the new predicate because the witnesses are
+    `(memberClass, featByClass)` not a Real-valued weight; a
+    constant `featByClass` can satisfy the equation only when
+    `featureExtract` is itself constant on the `exhibits`-orbit
+    of each folk-object, which is a non-trivial structural
+    constraint on `A`.
 
-  *Cat 3 sub-type classification (post-R9 revert).*
-  `ArbitrationProcedure` retains `hypothesisPredicate` (paper-
-  stipulated Prop-bundle scope condition); `WarrantFeatureType`
-  retains Cat 3 `carrier` (paper-introduced typed enumeration of
-  warrant sub-forms; v0.8.0 R5 achievement preserved);
-  `partitionRelative` reverts from concrete `def` (v0.9.0 R7) to
-  bare-Prop field on `ArbitrationProcedure` (sub-type
-  `hypothesisPredicate` per v6 §3.4.2 — paper-stipulated scope
-  condition).  The `Weighting` carrier is REMOVED (it was
-  cosmetic — the existential `∃ w : Weighting Part, ...` admitted
-  trivial constant-weight witnesses for every `A`).
+  *What R14 preserves from R5/R7/R9.*  `WarrantFeatureType`
+  9-constructor inductive remains the paper-faithful warrant-
+  form classifier; `failsAdjudication` / `warrantInternalToE`
+  remain decidable `def`s; `lem_prw_reduction` retains its
+  case-exhaustion structure; P2 definition retains the
+  `¬ A.failsAdjudication` conjunct.
 
-  *What R9 preserves from R5/R7.*  The v0.8.0 R5 substantive
-  achievements remain intact: `WarrantFeatureType` 9-constructor
-  inductive (paper-faithful warrant-form taxonomy);
-  `failsAdjudication` and `warrantInternalToE` as `def`s on
-  `WarrantFeatureType` (Issue 3 concretizations);
-  `lem_prw_reduction` as derived theorem composing 6 case-bridge
-  axioms + 3 derived theorems via case-exhaustion `match`; P2
-  definition with `¬ A.failsAdjudication` conjunct.
+  *Cat 3 sub-type classification (post-R14 refactor).*
+  - `Warrant`: Cat 3 `carrier` per v6 §3.4.1, `gapDefinitional`.
+  - `ArbitrationProcedure`: Cat 3 `hypothesisPredicate` per v6
+    §3.4.2 (Prop-bundle scope condition), `gapDefinitional`.
+  - `partitionRelative`: now a derived `def` (NOT a structure
+    field) consuming `Warrant` + `exhibits`; Cat 3
+    `structuralEquation` per v6 §3.4.3, `gapDefinitional`.
+  - The 6 case-bridge atoms: still Cat 3 `structuralEquation` but
+    with new substantive RHS shape; the paper's prose
+    justifications remain operative.
+-/
 
-  *Honest close-target for `partitionRelative`.*  Process-level
-  Warrant refinement modeling external-vs-partition feature
-  distinction.  Requires paper-extension introducing typed
-  carriers for: (i) a `\E`-feature space; (ii) a non-`\E`-feature
-  space; (iii) a paper-stipulated structural assertion tying
-  `Warrant.featureExtract` to one or the other.  This work is
-  outside the current paper's Lean-encoded scope.
+/--
+  Paper Definition `\label{def:warrant}` (added v0.11.0 R14 per
+  v6 §11 paper-Lean unification): an arbitration warrant is a
+  typed triple (FeatureSpace, featureExtract, ranker).
+
+  Cat 3 paper-novel `carrier` per v6 §3.4.1.  Status
+  `gapDefinitional` — never to close; constitutes the paper's
+  starting commitment to the warrant's typed structure.
+
+  Paper-prose source: `\label{lem:prw}` proof body, especially
+  lines 2155-2170 — "$R_{f^*}$ is constructed from $f^*$-values
+  computed on each $E_i$" identifies the warrant as a feature-
+  extraction + ranking pair.  The Definition box at paper line
+  2079 (added R14) supplies the typed structure explicitly.
+-/
+structure Warrant (FolkObj Tcls : Type)
+    (Part : MutuallyUnrankedPartition FolkObj) where
+  /-- Paper's $f^*$-value codomain (the warrant's feature space). -/
+  FeatureSpace : Type
+  /-- Paper's feature extraction $\phi_W : \Tcls \to \mathsf{Feat}_W$. -/
+  featureExtract : Tcls → FeatureSpace
+  /-- Paper's ranker $\rho_W : \mathsf{Feat}_W \to \{1, \ldots, n\}$
+       (= $R_{f^*}$ in the $R_{f^*}$-routing case of `\label{lem:prw}`). -/
+  ranker : FeatureSpace → Fin Part.n
+
+/--
+  An *arbitration procedure* refactored to carry a typed
+  `Warrant` sub-structure (v0.11.0 R14) plus a paper-stipulated
+  `exhibits` relation between target-class members and folk-
+  objects (paper line 2061: "x exhibiting features of $E_j$").
+
+  The `adjudicate` map is now a derived `def`
+  (`warrant.ranker ∘ warrant.featureExtract`), recovering the
+  output-level interface used by all downstream theorems.
+
+  Cat 3 paper-novel `hypothesisPredicate` per v6 §3.4.2 (Prop-
+  bundle scope-condition pattern with typed-carrier fields).
+  Status `gapDefinitional`.
 -/
 structure ArbitrationProcedure (FolkObj Tcls : Type)
     (Part : MutuallyUnrankedPartition FolkObj) where
-  /-- The procedure: given a disagreement-witness `x`, return
-       which operationalisation index (in `Fin Part.n`) to prefer. -/
-  adjudicate : Tcls → Fin Part.n
-  /-- Paper-faithful warrant-form classifier (v0.8.0 R5 substantive
-       refinement).  Carries the `\label{lem:prw}` proof-body
-       9-case taxonomy on the procedure's warrant.  Cat 3
-       `carrier` per v6 §3.4.1 (paper-introduced typed enumeration);
-       consumed by the per-case atomic Cat 3 stipulations
-       in `Impossibility.lean`. -/
+  /-- The procedure's typed warrant — paper `\label{def:warrant}`. -/
+  warrant : Warrant FolkObj Tcls Part
+  /-- Paper-faithful warrant-form classifier (v0.8.0 R5).
+       Cat 3 `carrier` per v6 §3.4.1. -/
   warrantForm : WarrantFeatureType
-  /-- *Partition-relative weighting* of `{E_1, …, E_n}`.
+  /-- Paper-stipulated "$x$ exhibits feature of $f$" relation
+       (paper line 2061): a target-class member $x \in \Tcls$
+       exhibits an $\E$-feature exemplar $f \in \mathsf{FolkObj}$.
+       The relation is paper-prose-cited; carried abstractly
+       (paper does not Lean-formalise its computational content). -/
+  exhibits : Tcls → FolkObj → Prop
 
-       Paper `\label{lem:prw}` (lines 2079-2085, 2155-2170): an
-       arbitration procedure is partition-relative when its
-       adjudication-warrant factors through a feature-extraction-
-       and-ranking process on the partition members; the warrant's
-       process is "constructed from $\E$-features computed on each
-       $E_i$" (paper line 2162) that "are themselves distributed
-       unequally across the partition members" (paper lines
-       2164-2165).
+/-- The procedure's verdict on `x` — derived `def` composing
+    `warrant.ranker` with `warrant.featureExtract`.  This is the
+    paper-faithful realisation of `A(x) = \rho_W(\phi_W(x))` per
+    `\label{def:warrant}`. -/
+def ArbitrationProcedure.adjudicate
+    {FolkObj Tcls : Type}
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls Part) (x : Tcls) :
+    Fin Part.n :=
+  A.warrant.ranker (A.warrant.featureExtract x)
 
-       *Status: bare-Prop field per v0.10.0 R9 honest revert.*
-       The paper's partition-relativity is PROCESS-LEVEL: it
-       constrains the warrant's adjudication-process to factor
-       through partition-features (not external features).  The
-       current `ArbitrationProcedure` carrier is OUTPUT-LEVEL
-       (`adjudicate : Tcls → Fin Part.n` — only the verdict, no
-       process structure).  Concretizing `partitionRelative`
-       non-vacuously requires a process-level `Warrant`
-       sub-structure modeling external-vs-partition feature
-       distinction (Cat 3 carrier the paper does not Lean-
-       formalise, only writes out in English prose).
+/-- Paper-faithful *partition-relative weighting* predicate per
+    `\label{def:warrant}` $\E$-internality clause (v0.11.0 R14
+    substantive concretization).
 
-       *Vacuity fix.*  The v0.9.0 R7 concretization
-       `∃ w : Weighting Part, ∀ x j, w.weight j ≤ w.weight
-       (A.adjudicate x)` was machine-verified VACUOUS (take
-       `w := ⟨fun _ => 0⟩`, then `0 ≤ 0` discharges the
-       predicate for every `A`).  v0.10.0 R9 reverts to bare-Prop;
-       Cat 3 `hypothesisPredicate` per v6 §3.4.2.
+    Paper-stipulated structural equation: the warrant's feature
+    extraction $\phi_W$ factors through $\E$-feature-membership.
+    Formally: there exist `memberClass : FolkObj → Fin Part.n`
+    (the paper's $\pi$: partition-class assignment on folk-
+    objects) and `featByClass : Fin Part.n → FeatureSpace`
+    (the paper's $\mathsf{feat}_E$: per-class feature value)
+    such that for every `x : Tcls` and every folk-feature `f`
+    that `x` exhibits (per `A.exhibits`), the value
+    `A.warrant.featureExtract x` equals
+    `featByClass (memberClass f)`.
 
-       *Close-target.*  Process-level Warrant refinement modeling
-       external-vs-partition feature distinction — paper-extension
-       work introducing typed carriers paper does not stipulate. -/
-  partitionRelative : Prop
+    This is the typed-structure realisation of paper lines
+    2155-2170 — "$R_{f^*}$ is constructed from $f^*$-values
+    computed on each $E_i$ that are themselves distributed
+    unequally across the partition members".  The two existential
+    witnesses are the paper's structural commitment that the
+    warrant's process FACTORS through partition-features, not
+    that the warrant happens to be Real-valued.
+
+    Cat 3 paper-novel `structuralEquation` per v6 §3.4.3.
+    Status `gapDefinitional`.
+
+    *Vacuity-test verdict.*  Unlike the v0.9.0 R7 `Weighting`
+    encoding (which was constant-witness vacuous), this predicate
+    NON-VACUOUSLY constrains `A.warrant.featureExtract`: any
+    constant `featByClass` works only if the extraction is
+    constant on the exhibits-orbit of each folk-object — a
+    non-trivial structural constraint.  Specifically:
+    - `∀ A, A.partitionRelative` is NOT kernel-pure provable
+      (counter-witness: take FeatureSpace = Bool, featureExtract
+      that depends genuinely on the Tcls member with exhibits =
+      ∀ relation, then no `(π, feat_E)` discharges).
+    - `∃ A, ¬ A.partitionRelative` is provable by explicit
+      construction (see `test/VacuityCheck.lean`). -/
+def ArbitrationProcedure.partitionRelative
+    {FolkObj Tcls : Type}
+    {Part : MutuallyUnrankedPartition FolkObj}
+    (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
+  ∃ (memberClass : FolkObj → Fin Part.n)
+    (featByClass : Fin Part.n → A.warrant.FeatureSpace),
+    ∀ (x : Tcls) (f : FolkObj),
+      A.exhibits x f →
+        A.warrant.featureExtract x = featByClass (memberClass f)
 
 /--
   *Warrant internal to `\\E`* — concretized as paper-faithful

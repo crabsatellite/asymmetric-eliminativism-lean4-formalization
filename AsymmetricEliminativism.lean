@@ -61,11 +61,31 @@
 
     AsymmetricEliminativism/Impossibility.lean
       Theorem `\label{thm:impossibility}` and the load-bearing
-      Lemma `\label{lem:prw}`.
+      Lemma `\label{lem:prw}`.  Paper Definition `\label{def:warrant}`
+      (added v0.11.0 R14 per v6 §11 paper-Lean unification)
+      introduces the typed Warrant triple consumed by the
+      substantive `partitionRelative` def in `Basic.lean`.
 
   Soundness audit:
     AsymmetricEliminativism/AxiomAudit.lean — prints axiom
     dependencies of every paper-level theorem.
+
+  Vacuity verification (v0.11.0 R14, MANDATORY per round-14 brief):
+    AsymmetricEliminativism/VacuityCheck.lean — machine-verifies
+    kernel-pure that the v0.11.0 R14 substantive paper-faithful
+    `partitionRelative` def is NON-VACUOUS.  Four theorems all
+    kernel-pure `[propext, Quot.sound]`:
+      * `exists_non_partition_relative` — `∃ A, ¬ A.partitionRelative`
+        constructible via explicit `nonFactorisingA` witness.
+      * `not_forall_partition_relative` — `¬ (∀ A, A.partitionRelative)`
+        follows from the above.
+      * `exists_partition_relative` — `∃ A, A.partitionRelative`
+        (the predicate is satisfiable, not universally-false).
+      * `case_bridge_uniform_not_derivable_without_atom` — kernel-
+        pure refutation of `∀ A, warrantForm = uniform →
+        A.partitionRelative` WITHOUT the `prw_uniform_to_pr` atom;
+        demonstrates the atomic stipulations carry genuine paper-
+        content.
 
   Gap ledger:
     AsymmetricEliminativism/Ledger.lean — typed record of every
@@ -102,3 +122,4 @@
 import AsymmetricEliminativism.Basic
 import AsymmetricEliminativism.Diagnostic
 import AsymmetricEliminativism.Impossibility
+import AsymmetricEliminativism.VacuityCheck
