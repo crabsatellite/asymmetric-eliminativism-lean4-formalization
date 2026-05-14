@@ -472,7 +472,7 @@ def gap_WarrantFeatureType_carrier : GapEntry := {
 }
 
 def gap_prw_uniform_to_pr : GapEntry := {
-  name := "prw_uniform_to_pr (v0.17.0 R26 substantive proof body)"
+  name := "prw_uniform_to_pr (v0.16.0 R24 derived theorem)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
@@ -615,44 +615,23 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "ranker witness yields partitionRelative consistently, NO " ++
       "`False`.  Substantive paper content preserved in " ++
       "`WarrantFeatureType` 9-case taxonomy + `admissibleIn` " ++
-      "scope axiom (R22 Fix B retained).",
-    "v0.17.0 R26 substantive proof body per round-26 brief " ++
-      "Tier 1 Part A (2026-05-14): R24 trivial proof body " ++
-      "`fun _ hW => hW.2` was paper-faithful per paper line " ++
-      "2109-2112's identification but lost paper's per-case " ++
-      "structural argument.  R26 introduces paper-cited per-case " ++
-      "Cat 3 `structuralEquation` axiom " ++
-      "`prw_uniform_factorisation_witness` carrying uniform's " ++
-      "case-distinctive constant-memberClass commitment (paper " ++
-      "lines 2127-2132 'constant assignment to {i,j} selects " ++
-      "single E_m globally').  Proof body now extracts case-" ++
-      "specific witnesses from the new axiom and constructs " ++
-      "`partitionRelative` from those witnesses (NOT trivial " ++
-      "`.2` projection).  Theorem status `gapClosed notInput " ++
-      "notCat3` retained (still a derived theorem); axiom " ++
-      "dependency profile changes from kernel-only to depending " ++
-      "on `prw_uniform_factorisation_witness`.  Substantive " ++
-      "paper-faithful per-case derivation per v6 §13 right-gap-" ++
-      "attack workflow + §18 R-#25 precedent.  R23 attack " ++
-      "remains ELIMINATED: new axiom does NOT require non-" ++
-      "degeneracy; uniformConstantRankerA satisfies it via " ++
-      "constant memberClass + constant featByClass (V13.b " ++
-      "machine-verified).  Build green; 0 sorry."
+      "scope axiom (R22 Fix B retained)."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.uniform → " ++
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
-    "novel `ArbitrationProcedure` carrier.  Derived theorem with " ++
-    "substantive proof body extracting case-specific witnesses " ++
-    "from the v0.17.0 R26 Cat 3 axiom " ++
-    "`prw_uniform_factorisation_witness` (paper-cited per paper " ++
-    "lines 2127-2132 constant-assignment structural commitment), " ++
-    "constructing `partitionRelative` from those witnesses.  " ++
-    "Paper-faithful per uniform's case-distinctive shape."
+    "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
+    "(v0.16.0 R24 axiom → theorem) with proof body " ++
+    "`fun _ hW => hW.2` per paper line 2109-2112 identification " ++
+    "of E-internality factorisation with partition-relative-" ++
+    "weighting at typed `\\label{def:warrant}` level.  Substantive " ++
+    "paper content of the uniform case (paper lines 2092-2102) " ++
+    "preserved in `WarrantFeatureType.uniform` constructor + " ++
+    "paper-cited case-prose justification."
 }
 
 def gap_prw_typeA_to_pr : GapEntry := {
-  name := "prw_typeA_to_pr (v0.17.0 R26 substantive proof body)"
+  name := "prw_typeA_to_pr (v0.16.0 R24 derived theorem)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
@@ -731,25 +710,14 @@ def gap_prw_typeA_to_pr : GapEntry := {
       "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
       "2109-2112 identification.  Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
-      "sub-type `structuralEquation` → `notCat3`.",
-    "v0.17.0 R26 substantive proof body per round-26 brief " ++
-      "Tier 1 Part A (2026-05-14): proof body refactored to " ++
-      "extract case-specific witnesses from new Cat 3 axiom " ++
-      "`prw_typeA_single_class_witness` (paper lines 2127-2131 " ++
-      "single-class-privileging structural commitment 'f belongs " ++
-      "to some E_m; R's appeal privileges E_m'), constructing " ++
-      "`partitionRelative` from those witnesses.  Theorem status " ++
-      "`gapClosed notInput notCat3` retained; axiom dependency " ++
-      "profile changes from kernel-only to depending on " ++
-      "`prw_typeA_single_class_witness`."
+      "sub-type `structuralEquation` → `notCat3`."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeA → " ++
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
-    "novel `ArbitrationProcedure` carrier.  Derived theorem with " ++
-    "substantive proof body extracting case-specific witnesses " ++
-    "from the v0.17.0 R26 Cat 3 axiom " ++
-    "`prw_typeA_single_class_witness` (paper lines 2127-2131)."
+    "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
+    "(v0.16.0 R24 axiom → theorem) with proof body " ++
+    "`fun _ hW => hW.2` per paper line 2109-2112."
 }
 
 def gap_prw_typeB_no_ranking : GapEntry := {
@@ -786,7 +754,7 @@ def gap_prw_typeB_no_ranking : GapEntry := {
 }
 
 def gap_prw_typeC1_to_pr : GapEntry := {
-  name := "prw_typeC1_to_pr (v0.17.0 R26 substantive proof body)"
+  name := "prw_typeC1_to_pr (v0.16.0 R24 derived theorem)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
@@ -895,30 +863,18 @@ def gap_prw_typeC1_to_pr : GapEntry := {
       "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
       "2109-2112 identification.  Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
-      "sub-type `structuralEquation` → `notCat3`.",
-    "v0.17.0 R26 substantive proof body per round-26 brief " ++
-      "Tier 1 Part A (2026-05-14): proof body refactored to " ++
-      "extract case-specific witnesses from new Cat 3 axiom " ++
-      "`prw_typeC1_R_fstar_routing_witness` (paper lines " ++
-      "2185-2218 R_{f^*}-routing structural commitment " ++
-      "'R_{f^*} routes by f*-values distributed unequally " ++
-      "across partition members'), constructing " ++
-      "`partitionRelative` from those witnesses.  Theorem status " ++
-      "`gapClosed notInput notCat3` retained; axiom dependency " ++
-      "profile changes from kernel-only to depending on " ++
-      "`prw_typeC1_R_fstar_routing_witness`."
+      "sub-type `structuralEquation` → `notCat3`."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeC1 → " ++
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
-    "novel `ArbitrationProcedure` carrier.  Derived theorem with " ++
-    "substantive proof body extracting case-specific witnesses " ++
-    "from the v0.17.0 R26 Cat 3 axiom " ++
-    "`prw_typeC1_R_fstar_routing_witness` (paper lines 2185-2218)."
+    "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
+    "(v0.16.0 R24 axiom → theorem) with proof body " ++
+    "`fun _ hW => hW.2` per paper line 2109-2112."
 }
 
 def gap_prw_typeC2_recursive_to_pr : GapEntry := {
-  name := "prw_typeC2_recursive_to_pr (v0.17.0 R26 substantive proof body)"
+  name := "prw_typeC2_recursive_to_pr (v0.16.0 R24 derived theorem)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
@@ -1019,27 +975,14 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
       "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
       "2109-2112 identification.  Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
-      "sub-type `structuralEquation` → `notCat3`.",
-    "v0.17.0 R26 substantive proof body per round-26 brief " ++
-      "Tier 1 Part A (2026-05-14): proof body refactored to " ++
-      "extract case-specific witnesses from new Cat 3 axiom " ++
-      "`prw_typeC2_recursive_termination_witness` (paper lines " ++
-      "2221-2228 recursive-termination structural commitment " ++
-      "'recursive descent terminates at (a)/(b)/(c.1)/(c.3); " ++
-      "none yields admissible adjudication-warrant within (H)'), " ++
-      "constructing `partitionRelative` from those witnesses.  " ++
-      "Theorem status `gapClosed notInput notCat3` retained; " ++
-      "axiom dependency profile changes from kernel-only to " ++
-      "depending on `prw_typeC2_recursive_termination_witness`."
+      "sub-type `structuralEquation` → `notCat3`."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeC2_recursive → " ++
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
-    "novel `ArbitrationProcedure` carrier.  Derived theorem with " ++
-    "substantive proof body extracting case-specific witnesses " ++
-    "from the v0.17.0 R26 Cat 3 axiom " ++
-    "`prw_typeC2_recursive_termination_witness` (paper lines " ++
-    "2221-2228)."
+    "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
+    "(v0.16.0 R24 axiom → theorem) with proof body " ++
+    "`fun _ hW => hW.2` per paper line 2109-2112."
 }
 
 def gap_prw_warrantInternalToE_excludes_typeC3 : GapEntry := {
@@ -1076,7 +1019,7 @@ def gap_prw_warrantInternalToE_excludes_typeC3 : GapEntry := {
 }
 
 def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
-  name := "prw_typeC4a_internal_track_to_pr (v0.17.0 R26 substantive proof body)"
+  name := "prw_typeC4a_internal_track_to_pr (v0.16.0 R24 derived theorem)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
@@ -1161,26 +1104,14 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
       "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
       "2109-2112 identification.  Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
-      "sub-type `structuralEquation` → `notCat3`.",
-    "v0.17.0 R26 substantive proof body per round-26 brief " ++
-      "Tier 1 Part A (2026-05-14): proof body refactored to " ++
-      "extract case-specific witnesses from new Cat 3 axiom " ++
-      "`prw_typeC4a_meta_reduction_witness` (paper lines " ++
-      "2244-2247 meta-level reduction structural commitment " ++
-      "'meta-criterion is type-(c) and recursively returns to " ++
-      "the trichotomy at the meta-level'), constructing " ++
-      "`partitionRelative` from those witnesses.  Theorem status " ++
-      "`gapClosed notInput notCat3` retained; axiom dependency " ++
-      "profile changes from kernel-only to depending on " ++
-      "`prw_typeC4a_meta_reduction_witness`."
+      "sub-type `structuralEquation` → `notCat3`."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeC4a_internal_track " ++
     "→ A.warrantInternalToE → A.partitionRelative` on the paper-" ++
-    "novel `ArbitrationProcedure` carrier.  Derived theorem with " ++
-    "substantive proof body extracting case-specific witnesses " ++
-    "from the v0.17.0 R26 Cat 3 axiom " ++
-    "`prw_typeC4a_meta_reduction_witness` (paper lines 2244-2247)."
+    "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
+    "(v0.16.0 R24 axiom → theorem) with proof body " ++
+    "`fun _ hW => hW.2` per paper line 2109-2112."
 }
 
 def gap_prw_warrantInternalToE_excludes_typeC4b : GapEntry := {
@@ -1837,7 +1768,7 @@ def gap_ArbitrationProcedure_partitionRelative_def : GapEntry := {
 }
 
 def gap_prw_contextual_to_pr : GapEntry := {
-  name := "prw_contextual_to_pr (v0.17.0 R26 substantive proof body)"
+  name := "prw_contextual_to_pr (v0.16.0 R24 derived theorem)"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
@@ -1926,297 +1857,14 @@ def gap_prw_contextual_to_pr : GapEntry := {
       "R24 entry); proof body `fun _ hW => hW.2` per paper line " ++
       "2109-2112 identification.  Status `gapDefinitional` → " ++
       "`gapClosed`; inputCategory `cat3PaperNovel` → `notInput`; " ++
-      "sub-type `structuralEquation` → `notCat3`.",
-    "v0.17.0 R26 substantive proof body per round-26 brief " ++
-      "Tier 1 Part A (2026-05-14): proof body refactored to " ++
-      "extract case-specific witnesses from new Cat 3 axiom " ++
-      "`prw_contextual_E_internal_mapping_witness` (paper lines " ++
-      "2293-2308 E-internal contextual mapping structural " ++
-      "commitment 'mapping (which E-features → which " ++
-      "operationalisation) is itself partition-relative " ++
-      "weighting'), constructing `partitionRelative` from those " ++
-      "witnesses.  Theorem status `gapClosed notInput notCat3` " ++
-      "retained; axiom dependency profile changes from kernel-" ++
-      "only to depending on " ++
-      "`prw_contextual_E_internal_mapping_witness`."
+      "sub-type `structuralEquation` → `notCat3`."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.contextual → " ++
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
-    "novel `ArbitrationProcedure` carrier.  Derived theorem with " ++
-    "substantive proof body extracting case-specific witnesses " ++
-    "from the v0.17.0 R26 Cat 3 axiom " ++
-    "`prw_contextual_E_internal_mapping_witness` (paper lines " ++
-    "2293-2308)."
-}
-
-/-! ### v0.17.0 R26 Tier 1 Part A — 6 per-case Cat 3
-     `structuralEquation` axioms encoding paper's per-case
-     structural commitments from `\\label{lem:prw}` proof body
-     (paper lines 2122-2349).
-
-  Each axiom is paper-cited per its case, carrying case-distinctive
-  structural content paper-line-cited per the per-case argument
-  in paper's exhaustiveness check.  The 6 case-bridge theorems
-  CONSTRUCT `partitionRelative` from these axioms' case-specific
-  witnesses; the proof bodies are SUBSTANTIVE (NOT trivial `.2`
-  projections).
-
-  All 6 axioms paper-faithful per paper's case-prose (NOT
-  R22-Fix-A-style non-degeneracy strengthenings that contradict
-  paper's uniform-case constant ranker); R23 attack remains
-  ELIMINATED.
--/
-
-def gap_prw_uniform_factorisation_witness : GapEntry := {
-  name := "prw_uniform_factorisation_witness (v0.17.0 R26 axiom)"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` uniform case (paper lines " ++
-    "2127-2132): 'Uniform case: $W$ assigns the same $k$ to all " ++
-    "disagreement-cases of $\\Op_i$ vs.\\ $\\Op_j$.  The constant " ++
-    "assignment to $\\{i,j\\}$ selects a single $E_m \\in " ++
-    "\\{E_i, E_j\\}$ as preferred globally, which is direct " ++
-    "single-$E_m$ privileging.'  The case-distinctive structural " ++
-    "shape encoded by this axiom: uniform's factorisation has " ++
-    "CONSTANT memberClass (paper 'constant assignment')."
-  attackHistory := [
-    "v0.17.0 R26 introduction (2026-05-14) per round-26 brief " ++
-      "Tier 1 Part A: paper-faithful per-case structural axiom " ++
-      "carrying uniform's case-distinctive constant-memberClass " ++
-      "commitment.  Axiom signature: " ++
-      "`warrantForm = uniform → warrantInternalToE → " ++
-      "∃ k₀ memberClass featByClass, " ++
-      "(∀ f, memberClass f = k₀) ∧ <factorisation>`.  The " ++
-      "constant-memberClass clause is paper-cited per paper " ++
-      "lines 2127-2132 'constant assignment to {i,j}'.",
-    "v0.17.0 R26 reductionism Cat 1?: CLEAR-NO — Mathlib has " ++
-      "no infrastructure for paper-stipulated case-specific " ++
-      "factorisation witnesses with constant memberClass on " ++
-      "paper-novel `ArbitrationProcedure` carrier.  Paper's " ++
-      "uniform-case structural commitment is paper-specific.",
-    "v0.17.0 R26 reductionism Cat 2?: CLEAR-NO — surveyed " ++
-      "external social-choice / arbitration / decision-theory " ++
-      "literature (Arrow 1951; Sen 1970; Gibbard-Satterthwaite; " ++
-      "Saari; Topkis; Brandom): no external textbook supplies " ++
-      "the per-case factorisation witness shape; encoding " ++
-      "transcribes Li 2026's paper-specific apparatus.",
-    "v0.17.0 R26 consistency-with-R23 verification: paper's " ++
-      "uniform case has CONSTANT ranker (paper lines 2127-2132 " ++
-      "'constant assignment'); R22 Fix A's non-degeneracy " ++
-      "strengthening contradicted this.  R26's axiom does NOT " ++
-      "claim non-degeneracy; it claims constant memberClass " ++
-      "(paper-faithful).  `uniformConstantRankerA` (constant " ++
-      "featureExtract = true; constant ranker = 0) satisfies " ++
-      "the axiom consistently via memberClass _ := 0, " ++
-      "featByClass _ := true.  V13.b machine-verified " ++
-      "`r26_r23_attack_still_eliminated : " ++
-      "uniformConstantRankerA.partitionRelative`."
-  ]
-  scope :=
-    "Cat 3 `structuralEquation` axiom: under `warrantForm = " ++
-    "uniform` and `warrantInternalToE`, paper-stated factorisation " ++
-    "witnesses exist with the case-distinctive constant-memberClass " ++
-    "commitment (paper lines 2127-2132).  Consumed by the " ++
-    "case-bridge theorem `prw_uniform_to_pr` to construct " ++
-    "`partitionRelative` from the axiom's specific witnesses.  " ++
-    "Status `gapDefinitional` (paper-stipulated definitional " ++
-    "content)."
-}
-
-def gap_prw_typeA_single_class_witness : GapEntry := {
-  name := "prw_typeA_single_class_witness (v0.17.0 R26 axiom)"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(a) case (paper lines " ++
-    "2127-2131): 'Type-(a): $f$ belongs to some $E_m$.  Then " ++
-    "$R$'s appeal to $f$ privileges $E_m$, and the resulting " ++
-    "ranking just is single-$E_m$ privileging.'  The case-" ++
-    "distinctive structural shape encoded by this axiom: typeA's " ++
-    "factorisation privileges a single paper-identified class $m$."
-  attackHistory := [
-    "v0.17.0 R26 introduction (2026-05-14) per round-26 brief " ++
-      "Tier 1 Part A: paper-faithful per-case structural axiom " ++
-      "carrying typeA's case-distinctive single-class-privileging " ++
-      "commitment.  Axiom signature: " ++
-      "`warrantForm = typeA → warrantInternalToE → " ++
-      "∃ m memberClass featByClass, " ++
-      "(∃ f_priv, memberClass f_priv = m) ∧ <factorisation>`.  " ++
-      "The single-class-privileging clause is paper-cited per " ++
-      "paper lines 2127-2131 'f belongs to some E_m, R's appeal " ++
-      "privileges E_m'.",
-    "v0.17.0 R26 reductionism Cat 1?: CLEAR-NO — Mathlib has " ++
-      "no infrastructure for paper-stipulated single-class " ++
-      "privileging on paper-novel carriers.",
-    "v0.17.0 R26 reductionism Cat 2?: CLEAR-NO — external " ++
-      "literature (Arrow / Sen / Brandom / Topkis) supplies no " ++
-      "equivalent on paper-novel `ArbitrationProcedure` carrier."
-  ]
-  scope :=
-    "Cat 3 `structuralEquation` axiom: under `warrantForm = " ++
-    "typeA` and `warrantInternalToE`, paper-stated factorisation " ++
-    "witnesses exist with the case-distinctive single-class-" ++
-    "privileging commitment (paper lines 2127-2131).  Consumed " ++
-    "by the case-bridge theorem `prw_typeA_to_pr`.  Status " ++
-    "`gapDefinitional`."
-}
-
-def gap_prw_typeC1_R_fstar_routing_witness : GapEntry := {
-  name := "prw_typeC1_R_fstar_routing_witness (v0.17.0 R26 axiom)"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(c.1) case (paper lines " ++
-    "2185-2218, esp. 2197-2203): 'the procedure ''adjudicate " ++
-    "$\\Op_i$ vs.\\ $\\Op_j$ by routing to whichever of $E_i, " ++
-    "E_j$ is higher under the $f^*$-induced ranking $R_{f^*}$'' " ++
-    "is a partition-relative weighting of $\\{E_1, \\ldots, " ++
-    "E_n\\}$ … $R_{f^*}$ is constructed from $f^*$-values " ++
-    "computed on each $E_i$; the construction depends on " ++
-    "$\\E$-internal features (the $f^*$-value of each $E_i$) " ++
-    "that are themselves distributed unequally across the " ++
-    "partition members.'  The case-distinctive structural shape " ++
-    "encoded by this axiom: typeC1's factorisation factors " ++
-    "through paper's R_{f^*}-routing apparatus."
-  attackHistory := [
-    "v0.17.0 R26 introduction (2026-05-14) per round-26 brief " ++
-      "Tier 1 Part A: paper-faithful per-case structural axiom " ++
-      "carrying typeC1's R_{f^*}-routing commitment per paper " ++
-      "lines 2197-2203.",
-    "v0.17.0 R26 reductionism Cat 1?: CLEAR-NO — Mathlib has " ++
-      "no infrastructure for paper-stipulated R_{f^*}-routing " ++
-      "on paper-novel carriers.",
-    "v0.17.0 R26 reductionism Cat 2?: CLEAR-NO — external " ++
-      "literature supplies no equivalent of paper's f^*-values-" ++
-      "per-class apparatus on paper-novel `ArbitrationProcedure` " ++
-      "carrier."
-  ]
-  scope :=
-    "Cat 3 `structuralEquation` axiom: under `warrantForm = " ++
-    "typeC1` and `warrantInternalToE`, paper-stated factorisation " ++
-    "witnesses exist paper-faithful per paper's R_{f^*}-routing " ++
-    "apparatus (paper lines 2185-2218).  Consumed by the case-" ++
-    "bridge theorem `prw_typeC1_to_pr`.  Status `gapDefinitional`."
-}
-
-def gap_prw_typeC2_recursive_termination_witness : GapEntry := {
-  name := "prw_typeC2_recursive_termination_witness (v0.17.0 R26 axiom)"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(c.2) recursive case " ++
-    "(paper lines 2221-2228): '(c.2) appeals to further " ++
-    "$\\E$-features to warrant the meta-choice (returning " ++
-    "recursively to the type-(a) / type-(b) / type-(c) " ++
-    "trichotomy at the meta-level) … Recursive appeal " ++
-    "terminates only at types (a), (b), (c.1), or (c.3); none " ++
-    "yields admissible adjudication-warrant within the " ++
-    "(H)-discourse-state.'  The case-distinctive structural " ++
-    "shape encoded by this axiom: typeC2's recursive descent " ++
-    "under (H) bottoms out at partition-relative case-forms."
-  attackHistory := [
-    "v0.17.0 R26 introduction (2026-05-14) per round-26 brief " ++
-      "Tier 1 Part A: paper-faithful per-case structural axiom " ++
-      "carrying typeC2's recursive-termination commitment per " ++
-      "paper lines 2221-2228.",
-    "v0.17.0 R26 reductionism Cat 1?: CLEAR-NO — Mathlib has " ++
-      "no infrastructure for paper-stipulated recursive " ++
-      "termination of meta-warrant descent on paper-novel " ++
-      "carriers.",
-    "v0.17.0 R26 reductionism Cat 2?: CLEAR-NO — external " ++
-      "literature supplies no equivalent on paper-novel " ++
-      "`ArbitrationProcedure` carrier."
-  ]
-  scope :=
-    "Cat 3 `structuralEquation` axiom: under `warrantForm = " ++
-    "typeC2_recursive` and `warrantInternalToE` (the " ++
-    "(H)-discourse-state), paper-stated factorisation witnesses " ++
-    "exist by paper's recursive termination at partition-relative " ++
-    "case-forms (paper lines 2221-2228).  Consumed by the " ++
-    "case-bridge theorem `prw_typeC2_recursive_to_pr`.  Status " ++
-    "`gapDefinitional`."
-}
-
-def gap_prw_typeC4a_meta_reduction_witness : GapEntry := {
-  name := "prw_typeC4a_meta_reduction_witness (v0.17.0 R26 axiom)"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` type-(c.4.a) case (paper lines " ++
-    "2244-2247): '(c.4.a) The track record is internal to $\\E$ " ++
-    "(uses only $\\E$-feature-based assessments of past cases): " ++
-    "then the meta-criterion is type-(c) and recursively returns " ++
-    "to the trichotomy at the meta-level.'  The case-distinctive " ++
-    "structural shape encoded by this axiom: typeC4a's meta-" ++
-    "level type-(c) reduction inherits partition-relative " ++
-    "factorisation."
-  attackHistory := [
-    "v0.17.0 R26 introduction (2026-05-14) per round-26 brief " ++
-      "Tier 1 Part A: paper-faithful per-case structural axiom " ++
-      "carrying typeC4a's meta-level reduction commitment per " ++
-      "paper lines 2244-2247.",
-    "v0.17.0 R26 reductionism Cat 1?: CLEAR-NO — Mathlib has " ++
-      "no infrastructure for paper-stipulated meta-level " ++
-      "type-(c) reduction on paper-novel carriers.",
-    "v0.17.0 R26 reductionism Cat 2?: CLEAR-NO — external " ++
-      "literature supplies no equivalent on paper-novel " ++
-      "`ArbitrationProcedure` carrier."
-  ]
-  scope :=
-    "Cat 3 `structuralEquation` axiom: under `warrantForm = " ++
-    "typeC4a_internal_track` and `warrantInternalToE`, paper-" ++
-    "stated factorisation witnesses exist by paper's meta-level " ++
-    "type-(c) reduction (paper lines 2244-2247).  Consumed by " ++
-    "the case-bridge theorem `prw_typeC4a_internal_track_to_pr`.  " ++
-    "Status `gapDefinitional`."
-}
-
-def gap_prw_contextual_E_internal_mapping_witness : GapEntry := {
-  name := "prw_contextual_E_internal_mapping_witness (v0.17.0 R26 axiom)"
-  status := GapStatus.gapDefinitional
-  inputCategory := InputCategory.cat3PaperNovel
-  cat3SubType := Cat3SubType.structuralEquation
-  paperSource :=
-    "Li 2026, `\\label{lem:prw}` contextual case (paper lines " ++
-    "2293-2308, esp. 2295-2302): 'In the $\\E$-internal " ++
-    "sub-case, contextual adjudication assigns each " ++
-    "disagreement-case to one of $\\Op_i, \\Op_j$ on the basis " ++
-    "of which $\\E$-features the case exhibits; the mapping " ++
-    "(which $\\E$-features → which operationalisation) is " ++
-    "itself a partition-relative weighting of the $E_i$ over " ++
-    "$\\Tcls$ … the choice ''use $E_i$-features when $x$ " ++
-    "exhibits property $f$, otherwise $E_j$-features'' embeds " ++
-    "an authority-ranking ($E_i$ is authoritative on " ++
-    "$f$-positive cases; $E_j$ on $f$-negative cases).'  The " ++
-    "case-distinctive structural shape encoded by this axiom: " ++
-    "contextual's E-feature-driven mapping IS the partition-" ++
-    "relative factorisation."
-  attackHistory := [
-    "v0.17.0 R26 introduction (2026-05-14) per round-26 brief " ++
-      "Tier 1 Part A: paper-faithful per-case structural axiom " ++
-      "carrying contextual's E-internal mapping commitment per " ++
-      "paper lines 2293-2308.",
-    "v0.17.0 R26 reductionism Cat 1?: CLEAR-NO — Mathlib has " ++
-      "no infrastructure for paper-stipulated E-feature-driven " ++
-      "contextual mapping on paper-novel carriers.",
-    "v0.17.0 R26 reductionism Cat 2?: CLEAR-NO — external " ++
-      "literature supplies no equivalent on paper-novel " ++
-      "`ArbitrationProcedure` carrier."
-  ]
-  scope :=
-    "Cat 3 `structuralEquation` axiom: under `warrantForm = " ++
-    "contextual` and `warrantInternalToE`, paper-stated " ++
-    "factorisation witnesses exist by paper's E-feature-driven " ++
-    "contextual mapping apparatus (paper lines 2293-2308).  " ++
-    "Consumed by the case-bridge theorem `prw_contextual_to_pr`.  " ++
-    "Status `gapDefinitional`."
+    "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
+    "(v0.16.0 R24 axiom → theorem) with proof body " ++
+    "`fun _ hW => hW.2` per paper line 2109-2112."
 }
 
 /-! ### Cat 3 paper-novel carrier types and predicates.
@@ -3838,17 +3486,6 @@ def allGaps : List GapEntry := [
   gap_prw_typeC4a_internal_track_to_pr,
   gap_prw_warrantInternalToE_excludes_typeC4b,
   gap_prw_contextual_to_pr,
-  -- v0.17.0 R26 Tier 1 Part A: 6 new Cat 3 `structuralEquation`
-  -- axioms encoding paper's per-case structural commitments
-  -- (paper lines 2122-2349 case-analysis).  Each axiom is
-  -- consumed by the corresponding case-bridge theorem
-  -- (substantive proof body, NOT trivial `.2` projection).
-  gap_prw_uniform_factorisation_witness,
-  gap_prw_typeA_single_class_witness,
-  gap_prw_typeC1_R_fstar_routing_witness,
-  gap_prw_typeC2_recursive_termination_witness,
-  gap_prw_typeC4a_meta_reduction_witness,
-  gap_prw_contextual_E_internal_mapping_witness,
   -- 2 paper-faithful definitional-equation `def`s tying paper
   -- scope conditions to the `WarrantFeatureType` taxonomy
   -- (v0.8.0 R5 Issue 3 substantive concretization).  The v0.11.0

@@ -43,8 +43,7 @@ arguments rest:
   (`AsymmetricEliminativism/Basic.lean`).
 
 Axioms are atomic minimal units.  Axiom history (7-round
-anti-pattern spiral, resolved at R24; R26 Tier 1 Part A extends
-Lean coverage):
+anti-pattern spiral, resolved at R24):
 
 - **v0.9.0 R7**: cosmetic Weighting carrier vacuity → R8 killed.
 - **v0.11.0 R14**: missing antecedent inconsistency → R15 killed.
@@ -57,17 +56,29 @@ Lean coverage):
   via constant-ranker contradiction.
 - **v0.16.0 R24**: FINAL HONEST CONVERGENCE — accept paper line
   2109-2112 typed-level trivialization; keep R22 Fix B
-  admissibleIn.  1 Cat 3 axiom total (admissibleIn only).
-- **v0.17.0 R26 Tier 1 Part A**: extend Lean coverage to paper's
-  per-case structural arguments (paper lines 2122-2349).  6 new
-  paper-cited Cat 3 `structuralEquation` axioms encoding paper's
-  per-case structural commitments (uniform constant-memberClass /
-  typeA single-class-privileging / typeC1 R_{f^*}-routing /
-  typeC2 recursive termination / typeC4a meta-level reduction /
-  contextual E-internal mapping).  6 case-bridges re-derived to
-  substantively consume the new axioms (NOT trivial `.2`).
-  R23 attack remains ELIMINATED.  **7 Cat 3 axioms total**
-  (admissibleIn + 6 per-case).
+  admissibleIn.  **1 Cat 3 axiom total** (admissibleIn only).
+- **v0.17.0 R26**: cosmetic Tier 1 Part A — 6 per-case Cat 3
+  axioms encoding paper case-analysis surface structure → R27
+  killed.  R27 hostile validator machine-verified that the 6
+  axioms add ZERO load-bearing content: `thm_impossibility`
+  remains provable kernel-pure WITHOUT any R26 axiom, using
+  only R24's `admissibleIn`; 4 of the 6 axioms had identical
+  propositional bodies; uniform axiom captured wrong level
+  (memberClass vs adjudicate); contradicted paper line 2213-2218
+  ("two surface forms of same failure").
+- **v0.18.0 R28**: HONEST REVERT of v0.17.0 R26 — content
+  restored to v0.16.0 R24 state per `feedback_truth_over_publication`
+  discipline.  6 R26 per-case axioms removed; 6 case-bridge
+  theorems back to `fun _ hW => hW.2`; VacuityCheck V13-V15
+  removed; `test/R27Audit.lean` deleted; history preserved
+  (R26 + R27 + R28 commits remain as iteration trail).
+  Lesson: paper's `lem:prw` at typed `\label{def:warrant}`
+  level is STRUCTURALLY TRIVIAL per paper line 2109-2112
+  identification.  Each fix-attempt (R7/R14/R16/R18/R20/R22/R23/R26
+  — 8-round spiral) at making it substantively non-trivial
+  introduces a different defect pattern.  Tier 1 Part A as
+  user-framed (case-analysis Lean-ification) DOES NOT
+  substantively extend Lean coverage beyond v0.16.0.
 
 **v0.16.0 R24 FINAL HONEST CONVERGENCE details.**  R23 hostile
 validator machine-verified that v0.15.0 R22 Fix A

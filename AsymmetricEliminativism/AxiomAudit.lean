@@ -31,42 +31,13 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.17.0 R26 Tier 1 Part A per round-26
-  brief: 6 new Cat 3 `structuralEquation` axioms encoding paper's
-  per-case structural commitments; v0.16.0 R24 FINAL HONEST
-  CONVERGENCE preserved structurally — case-bridges remain
-  derived theorems, but proof bodies now substantively use the
-  new per-case axioms; v0.15.0 R22 Fix B `admissibleIn`
-  retained; v0.15.0 R22 Fix A `partitionRelative` non-degeneracy
-  REVERTED; v0.14.0 R20 structural fix preserved; v0.13.0 R18
-  baseline structurally preserved; v0.12.0 R16 / v0.11.0 R14 /
-  v0.8.0 R5 paper-faithful structure preserved.
+  Inventory by category (v0.16.0 R24 FINAL HONEST CONVERGENCE per
+  round-24 brief; v0.15.0 R22 Fix B `admissibleIn` retained;
+  v0.15.0 R22 Fix A `partitionRelative` non-degeneracy REVERTED;
+  v0.14.0 R20 structural fix preserved; v0.13.0 R18 baseline
+  restored — 6 case-bridges derived theorems again; v0.12.0 R16 /
+  v0.11.0 R14 / v0.8.0 R5 paper-faithful structure preserved.
   Live counts: see `lake env lean AsymmetricEliminativism/Ledger.lean`).
-
-    **v0.17.0 R26 Tier 1 Part A** — extend Lean coverage beyond
-    R24 honest convergence.  6 paper-cited per-case Cat 3
-    `structuralEquation` axioms encoding paper's per-case
-    structural commitments from `\\label{lem:prw}` proof body
-    (paper lines 2122-2349):
-      - `prw_uniform_factorisation_witness` (paper 2127-2132 —
-        constant memberClass)
-      - `prw_typeA_single_class_witness` (paper 2127-2131 —
-        single-class privileging)
-      - `prw_typeC1_R_fstar_routing_witness` (paper 2185-2218 —
-        R_{f^*}-routing)
-      - `prw_typeC2_recursive_termination_witness` (paper
-        2221-2228 — recursive termination)
-      - `prw_typeC4a_meta_reduction_witness` (paper 2244-2247 —
-        meta-level reduction)
-      - `prw_contextual_E_internal_mapping_witness` (paper
-        2293-2308 — E-internal mapping)
-
-    6 case-bridge theorems re-derived to consume the new axioms
-    via case-specific witness extraction (NOT trivial `.2`).
-    Total Cat 3 axiom count: 1 (admissibleIn) → 7
-    (admissibleIn + 6 per-case).  R23 inconsistency remains
-    ELIMINATED: new axioms add paper-cited content WITHOUT
-    requiring non-degeneracy.
 
     **v0.16.0 R24 FINAL HONEST CONVERGENCE** — R23 hostile
     validator machine-verified that R22 Fix A (`partitionRelative`
@@ -109,22 +80,13 @@
         2109-2112 typed-level trivialization; keep R22 Fix B
         admissibleIn.
 
-    *Project has 7 Cat 3 axioms post-R26*:
+    *Project now has 1 Cat 3 axiom post-R24*:
     - 1 admissibleIn axiom: ArbitrationProcedure.admissibleIn
       (Cat 3 hypothesisPredicate; paper-stipulated scope-condition
-      predicate per paper line 1999-2002; R22 Fix B retained).
-    - 6 per-case structural-equation axioms (R26 Tier 1 Part A):
-      prw_uniform_factorisation_witness (paper 2127-2132),
-      prw_typeA_single_class_witness (paper 2127-2131),
-      prw_typeC1_R_fstar_routing_witness (paper 2185-2218),
-      prw_typeC2_recursive_termination_witness (paper 2221-2228),
-      prw_typeC4a_meta_reduction_witness (paper 2244-2247),
-      prw_contextual_E_internal_mapping_witness (paper 2293-2308).
-    The 6 case-bridges (uniform / typeA / typeC1 / typeC2_recursive
-    / typeC4a_internal_track / contextual) are still derived
-    theorems, but proof bodies now SUBSTANTIVELY consume the new
-    per-case axioms (extracting case-specific witnesses); NOT
-    trivial `.2` projections.
+      predicate per paper line 1999-2002).
+    The 6 case-bridges previously axiomatized under R22 are now
+    derived theorems again (R18/R24 form, proof body
+    `fun _ hW => hW.2`).
 
     **v0.13.0 R18 Honest Acceptance** — converted the 6 R16
     case-bridge `axiom` declarations to `theorem` declarations.
@@ -233,7 +195,7 @@
   `AsymmetricEliminativism.Ledger`.
 
   Per-theorem axiom dependency profile (verified by `#print
-  axioms` below; v0.17.0 R26 Tier 1 Part A):
+  axioms` below; v0.16.0 R24 FINAL HONEST CONVERGENCE):
 
     * Depends on no axioms whatsoever:
         satisfiesP3_of_boolean, bridging_dsc_iff_sc,
@@ -243,37 +205,29 @@
         predictsEliminate_of_all_yes,
         predictsEliminate_of_yes_weak_weak_with_indep,
         not_R2_satisfied_without_indep,
+        prw_uniform_to_pr (R24 derived theorem),
+        prw_typeA_to_pr (R24 derived theorem),
         prw_typeB_no_ranking (R5 Issue 3 derived),
+        prw_typeC1_to_pr (R24 derived theorem),
+        prw_typeC2_recursive_to_pr (R24 derived theorem),
+        prw_typeC4a_internal_track_to_pr (R24 derived theorem),
+        prw_contextual_to_pr (R24 derived theorem),
         prw_warrantInternalToE_excludes_typeC3,
-        prw_warrantInternalToE_excludes_typeC4b.
-
-    * Depends on per-case Cat 3 axiom ONLY (R26 substantive
-      proof body):
-        prw_uniform_to_pr → prw_uniform_factorisation_witness,
-        prw_typeA_to_pr → prw_typeA_single_class_witness,
-        prw_typeC1_to_pr → prw_typeC1_R_fstar_routing_witness,
-        prw_typeC2_recursive_to_pr
-          → prw_typeC2_recursive_termination_witness,
-        prw_typeC4a_internal_track_to_pr
-          → prw_typeC4a_meta_reduction_witness,
-        prw_contextual_to_pr
-          → prw_contextual_E_internal_mapping_witness.
-
-    * Depends on all 6 per-case Cat 3 axioms (composes them
-      via `match` case-exhaustion):
-        lem_prw_reduction,
+        prw_warrantInternalToE_excludes_typeC4b,
+        lem_prw_reduction (composes 9 derived theorems),
         no_partition_independent_admissible_warrant,
         ensemble_methods_fail_P2.
 
-    * Cat 3 axiom (NEW v0.15.0 R22 Fix B, RETAINED v0.16.0 R24
-      + R26):
+    * Cat 3 axiom (NEW v0.15.0 R22 Fix B, RETAINED v0.16.0 R24):
         ArbitrationProcedure.admissibleIn — paper-stipulated
         scope-condition predicate per paper `\label{thm:impossibility}`
         line 1999-2002 ("every arbitration procedure $A$
         admissible within $D$ for adjudicating operationalisations
         of $\C$").  Cat 3 `hypothesisPredicate` per v6 §3.4.2.
 
-    * Depends on admissibleIn + 6 per-case Cat 3 axioms (R26):
+    * Depends on admissibleIn ONLY (via `thm_impossibility` proof
+      body discharging admissibility from each P2 witness, then
+      applying `lem_prw_reduction`):
         thm_impossibility, thm_impossibility_paper_form,
         impossibility_uniform_family.
 
@@ -471,22 +425,3 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.VacuityCheck.uniformConstantRankerA_warrantInternalToE
 #print axioms AsymmetricEliminativism.VacuityCheck.uniformConstantRankerA_partitionRelative
 #print axioms AsymmetricEliminativism.VacuityCheck.r23_inconsistency_eliminated
-
--- v0.17.0 R26 Tier 1 Part A — V13 substantive proof body audits:
--- case-bridges now consume the new per-case Cat 3 axioms.  R23
--- attack remains ELIMINATED under R26's per-case axioms.
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_uniform_case_bridge_works_on_factorisingA
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_r23_attack_still_eliminated
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_lem_prw_reduction_on_factorisingA
-
--- v0.17.0 R26 V14 — each new axiom is consumable per case-bridge:
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_typeA_case_bridge_consumable
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_typeC1_case_bridge_consumable
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_typeC2_case_bridge_consumable
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_typeC4a_case_bridge_consumable
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_contextual_case_bridge_consumable
-
--- v0.17.0 R26 V15 — case-distinctive clauses paper-content
--- (R27-anticipated hostile validator check):
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_uniform_axiom_yields_constant_memberClass
-#print axioms AsymmetricEliminativism.VacuityCheck.r26_typeA_axiom_yields_single_class_privileging
