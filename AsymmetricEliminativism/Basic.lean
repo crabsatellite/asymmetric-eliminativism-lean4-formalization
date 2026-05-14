@@ -644,81 +644,92 @@ def ArbitrationProcedure.featureExtractsAreEInternal
         A.warrant.featureExtract x = featByClass (memberClass f)
 
 /-- Paper-faithful *partition-relative weighting* predicate per
-    `\label{def:warrant}` $\E$-internality clause + paper line
-    2168-2170 non-degeneracy commitment (v0.15.0 R22 dual-fix
-    strengthening per round-22 brief).
+    `\label{def:warrant}` $\E$-internality clause (v0.16.0 R24
+    final honest convergence per round-24 brief Step 1).
 
-    *v0.15.0 R22 Fix A — non-degeneracy strengthening.*  R21
-    hostile validator found that the v0.13.0 R18 / v0.14.0 R20
-    `partitionRelative := featureExtractsAreEInternal` (literally
-    identical RHS) lets `thm_impossibility` reduce to a 2-line
-    bypass `exact hNotPR (hH A).2` that projects
-    `featureExtractsAreEInternal` from `warrantInternalToE.2`
-    and uses it as a `partitionRelative` witness, bypassing all
-    R5/R14/R16/R18/R20 substantive machinery.  Root cause: V7
-    `partitionRelative_iff_featureExtractsAreEInternal := Iff.rfl`
-    makes them literally equal; the 6 case-bridges have proof
-    body `fun _ hW => hW.2`; `thm_impossibility` reduces to
-    `hNotPR (hH A).2`, depending on NO substantive case-bridge
-    content.
+    *v0.16.0 R24 REVERT of R22 Fix A — honest acceptance of
+    typed-level trivialization.*  R22 Fix A added a paper line
+    2168-2170 non-degeneracy conjunct (`∃ k₁ k₂ feat₁ feat₂,
+    ranker feat₁ = k₁ ∧ ranker feat₂ = k₂ ∧ k₁ ≠ k₂`).  R23
+    hostile validator machine-verified that this strengthening
+    broke paper's uniform case (paper lines 2127-2132): the
+    uniform case has CONSTANT adjudication (single $E_m$
+    privileging globally) and therefore degenerate ranker, but
+    the case-bridge axiom `prw_uniform_to_pr` under R22 derived
+    `partitionRelative` (including non-degeneracy) on the
+    uniform witness — yielding INCONSISTENCY (axiom + concrete
+    witness derived kernel-pure `False`).  R23 attack:
+      `uniform_case_bridge_inconsistency : False :=`
+        (uniformConstantRankerA satisfies uniform-form + WITE;
+         prw_uniform_to_pr → partitionRelative (including
+         non-degeneracy); but the constant ranker provably fails
+         non-degeneracy — contradiction)
+    documented in `test/R23Attack.lean`.
 
-    *Paper-faithful non-degeneracy reading.*  Paper line 2168-
-    2170 says "$R_{f^*}$ outputs an ordering of the $E_i$ in
-    which some $E_m$ ranks first by virtue of $E_m$'s $f^*$-
-    value, which is just the privileging-pattern P2 forbids".
-    This is a NON-DEGENERACY commitment: the partition-
-    relativity ranking actually DISTINGUISHES partition members
-    (some $E_m$ ranks first; some other $E_{m'}$ does not).
-    Without this distinguishing, the ranker is constant — a
-    DEGENERATE case where no partition member is preferred, in
-    which case the procedure does not adjudicate (paper option
-    (ii) failure mode, paper line 2133, captured separately by
-    `failsAdjudication`).
+    *Root-cause acknowledgment (R24).*  Paper's `lem:prw` at
+    typed `\label{def:warrant}` level is STRUCTURALLY TRIVIAL
+    (paper line 2109-2112 explicit identification of
+    E-internality factorisation with partition-relativity).
+    Prior rounds tried to make it substantively non-trivial via
+    encoding strengthenings; each strengthening relocated the
+    defect (R7 vacuity / R14 missing-antecedent / R16 trivial-
+    composite / R18 definitional smuggling / R20 universal-false
+    H / R22 uniform-case inconsistency).  The honest convergence
+    accepts the typed-level trivialization: `partitionRelative`
+    is literally `featureExtractsAreEInternal`; the case-bridges
+    become derived theorems (`fun _ hW => hW.2`); substantive
+    paper content lives in the `WarrantFeatureType` 9-constructor
+    taxonomy + `admissibleIn` Cat 3 hypothesisPredicate axiom
+    (R22 Fix B retained).
 
-    *Encoding.*  `partitionRelative` is the CONJUNCTION of:
-      (a) `featureExtractsAreEInternal`: $\phi_W$ factors through
-          $\E$-feature-membership (the R18/R14 paper-faithful
-          factorisation, paper lines 2099-2107);
-      (b) Non-degeneracy: there exist two partition-class indices
-          `k₁ ≠ k₂` and two FeatureSpace values `feat₁, feat₂`
-          such that `ranker feat₁ = k₁` AND `ranker feat₂ = k₂`
-          (paper line 2168-2170 "some $E_m$ ranks first by virtue
-          of $E_m$'s $f^*$-value").
+    *Encoding (R24 reverts to R18 form).*  `partitionRelative` is
+    literally `featureExtractsAreEInternal`: $\phi_W$ factors
+    through $\E$-feature-membership (paper lines 2099-2107 + the
+    paper line 2109-2112 identification).
 
-    The conjunction makes `partitionRelative` STRICTLY STRONGER
-    than `featureExtractsAreEInternal`: there exist procedures
-    with E-internal factoring but degenerate ranker (constant on
-    FeatureSpace), and those procedures fail `partitionRelative`
-    while still satisfying `featureExtractsAreEInternal`.
-
-    *Vacuity-test verdict.*  Both directions are non-vacuous:
-    - `∀ A, A.partitionRelative` is NOT provable: counter-
-      witness `nonFactorisingA` fails (a), and a degenerate-
-      ranker constant procedure fails (b).
-    - `∃ A, A.partitionRelative` is provable: explicit witness
-      `partitionRelativeA` (factoring featureExtract + 2-valued
-      ranker hitting both Fin 2 elements; see VacuityCheck.lean).
+    *Vacuity-test verdict (preserved across R24 revert).*  Both
+    directions are non-vacuous:
+    - `∀ A, A.partitionRelative` is NOT provable: counter-witness
+      `nonFactorisingA` (id-feature-extract, single-folk-object
+      exhibition) refutes the factorisation.
+    - `∃ A, A.partitionRelative` is provable: any constant
+      `featureExtract` trivially factorises.
 
     *Sub-type / status.*  Cat 3 paper-novel `structuralEquation`
     per v6 §3.4.3.  Status `gapDefinitional` — the predicate IS
-    paper's partition-relativity commitment, not a gap to close.
+    paper's E-internality factorisation commitment, not a gap to
+    close.
 
-    *R21 bypass blocked.*  Under the strengthened predicate, the
-    proof `exact hNotPR (hH A).2` no longer type-checks because
-    `(hH A).2 : featureExtractsAreEInternal`, not
-    `partitionRelative`.  Deriving `partitionRelative` from
-    `featureExtractsAreEInternal` requires the non-degeneracy
-    witness, which the case-bridges supply per paper case-
-    analysis (paper lines 2127-2270 for the 6 reducible cases). -/
+    *Why R24 is the convergence.*  Under R24:
+    - R23 `uniform_case_bridge_inconsistency` GONE: no non-
+      degeneracy to fail on the uniform witness; case-bridge is
+      a derived theorem (`fun _ hW => hW.2`), no axiom risk.
+    - R21 2-line bypass `(hH A hAdm).2` IS the canonical proof
+      — but it is paper-faithful per paper line 2109-2112's
+      identification.
+    - R19 4-binding rintro `⟨A, hNotPR, _, hWITE⟩` fails: P2's
+      3-conjunct body has `admissibleIn` at position 2, not
+      `warrantInternalToE`.
+    - R15 `prw_uniform_to_pr nonFactorisingA rfl` still requires
+      a `warrantInternalToE` proof, which `nonFactorisingA` does
+      not satisfy.
+    - admissibleIn predicate (R22 Fix B retained) makes
+      `DiscourseHypothesisH` non-vacuously-true and non-vacuously-
+      false depending on the discourse state.
+
+    Substantive paper content preserved in:
+    1. `WarrantFeatureType` 9-constructor taxonomy (Cat 3 carrier).
+    2. `admissibleIn` axiom restricting (H) scope (Cat 3
+       hypothesisPredicate; R22 Fix B retained).
+    3. `caseFormIsInternal` hypothesis (H) tag-exclusion (Cat 3
+       structuralEquation).
+    4. `featureExtractsAreEInternal` typed factorisation (Cat 3
+       structuralEquation). -/
 def ArbitrationProcedure.partitionRelative
     {FolkObj Tcls : Type}
     {Part : MutuallyUnrankedPartition FolkObj}
     (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
-  A.featureExtractsAreEInternal ∧
-  ∃ (k₁ k₂ : Fin Part.n) (feat₁ feat₂ : A.warrant.FeatureSpace),
-    A.warrant.ranker feat₁ = k₁ ∧
-    A.warrant.ranker feat₂ = k₂ ∧
-    k₁ ≠ k₂
+  A.featureExtractsAreEInternal
 
 /--
   *Warrant internal to `\\E`* — paper-faithful E-internality

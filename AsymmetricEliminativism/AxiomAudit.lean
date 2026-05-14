@@ -31,56 +31,62 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.15.0 R22 DUAL FIX per round-22 brief;
-  v0.14.0 R20 structural fix preserved where applicable; v0.13.0
-  R18 baseline superseded — case-bridges are Cat 3 axioms again;
-  v0.12.0 R16 / v0.11.0 R14 / v0.8.0 R5 paper-faithful structure
-  preserved.  Live counts: see `lake env lean
-  AsymmetricEliminativism/Ledger.lean`).
+  Inventory by category (v0.16.0 R24 FINAL HONEST CONVERGENCE per
+  round-24 brief; v0.15.0 R22 Fix B `admissibleIn` retained;
+  v0.15.0 R22 Fix A `partitionRelative` non-degeneracy REVERTED;
+  v0.14.0 R20 structural fix preserved; v0.13.0 R18 baseline
+  restored — 6 case-bridges derived theorems again; v0.12.0 R16 /
+  v0.11.0 R14 / v0.8.0 R5 paper-faithful structure preserved.
+  Live counts: see `lake env lean AsymmetricEliminativism/Ledger.lean`).
 
-    **v0.15.0 R22 DUAL FIX** — R21 hostile validator machine-
-    verified 2 critical defects in v0.14.0 R20:
-      DEFECT 1 (highest): V7 `partitionRelative_iff_featureExtractsAreEInternal
-        := Iff.rfl` lets `thm_impossibility` reduce to 2-line
-        bypass `exact hNotPR (hH A).2`, bypassing all R5/R14/
-        R16/R18/R20 substantive machinery.
-      DEFECT 2 (high): `DiscourseHypothesisH := ∀ A, warrantInternalToE`
-        is UNIVERSALLY FALSE for any non-trivial (Part, Op).
+    **v0.16.0 R24 FINAL HONEST CONVERGENCE** — R23 hostile
+    validator machine-verified that R22 Fix A (`partitionRelative`
+    non-degeneracy strengthening) introduced axiom inconsistency:
+    paper's uniform case (paper lines 2127-2132) has CONSTANT
+    single-$E_m$ adjudication (degenerate ranker by construction),
+    but R22's `prw_uniform_to_pr` axiom derived `partitionRelative`
+    (including non-degeneracy) on the uniform witness, yielding
+    kernel-pure `False`.  R24 final honest convergence:
 
-    R22 dual fix:
-    - Fix A: `partitionRelative` strengthened with paper line
-      2168-2170 non-degeneracy conjunct.  Now strictly stronger
-      than `featureExtractsAreEInternal`; case-bridges CANNOT
-      be proved by `And.right` projection; reinstated as Cat 3
-      axioms with paper-cited justification.
-    - Fix B: `admissibleIn` Cat 3 hypothesisPredicate axiom
-      restricting paper hypothesis (H) to admissible-within-D
-      procedures.  `DiscourseHypothesisH := ∀ A, admissibleIn
-      A Op → warrantInternalToE`.  `SatisfiesP2` adds an
-      `admissibleIn` conjunct.  `thm_impossibility` extracts
-      `hH A hAdm` for each P2 witness.
+    - REVERT R22 Fix A: `partitionRelative` reverts to R18 form,
+      literally `featureExtractsAreEInternal` (no non-degeneracy).
+      Per paper line 2109-2112, this identification IS paper-
+      faithful — paper's `lem:prw` at typed `\label{def:warrant}`
+      level is STRUCTURALLY TRIVIAL.
+
+    - KEEP R22 Fix B: `admissibleIn` axiom (Cat 3
+      hypothesisPredicate) + restricted `DiscourseHypothesisH :=
+      ∀ A, admissibleIn A Op → warrantInternalToE`.  Makes (H)
+      non-vacuously-true and non-vacuously-false depending on
+      the discourse state.
+
+    - 6 case-bridges converted back to derived theorems with
+      proof body `fun _ hW => hW.2`.  Anti-pattern #13 GENUINELY
+      BROKEN: zero Cat 3 axioms for the partition-relativity
+      derivation chain.
 
     Anti-pattern history:
-      - R7  v0.9.0: cosmetic Weighting → R8 killed.
-      - R14 v0.11.0: missing antecedent → R15 killed.
-      - R16 v0.12.0: composite predicate → R17 killed.
+      - R7  v0.9.0: cosmetic Weighting → R8 killed (vacuity).
+      - R14 v0.11.0: missing antecedent → R15 killed
+        (inconsistency).
+      - R16 v0.12.0: composite predicate → R17 killed
+        (trivialization).
       - R18 v0.13.0: definitional smuggling → R19 killed.
-      - R20 v0.14.0: P2 vs (H) restructure but partitionRelative
-        still literally = featureExtractsAreEInternal AND (H)
-        universally false → R21 killed (2 defects).
-      - R22 v0.15.0: DUAL FIX — partitionRelative strengthened
-        with non-degeneracy + admissibleIn predicate restricts
-        (H) → R23-target.
+      - R20 v0.14.0: 2-line bypass + (H) universal-false →
+        R21 killed (2 defects).
+      - R22 v0.15.0: uniform-case axiom inconsistency → R23
+        killed.
+      - R24 v0.16.0: HONEST CONVERGENCE — accept paper line
+        2109-2112 typed-level trivialization; keep R22 Fix B
+        admissibleIn.
 
-    *Project now has 7 Cat 3 axioms post-R22*:
-    - 6 case-bridge axioms (reinstated from R18 derived theorems
-      because partitionRelative is now strictly stronger than
-      featureExtractsAreEInternal): prw_uniform_to_pr, prw_typeA_to_pr,
-      prw_typeC1_to_pr, prw_typeC2_recursive_to_pr,
-      prw_typeC4a_internal_track_to_pr, prw_contextual_to_pr.
+    *Project now has 1 Cat 3 axiom post-R24*:
     - 1 admissibleIn axiom: ArbitrationProcedure.admissibleIn
       (Cat 3 hypothesisPredicate; paper-stipulated scope-condition
       predicate per paper line 1999-2002).
+    The 6 case-bridges previously axiomatized under R22 are now
+    derived theorems again (R18/R24 form, proof body
+    `fun _ hW => hW.2`).
 
     **v0.13.0 R18 Honest Acceptance** — converted the 6 R16
     case-bridge `axiom` declarations to `theorem` declarations.
@@ -189,7 +195,7 @@
   `AsymmetricEliminativism.Ledger`.
 
   Per-theorem axiom dependency profile (verified by `#print
-  axioms` below; v0.15.0 R22 DUAL FIX):
+  axioms` below; v0.16.0 R24 FINAL HONEST CONVERGENCE):
 
     * Depends on no axioms whatsoever:
         satisfiesP3_of_boolean, bridging_dsc_iff_sc,
@@ -199,33 +205,29 @@
         predictsEliminate_of_all_yes,
         predictsEliminate_of_yes_weak_weak_with_indep,
         not_R2_satisfied_without_indep,
+        prw_uniform_to_pr (R24 derived theorem),
+        prw_typeA_to_pr (R24 derived theorem),
         prw_typeB_no_ranking (R5 Issue 3 derived),
+        prw_typeC1_to_pr (R24 derived theorem),
+        prw_typeC2_recursive_to_pr (R24 derived theorem),
+        prw_typeC4a_internal_track_to_pr (R24 derived theorem),
+        prw_contextual_to_pr (R24 derived theorem),
         prw_warrantInternalToE_excludes_typeC3,
-        prw_warrantInternalToE_excludes_typeC4b.
+        prw_warrantInternalToE_excludes_typeC4b,
+        lem_prw_reduction (composes 9 derived theorems),
+        no_partition_independent_admissible_warrant,
+        ensemble_methods_fail_P2.
 
-    * Cat 3 axiom (reinstated v0.15.0 R22 per round-22 brief):
-        prw_uniform_to_pr, prw_typeA_to_pr, prw_typeC1_to_pr,
-        prw_typeC2_recursive_to_pr,
-        prw_typeC4a_internal_track_to_pr, prw_contextual_to_pr.
-      Each axiom carries the 6-case paper-cited per-case
-      structural reduction (paper lines 2092-2270).
-
-    * Cat 3 axiom (NEW v0.15.0 R22 per round-22 brief):
+    * Cat 3 axiom (NEW v0.15.0 R22 Fix B, RETAINED v0.16.0 R24):
         ArbitrationProcedure.admissibleIn — paper-stipulated
         scope-condition predicate per paper `\label{thm:impossibility}`
         line 1999-2002 ("every arbitration procedure $A$
         admissible within $D$ for adjudicating operationalisations
         of $\C$").  Cat 3 `hypothesisPredicate` per v6 §3.4.2.
 
-    * Depends on the 6 case-bridge axioms via
-      `lem_prw_reduction` case-exhaustion:
-        lem_prw_reduction, no_partition_independent_admissible_warrant,
-        ensemble_methods_fail_P2.
-
-    * Depends on the 6 case-bridge axioms + admissibleIn
-      (via `thm_impossibility` proof body discharging
-      admissibility from each P2 witness, then applying
-      `lem_prw_reduction`):
+    * Depends on admissibleIn ONLY (via `thm_impossibility` proof
+      body discharging admissibility from each P2 witness, then
+      applying `lem_prw_reduction`):
         thm_impossibility, thm_impossibility_paper_form,
         impossibility_uniform_family.
 
@@ -237,52 +239,55 @@
         VacuityCheck.case_bridge_uniform_unconditional_not_derivable,
         VacuityCheck.nonFactorisingA_not_warrantInternalToE,
         VacuityCheck.exists_uniform_not_warrantInternalToE,
-        VacuityCheck.partitionRelativeA_satisfies_all_antecedents
-          (R22 update: was factorisingA_*, now partitionRelativeA_*),
+        VacuityCheck.factorisingA_satisfies_all_antecedents,
         VacuityCheck.r15_attack_requires_unprovable_antecedent,
-        VacuityCheck.featureExtractsAreEInternal_does_not_imply_partitionRelative
-          (R22 V7 separation),
-        VacuityCheck.hW_dot_2_is_featureExtractsAreEInternal_not_partitionRelative
-          (R22 V11.b R21 bypass type analysis),
-        VacuityCheck.r21_bypass_blocked_by_separation
-          (R22 V11.c R21 bypass blocked by witness),
-        VacuityCheck.degenerateRankerA_not_partitionRelative
-          (R22 V12 non-degeneracy non-triviality),
-        VacuityCheck.partitionRelative_non_degeneracy_non_trivial
-          (R22 V12 corollary).
+        VacuityCheck.prw_uniform_to_pr_applied_to_factorisingA,
+        VacuityCheck.lem_prw_reduction_applied_to_factorisingA,
+        VacuityCheck.hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative
+          (R24 honest acknowledgment: `.2` projection IS canonical
+           reduction per paper line 2109-2112),
+        VacuityCheck.uniformConstantRankerA_warrantInternalToE,
+        VacuityCheck.uniformConstantRankerA_partitionRelative
+          (R24 V12 R23 inconsistency ELIMINATED — uniform-
+           constant-ranker witness IS partition-relative under
+           reverted def),
+        VacuityCheck.r23_inconsistency_eliminated
+          (R24 V12 capstone — replaces R22 `False`-derivation
+           inconsistency with consistent positive theorem).
+
+    * `partitionRelative_iff_featureExtractsAreEInternal`
+      (R24 V7 paper line 2109-2112 identification): does not
+      depend on any axioms (`Iff.rfl`).
 
     * Depends on `[propext, Quot.sound, admissibleIn]`
-      (R22 NEW; tests consuming the admissibleIn axiom):
+      (R22 Fix B retained; tests consuming the admissibleIn
+      axiom):
         VacuityCheck.r19_kill_destructuring_has_three_conjuncts,
         VacuityCheck.discourseHypothesisH_satisfiable_when_admissibleIn_empty,
         VacuityCheck.discourseHypothesisH_fails_when_admissibleIn_universal,
-        VacuityCheck.discourseHypothesisH_is_implication_typecheck.
-
-    * V8 (R22 update — applied to partitionRelativeA witness):
-      depends on `[propext, prw_uniform_to_pr, Quot.sound]` etc.:
-        VacuityCheck.prw_uniform_to_pr_applied_to_partitionRelativeA,
-        VacuityCheck.lem_prw_reduction_applied_to_partitionRelativeA.
-
-    * `partitionRelative_to_featureExtractsAreEInternal`
-      (R22 V7 forward direction): does not depend on any axioms
-      (`.1` projection).
+        VacuityCheck.discourseHypothesisH_is_implication_typecheck,
+        VacuityCheck.thm_impossibility_uses_H_via_admissibleIn.
 
   Any axiom outside the inventory above is a RED FLAG —
   investigate.
 
-  *Honest scope statement (v0.15.0 R22).*  After R22 DUAL FIX,
-  the project has 7 Cat 3 axioms (6 case-bridges + admissibleIn).
-  This is REINSTATEMENT (not anti-pattern #13): under v0.13.0 R18,
-  the case-bridges were derived theorems `fun _ hW => hW.2`
-  because `partitionRelative` was literally `featureExtractsAreEInternal`;
-  R21 hostile found that this trivialised the impossibility theorem.
-  R22 Fix A adds the paper-stipulated non-degeneracy clause (paper
-  line 2168-2170), making `partitionRelative` strictly stronger;
-  the case-bridges now carry genuine paper-content per case (paper
-  lines 2092-2270).
+  *Honest scope statement (v0.16.0 R24).*  After R24 FINAL HONEST
+  CONVERGENCE, the project has 1 Cat 3 axiom (admissibleIn only).
+  The 6 case-bridges previously axiomatized under R22 are now
+  derived theorems again.  This is the convergent endpoint of the
+  7-round anti-pattern spiral:
+  - R7→R8 cosmetic Weighting vacuity;
+  - R14→R15 missing antecedent inconsistency;
+  - R16→R17 composite predicate trivialization;
+  - R18→R19 definitional smuggling in SatisfiesP2;
+  - R20→R21 universally-false H + 2-line bypass;
+  - R22→R23 uniform-case non-degeneracy inconsistency;
+  - R24: HONEST CONVERGENCE — accept paper line 2109-2112's
+    typed-level identification; substantive content lives in
+    `WarrantFeatureType` taxonomy + `admissibleIn` scope axiom.
 
   What the typed Lean encoding captures of paper's substantive
-  content (v0.15.0 R22):
+  content (v0.16.0 R24):
    (a) the `WarrantFeatureType` 9-constructor taxonomy (Cat 3
        `carrier`, paper-cited per case);
    (b) the typed `Warrant` carrier structure (Cat 3 `carrier`,
@@ -296,29 +301,32 @@
    (e) the `warrantInternalToE` composite predicate
        `caseFormIsInternal ∧ featureExtractsAreEInternal`
        (Cat 3 `structuralEquation`);
-   (f) the `partitionRelative` STRENGTHENED predicate
-       `featureExtractsAreEInternal ∧ non-degeneracy` per
-       paper line 2168-2170 (R22 Fix A);
+   (f) the `partitionRelative` REVERTED predicate
+       `featureExtractsAreEInternal` per paper line 2109-2112
+       identification (R24 revert of R22 Fix A);
    (g) the `admissibleIn` Cat 3 hypothesisPredicate axiom (R22
-       Fix B; paper line 1999-2002);
+       Fix B retained; paper line 1999-2002);
    (h) the `DiscourseHypothesisH` predicate restricted to
        `∀ A, admissibleIn A Op → warrantInternalToE` (R22
-       Fix B refinement).
+       Fix B refinement retained).
 
-  *R22 substantive use of (H) in `thm_impossibility` proof.*
+  *R24 substantive use of (H) in `thm_impossibility` proof.*
   The proof body extracts the P2 witness `⟨A, hAdm, hNotPR,
-  hNotFails⟩` (4 bindings post-R22), applies `hH A hAdm` to
-  obtain `warrantInternalToE`, then threads through
+  hNotFails⟩` (4 bindings post-R22 + R24), applies `hH A hAdm`
+  to obtain `warrantInternalToE`, then threads through
   `lem_prw_reduction` to obtain `partitionRelative ∨
   failsAdjudication` (each disjunct contradicting one P2
-  conjunct).  Both R22 fixes are load-bearing:
-  - Without Fix A's non-degeneracy strengthening, `(hH A hAdm).2`
-    would project to `featureExtractsAreEInternal`, which is
-    literally `partitionRelative` (R18 V7 Iff.rfl), yielding
-    the R21 bypass.
-  - Without Fix B's admissibility restriction, `DiscourseHypothesisH`
-    is universally false; the impossibility theorem becomes
-    vacuously true (false antecedent → anything).
+  conjunct).  Under R24, the substantive content lives in:
+  - R22 Fix B retained: without admissibility restriction,
+    `DiscourseHypothesisH` is universally false; the impossibility
+    theorem becomes vacuously true (false antecedent → anything).
+  - R24 accepts the typed-level trivialization per paper line
+    2109-2112: `(hH A hAdm).2` IS the canonical 2-line reduction;
+    paper's `lem:prw` at typed level is paper-stated to be the
+    partition-relative-weighting factorisation.  Substantive paper
+    content lives in `WarrantFeatureType` 9-case taxonomy (which
+    classifies paper's actual case-analysis) + `admissibleIn`
+    scope axiom (which restricts (H) per paper line 1999-2002).
 
   Usage:
     lake exe cache get
@@ -392,25 +400,28 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.VacuityCheck.nonFactorisingA_not_warrantInternalToE
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_uniform_not_warrantInternalToE
 #print axioms AsymmetricEliminativism.VacuityCheck.r15_attack_requires_unprovable_antecedent
--- v0.15.0 R22 DUAL FIX tests — V5 positive instance updated to
--- use partitionRelativeA (with non-degenerate ranker):
-#print axioms AsymmetricEliminativism.VacuityCheck.partitionRelativeA_satisfies_all_antecedents
--- v0.15.0 R22 V7 separation (R18 Iff.rfl removed; partitionRelative
--- now strictly stronger than featureExtractsAreEInternal):
-#print axioms AsymmetricEliminativism.VacuityCheck.partitionRelative_to_featureExtractsAreEInternal
-#print axioms AsymmetricEliminativism.VacuityCheck.featureExtractsAreEInternal_does_not_imply_partitionRelative
--- v0.15.0 R22 V8 case-bridge transparency (R22 updated witness):
-#print axioms AsymmetricEliminativism.VacuityCheck.prw_uniform_to_pr_applied_to_partitionRelativeA
-#print axioms AsymmetricEliminativism.VacuityCheck.lem_prw_reduction_applied_to_partitionRelativeA
--- v0.15.0 R22 STRUCTURAL FIX tests (3-conjunct SatisfiesP2):
+-- v0.16.0 R24 V5 positive instance — factorisingA under reverted
+-- `partitionRelative = featureExtractsAreEInternal`:
+#print axioms AsymmetricEliminativism.VacuityCheck.factorisingA_satisfies_all_antecedents
+-- v0.16.0 R24 V7 — paper line 2109-2112 identification IS Iff.rfl:
+#print axioms AsymmetricEliminativism.VacuityCheck.partitionRelative_iff_featureExtractsAreEInternal
+-- v0.16.0 R24 V8 case-bridge derivation on factorisingA:
+#print axioms AsymmetricEliminativism.VacuityCheck.prw_uniform_to_pr_applied_to_factorisingA
+#print axioms AsymmetricEliminativism.VacuityCheck.lem_prw_reduction_applied_to_factorisingA
+-- v0.15.0 R22 Fix B STRUCTURAL FIX tests preserved (3-conjunct
+-- SatisfiesP2 with admissibleIn):
 #print axioms AsymmetricEliminativism.VacuityCheck.r19_kill_destructuring_has_three_conjuncts
--- v0.15.0 R22 V10 DiscourseHypothesisH non-vacuity:
+-- v0.15.0 R22 Fix B preserved — V10 DiscourseHypothesisH
+-- non-vacuity:
 #print axioms AsymmetricEliminativism.VacuityCheck.discourseHypothesisH_satisfiable_when_admissibleIn_empty
 #print axioms AsymmetricEliminativism.VacuityCheck.discourseHypothesisH_fails_when_admissibleIn_universal
--- v0.15.0 R22 V11 R21 bypass type-incorrect:
+-- v0.16.0 R24 V11 — honest acknowledgment that (hH A hAdm).2 IS
+-- the canonical 2-line bypass per paper line 2109-2112:
 #print axioms AsymmetricEliminativism.VacuityCheck.discourseHypothesisH_is_implication_typecheck
-#print axioms AsymmetricEliminativism.VacuityCheck.hW_dot_2_is_featureExtractsAreEInternal_not_partitionRelative
-#print axioms AsymmetricEliminativism.VacuityCheck.r21_bypass_blocked_by_separation
--- v0.15.0 R22 V12 non-degeneracy non-trivially constrains ranker:
-#print axioms AsymmetricEliminativism.VacuityCheck.degenerateRankerA_not_partitionRelative
-#print axioms AsymmetricEliminativism.VacuityCheck.partitionRelative_non_degeneracy_non_trivial
+#print axioms AsymmetricEliminativism.VacuityCheck.hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative
+#print axioms AsymmetricEliminativism.VacuityCheck.thm_impossibility_uses_H_via_admissibleIn
+-- v0.16.0 R24 V12 — R23 inconsistency ELIMINATED under reverted
+-- partitionRelative:
+#print axioms AsymmetricEliminativism.VacuityCheck.uniformConstantRankerA_warrantInternalToE
+#print axioms AsymmetricEliminativism.VacuityCheck.uniformConstantRankerA_partitionRelative
+#print axioms AsymmetricEliminativism.VacuityCheck.r23_inconsistency_eliminated

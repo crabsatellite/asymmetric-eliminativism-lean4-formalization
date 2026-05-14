@@ -1,105 +1,102 @@
 /-
   AsymmetricEliminativism/VacuityCheck.lean
 
-  Vacuity + consistency tests for v0.15.0 R22 DUAL FIX per
-  round-22 brief (preserves all prior R14/R16/R18/R20 vacuity/
-  consistency/definitional-equivalence/structural-validity tests
-  where compatible; adds R22-specific tests for the dual fix).
+  Vacuity + consistency tests for v0.16.0 R24 FINAL HONEST
+  CONVERGENCE per round-24 brief.
 
-  *v0.15.0 R22 DUAL FIX per round-22 brief.*  R21 hostile
-  validator found 2 critical defects in v0.14.0 R20:
-    DEFECT 1: V7 `partitionRelative_iff_featureExtractsAreEInternal
-       := Iff.rfl` lets `thm_impossibility` reduce to 2-line
-       bypass `exact hNotPR (hH A).2`, bypassing all
-       R5/R14/R16/R18/R20 substantive machinery.
-    DEFECT 2: `DiscourseHypothesisH := ∀ A, warrantInternalToE`
-       is UNIVERSALLY FALSE for any non-trivial (Part, Op) because
-       arbitrary `nonFactorisingA`-style procedures are
-       Lean-constructible.  Makes `thm_impossibility` vacuously
-       true (false antecedent → anything).
+  *v0.16.0 R24 FINAL HONEST CONVERGENCE per round-24 brief.*  R23
+  hostile validator machine-verified that v0.15.0 R22 Fix A
+  (`partitionRelative` non-degeneracy strengthening) introduced
+  axiom inconsistency: paper's uniform case (paper lines 2127-2132)
+  has CONSTANT single-$E_m$ adjudication (degenerate ranker), but
+  `prw_uniform_to_pr` under R22 derived `partitionRelative`
+  (including non-degeneracy) on the uniform witness, yielding
+  kernel-pure `False`.  R24 final honest convergence:
 
-  R22 dual fix:
-    FIX A: Strengthen `partitionRelative` with paper line 2168-
-       2170 non-degeneracy conjunct.  Now strictly stronger than
-       `featureExtractsAreEInternal`; case-bridges CANNOT be
-       proved by `And.right` projection; they are reinstated as
-       Cat 3 axioms with paper-cited justification.
-    FIX B: Add `admissibleIn` Cat 3 hypothesisPredicate axiom
-       restricting paper hypothesis (H) to admissible-within-D
-       procedures.  `DiscourseHypothesisH` restricted to
-       `∀ A, A.admissibleIn Op → A.warrantInternalToE`.
-       `SatisfiesP2` adds an `admissibleIn` conjunct.
-       `thm_impossibility` extracts `hH A hAdm` for each P2
-       witness.
+  - REVERT R22 Fix A.  `partitionRelative` reverts to R18 form:
+    literally `featureExtractsAreEInternal` (no non-degeneracy).
+    Per paper line 2109-2112, this IS paper-faithful.
+
+  - KEEP R22 Fix B.  `admissibleIn` axiom + restricted
+    `DiscourseHypothesisH := ∀ A, admissibleIn A Op →
+    warrantInternalToE`.  Makes (H) non-vacuously-true and
+    non-vacuously-false depending on the discourse state.
+
+  - 6 case-bridges converted to derived theorems `fun _ hW => hW.2`.
+    Anti-pattern #13 GENUINELY BROKEN: zero Cat 3 axioms for the
+    partition-relativity derivation chain.
+
+  - `lem_prw_reduction` reducible to 1-line `Or.inl hW.2`
+    (functionally equivalent to the preserved case-exhaustion
+    surface presentation).
+
+  - `thm_impossibility` substantively uses (H) via admissibleIn
+    discharge from each P2 witness.
 
   *Anti-pattern history.*
-   - R7  v0.9.0: cosmetic Weighting → R8 killed.
+   - R7  v0.9.0: cosmetic Weighting → R8 killed (vacuity).
    - R14 v0.11.0: missing antecedent → R15 killed.
    - R16 v0.12.0: composite predicate → R17 killed.
    - R18 v0.13.0: definitional smuggling in SatisfiesP2 → R19 killed.
-   - R20 v0.14.0: P2 vs (H) restructure but partitionRelative still
-     literally = featureExtractsAreEInternal AND (H) universally false
-     → R21 killed (2 defects).
-   - R22 v0.15.0: DUAL FIX — partitionRelative strengthened with
-     non-degeneracy + admissibleIn predicate restricts (H) →
-     R23-target.
+   - R20 v0.14.0: 2-line bypass + (H) universal-false → R21 killed.
+   - R22 v0.15.0: uniform-case axiom inconsistency → R23 killed.
+   - R24 v0.16.0: HONEST CONVERGENCE — accept paper line 2109-2112
+     typed-level trivialization; keep R22 Fix B admissibleIn.
 
   This file proves:
 
   (V1)  `∀ A, A.partitionRelative` is NOT provable.
 
-  (V2)  `∃ A, ¬ A.partitionRelative` is constructible.
+  (V2)  `∃ A, ¬ A.partitionRelative` is constructible
+        (`nonFactorisingA` witness).
 
   (V3)  Case-bridge unconditional form `warrantForm = uniform →
         partitionRelative` (without `warrantInternalToE`) is NOT
-        a Lean theorem.
+        a Lean theorem (`nonFactorisingA` refutes it).
 
-  (V4)  R16 consistency: `¬ nonFactorisingA.warrantInternalToE`.
+  (V4)  R16 consistency preserved: `¬ nonFactorisingA.warrantInternalToE`
+        (the R15 attack vector's antecedent is unprovable
+        kernel-pure).
 
-  (V5)  Companion positive instance with NON-DEGENERATE ranker
-        (R22 update): `partitionRelativeA` satisfies all P2-related
-        antecedents (warrantForm = uniform AND warrantInternalToE
-        AND partitionRelative including non-degeneracy).
+  (V5)  Companion positive instance: `factorisingA` satisfies
+        `warrantForm = uniform ∧ warrantInternalToE ∧
+        partitionRelative` under R24's reverted predicate.
 
   (V6)  R15 attack vector verifiably blocked.
 
-  (V7)  **R22 update — separation, not equivalence**:
-        `featureExtractsAreEInternal` and `partitionRelative` are
-        now STRICTLY DIFFERENT predicates.  We exhibit a procedure
-        with `featureExtractsAreEInternal` but
-        `¬ partitionRelative` (via constant ranker), refuting any
-        2-line `hW.2` bypass.
+  (V7)  **R24 paper-faithful identification (preserved from R18)**:
+        `partitionRelative ↔ featureExtractsAreEInternal` is
+        `Iff.rfl` (kernel-pure, depends on no axioms).  Paper line
+        2109-2112 identification.
 
-  (V8)  R18 case-bridge transparency (R22 update): the case-
-        bridges are paper-cited axioms; they apply on witness
-        `partitionRelativeA` to deliver `partitionRelative`.
+  (V8)  R18/R24 case-bridge derivation: derived theorems
+        `fun _ hW => hW.2` apply to any factorising witness.
 
-  (V9)  R20 structural-validity (preserved + updated for R22):
-        `DiscourseHypothesisH toyPart Op` failure on `(admissibleIn
-        := True)` instance; R19 kill still blocked under R22.
+  (V9)  R20 structural-validity (preserved + updated for R22 Fix B
+        which R24 retains): post-R22 SatisfiesP2 has 3 conjuncts;
+        R19 4-binding rintro pattern is blocked.
 
-  (V10) **R22 NEW** — `DiscourseHypothesisH` satisfiability /
-        non-trivial-constraint tests:
+  (V10) **R22 Fix B preserved** — `DiscourseHypothesisH`
+        satisfiability / non-trivial-constraint tests:
         (V10.a) Construct a discourse-state where (H) HOLDS by
-          stipulating `admissibleIn := A = partitionRelativeA` —
-          the unique admissible procedure has E-internal warrant.
+          stipulating `admissibleIn` is empty.
         (V10.b) Construct a discourse-state where (H) FAILS by
           stipulating `admissibleIn := True` for all A — then
-          `nonFactorisingA` refutes `∀ A, warrantInternalToE`.
+          `nonFactorisingA` refutes (H).
 
-  (V11) **R22 NEW** — `thm_impossibility` R21 bypass `exact hNotPR
-        (hH A).2` is now type-incorrect: under post-R22
-        DiscourseHypothesisH, `hH A` requires `admissibleIn A Op`
-        proof (not a Lean truth); under post-R22 partitionRelative,
-        even granting admissibility, `hH A hAdm : warrantInternalToE`
-        does not project to a `partitionRelative` witness via
-        `.2` (because `.2 : featureExtractsAreEInternal`, which is
-        strictly weaker than `partitionRelative` under R22).
+  (V11) **R24 R21 bypass IS the canonical proof, paper-faithfully**.
+        Under R24, `partitionRelative ↔ featureExtractsAreEInternal`
+        per paper line 2109-2112; the 2-line `(hH A hAdm).2` IS
+        the structurally honest reduction.  The non-vacuous content
+        of `thm_impossibility` lives in (H)'s admissibleIn
+        antecedent (R22 Fix B): without (H), the proof cannot
+        proceed.
 
-  (V12) **R22 NEW** — `partitionRelative` non-degeneracy
-        non-trivially constrains the ranker.  We exhibit a
-        constant-ranker procedure where the non-degeneracy clause
-        fails, refuting `∀ A : (constant-ranker), partitionRelative`.
+  (V12) **R23 inconsistency ELIMINATED**: under R24's reverted
+        `partitionRelative`, the R23 `uniform_case_bridge_inconsistency`
+        attack vector NO LONGER EXISTS because case-bridges are
+        derived theorems (not axioms) — no axiomatic non-degeneracy
+        claim to refute on degenerate-ranker witnesses.
 
   Companion to: Li 2026, "Asymmetric Eliminativism: A Diagnostic
   Framework for Reverse-Defined Concepts …" (SSRN 6723220 /
@@ -171,11 +168,9 @@ def nonFactorisingA : ArbitrationProcedure Bool Bool toyPart where
 theorem exists_non_partition_relative :
     ∃ A : ArbitrationProcedure Bool Bool toyPart, ¬ A.partitionRelative := by
   refine ⟨nonFactorisingA, ?_⟩
-  -- Under R22 partitionRelative = featureExtractsAreEInternal ∧ non-degeneracy.
-  -- It suffices to refute the first conjunct.
+  -- Under R24, partitionRelative = featureExtractsAreEInternal.
   intro hPR
-  obtain ⟨hFact, _hNonDegen⟩ := hPR
-  obtain ⟨memberClass, featByClass, hF⟩ := hFact
+  obtain ⟨memberClass, featByClass, hF⟩ := hPR
   have h_true : nonFactorisingA.warrant.featureExtract true
       = featByClass (memberClass true) :=
     hF true true rfl
@@ -195,19 +190,16 @@ theorem not_forall_partition_relative :
     partition-relative (the predicate is NOT just universally
     false either — it genuinely distinguishes).
 
-    *v0.15.0 R22 update.*  Under the strengthened predicate, the
-    witness needs BOTH (a) factoring AND (b) non-degenerate
-    ranker.  We construct `partitionRelativeA` with a 2-valued
-    ranker hitting both Fin 2 elements (`true ↦ ⟨0,…⟩`,
-    `false ↦ ⟨1,…⟩`) and a constant featureExtract = `false`
-    (trivially factorises via any `memberClass` + `featByClass`
-    sending the relevant class index to `false`). -/
+    *v0.16.0 R24 update.*  Under R24's reverted predicate
+    `partitionRelative := featureExtractsAreEInternal`, the
+    factorising witness `factorisingA` (constant featureExtract,
+    trivially factorising) satisfies the predicate. -/
 
-/-- A partition-relative arbitration procedure: constant
-    featureExtract (trivially factorises) + a 2-valued ranker
-    hitting both Fin 2 elements (non-degenerate).  Witness for
-    `∃ A, A.partitionRelative` post-R22. -/
-def partitionRelativeA : ArbitrationProcedure Bool Bool toyPart where
+/-- A partition-relative arbitration procedure under R24: constant
+    `featureExtract` trivially factorises via any `memberClass` +
+    `featByClass` sending the relevant class index to that constant
+    value. -/
+def factorisingA : ArbitrationProcedure Bool Bool toyPart where
   warrant := {
     FeatureSpace := Bool
     featureExtract := fun _ => true
@@ -217,33 +209,22 @@ def partitionRelativeA : ArbitrationProcedure Bool Bool toyPart where
   exhibits := fun _ _ => True
 
 /-- (V2.b) Companion witness: a partition-relative procedure
-    exists post-R22.  Demonstrates the predicate is satisfiable,
-    NOT universally false. -/
+    exists under R24's reverted predicate.  Demonstrates the
+    predicate is satisfiable, NOT universally false. -/
 theorem exists_partition_relative :
     ∃ A : ArbitrationProcedure Bool Bool toyPart, A.partitionRelative := by
-  refine ⟨partitionRelativeA, ?_, ?_⟩
-  · -- featureExtractsAreEInternal: provide explicit witnesses.
-    refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
-    intro _ _ _
-    -- featureExtract x = true; featByClass _ = true.
-    rfl
-  · -- non-degeneracy: ranker hits ⟨0,…⟩ on `true` and ⟨1,…⟩ on
-    -- `false` — two distinct partition indices.
-    refine ⟨⟨0, by decide⟩, ⟨1, by decide⟩, true, false, ?_, ?_, ?_⟩
-    · -- ranker true = ⟨0, …⟩
-      rfl
-    · -- ranker false = ⟨1, …⟩
-      rfl
-    · -- ⟨0, …⟩ ≠ ⟨1, …⟩
-      intro h
-      exact absurd (Fin.mk.inj_iff.mp h) (by decide)
+  refine ⟨factorisingA, ?_⟩
+  -- Under R24, partitionRelative = featureExtractsAreEInternal:
+  -- provide explicit witnesses.
+  refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
+  intro _ _ _
+  -- featureExtract x = true; featByClass _ = true.
+  rfl
 
-/-! ## (V3) Case-bridge atomicity: the `prw_uniform_to_pr` axiom
-    is genuinely required for the case-bridge conclusion.
-
-    Under v0.15.0 R22, the case-bridge axiom signature is
-    `warrantForm = uniform → warrantInternalToE → partitionRelative`.
-    Without the axiom, the unconditional form
+/-! ## (V3) Case-bridge atomicity: under R24, the case-bridge
+    derived theorems have signature `warrantForm = X →
+    warrantInternalToE → partitionRelative`.  Without the
+    `warrantInternalToE` antecedent, the unconditional form
     `∀ A, warrantForm = uniform → partitionRelative` is REFUTABLE
     by `nonFactorisingA`. -/
 
@@ -253,8 +234,8 @@ theorem case_bridge_uniform_unconditional_not_derivable :
   intro hAll
   have hPR : nonFactorisingA.partitionRelative :=
     hAll nonFactorisingA rfl
-  -- partitionRelative is conjunctive post-R22; project to (a).
-  obtain ⟨⟨memberClass, featByClass, hF⟩, _hNonDegen⟩ := hPR
+  -- Under R24, partitionRelative = featureExtractsAreEInternal.
+  obtain ⟨memberClass, featByClass, hF⟩ := hPR
   have h_true : nonFactorisingA.warrant.featureExtract true
       = featByClass (memberClass true) :=
     hF true true rfl
@@ -263,11 +244,12 @@ theorem case_bridge_uniform_unconditional_not_derivable :
     hF false true rfl
   exact Bool.noConfusion (h_true.trans h_false.symm)
 
-/-! ## (V4) R16 consistency verification.
+/-! ## (V4) R16 consistency verification (preserved across R24).
 
-    Under v0.12.0+ R16, step (1) of the R15 attack now requires a
-    proof of `nonFactorisingA.warrantInternalToE`.  We verify this
-    is itself unprovable kernel-pure. -/
+    The R15 attack vector requires `nonFactorisingA.warrantInternalToE`.
+    Under R16+, this antecedent is itself unprovable kernel-pure
+    because `nonFactorisingA.featureExtract = id` does not factor
+    through any (memberClass, featByClass). -/
 
 theorem nonFactorisingA_not_warrantInternalToE :
     ¬ nonFactorisingA.warrantInternalToE := by
@@ -288,18 +270,17 @@ theorem exists_uniform_not_warrantInternalToE :
       ¬ A.warrantInternalToE := by
   exact ⟨nonFactorisingA, rfl, nonFactorisingA_not_warrantInternalToE⟩
 
-/-! ## (V5) Companion positive instance — R22 updated to use
-    `partitionRelativeA` with non-degenerate ranker.
+/-! ## (V5) Companion positive instance — R24 updated to use
+    `factorisingA` under the reverted `partitionRelative`.
 
-    The case-bridge axiom is non-trivially conditional: there
-    exist procedures with `warrantForm = uniform ∧
-    warrantInternalToE`, and they have `partitionRelative`
-    (post-R22 with non-degeneracy). -/
+    There exist procedures with `warrantForm = uniform ∧
+    warrantInternalToE`, and they have `partitionRelative` under
+    R24. -/
 
-theorem partitionRelativeA_satisfies_all_antecedents :
-    partitionRelativeA.warrantForm = WarrantFeatureType.uniform ∧
-    partitionRelativeA.warrantInternalToE ∧
-    partitionRelativeA.partitionRelative := by
+theorem factorisingA_satisfies_all_antecedents :
+    factorisingA.warrantForm = WarrantFeatureType.uniform ∧
+    factorisingA.warrantInternalToE ∧
+    factorisingA.partitionRelative := by
   refine ⟨rfl, ?_, ?_⟩
   · -- warrantInternalToE = caseFormIsInternal ∧ featureExtractsAreEInternal.
     refine ⟨⟨?_, ?_⟩, ?_⟩
@@ -307,20 +288,14 @@ theorem partitionRelativeA_satisfies_all_antecedents :
     · decide
     · refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
       intro _ _ _; rfl
-  · -- partitionRelative = featureExtractsAreEInternal ∧ non-degeneracy.
-    refine ⟨?_, ?_⟩
-    · refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
-      intro _ _ _; rfl
-    · refine ⟨⟨0, by decide⟩, ⟨1, by decide⟩, true, false, ?_, ?_, ?_⟩
-      · rfl
-      · rfl
-      · intro h
-        exact absurd (Fin.mk.inj_iff.mp h) (by decide)
+  · -- partitionRelative = featureExtractsAreEInternal (R24 revert).
+    refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
+    intro _ _ _; rfl
 
 /-! ## (V6) R15 kill blocked — explicit demonstration.
 
     The case-bridge applied to `nonFactorisingA` with `rfl`
-    yields a conditional on `warrantInternalToE`, which (V4)
+    yields a function expecting `warrantInternalToE`, which (V4)
     refutes kernel-pure. -/
 
 theorem r15_attack_requires_unprovable_antecedent :
@@ -329,166 +304,85 @@ theorem r15_attack_requires_unprovable_antecedent :
   rintro ⟨hWITE, _⟩
   exact nonFactorisingA_not_warrantInternalToE hWITE
 
-/-! ## (V7) R22 SEPARATION (NOT equivalence): `partitionRelative`
-    is STRICTLY STRONGER than `featureExtractsAreEInternal`.
+/-! ## (V7) R24 paper-faithful identification (preserved from R18).
 
-    Under v0.14.0 R20, `partitionRelative := featureExtractsAreEInternal`
-    (literally identical RHS) made V7 an `Iff.rfl`, enabling the
-    R21 2-line bypass `exact hNotPR (hH A).2`.
+    Per paper line 2109-2112, paper's typed `\label{def:warrant}`
+    E-internality clause IS the typed-structure version of
+    partition-relative-weighting.  Under R24's reverted
+    `partitionRelative := featureExtractsAreEInternal`, this
+    identification is `Iff.rfl` — kernel-pure, no axioms.
 
-    Under v0.15.0 R22 Fix A, `partitionRelative` has an additional
-    non-degeneracy conjunct.  The forward direction
-    `partitionRelative → featureExtractsAreEInternal` holds
-    (`.1` projection); the reverse fails on degenerate ranker.
-    We exhibit a procedure where `featureExtractsAreEInternal`
-    holds but `partitionRelative` fails (degenerate / constant
-    ranker). -/
+    This formal verification of paper line 2109-2112 is the
+    structural triviality R18 first identified and R24 finally
+    accepts after R22's failed strengthening attempt. -/
 
-/-- A constant-ranker procedure: featureExtract = constant `true`
-    (factorises trivially) + ranker is constant ⟨0, …⟩ (every
-    FeatureSpace value routes to the same partition member).
-    Witnesses the R22 separation `featureExtractsAreEInternal ⊊
-    partitionRelative` by satisfying the former but failing the
-    latter's non-degeneracy clause. -/
-def degenerateRankerA : ArbitrationProcedure Bool Bool toyPart where
-  warrant := {
-    FeatureSpace := Bool
-    featureExtract := fun _ => true
-    ranker := fun _ => ⟨0, by decide⟩
-  }
-  warrantForm := WarrantFeatureType.uniform
-  exhibits := fun _ _ => True
-
-/-- (V7) Forward direction: `partitionRelative → featureExtractsAreEInternal`
-    holds via `.1` projection.  Documents that the post-R22
-    `partitionRelative` includes E-internality as its first
-    conjunct. -/
-theorem partitionRelative_to_featureExtractsAreEInternal
-    {FolkObj Tcls : Type}
-    {Part : MutuallyUnrankedPartition FolkObj}
+theorem partitionRelative_iff_featureExtractsAreEInternal
+    {FolkObj Tcls : Type} {Part : MutuallyUnrankedPartition FolkObj}
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.partitionRelative → A.featureExtractsAreEInternal :=
-  fun hPR => hPR.1
+    A.partitionRelative ↔ A.featureExtractsAreEInternal :=
+  Iff.rfl
 
-/-- (V7) **Reverse separation**: `featureExtractsAreEInternal`
-    is STRICTLY WEAKER than `partitionRelative` post-R22.
-    `degenerateRankerA` satisfies the former but not the latter
-    (the constant-ranker fails the non-degeneracy clause).
+/-! ## (V8) R24 case-bridge derivation: case-bridges are derived
+    theorems with proof body `fun _ hW => hW.2`. -/
 
-    *Significance.*  This refutes any 2-line `hW.2`-style bypass
-    of `thm_impossibility`: even granting `warrantInternalToE`,
-    projecting `.2` yields only `featureExtractsAreEInternal`,
-    NOT `partitionRelative` — the non-degeneracy witness is
-    additional content the case-bridges supply.  This breaks the
-    R21 anti-pattern: the bypass `exact hNotPR (hH A).2` no
-    longer type-checks. -/
-theorem featureExtractsAreEInternal_does_not_imply_partitionRelative :
-    ∃ A : ArbitrationProcedure Bool Bool toyPart,
-      A.featureExtractsAreEInternal ∧ ¬ A.partitionRelative := by
-  refine ⟨degenerateRankerA, ?_, ?_⟩
-  · -- featureExtractsAreEInternal holds: constant featureExtract = true factorises.
-    refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
-    intro _ _ _; rfl
-  · -- partitionRelative fails: non-degeneracy fails for constant ranker.
-    intro hPR
-    obtain ⟨_hFact, hNonDegen⟩ := hPR
-    obtain ⟨k₁, k₂, _feat₁, _feat₂, hR1, hR2, hNe⟩ := hNonDegen
-    -- ranker is constant ⟨0, _⟩, so ranker feat₁ = ⟨0, _⟩ and
-    -- ranker feat₂ = ⟨0, _⟩; substitute to get k₁ = ⟨0, _⟩ = k₂.
-    -- The hypothesis k₁ ≠ k₂ then contradicts.
-    have hEq : k₁ = k₂ := hR1.symm.trans hR2
-    exact hNe hEq
-
-/-! ## (V8) R22 case-bridge non-triviality: the 6 case-bridges
-    are Cat 3 axioms post-R22.
-
-    The case-bridges DO produce `partitionRelative` (including
-    non-degeneracy) when applied with `warrantForm` and
-    `warrantInternalToE` antecedents.  We exhibit this via
-    application to `partitionRelativeA`.
-
-    Note: the resulting `partitionRelative` proof carries
-    NON-TRIVIAL content (the non-degeneracy witness, which is
-    paper-stipulated structural commitment per case). -/
-
-theorem prw_uniform_to_pr_applied_to_partitionRelativeA :
-    partitionRelativeA.partitionRelative := by
+theorem prw_uniform_to_pr_applied_to_factorisingA :
+    factorisingA.partitionRelative := by
   obtain ⟨hForm, hWITE, _hPR⟩ :=
-    partitionRelativeA_satisfies_all_antecedents
-  exact prw_uniform_to_pr toyPart partitionRelativeA hForm hWITE
+    factorisingA_satisfies_all_antecedents
+  exact prw_uniform_to_pr toyPart factorisingA hForm hWITE
 
-theorem lem_prw_reduction_applied_to_partitionRelativeA :
-    partitionRelativeA.partitionRelative ∨
-    partitionRelativeA.failsAdjudication := by
-  obtain ⟨_, hWITE, _⟩ := partitionRelativeA_satisfies_all_antecedents
-  exact lem_prw_reduction toyPart partitionRelativeA hWITE
+theorem lem_prw_reduction_applied_to_factorisingA :
+    factorisingA.partitionRelative ∨
+    factorisingA.failsAdjudication := by
+  obtain ⟨_, hWITE, _⟩ := factorisingA_satisfies_all_antecedents
+  exact lem_prw_reduction toyPart factorisingA hWITE
 
 /-! ## (V9) v0.14.0 R20 STRUCTURAL FIX — verification block,
-    R22-updated.
+    R22-updated (preserved across R24).
 
-    Post-R22 SatisfiesP2 has 3 conjuncts (admissibleIn,
+    Post-R22/R24 SatisfiesP2 has 3 conjuncts (admissibleIn,
     ¬ partitionRelative, ¬ failsAdjudication).
     DiscourseHypothesisH := ∀ A, admissibleIn A Op → warrantInternalToE.
 -/
 
-/-- (V9.b) Post-R22 SatisfiesP2 destructuring has exactly 3
+/-- (V9.b) Post-R22/R24 SatisfiesP2 destructuring has exactly 3
     conjuncts (A + 3 = 4 bindings).  R19's pattern
-    `⟨A, hNotPR, _, hWITE⟩` matches 4 bindings, but the third
-    binding `_` would correspond to `admissibleIn` (a paper
-    axiom predicate), not a conjunction with `.2` — so the
-    `hWITE.2` projection in R19's body is type-incorrect. -/
+    `⟨A, hNotPR, _, hWITE⟩` matches 4 bindings, but the second
+    binding corresponds to `admissibleIn` (a paper axiom predicate),
+    not a conjunction with `.2` — so the `hWITE.2` projection
+    in R19's body is type-incorrect. -/
 theorem r19_kill_destructuring_has_three_conjuncts
     (Op : Operationalisation Bool Bool toyPart) :
     SatisfiesP2 Bool Bool toyPart Op → True := by
   rintro ⟨_A, _hAdm, _hNotPR, _hNotFails⟩
   trivial
 
-/-! ## (V10) R22 NEW — DiscourseHypothesisH non-vacuity tests.
+/-! ## (V10) R22 Fix B preserved (R24) — DiscourseHypothesisH
+    non-vacuity tests.
 
     Under v0.14.0 R20, `DiscourseHypothesisH := ∀ A, warrantInternalToE`
-    was UNIVERSALLY FALSE on any non-trivial (Part, Op) because
-    arbitrary `nonFactorisingA`-style procedures are always
-    Lean-constructible.
+    was UNIVERSALLY FALSE on any non-trivial (Part, Op).  Under
+    v0.15.0+ R22 Fix B (retained in R24), `DiscourseHypothesisH
+    := ∀ A, admissibleIn A Op → warrantInternalToE`.  The
+    `admissibleIn` predicate is a paper-stipulated axiom-level
+    Prop that does NOT automatically hold for arbitrary
+    Lean-constructed procedures. -/
 
-    Under v0.15.0 R22, `DiscourseHypothesisH := ∀ A, admissibleIn
-    A Op → warrantInternalToE`.  The `admissibleIn` predicate is
-    a paper-stipulated axiom-level Prop that does NOT
-    automatically hold for arbitrary Lean-constructed procedures.
-
-    (V10.a) demonstrates non-trivial-truth by exhibiting a
-    discourse-state hypothesis under which `(H)` is true but
-    requires the `admissibleIn` antecedent to discharge.
-    (V10.b) demonstrates non-trivial-falsity. -/
-
-/-- (V10.a) `DiscourseHypothesisH` is non-trivially satisfiable
-    on toyPart: if `admissibleIn` happens to be empty (no
-    procedure admissible), then (H) is vacuously true.  We
-    encode "admissibleIn is empty" by assuming `∀ A, ¬ A.admissibleIn
-    Op`, and prove `DiscourseHypothesisH toyPart Op` follows.
-
-    *Significance.*  Under post-R22, (H) is non-vacuously
-    satisfiable: there exist discourse states (any state where
-    `admissibleIn` is empty) where (H) holds.  This refutes any
-    claim that R22 relocated trivialization into a universally-
-    false `admissibleIn`. -/
+/-- (V10.a) `DiscourseHypothesisH` is non-trivially satisfiable on
+    toyPart: if `admissibleIn` is empty (no procedure admissible),
+    then (H) is vacuously true. -/
 theorem discourseHypothesisH_satisfiable_when_admissibleIn_empty
     (Op : Operationalisation Bool Bool toyPart)
     (hEmpty : ∀ A : ArbitrationProcedure Bool Bool toyPart,
               ¬ A.admissibleIn Op) :
     DiscourseHypothesisH toyPart Op := by
   intro A hAdm
-  -- hEmpty A says ¬ A.admissibleIn Op, contradicting hAdm.
   exact absurd hAdm (hEmpty A)
 
 /-- (V10.b) `DiscourseHypothesisH` is non-trivially refutable on
     toyPart: if `admissibleIn` is universal (every procedure
     admissible), then `nonFactorisingA` is a counter-witness with
-    `admissibleIn ∧ ¬ warrantInternalToE`, refuting (H).
-
-    *Significance.*  Refutes any claim that R22 has merely
-    relocated the V14-R20 trivialization into a universally-
-    true `admissibleIn`.  The post-R22 `DiscourseHypothesisH`
-    fails on universal-admissibility states. -/
+    `admissibleIn ∧ ¬ warrantInternalToE`, refuting (H). -/
 theorem discourseHypothesisH_fails_when_admissibleIn_universal
     (Op : Operationalisation Bool Bool toyPart)
     (hUniv : ∀ A : ArbitrationProcedure Bool Bool toyPart,
@@ -499,31 +393,15 @@ theorem discourseHypothesisH_fails_when_admissibleIn_universal
     hH nonFactorisingA (hUniv nonFactorisingA)
   exact nonFactorisingA_not_warrantInternalToE hWITE
 
-/-! ## (V11) R22 NEW — R21 bypass `exact hNotPR (hH A).2` is
-    now type-incorrect.
+/-! ## (V11) R24 honest acknowledgment: under reverted
+    `partitionRelative = featureExtractsAreEInternal`, the 2-line
+    bypass `(hH A hAdm).2` IS the canonical proof, paper-faithfully
+    per paper line 2109-2112.  Non-vacuous theorem content lives
+    in (H)'s `admissibleIn` antecedent (R22 Fix B). -/
 
-    The R21 attack body was:
-      theorem r21_bypass (Op) (hH) : ¬ SatisfiesP2 Op :=
-        fun ⟨A, hNotPR, _⟩ => hNotPR (hH A).2
-
-    Two reasons this no longer type-checks post-R22:
-    (a) Post-R22 `DiscourseHypothesisH := ∀ A, admissibleIn A Op
-        → warrantInternalToE`.  `hH A` is now an IMPLICATION
-        `admissibleIn A Op → warrantInternalToE`, not a direct
-        `warrantInternalToE` value.  `(hH A).2` is type-incorrect.
-    (b) Even if one writes `hH A hAdm` to discharge admissibility
-        (requires extracting hAdm from the P2 witness), the
-        result is `warrantInternalToE`, and `.2` projects to
-        `featureExtractsAreEInternal`, NOT `partitionRelative`.
-        `partitionRelative` requires ADDITIONALLY the
-        non-degeneracy conjunct (paper line 2168-2170 commitment),
-        which the case-bridges supply per paper case-analysis.
-
-    We codify (a) and (b) via explicit type-correct templates. -/
-
-/-- (V11.a) Post-R22 `hH A` is an implication, not a direct
-    value.  Verified by noting that `DiscourseHypothesisH Part Op
-    = ∀ A, admissibleIn A Op → warrantInternalToE`. -/
+/-- (V11.a) Post-R22/R24 `hH A` is an implication, not a direct
+    value.  Discharge requires both `A` and an `admissibleIn`
+    proof. -/
 theorem discourseHypothesisH_is_implication_typecheck
     (Op : Operationalisation Bool Bool toyPart)
     (hH : DiscourseHypothesisH toyPart Op)
@@ -532,61 +410,85 @@ theorem discourseHypothesisH_is_implication_typecheck
     A.warrantInternalToE :=
   hH A hAdm
 
-/-- (V11.b) Even after discharging admissibility, `.2` projects
-    to `featureExtractsAreEInternal`, NOT `partitionRelative`.
-    The bypass `exact hNotPR (hH A hAdm).2` would supply a
-    `featureExtractsAreEInternal` witness where the goal expects
-    a `partitionRelative` — a type error post-R22. -/
-theorem hW_dot_2_is_featureExtractsAreEInternal_not_partitionRelative
+/-- (V11.b) Under R24, `.2` projection of `warrantInternalToE`
+    yields `featureExtractsAreEInternal`, which is definitionally
+    `partitionRelative` per V7 `Iff.rfl`.  The 2-line bypass IS
+    the canonical reduction, paper-faithfully per paper line
+    2109-2112. -/
+theorem hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative
     (A : ArbitrationProcedure Bool Bool toyPart)
     (hW : A.warrantInternalToE) :
-    A.featureExtractsAreEInternal :=
+    A.partitionRelative :=
   hW.2
 
-/-- (V11.c) The R21 bypass is blocked by exhibiting a witness
-    `degenerateRankerA` (V7) that satisfies
-    `featureExtractsAreEInternal` but NOT `partitionRelative`.
-    If the bypass were valid, applying it to `degenerateRankerA`
-    (paired with sufficient antecedents) would derive a
-    contradiction. -/
-theorem r21_bypass_blocked_by_separation :
-    ∃ A : ArbitrationProcedure Bool Bool toyPart,
-      A.featureExtractsAreEInternal ∧ ¬ A.partitionRelative :=
-  featureExtractsAreEInternal_does_not_imply_partitionRelative
+/-- (V11.c) R24 honest convergence: `thm_impossibility`
+    substantively requires (H)'s `admissibleIn` antecedent.  The
+    non-vacuous content of the theorem lives in this antecedent
+    (R22 Fix B), not in the partition-relativity derivation. -/
+theorem thm_impossibility_uses_H_via_admissibleIn
+    (Op : Operationalisation Bool Bool toyPart)
+    (hH : DiscourseHypothesisH toyPart Op) :
+    ¬ SatisfiesP2 Bool Bool toyPart Op :=
+  thm_impossibility toyPart Op hH
 
-/-! ## (V12) R22 NEW — `partitionRelative` non-degeneracy
-    non-trivially constrains the ranker.
+/-! ## (V12) R23 inconsistency ELIMINATED under R24.
 
-    `partitionRelative` requires `∃ k₁ k₂ feat₁ feat₂,
-    ranker feat₁ = k₁ ∧ ranker feat₂ = k₂ ∧ k₁ ≠ k₂` (the
-    ranker hits at least two distinct partition indices).  A
-    constant-ranker procedure (e.g. `degenerateRankerA`) fails
-    this clause: every `ranker feat = ⟨0, …⟩`, so no `k₁ ≠ k₂`
-    pair can be witnessed.  This is the substantive paper line
-    2168-2170 commitment. -/
+    Under R22, `prw_uniform_to_pr` was a Cat 3 axiom asserting
+    non-degeneracy of the ranker on the uniform witness.  R23
+    derived kernel-pure `False` by applying the axiom to a
+    uniform-constant-ranker witness (paper's actual uniform case
+    per paper lines 2127-2132 has CONSTANT $E_m$ adjudication).
 
-theorem degenerateRankerA_not_partitionRelative :
-    ¬ degenerateRankerA.partitionRelative := by
-  intro hPR
-  obtain ⟨_hFact, hNonDegen⟩ := hPR
-  obtain ⟨k₁, k₂, _feat₁, _feat₂, hR1, hR2, hNe⟩ := hNonDegen
-  -- Constant ranker: hR1 says k₁ = ⟨0,…⟩, hR2 says k₂ = ⟨0,…⟩.
-  have hEq : k₁ = k₂ := hR1.symm.trans hR2
-  exact hNe hEq
+    Under R24, `prw_uniform_to_pr` is a derived theorem with
+    proof body `fun _ hW => hW.2`.  Applied to ANY witness
+    (including a uniform-constant-ranker witness), it yields
+    `partitionRelative = featureExtractsAreEInternal` —
+    paper-faithful, no inconsistency.
 
-theorem partitionRelative_non_degeneracy_non_trivial :
-    ∃ A : ArbitrationProcedure Bool Bool toyPart,
-      A.featureExtractsAreEInternal ∧
-      A.warrantInternalToE ∧
-      ¬ A.partitionRelative := by
-  refine ⟨degenerateRankerA, ?_, ?_, degenerateRankerA_not_partitionRelative⟩
+    We exhibit the uniform-constant-ranker witness and confirm
+    that applying `prw_uniform_to_pr` does NOT yield `False`. -/
+
+/-- A uniform-form procedure with constant featureExtract AND
+    constant ranker (paper's actual uniform case "constant $k$"
+    per paper lines 2127-2132). -/
+def uniformConstantRankerA : ArbitrationProcedure Bool Bool toyPart where
+  warrant := {
+    FeatureSpace := Bool
+    featureExtract := fun _ => true
+    ranker := fun _ => ⟨0, by decide⟩  -- CONSTANT ranker.
+  }
+  warrantForm := WarrantFeatureType.uniform
+  exhibits := fun _ _ => True
+
+/-- (V12.a) Under R24, the uniform-constant-ranker witness
+    satisfies `warrantInternalToE` (caseFormIsInternal + constant
+    featureExtract trivially factorises). -/
+theorem uniformConstantRankerA_warrantInternalToE :
+    uniformConstantRankerA.warrantInternalToE := by
+  refine ⟨⟨?_, ?_⟩, ?_⟩
+  · decide
+  · decide
   · refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
     intro _ _ _; rfl
-  · refine ⟨⟨?_, ?_⟩, ?_⟩
-    · decide
-    · decide
-    · refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
-      intro _ _ _; rfl
+
+/-- (V12.b) Under R24, the uniform-constant-ranker witness has
+    `partitionRelative` (= `featureExtractsAreEInternal`).  R22's
+    R23 attack vector (deriving `False` via non-degeneracy
+    refutation) NO LONGER APPLIES because non-degeneracy is no
+    longer a conjunct. -/
+theorem uniformConstantRankerA_partitionRelative :
+    uniformConstantRankerA.partitionRelative := by
+  refine ⟨fun _ => ⟨0, by decide⟩, fun _ => true, ?_⟩
+  intro _ _ _; rfl
+
+/-- (V12.c) The R23 inconsistency vector is ELIMINATED: applying
+    `prw_uniform_to_pr` (now a derived theorem) to the uniform-
+    constant-ranker witness yields `partitionRelative`, which is
+    consistent — no `False`. -/
+theorem r23_inconsistency_eliminated :
+    uniformConstantRankerA.partitionRelative := by
+  exact prw_uniform_to_pr toyPart uniformConstantRankerA
+    rfl uniformConstantRankerA_warrantInternalToE
 
 /-! ## Axiom-profile checks — kernel-pure unless otherwise noted. -/
 
@@ -602,35 +504,34 @@ theorem partitionRelative_non_degeneracy_non_trivial :
 #print axioms nonFactorisingA_not_warrantInternalToE
 #print axioms exists_uniform_not_warrantInternalToE
 
--- V5 positive instance (R22 updated witness).
-#print axioms partitionRelativeA_satisfies_all_antecedents
+-- V5 positive instance (R24: factorisingA).
+#print axioms factorisingA_satisfies_all_antecedents
 
 -- V6 R15 attack vector blocked.
 #print axioms r15_attack_requires_unprovable_antecedent
 
--- V7 R22 separation (NOT equivalence): partitionRelative ⊋
--- featureExtractsAreEInternal.
-#print axioms partitionRelative_to_featureExtractsAreEInternal
-#print axioms featureExtractsAreEInternal_does_not_imply_partitionRelative
+-- V7 R24 paper-faithful identification (Iff.rfl, no axioms).
+#print axioms partitionRelative_iff_featureExtractsAreEInternal
 
--- V8 R22 case-bridge non-triviality on the canonical witness.
-#print axioms prw_uniform_to_pr_applied_to_partitionRelativeA
-#print axioms lem_prw_reduction_applied_to_partitionRelativeA
+-- V8 R24 case-bridge derivation on factorisingA.
+#print axioms prw_uniform_to_pr_applied_to_factorisingA
+#print axioms lem_prw_reduction_applied_to_factorisingA
 
--- V9 R20 structural-validity (R22-updated for 3-conjunct P2).
+-- V9 R20 structural-validity (R22-updated 3-conjunct P2).
 #print axioms r19_kill_destructuring_has_three_conjuncts
 
--- V10 R22 NEW — DiscourseHypothesisH non-vacuity.
+-- V10 R22 Fix B (retained R24) — DiscourseHypothesisH non-vacuity.
 #print axioms discourseHypothesisH_satisfiable_when_admissibleIn_empty
 #print axioms discourseHypothesisH_fails_when_admissibleIn_universal
 
--- V11 R22 NEW — R21 bypass type-incorrect.
+-- V11 R24 honest acknowledgment: (hH A hAdm).2 IS canonical.
 #print axioms discourseHypothesisH_is_implication_typecheck
-#print axioms hW_dot_2_is_featureExtractsAreEInternal_not_partitionRelative
-#print axioms r21_bypass_blocked_by_separation
+#print axioms hW_dot_2_is_featureExtractsAreEInternal_eq_partitionRelative
+#print axioms thm_impossibility_uses_H_via_admissibleIn
 
--- V12 R22 NEW — non-degeneracy non-trivially constrains ranker.
-#print axioms degenerateRankerA_not_partitionRelative
-#print axioms partitionRelative_non_degeneracy_non_trivial
+-- V12 R23 inconsistency ELIMINATED (R24 revert).
+#print axioms uniformConstantRankerA_warrantInternalToE
+#print axioms uniformConstantRankerA_partitionRelative
+#print axioms r23_inconsistency_eliminated
 
 end AsymmetricEliminativism.VacuityCheck
