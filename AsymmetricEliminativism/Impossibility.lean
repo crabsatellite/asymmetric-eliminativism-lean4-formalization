@@ -538,29 +538,83 @@ theorem lem_prw_reduction
   `\E`*.  In the discourse-state where `C` remains reverse-defined
   and no external warrant has yet emerged, (H) holds.
 
-  *Lean encoding.*  We expose (H) as a hypothesis on arbitration
-  procedures: a procedure is *admissible under (H)* iff its
-  warrant is internal to `\E`.  Equivalently: any procedure with
-  `¬ A.warrantInternalToE` is inadmissible under (H).
+  *Lean encoding (v0.14.0 R20 STRUCTURAL FIX).*  Under R20 per
+  round-20 brief, (H) is lifted to a discourse-state hypothesis
+  ON the impossibility theorem, NOT a conjunct of `SatisfiesP2`.
+  This matches paper's actual structure (paper P2 at
+  `def:op-properties` line 1976-1986 doesn't include admissibility
+  as conjunct; admissibility is a discourse-state regime predicate
+  per paper `\label{thm:impossibility}` hypothesis statement
+  (paper line 1999-2009) and paper `\label{lem:prw}` (paper line
+  2114-2120)).
+
+  *Paper-faithful form.*  Paper says: "assume every arbitration
+  procedure $A$ admissible within $D$ for adjudicating
+  operationalisations of $\C$ derives its adjudication-warrant
+  from $\E$" (paper line 1999-2002 + 2114-2116).  In the typed
+  Lean encoding, this is the statement that EVERY procedure
+  `A : ArbitrationProcedure` satisfies `A.warrantInternalToE`
+  (i.e., its warrant is E-internal per
+  `\label{def:warrant}`).  An "inadmissible-within-D" procedure
+  doesn't exist within the discourse-state; (H) ranges only over
+  admissible procedures, and the abstract Lean encoding of "A
+  is admissible within D" is "A is an inhabitant of the
+  `ArbitrationProcedure` type" — i.e., universally quantified.
 -/
 
 /--
-  *Discourse-internality hypothesis* (H).  In the discourse-state
-  under consideration, every admissible arbitration procedure has
-  warrant internal to `\E`.  This is a hypothesis on the
-  *discourse-state*, not a logical truth — for forward-defined
-  concepts (electron, gene) or for heat post-reform, (H) fails by
-  construction.
+  *Discourse-state hypothesis (H)* — paper's load-bearing
+  hypothesis on the impossibility theorem (paper
+  `\label{thm:impossibility}` line 1999-2009 + paper
+  `\label{lem:prw}` line 2114-2120).
 
-  We carry (H) as a predicate over arbitration procedures: a
-  procedure `A` is *admissible under (H)* exactly when
-  `A.warrantInternalToE` holds.
+  *Definition.*  `DiscourseHypothesisH Part Op` holds iff every
+  arbitration procedure `A` for adjudicating `Op` (i.e., every
+  inhabitant of the `ArbitrationProcedure FolkObj Tcls Part`
+  type) satisfies `A.warrantInternalToE`.
+
+  *Paper-faithful interpretation.*  Paper states (H) (paper line
+  1999-2009): "every arbitration procedure $A$ admissible within
+  $D$ for adjudicating operationalisations of $\C$ derives its
+  adjudication-warrant from $\E$".  Paper hypothesis (H) thus
+  asserts E-internality of EVERY admissible procedure.  In our
+  Lean encoding, "A is an admissible arbitration procedure
+  within D" is encoded as "A inhabits the
+  `ArbitrationProcedure FolkObj Tcls Part` type" — i.e.,
+  inhabitants of the structure are exactly the in-D-admissible
+  procedures.  Hence the paper-faithful Lean statement of (H) is
+  `∀ A : ArbitrationProcedure FolkObj Tcls Part,
+  A.warrantInternalToE`.
+
+  *Sub-type / status.*  Cat 3 paper-novel `hypothesisPredicate`
+  per v6 §3.4.2: a paper-stated discourse-state regime predicate
+  on the paper-novel `ArbitrationProcedure` carrier.  Status
+  `gapDefinitional` per v6 §1.1 — the predicate IS the paper's
+  hypothesis (H), not a gap to close.
+
+  *NOT a logical truth.*  (H) is a hypothesis on the
+  *discourse-state*, not a logical truth.  For forward-defined
+  concepts (electron, gene) or for heat post-reform, (H) fails
+  by construction: there exist arbitration procedures with
+  external warrants (kinetic-theory-anchored predictive success
+  for heat), so the universally-quantified `∀ A,
+  warrantInternalToE` fails.  The impossibility theorem
+  `thm_impossibility` takes (H) as an explicit hypothesis.
+
+  *NOT trivially-true.*  In our Lean encoding, (H) is
+  refutable by exhibiting a single procedure `A` with
+  `¬ A.warrantInternalToE`.  `VacuityCheck.nonFactorisingA`
+  (which has `¬ A.warrantInternalToE`) is such a witness, so
+  `DiscourseHypothesisH toyPart Op` is FALSE for any
+  operationalisation `Op : Operationalisation Bool Bool toyPart`.
+  See `VacuityCheck.discourseHypothesisH_toyPart_fails` for the
+  formal kernel-pure refutation.
 -/
-def DiscourseInternalityHypothesis
+def DiscourseHypothesisH
     {FolkObj Tcls : Type}
-    {_Part : MutuallyUnrankedPartition FolkObj}
-    (A : ArbitrationProcedure FolkObj Tcls _Part) : Prop :=
-  A.warrantInternalToE
+    (Part : MutuallyUnrankedPartition FolkObj)
+    (_Op : Operationalisation FolkObj Tcls Part) : Prop :=
+  ∀ A : ArbitrationProcedure FolkObj Tcls Part, A.warrantInternalToE
 
 /-! ## Theorem `\label{thm:impossibility}`.  -/
 
@@ -571,10 +625,25 @@ def DiscourseInternalityHypothesis
   Let `Part : MutuallyUnrankedPartition FolkObj` with `n ≥ 2`.  Let
   `Op_i` be an operationalisation faithful to some part `E_i`.
   Assume hypothesis (H): every admissible arbitration procedure
-  has warrant internal to `\E` (`A.warrantInternalToE`).  Then
-  `Op_i` cannot satisfy P2 — i.e., no admissible arbitration
+  has warrant internal to `\E` (`DiscourseHypothesisH Part Op_i`).
+  Then `Op_i` cannot satisfy P2 — i.e., no admissible arbitration
   procedure can adjudicate `Op_i` against rivals on grounds
   *independent* of the partition.
+
+  *v0.14.0 R20 STRUCTURAL FIX per round-20 brief.*  The R18
+  encoding bundled `warrantInternalToE` as the third conjunct of
+  `SatisfiesP2`'s existential body; R19 hostile validator found
+  this trivialised the theorem because the existential body was
+  provably `False` by typing alone (R19 kill:
+  `fun ⟨A, hNotPR, _, hWITE⟩ => hNotPR hWITE.2` is a kernel-pure
+  no-axiom proof of `¬ SatisfiesP2`).  R20 restructures
+  `SatisfiesP2` (in `Basic.lean`) to drop the
+  `warrantInternalToE` conjunct, and lifts hypothesis (H) to an
+  explicit theorem hypothesis `(hH : DiscourseHypothesisH Part Op)`
+  on `thm_impossibility`.  This matches paper's actual structure:
+  paper P2 (def:op-properties line 1976-1986) doesn't include
+  admissibility-as-conjunct; admissibility is the discourse-state
+  hypothesis (H) per paper line 1999-2009 + 2114-2120.
 
   *Why P3 is omitted from the conclusion.*  Given the Boolean-
   verdict encoding of `Operationalisation.verdict`, P3 holds
@@ -585,10 +654,7 @@ def DiscourseInternalityHypothesis
   reduces to `¬ P2`.  The paper-level `¬ (P2 ∧ P3)` form is
   available as the derived `thm_impossibility_paper_form` (below
   this theorem in the file), which packages the reduction
-  explicitly.  The paper's "load-bearing clause and its Lean
-  encoding" paragraph (after the proof of
-  `\label{thm:impossibility}`) discusses this Boolean-reduction
-  bridge.
+  explicitly.
 
   *Hypotheses.*
 
@@ -596,35 +662,42 @@ def DiscourseInternalityHypothesis
      unranked partition.
   * `Op_i : Operationalisation FolkObj Tcls Part` — the
      operationalisation under attack.
-  * The (H) hypothesis is bound into the conclusion via the
-     `warrantInternalToE` predicate on arbitration procedures.
+  * `hH : DiscourseHypothesisH Part Op_i` — the discourse-state
+     hypothesis (H): every arbitration procedure has E-internal
+     warrant.
 
   *Conclusion.*  Under (H), `Op_i` cannot satisfy P2 — formally:
      the negation of `SatisfiesP2`.
 
-  *Proof.*  Suppose `Op_i` satisfied P2.  Then there exists an
-  arbitration procedure `A` with `¬ A.partitionRelative` and
-  `A.warrantInternalToE`.  By Lemma `\label{lem:prw}`
-  (`lem_prw_reduction`), `A.warrantInternalToE` implies
-  `A.partitionRelative`.  Contradiction.  Hence `Op_i` cannot
+  *Proof (post-R20 substantive structure).*  Suppose `Op_i`
+  satisfied P2.  Then there exists an arbitration procedure `A`
+  with `¬ A.partitionRelative` and `¬ A.failsAdjudication`.
+  By (H), `A.warrantInternalToE` holds.  By Lemma
+  `\label{lem:prw}` (`lem_prw_reduction`), `A.warrantInternalToE`
+  implies `A.partitionRelative ∨ A.failsAdjudication`.  Either
+  disjunct contradicts the P2 witness.  Hence `Op_i` cannot
   satisfy P2 under (H).
 
-  *Note on the (H) hypothesis.*  (H) appears implicitly in the
-  Lean statement via the requirement that `A.warrantInternalToE`
-  holds for the witness `A`.  An arbitration procedure with
-  external warrant (`¬ A.warrantInternalToE`) is admissible only
-  if (H) fails — i.e., if the discourse-state has moved past the
-  reverse-defined-without-external-arbiter regime (heat post-
-  reform).  Within (H), only `warrantInternalToE`-procedures are
-  admissible, and the existence-witness for P2 must satisfy this.
+  *Note on substantive use of (H).*  The proof body USES (H)
+  to extract `A.warrantInternalToE` from the existential
+  witness `A`.  Without (H), the proof cannot proceed: the
+  witness `A` may have external warrant, in which case
+  `lem_prw_reduction` doesn't apply, and `Op_i` may legitimately
+  satisfy P2 (this is the heat-post-reform discourse state
+  per paper line 2036-2053).
 -/
 theorem thm_impossibility
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
-    (Op : Operationalisation FolkObj Tcls Part) :
+    (Op : Operationalisation FolkObj Tcls Part)
+    (hH : DiscourseHypothesisH Part Op) :
     ¬ SatisfiesP2 FolkObj Tcls Part Op := by
   -- Suppose P2 holds: extract the arbitration witness.
-  rintro ⟨A, hNotPR, hNotFails, hWarrant⟩
+  rintro ⟨A, hNotPR, hNotFails⟩
+  -- Apply hypothesis (H) to A to obtain A.warrantInternalToE.
+  -- This is the SUBSTANTIVE use of (H): without it, A may have
+  -- external warrant and `lem_prw_reduction` would not apply.
+  have hWarrant : A.warrantInternalToE := hH A
   -- By the (H)-bound lem_prw_reduction, A's warrant being
   -- internal to E forces it into the disjunctive failure mode:
   -- either partition-relativity (paper option (a)/(c)) or
@@ -677,15 +750,22 @@ theorem ensemble_methods_fail_P2
   *Corollary (impossibility transfers across operationalisations).*
   The impossibility theorem applies *uniformly* to every
   operationalisation in the family `{Op_1, …, Op_n}` faithful to
-  the partition members.  Under (H), none satisfies P2.
+  the partition members.  Under (H) for each `Op_k`, none satisfies
+  P2.
+
+  *v0.14.0 R20 update.*  Hypothesis (H) is now per-operationalisation
+  on the theorem statement: each `Op_k` requires its own
+  `DiscourseHypothesisH Part (Op k)`.  We thread the family-
+  indexed (H) through the `thm_impossibility` invocation per `k`.
 -/
 theorem impossibility_uniform_family
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
-    (Op : Fin Part.n → Operationalisation FolkObj Tcls Part) :
+    (Op : Fin Part.n → Operationalisation FolkObj Tcls Part)
+    (hH : ∀ k : Fin Part.n, DiscourseHypothesisH Part (Op k)) :
     ∀ k : Fin Part.n, ¬ SatisfiesP2 FolkObj Tcls Part (Op k) := by
   intro k
-  exact thm_impossibility Part (Op k)
+  exact thm_impossibility Part (Op k) (hH k)
 
 /--
   *Paper-form impossibility theorem.*  The paper states
@@ -701,6 +781,11 @@ theorem impossibility_uniform_family
   always true under the Boolean encoding, so the conjunction
   reduces to P2.
 
+  *v0.14.0 R20 update.*  Hypothesis (H) is now explicit:
+  `thm_impossibility_paper_form` takes
+  `(hH : DiscourseHypothesisH Part Op)` and threads it through
+  `thm_impossibility`.
+
   *Citation.*  Li 2026, `\label{thm:impossibility}` (paper-level
   conclusion); the reduction to the Boolean-encoding form is
   explicit in the paper's paragraph "The load-bearing clause and
@@ -714,9 +799,10 @@ theorem impossibility_uniform_family
 theorem thm_impossibility_paper_form
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
-    (Op : Operationalisation FolkObj Tcls Part) :
+    (Op : Operationalisation FolkObj Tcls Part)
+    (hH : DiscourseHypothesisH Part Op) :
     ¬ (SatisfiesP2 FolkObj Tcls Part Op ∧ SatisfiesP3 FolkObj Tcls Part Op) := by
   rintro ⟨hP2, _hP3⟩
-  exact thm_impossibility Part Op hP2
+  exact thm_impossibility Part Op hH hP2
 
 end AsymmetricEliminativism

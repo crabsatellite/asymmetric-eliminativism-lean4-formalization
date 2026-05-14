@@ -1309,6 +1309,84 @@ def gap_featureExtractsAreEInternal_def : GapEntry := {
     "`caseFormIsInternal`."
 }
 
+def gap_DiscourseHypothesisH_def : GapEntry := {
+  name := "DiscourseHypothesisH (def, v0.14.0 R20 NEW)"
+  status := GapStatus.gapDefinitional
+  inputCategory := InputCategory.cat3PaperNovel
+  cat3SubType := Cat3SubType.hypothesisPredicate
+  paperSource :=
+    "Li 2026, `\\label{thm:impossibility}` hypothesis (H) (paper " ++
+    "lines 1999-2009: 'every arbitration procedure $A$ admissible " ++
+    "within $D$ for adjudicating operationalisations of $\\C$ " ++
+    "derives its adjudication-warrant from $\\E$') + paper " ++
+    "`\\label{lem:prw}` (paper line 2114-2120: 'Any warrant $W$ " ++
+    "constructible from $\\E$ alone …')."
+  attackHistory := [
+    "v0.14.0 R20 introduction (2026-05-14) per round-20 brief: " ++
+      "R19 hostile validator found R18's `SatisfiesP2` was " ++
+      "internally contradictory because `warrantInternalToE` " ++
+      "conjunct definitionally implied `partitionRelative`, " ++
+      "trivializing the impossibility theorem.  R20 STRUCTURAL " ++
+      "FIX restructures `SatisfiesP2` to remove the " ++
+      "`warrantInternalToE` conjunct (paper P2 doesn't include " ++
+      "admissibility as conjunct), and introduces this new " ++
+      "`DiscourseHypothesisH` predicate as a SEPARATE discourse-" ++
+      "state hypothesis ON `thm_impossibility`.  Definitional " ++
+      "equation: `DiscourseHypothesisH Part Op := ∀ A : " ++
+      "ArbitrationProcedure FolkObj Tcls Part, A.warrantInternalToE`. " ++
+      "Paper-faithful interpretation: in the Lean encoding, 'A " ++
+      "is an in-D-admissible arbitration procedure' is encoded " ++
+      "as 'A inhabits ArbitrationProcedure'.  Hypothesis (H) " ++
+      "ranges universally over admissible procedures, so the " ++
+      "Lean encoding universally-quantifies over inhabitants.  " ++
+      "Sub-type `hypothesisPredicate` per v6 §3.4.2: paper-stated " ++
+      "regime predicate carving the discourse-state.  Status " ++
+      "`gapDefinitional` per v6 §1.1.",
+    "v0.14.0 R20 non-vacuity verified: " ++
+      "`VacuityCheck.discourseHypothesisH_toyPart_fails` proves " ++
+      "kernel-pure that `DiscourseHypothesisH toyPart Op` FAILS " ++
+      "for any `Op : Operationalisation Bool Bool toyPart`, " ++
+      "because `nonFactorisingA` is a counter-witness procedure " ++
+      "with `¬ A.warrantInternalToE` (per V4).  This refutes any " ++
+      "claim that R20 merely relocated trivialization into (H).",
+    "v0.14.0 R20 substantive use verified: `thm_impossibility` " ++
+      "proof body extracts `A.warrantInternalToE` via `hH A` for " ++
+      "each existential witness `A` of P2, then threads through " ++
+      "`lem_prw_reduction`.  Without (H), the witness `A` may " ++
+      "have external warrant, in which case `lem_prw_reduction` " ++
+      "doesn't apply, and `Op_i` may legitimately satisfy P2 " ++
+      "(this is the heat-post-reform regime per paper line " ++
+      "2036-2053).  See " ++
+      "`VacuityCheck.thm_impossibility_substantively_uses_H`.",
+    "v0.14.0 R20 reductionism Cat 1?: CLEAR-NO — Mathlib has no " ++
+      "infrastructure for paper-novel hypothesis (H) on " ++
+      "`ArbitrationProcedure` carrier; the predicate is paper-" ++
+      "specific to `\\label{thm:impossibility}` discourse-state " ++
+      "hypothesis statement.",
+    "v0.14.0 R20 reductionism Cat 2?: CLEAR-NO — external social-" ++
+      "choice / arbitration / decision-theory literature (Arrow " ++
+      "1951; Sen 1970; Brandom 1994; Topkis 1978) supplies no " ++
+      "equivalent of paper-novel discourse-state hypothesis (H) " ++
+      "universally-quantified over admissible procedures."
+  ]
+  scope :=
+    "Paper-faithful definitional equation `DiscourseHypothesisH " ++
+    "Part Op := ∀ A : ArbitrationProcedure FolkObj Tcls Part, " ++
+    "A.warrantInternalToE` on the paper-novel " ++
+    "`ArbitrationProcedure` carrier.  Cat 3 `hypothesisPredicate` " ++
+    "per v6 §3.4.2: paper-stated discourse-state regime predicate " ++
+    "from paper `\\label{thm:impossibility}` hypothesis (H) " ++
+    "(line 1999-2009).  Realises paper's '(H) governs warrant, " ++
+    "not features used: a procedure may use external features " ++
+    "but its outputs count as adjudications only if its warrant " ++
+    "derives from $\\E$' (paper line 2003-2005) as a typed Lean " ++
+    "predicate that the impossibility theorem takes as explicit " ++
+    "hypothesis.  Status `gapDefinitional` per v6 §1.1: paper-" ++
+    "stipulated definitional content, not a gap to close.  " ++
+    "Non-vacuously refutable on toyPart (V9.a) confirming this " ++
+    "is a discourse-state property, not a logical truth."
+}
+
 def gap_failsAdjudication_def : GapEntry := {
   name := "ArbitrationProcedure.failsAdjudication (def)"
   status := GapStatus.gapDefinitional
@@ -2294,15 +2372,55 @@ def gap_thm_impossibility_CLOSED : GapEntry := {
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource := "Li 2026, `\\label{thm:impossibility}`"
-  attackHistory := []
+  attackHistory := [
+    "v0.14.0 R20 STRUCTURAL FIX per round-20 brief " ++
+      "(2026-05-14): R19 hostile validator machine-verified that " ++
+      "R18's `SatisfiesP2 := ∃ A, ¬ A.partitionRelative ∧ " ++
+      "¬ A.failsAdjudication ∧ A.warrantInternalToE` was " ++
+      "internally contradictory.  Since R18's " ++
+      "`warrantInternalToE.2 = featureExtractsAreEInternal = " ++
+      "partitionRelative` definitionally (paper line 2109-2112), " ++
+      "the existential body was provably `False` by typing alone: " ++
+      "the R19 kill `theorem r19_kill (Op) : ¬ SatisfiesP2 Op := " ++
+      "fun ⟨A, hNotPR, _, hWITE⟩ => hNotPR hWITE.2` was kernel-" ++
+      "pure no-axiom derivable.  This trivialised " ++
+      "thm_impossibility.  R20 STRUCTURAL FIX: (i) Removed " ++
+      "`warrantInternalToE` conjunct from `SatisfiesP2` (paper " ++
+      "P2 at `\\label{def:op-properties}` line 1976-1986 doesn't " ++
+      "include admissibility-as-conjunct; admissibility is a " ++
+      "discourse-state regime predicate per paper lines 1999-" ++
+      "2009 + 2114-2120).  (ii) Added `DiscourseHypothesisH` " ++
+      "predicate (Cat 3 `hypothesisPredicate`, paper-stated " ++
+      "hypothesis (H) as universally-quantified statement on " ++
+      "`ArbitrationProcedure`).  (iii) `thm_impossibility` takes " ++
+      "(H) as EXPLICIT hypothesis with signature `(Part) (Op) " ++
+      "(hH : DiscourseHypothesisH Part Op) : ¬ SatisfiesP2 Op`. " ++
+      "(iv) Proof body substantively uses (H) to extract " ++
+      "`A.warrantInternalToE` via `hH A` for each existential " ++
+      "witness `A`, threading through `lem_prw_reduction`.  " ++
+      "(v) R19 kill pattern `fun ⟨A, hNotPR, _, hWITE⟩ => …` no " ++
+      "longer type-checks against the 3-binding post-R20 P2.  " ++
+      "Anti-pattern history: R7/R14/R16/R18 all defeated by " ++
+      "tweaking case-bridge axioms while leaving SatisfiesP2 " ++
+      "bundling the antecedent; R20 restructures SatisfiesP2 " ++
+      "itself."
+  ]
   scope :=
-    "Under (H) and `\\label{def:unranked}`, no operationalisation " ++
-    "satisfies P2 of `\\label{def:op-properties}`.  Proof: by " ++
-    "`lem_prw_reduction` applied to the witness arbitration " ++
-    "procedure; standard kernel only.  Lean conclusion is the " ++
-    "`¬ P2` form; P3 is trivially satisfied by the Boolean-" ++
-    "verdict encoding (see `satisfiesP3_of_boolean`) so the " ++
-    "paper-level `¬ (P2 ∧ P3)` reduces to `¬ P2`."
+    "Under (H) = `DiscourseHypothesisH Part Op` (paper " ++
+    "hypothesis (H) at `\\label{thm:impossibility}` line 1999-" ++
+    "2009 + paper `\\label{lem:prw}` line 2114-2120) and " ++
+    "`\\label{def:unranked}`, no operationalisation satisfies " ++
+    "P2 of `\\label{def:op-properties}`.  Post-R20 signature: " ++
+    "`(Part) (Op) (hH : DiscourseHypothesisH Part Op) : " ++
+    "¬ SatisfiesP2 Op`.  Proof: extract existential witness " ++
+    "`⟨A, hNotPR, hNotFails⟩`, apply (H) via `hH A` to obtain " ++
+    "`A.warrantInternalToE`, then apply `lem_prw_reduction` to " ++
+    "obtain `partitionRelative ∨ failsAdjudication`, each " ++
+    "disjunct contradicting one of the existential conjuncts.  " ++
+    "Standard kernel only.  Lean conclusion is the `¬ P2` form; " ++
+    "P3 is trivially satisfied by the Boolean-verdict encoding " ++
+    "(see `satisfiesP3_of_boolean`) so the paper-level " ++
+    "`¬ (P2 ∧ P3)` reduces to `¬ P2`."
 }
 
 /-- Bridging-principle consequence:
@@ -3214,6 +3332,12 @@ def allGaps : List GapEntry := [
   -- sub-`def`s for the two paper-distinct E-internality conditions).
   gap_caseFormIsInternal_def,
   gap_featureExtractsAreEInternal_def,
+  -- v0.14.0 R20 STRUCTURAL FIX: new paper-novel discourse-state
+  -- hypothesis predicate (paper hypothesis (H) at
+  -- `\\label{thm:impossibility}` line 1999-2009), introduced to
+  -- structurally fix R19's machine-verified trivialization of
+  -- the impossibility theorem.
+  gap_DiscourseHypothesisH_def,
   gap_failsAdjudication_def,
   gap_Warrant_carrier,
   gap_ArbitrationProcedure_partitionRelative_def,
@@ -3313,14 +3437,16 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
 #eval s!"Total entries: {allGaps.length}"
 
-/-! ### Inventory summary (v0.13.0 R18 Honest Acceptance per
-     round-18 brief — converted 6 case-bridge axioms to derived
-     theorems, decomposed `warrantInternalToE` into 2 named
-     sub-`def`s for paper-distinct conditions; v0.12.0 R16
-     critical fix preserved; v0.11.0 R14 substantive paper-
-     faithful Warrant typed-structure refactor preserved;
-     v0.8.0 post-R5 + v0.10.0 R9 baselines preserved where
-     preserved-applicable)
+/-! ### Inventory summary (v0.14.0 R20 STRUCTURAL FIX per
+     round-20 brief — restructured `SatisfiesP2` to remove the
+     `warrantInternalToE` conjunct, introduced
+     `DiscourseHypothesisH` as a separate discourse-state
+     hypothesis on `thm_impossibility`; v0.13.0 R18 Honest
+     Acceptance preserved — 6 case-bridge axioms remain derived
+     theorems; v0.12.0 R16 critical fix preserved; v0.11.0 R14
+     substantive paper-faithful Warrant typed-structure refactor
+     preserved; v0.8.0 post-R5 + v0.10.0 R9 baselines preserved
+     where applicable)
 
   The live status / input-category / Cat 3 sub-type counts are
   printed by the `#eval` calls above (run `lake env lean

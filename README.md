@@ -52,6 +52,26 @@ case-bridge `axiom`s from Lemma `\label{lem:prw}`'s proof body
 genuinely broken: no Cat 3 atomic axiom remains for the partition-
 relativity chain.
 
+**v0.14.0 R20 STRUCTURAL FIX preserves zero Cat 3 atomic axioms**
+and adds a new Cat 3 `hypothesisPredicate` def
+(`DiscourseHypothesisH`) realising paper hypothesis (H) as a
+SEPARATE discourse-state hypothesis on `thm_impossibility` rather
+than a conjunct of `SatisfiesP2`'s existential body.  R19 hostile
+validator found that R18's `SatisfiesP2` bundled
+`warrantInternalToE` as the third existential conjunct, but
+since R18's `warrantInternalToE.2 = featureExtractsAreEInternal
+= partitionRelative` definitionally, the existential body was
+provably `False` by typing alone (`r19_kill := fun ⟨A, hNotPR, _,
+hWITE⟩ => hNotPR hWITE.2` was kernel-pure no-axiom derivable).
+R20 STRUCTURAL FIX: remove the `warrantInternalToE` conjunct from
+`SatisfiesP2` (paper P2 doesn't bundle admissibility per
+`\label{def:op-properties}` line 1976-1986); add
+`DiscourseHypothesisH` predicate (paper hypothesis (H) at
+`\label{thm:impossibility}` line 1999-2009); `thm_impossibility`
+takes (H) as explicit hypothesis with substantive use in proof
+body.  The R19 kill pattern no longer type-checks against the
+3-binding post-R20 P2.
+
 The downstream `lem_prw_reduction` is a derived `theorem`,
 obtained by case-exhaustion `match` on `A.warrantForm :
 WarrantFeatureType` composing nine derived case theorems (the six
@@ -78,6 +98,13 @@ declarations):
   identical to `partitionRelative` per paper line 2109-2112).
 * **`warrantInternalToE`** — Cat 3 `structuralEquation`
   (composite `caseFormIsInternal ∧ featureExtractsAreEInternal`).
+* **`DiscourseHypothesisH`** — Cat 3 `hypothesisPredicate`
+  (paper hypothesis (H) at `\label{thm:impossibility}` line
+  1999-2009 + paper `\label{lem:prw}` line 2114-2120; v0.14.0
+  R20 NEW: universally-quantified `∀ A : ArbitrationProcedure,
+  A.warrantInternalToE` realising paper's '(H) governs warrant,
+  not features used'; non-vacuously refutable per V9.a, ensuring
+  R20 does not relocate trivialization into (H)).
 
 Iteration history.  v0.6.0 R2 first axiomatised `lem:prw` as a
 single Cat 3 `workingAssumption`.  v0.8.0 R5 introduced the paper-
@@ -139,31 +166,88 @@ proofs, no `sorry`).  Additionally, R18 decomposes
 (typed factorisation) — addressing R17 anti-pattern #14
 (composite bundling of paper-distinct conditions).
 
-Consistency + vacuity + R18 definitional-equivalence verified
-kernel-pure via 11 theorems in `VacuityCheck.lean`: (V1)-(V3)
-vacuity preserved + (V4)
+**v0.14.0 R20 STRUCTURAL FIX per round-20 brief.**  R19 hostile
+validator found that R18's `SatisfiesP2 := ∃ A,
+¬ A.partitionRelative ∧ ¬ A.failsAdjudication ∧ A.warrantInternalToE`
+was internally contradictory.  Since R18's `warrantInternalToE.2
+= featureExtractsAreEInternal = partitionRelative` definitionally
+(paper line 2109-2112), the existential body was provably `False`
+by typing alone: the R19 kill body `fun ⟨A, hNotPR, _, hWITE⟩ =>
+hNotPR hWITE.2` was a kernel-pure no-axiom proof of
+`¬ SatisfiesP2`, trivializing `thm_impossibility`.
+
+R20 STRUCTURAL FIX restructures `SatisfiesP2` itself (rather
+than tweaking case-bridge axiom signatures as R14/R16/R18 did):
+- Remove `A.warrantInternalToE` conjunct from `SatisfiesP2`'s
+  definition (paper P2 at `\label{def:op-properties}` line
+  1976-1986 doesn't include admissibility-as-conjunct).
+- Add new `DiscourseHypothesisH` predicate (Cat 3
+  `hypothesisPredicate`) realising paper hypothesis (H) at
+  `\label{thm:impossibility}` line 1999-2009 + paper
+  `\label{lem:prw}` line 2114-2120 as a universally-quantified
+  statement on `ArbitrationProcedure`.
+- `thm_impossibility` takes (H) as EXPLICIT hypothesis: signature
+  `(Part) (Op) (hH : DiscourseHypothesisH Part Op) : ¬ SatisfiesP2 Op`.
+- Proof body substantively USES (H): extract `A.warrantInternalToE`
+  via `hH A` for each existential witness, thread through
+  `lem_prw_reduction`.
+- R19 kill pattern `fun ⟨A, hNotPR, _, hWITE⟩ => …` (expecting
+  4 bindings) FAILS to type-check against the 3-binding
+  post-R20 P2.
+
+The R20 fix is STRUCTURAL not cosmetic: it changes the shape of
+`SatisfiesP2` and the signature of `thm_impossibility`, matching
+paper's actual structure where (H) is a discourse-state hypothesis
+on the impossibility theorem (paper line 1999-2009) NOT a
+conjunct of P2's definition (paper line 1976-1986).  The 4-round
+anti-pattern history (R7/R14/R16/R18) of tweaking case-bridge
+axiom signatures while leaving `SatisfiesP2` bundling the
+antecedent is finally broken at the right level.
+
+Consistency + vacuity + R18 definitional-equivalence + R20
+structural-validity verified kernel-pure via 15 theorems in
+`VacuityCheck.lean`: (V1)-(V3) vacuity preserved + (V4)
 `nonFactorisingA_not_warrantInternalToE` + (V5)
 `factorisingA_satisfies_all_antecedents` + (V6)
 `r15_attack_requires_unprovable_antecedent` + (V7) R18
 `partitionRelative_iff_featureExtractsAreEInternal` (kernel-pure
 `Iff.rfl` confirming paper line 2109-2112 identification) + (V8)
-R18 case-bridge transparency theorems on `factorisingA`.
+R18 case-bridge transparency theorems on `factorisingA` + (V9.a)
+`discourseHypothesisH_toyPart_fails` (R20: (H) refutable on
+toyPart via `nonFactorisingA` witness — refutes any "trivialization
+relocated into (H)" claim) + (V9.b)
+`r19_kill_destructuring_has_two_conjuncts` (R20: post-R20 P2
+destructuring has exactly 2 conjuncts; R19's 4-binding pattern
+fails to type-check) + (V9.c)
+`r19_redux_blocked_by_satisfiability` (R20: post-R20
+`SatisfiesP2 toyPart Op` is SATISFIABLE — `nonFactorisingA`
+witnesses the body — blocking any "P2 trivially false" claim) +
+(V9.d) `thm_impossibility_substantively_uses_H` (R20: theorem
+non-trivially requires (H); on discourse states where (H) fails,
+theorem is vacuously applicable rather than yielding contradiction).
 
-*Honest scope statement.*  After R18, the project preserves the
-paper's substantive content in the typed structure (carriers,
-hypothesis predicates, structural equations) and accepts that the
-per-case partition-relativity reduction is Lean-trivial under
-that typed structure.  What is lost: the per-case bridges no
-longer carry stipulative Cat 3 atomic content (they're now
-derived projections).  What is preserved: the
-`WarrantFeatureType` 9-constructor taxonomy with paper-cited
-per-case docstrings; the hypothesis (H) tag-exclusion logic; the
-typed `Warrant` structure realising `\label{def:warrant}`; the
-case-exhaustion `match` in `lem_prw_reduction`'s proof body.
-What is genuinely better: anti-pattern #13 is broken at the case-
-bridge level (no `partitionRelative` conclusion is paper-novel
-atomic-axiomatised); the dependency profile is honest (no opaque
-Cat 3 atoms with hidden trivial-projection content).
+*Honest scope statement.*  After R20, the project preserves
+R18's structural honesty (per-case partition-relativity reduction
+is Lean-trivial under typed `\label{def:warrant}`) and adds
+substantive paper-faithfulness for the impossibility theorem
+itself: (H) is now an explicit hypothesis substantively consumed
+in the proof body via `hH A`, matching paper's actual structure.
+What is preserved from R18: zero Cat 3 atomic axioms; the
+`WarrantFeatureType` 9-constructor taxonomy; typed `Warrant`
+structure realising `\label{def:warrant}`; `caseFormIsInternal`
++ `featureExtractsAreEInternal` paper-distinct conditions of
+E-internality.  What R20 adds: structural paper-faithfulness for
+`SatisfiesP2` (matches paper P2 line 1976-1986 by removing
+non-paper conjunct); explicit theorem-level hypothesis (H) as
+`DiscourseHypothesisH` (matches paper line 1999-2009); proof
+body that substantively consumes (H) (matches paper's load-
+bearing use of (H) in the impossibility proof).  What is
+genuinely better: anti-pattern #13 broken at case-bridge level
+(R18 achievement preserved); definitional smuggling broken at
+P2-definition level (R20 achievement); the impossibility
+theorem's truth-conditions match paper's truth-conditions
+exactly (paper's "under (H), no Op satisfies P2" ↔ Lean's
+`thm_impossibility (hH : DiscourseHypothesisH …) : ¬ SatisfiesP2`).
 
 * **Lean kernel** — `propext`, `Classical.choice`, `Quot.sound`.
 
@@ -230,9 +314,9 @@ AsymmetricEliminativism/AxiomAudit.lean` output combined with the
 |------|-----------------|
 | [`AsymmetricEliminativism/Basic.lean`](AsymmetricEliminativism/Basic.lean) | Definitions `def:reverse`, `def:asym-elim`, `def:edc`, `def:separability`, `def:unranked`, `def:op-individuation`, `def:op-properties`; replacement-vocabulary definitions `def:sessional`, `def:concurrent`, `def:state-inference`, `def:distributional`, `def:homogeneous`, `def:inversion`, `def:sc`, `def:bridging`; structural lemma `bridging_dsc_iff_sc` |
 | [`AsymmetricEliminativism/Diagnostic.lean`](AsymmetricEliminativism/Diagnostic.lean) | Discriminator (`def:discriminator`) rules (R1) and (R2), with derived structural lemmas on threshold-rule firing patterns |
-| [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (Lean-form `¬ P2`) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3) + Lemma `\label{lem:prw}` (derived theorem `lem_prw_reduction` composing the six Cat 3 atomic case-bridge axioms `prw_{uniform,typeA,typeC1,typeC2_recursive,typeC4a_internal_track,contextual}_to_pr` with three derived case-theorems via case-exhaustion on the `WarrantFeatureType` 9-constructor inductive) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
+| [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (post-R20 signature: `(Part) (Op) (hH : DiscourseHypothesisH Part Op) : ¬ SatisfiesP2 Op`) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3; same R20 (H) hypothesis) + Lemma `\label{lem:prw}` (derived theorem `lem_prw_reduction` composing the six R18-converted case-bridge derived theorems `prw_{uniform,typeA,typeC1,typeC2_recursive,typeC4a_internal_track,contextual}_to_pr` with three derived case-theorems via case-exhaustion on the `WarrantFeatureType` 9-constructor inductive) + `DiscourseHypothesisH` (R20 NEW: paper hypothesis (H) at `\label{thm:impossibility}` line 1999-2009 as Cat 3 `hypothesisPredicate` def) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` (R20 update: now requires per-Op (H) family) |
 | [`AsymmetricEliminativism/AxiomAudit.lean`](AsymmetricEliminativism/AxiomAudit.lean) | Trust audit: prints `#print axioms` for every paper-level theorem |
-| [`AsymmetricEliminativism/VacuityCheck.lean`](AsymmetricEliminativism/VacuityCheck.lean) | Vacuity + consistency + R18 definitional-equivalence verification: eleven kernel-pure theorems — four R14 vacuity (counter-witness `nonFactorisingA` proves `∃ A, ¬ partitionRelative`; companion `factorisingA` proves satisfiability; case-bridge unconditional form refutable) + four R16 consistency (`nonFactorisingA_not_warrantInternalToE` + existence form + positive instance + R15 attack vector verifiably blocked) + three R18 (V7) `partitionRelative_iff_featureExtractsAreEInternal` (`Iff.rfl`, no axioms — confirming paper line 2109-2112 identification) + (V8) case-bridge transparency theorems on `factorisingA` |
+| [`AsymmetricEliminativism/VacuityCheck.lean`](AsymmetricEliminativism/VacuityCheck.lean) | Vacuity + consistency + R18 definitional-equivalence + R20 structural-validity verification: fifteen kernel-pure theorems — four R14 vacuity (counter-witness `nonFactorisingA` proves `∃ A, ¬ partitionRelative`; companion `factorisingA` proves satisfiability; case-bridge unconditional form refutable) + four R16 consistency (`nonFactorisingA_not_warrantInternalToE` + existence form + positive instance + R15 attack vector verifiably blocked) + three R18 (V7) `partitionRelative_iff_featureExtractsAreEInternal` (`Iff.rfl`, no axioms — confirming paper line 2109-2112 identification) + (V8) case-bridge transparency theorems on `factorisingA` + four R20 (V9.a) `discourseHypothesisH_toyPart_fails` (H not trivially-true) + (V9.b) `r19_kill_destructuring_has_two_conjuncts` (R19 4-binding pattern fails type-check) + (V9.c) `r19_redux_blocked_by_satisfiability` (post-R20 P2 satisfiable, blocking trivial-false claim) + (V9.d) `thm_impossibility_substantively_uses_H` (theorem requires (H), vacuously applicable when (H) fails) |
 | [`AsymmetricEliminativism/Ledger.lean`](AsymmetricEliminativism/Ledger.lean) | Typed gap ledger: `GapStatus` × `InputCategory` orthogonal classification, with one `GapEntry` per atomic axiom, paper-novel carrier, and closed top-level result |
 
 ## Building

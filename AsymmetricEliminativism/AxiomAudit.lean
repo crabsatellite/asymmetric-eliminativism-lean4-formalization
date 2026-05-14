@@ -31,12 +31,45 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.13.0 R18 Honest Acceptance per round-18
-  brief; v0.12.0 R16 critical fix preserved; v0.11.0 R14 substantive
-  paper-faithful Warrant typed-structure refactor preserved;
-  v0.8.0 R5 substantive decomposition + v0.10.0 R9 baseline
-  preserved where applicable; live counts: see `lake env lean
+  Inventory by category (v0.14.0 R20 STRUCTURAL FIX per round-20
+  brief; v0.13.0 R18 Honest Acceptance preserved; v0.12.0 R16
+  critical fix preserved; v0.11.0 R14 substantive paper-faithful
+  Warrant typed-structure refactor preserved; v0.8.0 R5 substantive
+  decomposition + v0.10.0 R9 baseline preserved where applicable;
+  live counts: see `lake env lean
   AsymmetricEliminativism/Ledger.lean`):
+
+    **v0.14.0 R20 STRUCTURAL FIX** — R19 hostile validator
+    machine-verified that R18's `SatisfiesP2 := ∃ A,
+    ¬ partitionRelative ∧ ¬ failsAdjudication ∧ warrantInternalToE`
+    was internally contradictory: since R18's
+    `warrantInternalToE.2 = featureExtractsAreEInternal =
+    partitionRelative` definitionally (paper line 2109-2112),
+    `SatisfiesP2 ↔ False` was provable kernel-pure no-axiom by
+    `fun ⟨A, hNotPR, _, hWITE⟩ => hNotPR hWITE.2`.  This
+    trivialised `thm_impossibility`.  R20 STRUCTURAL FIX:
+    - Removed `warrantInternalToE` conjunct from `SatisfiesP2`
+      (paper P2 at `def:op-properties` line 1976-1986 doesn't
+      include admissibility-as-conjunct; admissibility is a
+      discourse-state regime predicate per paper lines 1999-2009
+      + 2114-2120).
+    - Added `DiscourseHypothesisH` predicate (Cat 3
+      `hypothesisPredicate`, paper-stated hypothesis (H) as
+      universally-quantified statement on `ArbitrationProcedure`).
+    - `thm_impossibility` takes (H) as EXPLICIT hypothesis.
+    - Proof body substantively uses (H) to extract
+      `A.warrantInternalToE` for each existential witness,
+      threading through `lem_prw_reduction`.
+    - R19 kill pattern `fun ⟨A, hNotPR, _, hWITE⟩ => …` no
+      longer type-checks against the 3-binding post-R20 P2.
+
+    Anti-pattern history:
+      - R7  v0.9.0: cosmetic Weighting → R8 killed.
+      - R14 v0.11.0: missing antecedent → R15 killed.
+      - R16 v0.12.0: composite predicate → R17 killed.
+      - R18 v0.13.0: definitional smuggling → R19 killed.
+      - R20 v0.14.0: STRUCTURAL FIX — (H) is theorem
+        hypothesis, not P2 conjunct.
 
     **v0.13.0 R18 Honest Acceptance** — converted the 6 R16
     case-bridge `axiom` declarations to `theorem` declarations.
@@ -188,13 +221,20 @@
   Any axiom outside the inventory above is a RED FLAG —
   investigate.
 
-  *Honest scope statement (v0.13.0 R18).*  After R18 Honest
-  Acceptance, the project has ZERO Cat 3 atomic axioms.  Paper's
+  *Honest scope statement (v0.14.0 R20).*  After R20 STRUCTURAL
+  FIX, the project STILL has ZERO Cat 3 atomic axioms.  Paper's
   `lem:prw` is Lean-trivial under typed Definition
   `\label{def:warrant}` (paper line 2109-2112 explicitly
   identifies the E-internality factoring clause with paper's
-  partition-relative-weighting predicate).  What the typed Lean
-  encoding captures of paper's substantive content:
+  partition-relative-weighting predicate); this remains R18's
+  Honest Acceptance.  What R20 adds is the structural fix that
+  makes `thm_impossibility` paper-faithfully non-trivial:
+  hypothesis (H) is now a SEPARATE theorem hypothesis
+  (`DiscourseHypothesisH`), not a conjunct of `SatisfiesP2`'s
+  existential body.
+
+  What the typed Lean encoding captures of paper's substantive
+  content (v0.14.0 R20):
    (a) the `WarrantFeatureType` 9-constructor taxonomy (Cat 3
        `carrier`, paper-cited per case);
    (b) the typed `Warrant` carrier structure (Cat 3 `carrier`,
@@ -206,7 +246,13 @@
        factorisation predicate (Cat 3 `structuralEquation`, paper
        lines 2099-2107);
    (e) the `warrantInternalToE` composite predicate `(a) ∧ (b)`
-       (Cat 3 `structuralEquation`).
+       (Cat 3 `structuralEquation`);
+   (f) the `DiscourseHypothesisH` predicate (NEW v0.14.0 R20;
+       Cat 3 `hypothesisPredicate`, paper hypothesis (H) at
+       `\label{thm:impossibility}` line 1999-2009 + paper
+       `\label{lem:prw}` line 2114-2120: universally-quantified
+       statement that every admissible arbitration procedure is
+       E-internal).
   These are paper-stipulated definitional commitments, encoded
   as Lean `inductive` / `structure` / `def`, NOT as `axiom`
   declarations.  No `lem:prw`-level Cat 3 axiom is required;
@@ -214,6 +260,16 @@
   (one paper-prose justification per `WarrantFeatureType`
   constructor) rather than substantive partition-relativity
   derivation content.
+
+  *R20 substantive use of (H) in `thm_impossibility` proof.*
+  The proof body extracts `A.warrantInternalToE` from `hH A`
+  for each existential witness `A` of P2, then threads through
+  `lem_prw_reduction`.  Without (H), the witness `A` may have
+  external warrant, in which case `lem_prw_reduction` does not
+  apply and the witness may legitimately satisfy P2 (heat-post-
+  reform regime per paper line 2036-2053).  The post-R20
+  `thm_impossibility` is paper-faithful: its truth-conditions
+  exactly match paper's "under (H), no Op_i satisfies P2".
 
   Usage:
     lake exe cache get
@@ -267,13 +323,18 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.impossibility_uniform_family
 
 -- v0.11.0 R14 vacuity verification + v0.12.0 R16 consistency
--- verification + v0.13.0 R18 definitional-equivalence verification.
--- Kernel-pure proofs that the substantive paper-faithful
--- `partitionRelative` def is non-vacuous, the R15 attack vector
--- is closed under R16, and that R18 Honest Acceptance is
--- structurally correct (paper's `lem:prw` reduction = paper's
--- E-internality factorisation per paper line 2109-2112).  All
--- expected to show only `[propext, Quot.sound]` (or empty).
+-- verification + v0.13.0 R18 definitional-equivalence verification
+-- + v0.14.0 R20 STRUCTURAL FIX verification.  Kernel-pure proofs
+-- that:
+--   - the substantive paper-faithful `partitionRelative` def is
+--     non-vacuous (R14),
+--   - the R15 attack vector is closed under R16 (R16),
+--   - R18 Honest Acceptance is structurally correct (paper's
+--     `lem:prw` reduction = paper's E-internality factorisation
+--     per paper line 2109-2112) (R18),
+--   - the R19 attack vector is closed under R20 by structural
+--     restructure of SatisfiesP2 (R20).
+-- All expected to show only `[propext, Quot.sound]` (or empty).
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_non_partition_relative
 #print axioms AsymmetricEliminativism.VacuityCheck.not_forall_partition_relative
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_partition_relative
@@ -287,3 +348,8 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.VacuityCheck.partitionRelative_iff_featureExtractsAreEInternal
 #print axioms AsymmetricEliminativism.VacuityCheck.prw_uniform_to_pr_applied_to_factorisingA
 #print axioms AsymmetricEliminativism.VacuityCheck.lem_prw_reduction_applied_to_factorisingA
+-- v0.14.0 R20 STRUCTURAL FIX tests (added round-20):
+#print axioms AsymmetricEliminativism.VacuityCheck.discourseHypothesisH_toyPart_fails
+#print axioms AsymmetricEliminativism.VacuityCheck.r19_kill_destructuring_has_two_conjuncts
+#print axioms AsymmetricEliminativism.VacuityCheck.r19_redux_blocked_by_satisfiability
+#print axioms AsymmetricEliminativism.VacuityCheck.thm_impossibility_substantively_uses_H

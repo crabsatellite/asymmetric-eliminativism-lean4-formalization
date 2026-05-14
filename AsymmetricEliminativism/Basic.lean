@@ -817,35 +817,63 @@ def ArbitrationProcedure.failsAdjudication
 /--
   P2 (definitional): `Op` admits cross-operationalisation
   arbitration iff there exists an arbitration procedure that
-  (a) is *not* partition-relative, (b) does *not* fail
-  adjudication, AND (c) has admissible warrant.
+  (a) is *not* partition-relative AND (b) does *not* fail
+  adjudication.
 
-  *v0.8.0 R5 substantive paper-faithful refinement.*  The
-  `¬ A.failsAdjudication` conjunct is added to align with the
-  paper's `\label{thm:impossibility}` proof body (lines 2307-2326)
-  parsing of failure modes: paper option (a) is determinate-
-  without-arbitration (P2-failure via partition-relativity); paper
-  option (b) is indeterminate (P3-failure / adjudication-failure);
-  paper option (c) is determinate-by-stipulation (P2-failure via
-  partition-relativity).  An arbitration procedure that "fails to
-  produce a ranking" — paper line 2133's option (ii) under typeB
-  — does NOT satisfy P2's adjudication-success requirement.  The
-  load-bearing paragraph (lines 2304-2305) says "no $A$ satisfying
-  the independence requirement of P2 exists", and P2's independence
-  requirement is the conjunction of independence-from-partition-
-  weighting AND production-of-a-non-trivial-ranking.
+  *v0.14.0 R20 STRUCTURAL FIX per round-20 brief.*  The
+  `A.warrantInternalToE` conjunct is REMOVED from this definition.
+  R19 hostile validator found that R18's bundling of
+  `warrantInternalToE` inside `SatisfiesP2` trivialised
+  `thm_impossibility`: because R18's `warrantInternalToE
+  = caseFormIsInternal ∧ featureExtractsAreEInternal` and
+  `featureExtractsAreEInternal` is definitionally identical to
+  `partitionRelative` (paper line 2109-2112), the existential
+  body `∃ A, ¬ partitionRelative ∧ ¬ failsAdjudication ∧
+  warrantInternalToE` was provably `False` by typing alone
+  (`r19_kill` one-line projection killed the theorem).
 
-  *Hypothesis (H) and the discourse-state.*  Under (H), the only
-  admissible warrants derive from `\E`; this is captured by
-  `warrantInternalToE A`.  The paper's impossibility theorem
-  derives a contradiction from the conjunction of P2 + (H) via
-  `lem_prw_reduction`'s disjunctive conclusion.
+  *Paper-faithful re-statement.*  Paper P2 (Definition
+  `\label{def:op-properties}` line 1976-1986) reads: "admits
+  cross-operationalisation arbitration when there exists a
+  procedure $A$ that, applied to disagreement-cases between
+  $\Op$ and rival operationalisations, successfully adjudicates
+  on grounds independent of the partition $\{E_i\}$".  This is
+  `∃ A, ¬ A.partitionRelative` (independence-of-partition) plus
+  `¬ A.failsAdjudication` (successfully-adjudicate, i.e.,
+  produces a non-trivial ranking — paper line 2133 option (ii)
+  is the failure mode).  Paper's P2 definition does NOT bundle
+  admissibility / E-internality / hypothesis (H) as a conjunct;
+  admissibility-under-(H) is a separate discourse-state condition
+  (paper `\label{thm:impossibility}` hypothesis statement at
+  paper line 1999-2009 and `\label{lem:prw}` at paper line
+  2114-2120) that the impossibility theorem takes as a SEPARATE
+  hypothesis on the theorem, not as a conjunct of P2.
+
+  *v0.8.0 R5 substantive paper-faithful refinement
+  (preserved).*  The `¬ A.failsAdjudication` conjunct aligns
+  with paper's `\label{thm:impossibility}` proof body parsing of
+  failure modes: option (a) is determinate-without-arbitration
+  (P2-failure via partition-relativity); option (b) is
+  indeterminate (P3-failure / adjudication-failure); option (c)
+  is determinate-by-stipulation (P2-failure via partition-
+  relativity).  An arbitration procedure that "fails to produce
+  a ranking" — paper line 2133 option (ii) under typeB — does
+  NOT satisfy P2's adjudication-success requirement.
+
+  *Hypothesis (H) and the discourse-state (post-R20).*  Under
+  (H), every admissible arbitration warrant within `D` derives
+  from `\E` — i.e., satisfies `A.warrantInternalToE`.  This
+  discourse-state property is captured by the separate predicate
+  `DiscourseHypothesisH` (in `Impossibility.lean`), which is a
+  hypothesis of `thm_impossibility` (NOT a conjunct of `SatisfiesP2`).
+  The impossibility theorem's content: under (H), no
+  operationalisation satisfies P2.
 -/
 def SatisfiesP2 (FolkObj Tcls : Type)
     (Part : MutuallyUnrankedPartition FolkObj)
     (_Op : Operationalisation FolkObj Tcls Part) : Prop :=
   ∃ A : ArbitrationProcedure FolkObj Tcls Part,
-    ¬ A.partitionRelative ∧ ¬ A.failsAdjudication ∧ A.warrantInternalToE
+    ¬ A.partitionRelative ∧ ¬ A.failsAdjudication
 
 /--
   Property (P3) of `\label{def:op-properties}`: *decidability on

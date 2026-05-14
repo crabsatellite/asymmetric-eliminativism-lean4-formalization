@@ -65,22 +65,30 @@
       (added v0.11.0 R14 per v6 §11 paper-Lean unification)
       introduces the typed Warrant triple consumed by the
       substantive `partitionRelative` def in `Basic.lean`.
+      v0.14.0 R20 STRUCTURAL FIX: `DiscourseHypothesisH` (Cat 3
+      `hypothesisPredicate`) added to realise paper hypothesis
+      (H) at `\label{thm:impossibility}` line 1999-2009 as a
+      separate explicit theorem hypothesis (NOT a conjunct of
+      `SatisfiesP2`).
 
   Soundness audit:
     AsymmetricEliminativism/AxiomAudit.lean — prints axiom
     dependencies of every paper-level theorem.
 
-  Vacuity + consistency + R18 definitional-equivalence
-  verification (v0.11.0 R14 + v0.12.0 R16 + v0.13.0 R18,
-  MANDATORY per round briefs):
+  Vacuity + consistency + R18 definitional-equivalence + R20
+  structural-validity verification (v0.11.0 R14 + v0.12.0 R16 +
+  v0.13.0 R18 + v0.14.0 R20, MANDATORY per round briefs):
     AsymmetricEliminativism/VacuityCheck.lean — machine-verifies
     kernel-pure that the substantive paper-faithful
     `partitionRelative` def is NON-VACUOUS (R14), the
-    R15-machine-verified inconsistency is CLOSED under R16, AND
+    R15-machine-verified inconsistency is CLOSED under R16,
     paper line 2109-2112's identification of `partitionRelative`
     with `featureExtractsAreEInternal` holds definitionally
-    (R18).  Eleven theorems, all kernel-pure `[propext,
-    Quot.sound]` or empty:
+    (R18), AND the R19-machine-verified P2-trivialization is
+    STRUCTURALLY FIXED under R20 by removing the
+    `warrantInternalToE` conjunct from `SatisfiesP2` and lifting
+    hypothesis (H) to an explicit theorem hypothesis.  Fifteen
+    theorems, all kernel-pure `[propext, Quot.sound]` or empty:
       * `exists_non_partition_relative` — `∃ A, ¬ A.partitionRelative`
         constructible via explicit `nonFactorisingA` witness.
       * `not_forall_partition_relative` — `¬ (∀ A, A.partitionRelative)`
@@ -115,6 +123,27 @@
       * `lem_prw_reduction_applied_to_factorisingA` (v0.13.0
         R18) — derived theorem post-R18 routes correctly via
         `prw_uniform_to_pr`'s `And.right` derivation.
+      * `discourseHypothesisH_toyPart_fails` (v0.14.0 R20) —
+        (H) is NOT trivially-true on toyPart: `nonFactorisingA`
+        is a counter-witness with `¬ A.warrantInternalToE`,
+        refuting `DiscourseHypothesisH toyPart Op` for any Op.
+        Refutes any claim that R20 relocates the trivialization
+        into (H).
+      * `r19_kill_destructuring_has_two_conjuncts` (v0.14.0
+        R20) — post-R20 `SatisfiesP2` destructuring has exactly
+        2 conjuncts.  R19's 4-binding pattern `⟨A, hNotPR, _,
+        hWITE⟩` FAILS to type-check.
+      * `r19_redux_blocked_by_satisfiability` (v0.14.0 R20) —
+        post-R20 `SatisfiesP2 toyPart Op` is SATISFIABLE: we
+        exhibit `nonFactorisingA` as the witness to the
+        existential body, blocking any "P2 trivially false"
+        claim.
+      * `thm_impossibility_substantively_uses_H` (v0.14.0 R20)
+        — capstone: `thm_impossibility` non-trivially requires
+        (H); on discourse states where (H) fails, theorem is
+        vacuously applicable rather than yielding contradiction
+        with the P2 witness's existence (paper-faithful: heat-
+        post-reform regime per paper line 2036-2053).
 
   Gap ledger:
     AsymmetricEliminativism/Ledger.lean — typed record of every
