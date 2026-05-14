@@ -431,7 +431,23 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "paper-novel carriers); status `gapDefinitional` retained.  " ++
       "Honest close-target: process-level Warrant refinement " ++
       "(see `gap_ArbitrationProcedure_partitionRelative_field` " ++
-      "for full close-target specification)."
+      "for full close-target specification).",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  This case-bridge is a " ++
+      "paper-stipulated structural reduction (uniform constructor → " ++
+      "`partitionRelative`) on the impoverished output-level " ++
+      "`ArbitrationProcedure` carrier; Mathlib has no infrastructure " ++
+      "for the warrant-form-to-partition-membership reduction; full " ++
+      "Cat 1 path requires process-level Warrant refinement (paper-" ++
+      "extension work).  Recorded explicitly per v6 §5 ≥2-rounds " ++
+      "hostile review per-Cat-3 declaration.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper-novel typed warrant-form taxonomy or its per-case " ++
+      "partition-relativity reduction on the paper-novel " ++
+      "`ArbitrationProcedure` carrier.  Recorded explicitly per v6 §5."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.uniform → " ++
@@ -464,7 +480,24 @@ def gap_prw_typeA_to_pr : GapEntry := {
       "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
       "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
       "Honest close-target: process-level Warrant refinement (see " ++
-      "`gap_ArbitrationProcedure_partitionRelative_field`)."
+      "`gap_ArbitrationProcedure_partitionRelative_field`).",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  This case-bridge is a " ++
+      "paper-stipulated structural reduction (typeA constructor → " ++
+      "`partitionRelative`, paper option (i) `f` belonging to some " ++
+      "`E_m`) on the impoverished output-level " ++
+      "`ArbitrationProcedure` carrier; Mathlib has no infrastructure " ++
+      "for the warrant-form-to-partition-membership reduction; full " ++
+      "Cat 1 path requires process-level Warrant refinement (paper-" ++
+      "extension work).  Recorded explicitly per v6 §5.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper-novel typed warrant-form taxonomy's `typeA` case " ++
+      "(f-belongs-to-some-E_m → single-E_m-privileging) on the " ++
+      "paper-novel `ArbitrationProcedure` carrier.  Recorded " ++
+      "explicitly per v6 §5."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeA → " ++
@@ -541,7 +574,25 @@ def gap_prw_typeC1_to_pr : GapEntry := {
       "without modeling the warrant's process-level feature " ++
       "extraction.  Honest close-target: process-level Warrant " ++
       "refinement (see " ++
-      "`gap_ArbitrationProcedure_partitionRelative_field`)."
+      "`gap_ArbitrationProcedure_partitionRelative_field`).",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  This case-bridge is a " ++
+      "paper-stipulated structural reduction (typeC1 constructor → " ++
+      "`partitionRelative`, carrying the paper's `R_{f^*}`-induced " ++
+      "ranking / *Partition-Internality of E-Internal Structural " ++
+      "Stipulations* sub-claim) on the impoverished output-level " ++
+      "`ArbitrationProcedure` carrier; Mathlib has no infrastructure " ++
+      "for the warrant-form-to-partition-membership reduction; full " ++
+      "Cat 1 path requires process-level Warrant refinement (paper-" ++
+      "extension work).  Recorded explicitly per v6 §5.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper-novel typeC1 reduction (procedure adjudicates by " ++
+      "routing through an `f^*`-induced ranking → partition-relative " ++
+      "weighting on `{E_1, ..., E_n}`) on the paper-novel " ++
+      "`ArbitrationProcedure` carrier.  Recorded explicitly per v6 §5."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeC1 → " ++
@@ -579,7 +630,26 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
       "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
       "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
       "Honest close-target: process-level Warrant refinement (see " ++
-      "`gap_ArbitrationProcedure_partitionRelative_field`)."
+      "`gap_ArbitrationProcedure_partitionRelative_field`).",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  This case-bridge is a " ++
+      "paper-stipulated structural reduction (typeC2_recursive " ++
+      "constructor → `partitionRelative`, carrying the recursive-" ++
+      "descent termination sub-claim that meta-appeal under (H) " ++
+      "bottoms out at types (a)/(b)/(c.1)) on the impoverished " ++
+      "output-level `ArbitrationProcedure` carrier; Mathlib has no " ++
+      "infrastructure for the warrant-form-to-partition-membership " ++
+      "reduction nor for the recursive-descent termination argument; " ++
+      "full Cat 1 path requires process-level Warrant refinement " ++
+      "(paper-extension work).  Recorded explicitly per v6 §5.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper-novel recursive-meta-choice reduction (recursive " ++
+      "descent on warrant-form-of-meta-warrant terminating at " ++
+      "(a)/(b)/(c.1) under (H)) on the paper-novel " ++
+      "`ArbitrationProcedure` carrier.  Recorded explicitly per v6 §5."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeC2_recursive → " ++
@@ -647,7 +717,27 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
       "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
       "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
       "Honest close-target: process-level Warrant refinement (see " ++
-      "`gap_ArbitrationProcedure_partitionRelative_field`)."
+      "`gap_ArbitrationProcedure_partitionRelative_field`).",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  This case-bridge is a " ++
+      "paper-stipulated structural reduction (typeC4a_internal_track " ++
+      "constructor → `partitionRelative`; carries the paper's case " ++
+      "where the meta-criterion is a track record internal to E, " ++
+      "looping back to the trichotomy at the meta-level) on the " ++
+      "impoverished output-level `ArbitrationProcedure` carrier; " ++
+      "Mathlib has no infrastructure for the warrant-form-to-" ++
+      "partition-membership reduction nor for the track-record-" ++
+      "internality discrimination; full Cat 1 path requires process-" ++
+      "level Warrant refinement.  Recorded explicitly per v6 §5.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper-novel internal-track-record meta-warrant reduction " ++
+      "(track record using only E-feature-based assessments → " ++
+      "recursive return to trichotomy at meta-level) on the paper-" ++
+      "novel `ArbitrationProcedure` carrier.  Recorded explicitly " ++
+      "per v6 §5."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.typeC4a_internal_track " ++
@@ -716,7 +806,24 @@ def gap_warrantInternalToE_def : GapEntry := {
       "definitional equation; never to close).  Consequence: the " ++
       "two excluder axioms (`prw_warrantInternalToE_excludes_typeC3` " ++
       "and `prw_warrantInternalToE_excludes_typeC4b`) are now " ++
-      "derivable theorems."
+      "derivable theorems.",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction` (this entry is the " ++
+      "paper-stipulated definitional equation tying paper " ++
+      "hypothesis (H) to the `\\label{lem:prw}` warrant-form " ++
+      "taxonomy).  Mathlib has no infrastructure for the warrant-" ++
+      "form / external-feature discrimination on the paper-novel " ++
+      "`ArbitrationProcedure` carrier; the definitional equation " ++
+      "is a paper-stipulative carve-out (E-internality iff " ++
+      "warrantForm avoids the two external constructors), not a " ++
+      "Mathlib-derivable predicate.  Recorded explicitly per v6 §5.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper's E-internality predicate over the paper-novel " ++
+      "9-constructor `WarrantFeatureType` taxonomy.  Recorded " ++
+      "explicitly per v6 §5."
   ]
   scope :=
     "Paper-faithful definitional equation `A.warrantInternalToE " ++
@@ -746,7 +853,24 @@ def gap_failsAdjudication_def : GapEntry := {
       "`\\label{lem:prw}` typeB warrant-form constructor.  Status " ++
       "`gapDefinitional` (paper-stipulated definitional equation; " ++
       "never to close).  Consequence: the typeB stipulation atom " ++
-      "(`prw_typeB_no_ranking`) is now a derivable theorem."
+      "(`prw_typeB_no_ranking`) is now a derivable theorem.",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction` (this entry is the " ++
+      "paper-stipulated definitional equation tying paper option " ++
+      "(ii) — the no-non-trivial-ranking failure mode — to the " ++
+      "`\\label{lem:prw}` typeB warrant-form constructor).  Mathlib " ++
+      "has no infrastructure for the constant-output / no-ranking " ++
+      "discrimination on the paper-novel `ArbitrationProcedure` " ++
+      "carrier; the definitional equation is a paper-stipulative " ++
+      "carve-out (failsAdjudication iff warrantForm = typeB), not " ++
+      "a Mathlib-derivable predicate.  Recorded explicitly per v6 §5.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper's failsAdjudication predicate over the paper-novel " ++
+      "9-constructor `WarrantFeatureType` taxonomy.  Recorded " ++
+      "explicitly per v6 §5."
   ]
   scope :=
     "Paper-faithful definitional equation `A.failsAdjudication " ++
@@ -892,7 +1016,27 @@ def gap_prw_contextual_to_pr : GapEntry := {
       "verified VACUOUS; per round-9 brief Option B, REVERTED.  " ++
       "Axiom RHS reverts to bare-Prop `A.partitionRelative`.  " ++
       "Honest close-target: process-level Warrant refinement (see " ++
-      "`gap_ArbitrationProcedure_partitionRelative_field`)."
+      "`gap_ArbitrationProcedure_partitionRelative_field`).",
+    "v0.10.0 R12 v6 §5 Cat 1? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  This case-bridge is a " ++
+      "paper-stipulated structural reduction (contextual " ++
+      "constructor → `partitionRelative`, encoding paper case (ii)'s " ++
+      "E-internal sub-case where contextual features are themselves " ++
+      "E-features and the mapping (E-features → operationalisation) " ++
+      "is a partition-relative weighting over T_cls) on the " ++
+      "impoverished output-level `ArbitrationProcedure` carrier; " ++
+      "Mathlib has no infrastructure for the warrant-form-to-" ++
+      "partition-membership reduction nor for the contextual-" ++
+      "feature-mapping argument; full Cat 1 path requires process-" ++
+      "level Warrant refinement.  Recorded explicitly per v6 §5.",
+    "v0.10.0 R12 v6 §5 Cat 2? reductionism: CLEAR-NO inherited " ++
+      "from parent `gap_lem_prw_reduction`.  Social-choice / " ++
+      "arbitration theory (Arrow 1951 / Sen 1970 / Brandom 1994 / " ++
+      "Topkis 1978) supplies no externally-published equivalent of " ++
+      "the paper-novel contextual-adjudication reduction (E-internal " ++
+      "contextual-feature mapping → partition-relative weighting " ++
+      "over T_cls) on the paper-novel `ArbitrationProcedure` " ++
+      "carrier.  Recorded explicitly per v6 §5."
   ]
   scope :=
     "`A.warrantForm = WarrantFeatureType.contextual → " ++

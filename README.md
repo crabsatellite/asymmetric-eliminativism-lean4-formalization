@@ -45,13 +45,34 @@ arguments rest:
 All axioms are atomic minimal units, classified as one of:
 
 * **Cat 3** — paper-novel atomic defining equations from Li 2026.
-  The single Cat 3 atomic axiom is `lem_prw_reduction`, capturing
-  Lemma `\label{lem:prw}`'s load-bearing structural consequence
-  (the partition-relative-weighting reduction is a single
-  bi-implication; the paper's own structure treats the
-  uniform / contextual case-split + type-(a)/(b)/(c) sub-claims as
-  exhaustiveness checks on this single atomic fact, not as
-  separable atoms).
+  The Cat 3 atomic axioms are the six per-case warrant-form
+  case-bridges from Lemma `\label{lem:prw}`'s proof body:
+  `prw_uniform_to_pr`, `prw_typeA_to_pr`, `prw_typeC1_to_pr`,
+  `prw_typeC2_recursive_to_pr`, `prw_typeC4a_internal_track_to_pr`,
+  `prw_contextual_to_pr`.  Each is a paper-stipulated single-step
+  typed-bridge reduction from a `WarrantFeatureType` 9-constructor
+  inductive case to the `A.partitionRelative` field on the paper-
+  novel `ArbitrationProcedure` carrier (sub-type
+  `structuralEquation` per v6 §3.4.3).  The downstream
+  `lem_prw_reduction` is a derived `theorem` (not an axiom),
+  obtained by case-exhaustion `match` on `A.warrantForm :
+  WarrantFeatureType` composing the six case-bridge atoms with the
+  three derived theorems for the remaining constructors
+  (`prw_typeB_no_ranking`, `prw_warrantInternalToE_excludes_typeC3`,
+  `prw_warrantInternalToE_excludes_typeC4b`).
+
+  Iteration history.  v0.6.0 R2 first axiomatised the lemma as a
+  single Cat 3 `workingAssumption`, after honest revert of the
+  v0.5.0 R1 cosmetic four-case-tag-`Prop := True` decomposition.
+  v0.8.0 R5 introduced the paper-faithful `WarrantFeatureType`
+  inductive + 9 per-case atoms and converted `lem_prw_reduction`
+  from axiom to derived theorem.  v0.9.0 R7 attempted RHS
+  concretization of `partitionRelative` via a new `Weighting`
+  carrier; v0.10.0 R9 honestly reverted that concretization after
+  the Round 8 hostile validator machine-verified it VACUOUS
+  (discharged by constant-weight witness for every procedure).
+  v0.10.0 R9 restored the v0.8.0 R5 bare-Prop RHS, retaining the
+  paper-faithful taxonomy + case-exhaustion structure.
 * **Lean kernel** — `propext`, `Classical.choice`, `Quot.sound`.
 
 The project has zero Cat 1 axioms (no Mathlib-derivability
@@ -84,6 +105,14 @@ proposals — not substantive empirical claims awaiting external
 validation, but operational / policy sketches outside Lean's
 structural-mathematical scope.
 
+The 7-tier status taxonomy is `gapOpen` / `gapPartial` /
+`gapBlocked` / `gapDeadEnd` / `gapClosed` /
+`gapClosedConditional` / `gapDefinitional` per v6 §1.1 (the 7th
+tier `gapDefinitional`, ratified 2026-05-14, marks paper-novel
+Cat 3 atoms that are starting commitments rather than gaps to
+close — covers the three definitional sub-types `carrier` /
+`hypothesisPredicate` / `structuralEquation`).
+
 The 6 Cat 3 sub-types tracked per v6 §3.4 (with the 6th sub-type
 `phenomenologicalConjecture` added 2026-05-14 per v6 §3.4.6 /
 Manufactured Recognition R-#27): `carrier` (paper-introduced
@@ -109,7 +138,7 @@ AsymmetricEliminativism/AxiomAudit.lean` output combined with the
 |------|-----------------|
 | [`AsymmetricEliminativism/Basic.lean`](AsymmetricEliminativism/Basic.lean) | Definitions `def:reverse`, `def:asym-elim`, `def:edc`, `def:separability`, `def:unranked`, `def:op-individuation`, `def:op-properties`; replacement-vocabulary definitions `def:sessional`, `def:concurrent`, `def:state-inference`, `def:distributional`, `def:homogeneous`, `def:inversion`, `def:sc`, `def:bridging`; structural lemma `bridging_dsc_iff_sc` |
 | [`AsymmetricEliminativism/Diagnostic.lean`](AsymmetricEliminativism/Diagnostic.lean) | Discriminator (`def:discriminator`) rules (R1) and (R2), with derived structural lemmas on threshold-rule firing patterns |
-| [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (Lean-form `¬ P2`) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3) + Lemma `\label{lem:prw}` (the single Cat 3 atomic axiom) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
+| [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (Lean-form `¬ P2`) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3) + Lemma `\label{lem:prw}` (derived theorem `lem_prw_reduction` composing the six Cat 3 atomic case-bridge axioms `prw_{uniform,typeA,typeC1,typeC2_recursive,typeC4a_internal_track,contextual}_to_pr` with three derived case-theorems via case-exhaustion on the `WarrantFeatureType` 9-constructor inductive) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
 | [`AsymmetricEliminativism/AxiomAudit.lean`](AsymmetricEliminativism/AxiomAudit.lean) | Trust audit: prints `#print axioms` for every paper-level theorem |
 | [`AsymmetricEliminativism/Ledger.lean`](AsymmetricEliminativism/Ledger.lean) | Typed gap ledger: `GapStatus` × `InputCategory` orthogonal classification, with one `GapEntry` per atomic axiom, paper-novel carrier, and closed top-level result |
 
