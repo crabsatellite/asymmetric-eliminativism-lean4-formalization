@@ -89,16 +89,32 @@
     `admissibleIn` axiom restricts (H)'s quantifier to the
     admissibility-positive discourse regime (R23/R24 honest
     convergence).  V1-V12 theorems, all kernel-pure
-    `[propext, Quot.sound]` / `[propext]` / empty:
-      * V1-V3 — `partitionRelative` non-vacuity:
-        `exists_non_partition_relative` + `not_forall_partition_relative`
-        + `exists_partition_relative` exhibit both polarities.
-      * V4 — `case_bridge_uniform_unconditional_not_derivable`
-        refutes the v0.11.0 R14 case-bridge signature.
-      * V5-V6 — R16 antecedent-existence: `nonFactorisingA_not_warrantInternalToE`,
-        `exists_uniform_not_warrantInternalToE`,
-        `factorisingA_satisfies_all_antecedents`,
-        `r15_attack_requires_unprovable_antecedent`.
+    `[propext, Quot.sound]` / `[propext]` / empty.  Section
+    binning mirrors `AsymmetricEliminativism/VacuityCheck.lean`:
+      * V1-V2 + V2.b — `partitionRelative` non-vacuity:
+        `exists_non_partition_relative` (∃ A, ¬ A.partitionRelative)
+        and its derived `not_forall_partition_relative`; companion
+        positive witness `exists_partition_relative`.  The
+        predicate is non-vacuously bipolar on `toyPart`.
+      * V3 (R24) — case-bridge atomicity:
+        `case_bridge_uniform_unconditional_not_derivable`
+        refutes the v0.11.0 R14 case-bridge signature
+        (`warrantForm = uniform → A.partitionRelative` is REFUTABLE
+        without the `warrantInternalToE` antecedent).
+      * V4 (R16) — antecedent existence preserved across R24:
+        `nonFactorisingA_not_warrantInternalToE` and
+        `exists_uniform_not_warrantInternalToE` confirm that R15's
+        would-be antecedent is itself kernel-pure refutable
+        (R22's `prw_uniform_to_pr` carried this antecedent; R24
+        derived-theorem form retains it implicitly via `hW.2`).
+      * V5 (R16, R24) — positive instance:
+        `factorisingA_satisfies_all_antecedents` exhibits
+        `factorisingA` as a witness satisfying both case-bridge
+        antecedents AND the conclusion (theorem non-trivially
+        applicable).
+      * V6 (R16) — R15 kill blocked:
+        `r15_attack_requires_unprovable_antecedent` machine-verifies
+        that the R15 attack vector cannot be reproduced.
       * V7 (R18) — `partitionRelative_iff_featureExtractsAreEInternal`
         is `Iff.rfl`, depends on NO axioms.  Formal verification
         of paper `\label{def:warrant}` typed-level identification:

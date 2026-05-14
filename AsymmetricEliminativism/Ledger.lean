@@ -387,7 +387,7 @@ def gap_lem_prw_reduction : GapEntry := {
       "constant-ranker refutes R22 non-degeneracy axiom claim).  " ++
       "R24 reverts R22 Fix A; 6 case-bridges back to derived " ++
       "theorems with proof body `fun _ hW => hW.2` per paper " ++
-      "`\\label{def:warrant}` typed-level identification paragraph identification.  `#print axioms " ++
+      "`\\label{def:warrant}` typed-level E-internality identification.  `#print axioms " ++
       "lem_prw_reduction` profile now shows NO axioms again " ++
       "(project has 1 Cat 3 axiom total: `admissibleIn` from R22 " ++
       "Fix B retained).  Anti-pattern #13 GENUINELY BROKEN for " ++
@@ -556,9 +556,9 @@ def gap_prw_uniform_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
+      "constructible-from-E-alone antecedent — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
+      "E-internality clause.  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -625,7 +625,7 @@ def gap_prw_uniform_to_pr : GapEntry := {
     "A.warrantInternalToE → A.partitionRelative` on the paper-" ++
     "novel `ArbitrationProcedure` carrier.  Derived theorem " ++
     "(v0.16.0 R24 axiom → theorem) with proof body " ++
-    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level identification paragraph identification " ++
+    "`fun _ hW => hW.2` per paper `\\label{def:warrant}` typed-level E-internality identification " ++
     "of E-internality factorisation with partition-relative-" ++
     "weighting at typed `\\label{def:warrant}` level.  Substantive " ++
     "paper content of the uniform case (paper `\\label{lem:prw}` uniform case paragraph) " ++
@@ -682,9 +682,9 @@ def gap_prw_typeA_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
+      "constructible-from-E-alone antecedent — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
+      "E-internality clause.  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -837,9 +837,9 @@ def gap_prw_typeC1_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
+      "constructible-from-E-alone antecedent — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
+      "E-internality clause.  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -859,8 +859,9 @@ def gap_prw_typeC1_to_pr : GapEntry := {
       "Iff.rfl + 2-line bypass.  R22 Fix A strengthened " ++
       "`partitionRelative` with non-degeneracy clause; this " ++
       "case-bridge reinstated as Cat 3 axiom carrying the " ++
-      "$R_{f^*}$-routing paper-content (paper `\\label{lem:prw}` $R_{f^*}$-routing paragraphs + " ++
-      "2168-2170 non-degeneracy 'some $E_m$ ranks first by " ++
+      "$R_{f^*}$-routing paper-content (paper `\\label{lem:prw}` " ++
+      "$R_{f^*}$-routing partition-internality paragraph, " ++
+      "non-degeneracy clause 'some $E_m$ ranks first by " ++
       "virtue of $E_m$'s $f^*$-value').",
     "v0.16.0 R24 axiom → derived theorem per round-24 brief " ++
       "(2026-05-14).  R22 Fix A reverted (see `gap_prw_uniform_to_pr` " ++
@@ -952,9 +953,9 @@ def gap_prw_typeC2_recursive_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
+      "constructible-from-E-alone antecedent — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
+      "E-internality clause.  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -1080,9 +1081,9 @@ def gap_prw_typeC4a_internal_track_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
+      "constructible-from-E-alone antecedent — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
+      "E-internality clause.  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -1228,7 +1229,8 @@ def gap_warrantInternalToE_def : GapEntry := {
       "AND `\\label{def:warrant}` factorisation) were bundled into " ++
       "one opaque conjunction.  R18 decomposes into two named " ++
       "`def`s: `caseFormIsInternal` (Cat 3 `hypothesisPredicate`, " ++
-      "paper `\\label{lem:prw}` (c.3)/(c.4.b) hypothesis (H) tag-exclusion paragraphs hypothesis (H) tag-exclusion) and " ++
+      "paper `\\label{lem:prw}` (c.3)/(c.4.b) hypothesis (H) " ++
+      "tag-exclusion paragraphs) and " ++
       "`featureExtractsAreEInternal` (Cat 3 `structuralEquation`, " ++
       "paper `\\label{def:warrant}` E-internality clause typed factorisation).  Composite def " ++
       "becomes `warrantInternalToE := caseFormIsInternal ∧ " ++
@@ -1363,8 +1365,9 @@ def gap_featureExtractsAreEInternal_def : GapEntry := {
     "(definitional equivalence verified kernel-pure in " ++
     "`VacuityCheck.partitionRelative_iff_featureExtractsAreEInternal`)" ++
     " — both realise paper `\\label{def:warrant}` E-internality " ++
-    "factorisation per paper `\\label{def:warrant}` E-internality clause + 2109-2112 " ++
-    "identification.  Cat 3 `structuralEquation` per v6 §3.4.3.  " ++
+    "factorisation per the typed-level identification of " ++
+    "`partitionRelative` with `featureExtractsAreEInternal`.  " ++
+    "Cat 3 `structuralEquation` per v6 §3.4.3.  " ++
     "This is the SECOND conjunct of `warrantInternalToE` after " ++
     "R18 decomposition; the FIRST conjunct is " ++
     "`caseFormIsInternal`."
@@ -1511,8 +1514,8 @@ def gap_ArbitrationProcedure_admissibleIn_carrier : GapEntry := {
     "Prop` on the paper-novel `ArbitrationProcedure` + " ++
     "`Operationalisation` carriers.  Cat 3 `hypothesisPredicate` " ++
     "per v6 §3.4.2: paper-stated discourse-state scope-condition " ++
-    "predicate from paper `\\label{thm:impossibility}` line " ++
-    "1999-2002 ('admissible within D').  Status `gapDefinitional` " ++
+    "predicate from paper `\\label{thm:impossibility}` (H) " ++
+    "statement ('admissible within D').  Status `gapDefinitional` " ++
     "per v6 §1.1.  Encoded as Lean `axiom` (not `def`) because " ++
     "paper does NOT supply a Lean-internal definitional reduction; " ++
     "predicate's substance = discourse-D admissibility " ++
@@ -1839,9 +1842,9 @@ def gap_prw_contextual_to_pr : GapEntry := {
       "Kernel-pure proof of `False` derivable in 4 lines from the " ++
       "antecedent-dropped axiom + VacuityCheck V2 witness.  Root " ++
       "cause: axiom signature dropped paper `\\label{lem:prw}` " ++
-      "`\\label{lem:prw}` constructible-from-E-alone antecedent antecedent constructible from E alone — the " ++
+      "constructible-from-E-alone antecedent — the " ++
       "typed-structure version is paper `\\label{def:warrant}` " ++
-      "E-internality clause (`\\label{def:warrant}` E-internality clause).  R16 Option B fix: " ++
+      "E-internality clause.  R16 Option B fix: " ++
       "(i) `warrantInternalToE` in `Basic.lean` extended with the " ++
       "factoring conjunct (paper-faithful E-internality clause); " ++
       "(ii) axiom signature extended to `warrantForm = X → " ++
@@ -2568,7 +2571,10 @@ def gap_thm_impossibility_CLOSED : GapEntry := {
       "`warrantInternalToE` conjunct from `SatisfiesP2` (paper " ++
       "P2 at `\\label{def:op-properties}` doesn't " ++
       "include admissibility-as-conjunct; admissibility is a " ++
-      "discourse-state regime predicate per paper `\\label{thm:impossibility}` statement + 2114-2120).  (ii) Added `DiscourseHypothesisH` " ++
+      "discourse-state regime predicate per paper " ++
+      "`\\label{thm:impossibility}` (H) statement and " ++
+      "`\\label{lem:prw}` lemma statement).  (ii) Added " ++
+      "`DiscourseHypothesisH` " ++
       "predicate (Cat 3 `hypothesisPredicate`, paper-stated " ++
       "hypothesis (H) as universally-quantified statement on " ++
       "`ArbitrationProcedure`).  (iii) `thm_impossibility` takes " ++
@@ -3170,7 +3176,7 @@ def gap_substrate_independence_triple_use_OPEN : GapEntry := {
     "v0.6.0 R2 (2026-05-14, defects #4 + #5 + #6): the " ++
       "underlying naked-`Prop` axiom `SubstrateIndependenceTripleUse " ++
       ": Prop` was DELETED from `Basic.lean`.  Defect #4: the " ++
-      "naked `Prop` axiom violated `AxiomAudit.lean` line 30 " ++
+      "naked `Prop` axiom violated the `AxiomAudit.lean` " ++
       "self-policy `No (E) custom-scaffolding axioms (naked " ++
       "constants, abstract-type-inhabitation stipulations)`.  " ++
       "Defect #5: anti-pattern #7 phantom downstream user — no " ++
@@ -3914,9 +3920,9 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
       Root cause: each `prw_X_to_pr` axiom had signature
       `A.warrantForm = X → A.partitionRelative`, dropping paper
-      `\\label{lem:prw}` `\label{lem:prw}` constructible-from-E-alone antecedent antecedent ''constructible from
-      E alone'' (the typed-structure version being paper
-      `\\label{def:warrant}` E-internality clause `\label{def:warrant}` E-internality clause).
+      `\label{lem:prw}` ''constructible from E alone'' antecedent
+      (the typed-structure version being paper
+      `\label{def:warrant}` E-internality clause).
       With R14's substantive `partitionRelative` (E-feature
       factorisation), non-factorising warrants with
       `warrantForm = uniform` are direct counter-witnesses
@@ -3932,10 +3938,10 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
           typeC4b_external_track) ∧
          (∃ memberClass featByClass, ∀ x f, A.exhibits x f →
            A.warrant.featureExtract x = featByClass (memberClass f))`
-      The second conjunct IS paper `\\label{def:warrant}`
-      E-internality clause (paper `\label{def:warrant}` E-internality clause) at the
-      typed-structure level (paper `\label{def:warrant}` typed-level identification paragraph explicitly
-      identifies the typed-structure version with the
+      The second conjunct IS paper `\label{def:warrant}`
+      E-internality clause at the typed-structure level (paper
+      `\label{def:warrant}` explicitly identifies the
+      typed-structure version with the
       partition-relative-weighting prose).
 
     * R16-Step2 (case-bridge axiom signatures): each of the 6
@@ -4430,8 +4436,9 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
       Conclusion form is paper-faithful disjunctive
       `partitionRelative ∨ failsAdjudication`.  P2 definition
       extended with `¬ A.failsAdjudication` conjunct (paper option
-      (ii) parallel to option (i) per paper `\label{thm:impossibility}` proof conclusion +
-      2307-2326).  10 new GapEntry added (1 WarrantFeatureType
+      (ii) parallel to option (i) per paper
+      `\label{thm:impossibility}` proof conclusion trichotomy).
+      10 new GapEntry added (1 WarrantFeatureType
       carrier + 9 per-case atoms).
 
     * Issue 3 (substantive concretization, partial):
@@ -4629,7 +4636,7 @@ def cat3SubTypeCounts : Nat × Nat × Nat × Nat × Nat × Nat × Nat :=
 
     * DEFECT #4: `axiom SubstrateIndependenceTripleUse : Prop`
       DELETED from `Basic.lean`.  The naked-`Prop` axiom violated
-      the project trust policy (`AxiomAudit.lean` line 30 No
+      the project trust policy (`AxiomAudit.lean` self-policy: No
       naked-constant / abstract-type-inhabitation stipulations).
       The premise remains paper-articulated and is recorded as a
       Cat 3 `workingAssumption` ledger entry without an
