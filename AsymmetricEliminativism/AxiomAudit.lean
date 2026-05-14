@@ -31,31 +31,42 @@
   abstract-type-inhabitation stipulations).  No composite axioms
   bundling multiple independent paper claims.
 
-  Inventory by category (v0.11.0 R14 substantive paper-faithful
-  Warrant typed-structure refactor per v6 §11 + §13 + §18; v0.8.0
-  R5 substantive decomposition + v0.10.0 R9 baseline preserved
-  where applicable; live counts: see `lake env lean
+  Inventory by category (v0.12.0 R16 critical fix per round-16
+  brief Option B; v0.11.0 R14 substantive paper-faithful Warrant
+  typed-structure refactor per v6 §11 + §13 + §18; v0.8.0 R5
+  substantive decomposition + v0.10.0 R9 baseline preserved where
+  applicable; live counts: see `lake env lean
   AsymmetricEliminativism/Ledger.lean`):
 
     Cat 3 paper-novel atomic stipulations for Lemma `\label{lem:prw}`
     (Li 2026), the SIX `axiom` declarations in
-    `AsymmetricEliminativism/Impossibility.lean` (v0.8.0 R5
+    `AsymmetricEliminativism/Impossibility.lean`.  v0.8.0 R5
     Issue 3 concretization reduced 9 axioms → 6 axioms + 3 derived
     theorems; v0.11.0 R14 substantive paper-faithful refactor:
-    axiom RHS conclusions now consume the substantive
+    axiom RHS conclusions consume the substantive
     `\label{def:warrant}` E-internality factorisation predicate
-    via the new `Warrant` carrier, NOT bare-Prop, NOT cosmetic
-    Weighting-existential; machine-verified non-vacuous per
-    `test/VacuityCheck.lean`):
+    via the new `Warrant` carrier; v0.12.0 R16 critical fix:
+    each case-bridge axiom signature extended with a
+    `warrantInternalToE` antecedent (paper `\label{lem:prw}`
+    line 2116 "constructible from E alone" antecedent), resolving
+    the R15-machine-verified inconsistency.  Machine-verified
+    non-vacuous + consistent per `AsymmetricEliminativism/
+    VacuityCheck.lean`:
 
       prw_uniform_to_pr
         ← `\label{lem:prw}` uniform case (paper lines 2092-2102);
-          single-step typed bridge `A.warrantForm = uniform →
-          A.partitionRelative` (v0.11.0 R14 RHS unfolds to the
-          substantive `\label{def:warrant}` factorisation predicate).
+          v0.12.0 R16 signature: `A.warrantForm = uniform →
+          A.warrantInternalToE → A.partitionRelative` (the
+          `warrantInternalToE` antecedent IS paper `\label{lem:prw}`
+          line 2116 "constructible from E alone" antecedent, the
+          typed-structure version being paper `\label{def:warrant}`
+          E-internality clause lines 2099-2107).  R16 antecedent
+          addition resolves the R15 inconsistency.  RHS still the
+          substantive `\label{def:warrant}` factorisation predicate.
       prw_typeA_to_pr
         ← `\label{lem:prw}` type-(a) case (paper lines 2127-2131);
-          same substantive RHS shape (v0.11.0 R14).
+          same R16 signature (`warrantForm = X → warrantInternalToE
+          → partitionRelative`).
       prw_typeB_no_ranking
         ← `\label{lem:prw}` type-(b) case (paper lines 2131-2134);
           single-step typed bridge `A.warrantForm = typeB →
@@ -63,33 +74,42 @@
           Issue 3 concretization).
       prw_typeC1_to_pr
         ← `\label{lem:prw}` type-(c.1) case (paper lines 2151-2185);
-          same substantive RHS shape (v0.11.0 R14).  Paper's
-          `R_{f^*}` ranking is now ρ_W (the `ranker` field of the
-          typed `Warrant` carrier) per paper `\label{def:warrant}`.
+          same R16 signature.  Paper's `R_{f^*}` ranking is now
+          ρ_W (the `ranker` field of the typed `Warrant` carrier)
+          per paper `\label{def:warrant}`.
       prw_typeC2_recursive_to_pr
         ← `\label{lem:prw}` type-(c.2) recursive case (paper lines
-          2186-2196); same substantive RHS shape (v0.11.0 R14).
+          2186-2196); same R16 signature.
       prw_warrantInternalToE_excludes_typeC3
         ← `\label{lem:prw}` type-(c.3) exclusion (paper lines
           2189-2191); non-occurrence excluder `A.warrantInternalToE
-          → A.warrantForm ≠ typeC3_external`.  Derived theorem.
+          → A.warrantForm ≠ typeC3_external`.  Derived theorem;
+          under v0.12.0 R16 projects the tag-exclusion conjunct
+          via `.1.1` (the first conjunct of `warrantInternalToE`).
       prw_typeC4a_internal_track_to_pr
         ← `\label{lem:prw}` type-(c.4.a) internal track case (paper
-          lines 2210-2218); same substantive RHS shape (v0.11.0 R14).
+          lines 2210-2218); same R16 signature.
       prw_warrantInternalToE_excludes_typeC4b
         ← `\label{lem:prw}` type-(c.4.b) exclusion (paper lines
           2220-2237); non-occurrence excluder `A.warrantInternalToE
-          → A.warrantForm ≠ typeC4b_external_track`.  Derived theorem.
+          → A.warrantForm ≠ typeC4b_external_track`.  Derived
+          theorem; under v0.12.0 R16 projects the tag-exclusion
+          conjunct via `.1.2` (the first conjunct of
+          `warrantInternalToE`).
       prw_contextual_to_pr
         ← `\label{lem:prw}` contextual case (paper lines 2257-2270);
-          same substantive RHS shape (v0.11.0 R14).
+          same R16 signature.
 
     All nine carry sub-type Cat 3 `structuralEquation` (v6 §3.4.3),
     status `gapDefinitional` (v6 §1.1) — paper-stipulated
     definitional reduction on paper-novel carriers.  The 6 axioms
     have substantive paper-faithful RHS (`A.partitionRelative`
     unfolds to the `\label{def:warrant}` E-internality
-    factorisation predicate) per v0.11.0 R14.
+    factorisation predicate) per v0.11.0 R14; v0.12.0 R16
+    extended each axiom signature with the
+    `warrantInternalToE` antecedent (paper `\label{lem:prw}`
+    line 2116 "constructible from E alone" antecedent), resolving
+    the R15-machine-verified inconsistency.
 
     Cat 3 typed carriers / scope-condition bundles (encoded as
     Lean `structure` / `def` / `class` / `inductive`, NOT `axiom`
@@ -195,11 +215,17 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.ensemble_methods_fail_P2
 #print axioms AsymmetricEliminativism.impossibility_uniform_family
 
--- v0.11.0 R14 vacuity verification — kernel-pure proofs that
--- the new substantive paper-faithful `partitionRelative` def is
--- non-vacuous.  All four expected to show only `[propext,
--- Quot.sound]` (or less).
+-- v0.11.0 R14 vacuity verification + v0.12.0 R16 consistency
+-- verification — kernel-pure proofs that the new substantive
+-- paper-faithful `partitionRelative` def is non-vacuous AND that
+-- the R15 attack vector is closed under R16.  All eight expected
+-- to show only `[propext, Quot.sound]` (or less).
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_non_partition_relative
 #print axioms AsymmetricEliminativism.VacuityCheck.not_forall_partition_relative
 #print axioms AsymmetricEliminativism.VacuityCheck.exists_partition_relative
-#print axioms AsymmetricEliminativism.VacuityCheck.case_bridge_uniform_not_derivable_without_atom
+#print axioms AsymmetricEliminativism.VacuityCheck.case_bridge_uniform_unconditional_not_derivable
+-- v0.12.0 R16 consistency verification (added round-16):
+#print axioms AsymmetricEliminativism.VacuityCheck.nonFactorisingA_not_warrantInternalToE
+#print axioms AsymmetricEliminativism.VacuityCheck.exists_uniform_not_warrantInternalToE
+#print axioms AsymmetricEliminativism.VacuityCheck.factorisingA_satisfies_all_antecedents
+#print axioms AsymmetricEliminativism.VacuityCheck.r15_attack_requires_unprovable_antecedent

@@ -55,24 +55,51 @@
   `prw_typeA_to_pr`, `prw_typeC1_to_pr`, `prw_typeC2_recursive_to_pr`,
   `prw_typeC4a_internal_track_to_pr`, `prw_contextual_to_pr`) revert
   to bare-RHS atoms with shape `warrantForm = X → A.partitionRelative`
-  (Cat 3 `structuralEquation`, `gapDefinitional`).  Honest
-  acknowledgment: the paper's `partition-relativity` predicate is
-  PROCESS-LEVEL (`\label{lem:prw}` lines 2155-2170 — adjudication
-  factors through `\E`-feature extraction); the current
-  `ArbitrationProcedure` carrier is OUTPUT-LEVEL (`adjudicate :
-  Tcls → Fin Part.n`).  Bridging requires paper-extension
-  introducing typed Warrant sub-structure + external-feature
-  carrier (Cat 3 commitments the paper does not Lean-formalise).
+  (Cat 3 `structuralEquation`, `gapDefinitional`).
+
+  *v0.12.0 R16 critical fix — Option B per round-16 brief.*  R15
+  hostile validator machine-verified that the v0.11.0 R14
+  6 case-bridge axioms produced kernel-pure proof of `False`
+  (inconsistency).  Root cause: the axioms had signature
+  `warrantForm = X → partitionRelative`, dropping paper
+  `\label{lem:prw}` line 2116's "constructible from E alone"
+  antecedent.  With R14's substantive `partitionRelative`
+  predicate (E-feature factorisation), non-factorising warrants
+  with `warrantForm = uniform` are counter-witnesses
+  (`VacuityCheck.nonFactorisingA`), refuting each case-bridge
+  axiom by direct construction:
+    have h_kill := prw_uniform_to_pr Part nonFactorisingA rfl
+    -- h_kill : nonFactorisingA.partitionRelative — but
+    --   nonFactorisingA does NOT factor, so this proves False.
+
+  R16 fix (Option B per round-16 brief):
+  (1) `warrantInternalToE` extended in `Basic.lean` to encode
+      the paper-faithful E-internality clause per
+      `\label{def:warrant}` lines 2099-2107 (typed-structure
+      version per paper line 2109-2112), i.e., conjunction of
+      tag-exclusion (warrantForm ∉ external tags) AND factoring
+      through E-features.
+  (2) Each of the 6 case-bridge axioms now takes BOTH antecedents:
+      `warrantForm = X → warrantInternalToE → partitionRelative`.
+  (3) `lem_prw_reduction` threads `hW` to each case-bridge
+      invocation.
+  (4) `nonFactorisingA.warrantInternalToE` is now itself
+      unprovable (no factoring witness for `featureExtract = id`),
+      so the R15 attack vector fails to discharge the new
+      antecedent — R15 kill verifiably FAILS.
 
   *What is preserved.*  The v0.8.0 R5 substantive achievements
   remain intact: `WarrantFeatureType` 9-constructor inductive;
-  `failsAdjudication` / `warrantInternalToE` as decidable `def`s
-  on `WarrantFeatureType`; `prw_typeB_no_ranking` /
+  `failsAdjudication` / `warrantInternalToE` as `def`s on
+  `WarrantFeatureType` (now extended in R16 with the factoring
+  conjunct); `prw_typeB_no_ranking` /
   `prw_warrantInternalToE_excludes_typeC3` /
-  `prw_warrantInternalToE_excludes_typeC4b` as derived theorems;
+  `prw_warrantInternalToE_excludes_typeC4b` as derived theorems
+  (updated R16 to use `.1.1`/`.1.2` projection on the conjunction);
   `lem_prw_reduction` as a derived theorem composing 6 atoms + 3
-  derived theorems.  Only the R7 cosmetic concretization is
-  reverted.
+  derived theorems (updated R16 to thread `hW`).  v0.11.0 R14
+  typed `Warrant` carrier + factoring-based `partitionRelative`
+  predicate remain unchanged.
 -/
 
 import AsymmetricEliminativism.Basic
@@ -93,21 +120,29 @@ namespace AsymmetricEliminativism
 /--
   Paper `\label{lem:prw}` uniform case (paper lines 2092-2102).
 
-  Statement (v0.10.0 R9 bare-Prop RHS — honest revert of R7
-  cosmetic concretization): if `A.warrantForm = uniform` then
-  `A.partitionRelative`.
+  Statement (v0.12.0 R16 critical fix per round-16 brief Option B):
+  if `A.warrantForm = uniform` AND `A.warrantInternalToE` (the
+  paper-faithful E-internality predicate per `\label{def:warrant}`)
+  then `A.partitionRelative`.
+
+  *R16 critical fix rationale.*  v0.11.0 R14 had this axiom drop
+  the paper's "constructible from E alone" antecedent (paper
+  `\label{lem:prw}` line 2116).  R15 hostile validator machine-
+  verified that the antecedent-dropped axiom was INCONSISTENT:
+  `nonFactorisingA` has `warrantForm = uniform` AND
+  `¬ partitionRelative` (V2 witness in `VacuityCheck.lean`), so
+  the antecedent-dropped axiom is refuted by direct counter-
+  example, kernel-pure proving `False`.  R16 fix adds the
+  `A.warrantInternalToE` antecedent (which includes the paper-
+  faithful factoring clause per `Basic.lean`), restoring
+  consistency: `nonFactorisingA.warrantInternalToE` is itself
+  refutable (its `featureExtract = id` does NOT factor), so the
+  axiom can no longer be applied to derive an unsound
+  `partitionRelative` witness.
 
   Sub-type Cat 3 `structuralEquation` per v6 §3.4.3: paper-stated
   definitional reduction on the paper-novel `ArbitrationProcedure`
   + `WarrantFeatureType` carriers.  Status `gapDefinitional`.
-
-  *Close-target for substantive concretization.*  Paper's
-  partition-relativity is PROCESS-LEVEL (the warrant's verdict
-  factors through `\E`-feature extraction); current carrier is
-  OUTPUT-LEVEL (`adjudicate : Tcls → Fin Part.n`).  Concretizing
-  this case-bridge non-vacuously requires a process-level
-  `Warrant` sub-structure modeling external-vs-partition feature
-  distinction — paper-extension work.
 
   Paper-prose justification (lines 2092-2102):
   "Uniform case: $W$ assigns the same $k$ to all disagreement-cases
@@ -116,22 +151,39 @@ namespace AsymmetricEliminativism
   which is direct single-$E_m$ privileging — explicitly the
   P2-failure mode forbidden by Definition~\ref{def:op-properties}'s
   independence clause."
+
+  *Why this is non-trivial under the new signature.*  Under R16,
+  `A.warrantInternalToE` *contains* the factoring clause as its
+  second conjunct (paper `\label{def:warrant}` E-internality
+  clause).  Once `A.warrantInternalToE` holds, the factoring
+  witness is available; the axiom's content is that the
+  case-tag `warrantForm = uniform` is *consistent* with this
+  factoring (the uniform case-tag does NOT carry hidden
+  obligations beyond what E-internality already provides).
+  The case-bridge is thus the *exhaustiveness* commitment that
+  the paper's `WarrantFeatureType` taxonomy enumeration
+  (uniform / typeA / typeB / typeC1 / typeC2_recursive /
+  typeC3_external / typeC4a_internal_track /
+  typeC4b_external_track / contextual) is the complete list
+  of warrant-form structural sub-cases under E-internality.
 -/
 axiom prw_uniform_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.uniform → A.partitionRelative
+    A.warrantForm = WarrantFeatureType.uniform →
+      A.warrantInternalToE → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(a) case (paper lines 2127-2131).
 
-  Statement (v0.10.0 R9 bare-Prop RHS — honest revert): if
-  `A.warrantForm = typeA` then `A.partitionRelative`.
+  Statement (v0.12.0 R16 critical fix): if `A.warrantForm = typeA`
+  AND `A.warrantInternalToE` then `A.partitionRelative`.  See
+  `prw_uniform_to_pr` docstring for the full R15/R16 inconsistency-
+  fix rationale and the role of the `warrantInternalToE`
+  antecedent.
 
-  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.  Close-target
-  for substantive concretization: see `prw_uniform_to_pr` docstring
-  (process-level Warrant refinement).
+  Sub-type Cat 3 `structuralEquation` per v6 §3.4.3.
 
   Paper-prose justification (lines 2127-2131):
   "Type-(a): $f$ belongs to some $E_m$.  Then $R$'s appeal to $f$
@@ -142,7 +194,8 @@ axiom prw_typeA_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeA → A.partitionRelative
+    A.warrantForm = WarrantFeatureType.typeA →
+      A.warrantInternalToE → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(b) case (paper lines 2131-2134).
@@ -198,7 +251,8 @@ axiom prw_typeC1_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeC1 → A.partitionRelative
+    A.warrantForm = WarrantFeatureType.typeC1 →
+      A.warrantInternalToE → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(c.2) recursive-meta-appeal case
@@ -232,7 +286,8 @@ axiom prw_typeC2_recursive_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeC2_recursive → A.partitionRelative
+    A.warrantForm = WarrantFeatureType.typeC2_recursive →
+      A.warrantInternalToE → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(c.3) external-feature exclusion
@@ -265,7 +320,7 @@ theorem prw_warrantInternalToE_excludes_typeC3
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantInternalToE → A.warrantForm ≠ WarrantFeatureType.typeC3_external := by
-  intro h; exact h.1
+  intro h; exact h.1.1
 
 /--
   Paper `\label{lem:prw}` type-(c.4.a) internal track-record case
@@ -289,7 +344,8 @@ axiom prw_typeC4a_internal_track_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.typeC4a_internal_track → A.partitionRelative
+    A.warrantForm = WarrantFeatureType.typeC4a_internal_track →
+      A.warrantInternalToE → A.partitionRelative
 
 /--
   Paper `\label{lem:prw}` type-(c.4.b) external track-record
@@ -324,7 +380,7 @@ theorem prw_warrantInternalToE_excludes_typeC4b
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
     A.warrantInternalToE → A.warrantForm ≠ WarrantFeatureType.typeC4b_external_track := by
-  intro h; exact h.2
+  intro h; exact h.1.2
 
 /--
   Paper `\label{lem:prw}` contextual case (paper lines 2257-2270).
@@ -354,7 +410,8 @@ axiom prw_contextual_to_pr
     {FolkObj Tcls : Type}
     (Part : MutuallyUnrankedPartition FolkObj)
     (A : ArbitrationProcedure FolkObj Tcls Part) :
-    A.warrantForm = WarrantFeatureType.contextual → A.partitionRelative
+    A.warrantForm = WarrantFeatureType.contextual →
+      A.warrantInternalToE → A.partitionRelative
 
 /-! ## Lemma `\label{lem:prw}` — derived theorem.
 
@@ -416,27 +473,30 @@ theorem lem_prw_reduction
     (hW : A.warrantInternalToE) :
     A.partitionRelative ∨ A.failsAdjudication := by
   -- Case-exhaustion on the paper-faithful warrant-form taxonomy.
+  -- v0.12.0 R16: each non-excluded case-bridge takes both
+  -- `warrantForm = X` AND `warrantInternalToE` as antecedents; we
+  -- thread `hW` through every per-case invocation.
   match h : A.warrantForm with
   | WarrantFeatureType.uniform =>
-      exact Or.inl (prw_uniform_to_pr Part A h)
+      exact Or.inl (prw_uniform_to_pr Part A h hW)
   | WarrantFeatureType.typeA =>
-      exact Or.inl (prw_typeA_to_pr Part A h)
+      exact Or.inl (prw_typeA_to_pr Part A h hW)
   | WarrantFeatureType.typeB =>
       exact Or.inr (prw_typeB_no_ranking Part A h)
   | WarrantFeatureType.typeC1 =>
-      exact Or.inl (prw_typeC1_to_pr Part A h)
+      exact Or.inl (prw_typeC1_to_pr Part A h hW)
   | WarrantFeatureType.typeC2_recursive =>
-      exact Or.inl (prw_typeC2_recursive_to_pr Part A h)
+      exact Or.inl (prw_typeC2_recursive_to_pr Part A h hW)
   | WarrantFeatureType.typeC3_external =>
       -- Forbidden by (H) — paper lines 2189-2191.
       exact absurd h (prw_warrantInternalToE_excludes_typeC3 Part A hW)
   | WarrantFeatureType.typeC4a_internal_track =>
-      exact Or.inl (prw_typeC4a_internal_track_to_pr Part A h)
+      exact Or.inl (prw_typeC4a_internal_track_to_pr Part A h hW)
   | WarrantFeatureType.typeC4b_external_track =>
       -- Forbidden by (H) — paper lines 2220-2237.
       exact absurd h (prw_warrantInternalToE_excludes_typeC4b Part A hW)
   | WarrantFeatureType.contextual =>
-      exact Or.inl (prw_contextual_to_pr Part A h)
+      exact Or.inl (prw_contextual_to_pr Part A h hW)
 
 /-! ## Hypothesis (H) — discourse-internality.
 

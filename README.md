@@ -83,12 +83,33 @@ All axioms are atomic minimal units, classified as one of:
   paper's E-internality factorisation.  The 6 case-bridge axioms
   retain their structural-equation status but now carry substantive
   paper-faithful RHS conclusions.  Vacuity verified kernel-pure via
-  `AsymmetricEliminativism/VacuityCheck.lean` (4 theorems: explicit
-  counter-witness `nonFactorisingA` proves `∃ A, ¬
-  A.partitionRelative`; companion `factorisingA` proves the
-  predicate is satisfiable; the case-bridge `∀ A, warrantForm =
-  uniform → A.partitionRelative` is provably NOT Lean-derivable
-  without the atom).
+  `AsymmetricEliminativism/VacuityCheck.lean`.
+
+  **v0.12.0 R16 critical fix per round-16 brief Option B.**  The
+  v0.11.0 R14 case-bridge axioms had signature `warrantForm = X →
+  A.partitionRelative`, dropping paper `\label{lem:prw}` line 2116
+  antecedent ''constructible from E alone'' (the typed-structure
+  version being paper `\label{def:warrant}` E-internality clause
+  lines 2099-2107).  R15 hostile validator machine-verified that
+  this produced kernel-pure proof of `False`: `nonFactorisingA` has
+  `warrantForm = uniform` AND `¬ partitionRelative` (per
+  `VacuityCheck` V2 witness), so `prw_uniform_to_pr` applied to it
+  derives a `partitionRelative` witness contradicting (V2).  R16
+  Option B fix: (i) `warrantInternalToE` in `Basic.lean` extended
+  with the paper-faithful E-internality factoring conjunct (paper
+  `\label{def:warrant}` lines 2099-2107); (ii) each case-bridge
+  axiom signature extended to `warrantForm = X → warrantInternalToE
+  → partitionRelative`; (iii) `lem_prw_reduction` updated to thread
+  `hW` through each per-case invocation.  Under R16,
+  `nonFactorisingA.warrantInternalToE` is itself kernel-pure
+  refutable (its `featureExtract = id` does not factor), so the R15
+  attack vector cannot discharge the new antecedent.  R15 kill
+  attempt now type-mismatches (verified via `test/R15Kill.lean`).
+  Consistency + vacuity verified kernel-pure via 8 theorems in
+  `VacuityCheck.lean`: (V1)-(V3) vacuity preserved + (V4)
+  `nonFactorisingA_not_warrantInternalToE` + (V5)
+  `factorisingA_satisfies_all_antecedents` + (V6)
+  `r15_attack_requires_unprovable_antecedent`.
 * **Lean kernel** — `propext`, `Classical.choice`, `Quot.sound`.
 
 The project has zero Cat 1 axioms (no Mathlib-derivability
@@ -156,7 +177,7 @@ AsymmetricEliminativism/AxiomAudit.lean` output combined with the
 | [`AsymmetricEliminativism/Diagnostic.lean`](AsymmetricEliminativism/Diagnostic.lean) | Discriminator (`def:discriminator`) rules (R1) and (R2), with derived structural lemmas on threshold-rule firing patterns |
 | [`AsymmetricEliminativism/Impossibility.lean`](AsymmetricEliminativism/Impossibility.lean) | Theorem `\label{thm:impossibility}` (Lean-form `¬ P2`) + `thm_impossibility_paper_form` (paper-form `¬ (P2 ∧ P3)` derived from `thm_impossibility` + trivial-P3) + Lemma `\label{lem:prw}` (derived theorem `lem_prw_reduction` composing the six Cat 3 atomic case-bridge axioms `prw_{uniform,typeA,typeC1,typeC2_recursive,typeC4a_internal_track,contextual}_to_pr` with three derived case-theorems via case-exhaustion on the `WarrantFeatureType` 9-constructor inductive) + corollaries: `no_partition_independent_admissible_warrant`, `ensemble_methods_fail_P2`, `impossibility_uniform_family` |
 | [`AsymmetricEliminativism/AxiomAudit.lean`](AsymmetricEliminativism/AxiomAudit.lean) | Trust audit: prints `#print axioms` for every paper-level theorem |
-| [`AsymmetricEliminativism/VacuityCheck.lean`](AsymmetricEliminativism/VacuityCheck.lean) | Vacuity verification (v0.11.0 R14): four kernel-pure theorems proving the new substantive paper-faithful `partitionRelative` def is non-vacuous (constructible counter-witness + companion satisfying witness + case-bridge non-derivability) |
+| [`AsymmetricEliminativism/VacuityCheck.lean`](AsymmetricEliminativism/VacuityCheck.lean) | Vacuity + consistency verification (v0.11.0 R14 + v0.12.0 R16): eight kernel-pure theorems — four R14 vacuity (counter-witness `nonFactorisingA` proves `∃ A, ¬ partitionRelative`; companion `factorisingA` proves satisfiability; case-bridge unconditional form refutable) + four R16 consistency (`nonFactorisingA_not_warrantInternalToE` + existence form + positive instance for the new antecedent + R15 attack vector verifiably blocked) |
 | [`AsymmetricEliminativism/Ledger.lean`](AsymmetricEliminativism/Ledger.lean) | Typed gap ledger: `GapStatus` × `InputCategory` orthogonal classification, with one `GapEntry` per atomic axiom, paper-novel carrier, and closed top-level result |
 
 ## Building

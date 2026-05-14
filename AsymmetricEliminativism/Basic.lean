@@ -622,38 +622,88 @@ def ArbitrationProcedure.partitionRelative
         A.warrant.featureExtract x = featByClass (memberClass f)
 
 /--
-  *Warrant internal to `\\E`* — concretized as paper-faithful
-  decidable predicate on `warrantForm` (v0.8.0 R5 Issue 3
-  substantive concretization).
+  *Warrant internal to `\\E`* — paper-faithful E-internality
+  predicate (v0.12.0 R16 critical fix per round-16 brief).
 
-  Paper hypothesis (H), `\label{thm:impossibility}`: "every
-  admissible arbitration procedure within $D$ for adjudicating
-  operationalisations of $\C$ derives its adjudication-warrant
-  from $\E$".  In the warrant-form taxonomy of
-  `\label{lem:prw}` proof body, the external-feature warrants are
-  exactly typeC3_external (paper lines 2189-2191) and
-  typeC4b_external_track (paper lines 2220-2237); all other
-  warrant-form constructors carry warrants derived from
-  `\E`-features alone.
+  Paper Definition `\label{def:warrant}` (lines 2099-2107), the
+  *E-internality of W (Hypothesis (H))* clause:
+    "The warrant $W$ is *$\E$-internal* when $\phi_W$ factors
+    through $\E$-feature-membership: there exist
+    $\pi : \E \to \{1, \ldots, n\}$ (partition-membership-class
+    assignment on $\E$-features) and $\mathsf{feat}_E : \{1, \ldots,
+    n\} \to \mathsf{Feat}_W$ (per-class feature value) such that
+    for all $x \in \Tcls$ and every $\E$-feature $f$ that $x$
+    exhibits, $\phi_W(x) = \mathsf{feat}_E(\pi(f))$."
 
-  *Definitional equation.*  `A.warrantInternalToE` iff
-  `A.warrantForm ∉ {typeC3_external, typeC4b_external_track}`.
+  Paper line 2109-2112: "This is the typed-structure version of
+  the prose-level description following Lemma~\ref{lem:prw} of
+  $R_{f^*}$ being constructed from $f^*$-values on each $E_i$
+  that are distributed unequally across the partition members."
+
+  *Definitional equation (v0.12.0 R16).*  `A.warrantInternalToE`
+  iff BOTH of the following hold:
+    (i) tag-exclusion: `A.warrantForm ∉ {typeC3_external,
+        typeC4b_external_track}` (paper hypothesis (H) in
+        warrant-form taxonomy of `\label{lem:prw}` proof body —
+        the external-feature warrants are exactly those tags);
+   (ii) factoring: `A.warrant.featureExtract` factors through
+        `\E`-feature-membership per paper Definition
+        `\label{def:warrant}` (lines 2099-2107).
+
+  *R15/R16 inconsistency-fix rationale.*  v0.11.0 R14 implemented
+  the tag-exclusion clause ONLY for `warrantInternalToE`, leaving
+  the typed-structure factoring out of the predicate.  The 6
+  case-bridge axioms (`prw_uniform_to_pr`, …) then had signatures
+  `warrantForm = X → partitionRelative`, dropping the paper's
+  "constructible from E alone" antecedent.  R15 hostile validator
+  machine-verified that this produced kernel-pure `False`:
+  `nonFactorisingA` has `warrantForm = uniform` but does NOT
+  factor, so `prw_uniform_to_pr` applied to it derives a
+  `partitionRelative` witness that the V2 construction refutes.
+
+  R16 fix per Option B of round-16 brief: extend
+  `warrantInternalToE` with the factoring conjunct (the paper's
+  Definition `\label{def:warrant}` typed-structure clause).  Now
+  the case-bridge axioms can take BOTH `warrantForm = X` AND
+  `warrantInternalToE` as antecedents.  Under this signature,
+  the R15 counter-witness no longer applies because
+  `nonFactorisingA.warrantInternalToE` itself is unprovable
+  (its `featureExtract = id` does NOT factor through any
+  `(memberClass, featByClass)` pair on the toy Bool partition).
+  Each case-bridge is now genuinely conditional, no longer
+  inconsistent.
+
+  Note: the second conjunct's *statement* is definitionally
+  the same as `A.partitionRelative` (both are paper's
+  factoring predicate at the typed-structure level — paper line
+  2109-2112 explicitly identifies them).  This is paper-faithful;
+  the case-bridge work is in the *exhaustiveness* of the
+  `WarrantFeatureType` taxonomy under E-internality, not in
+  deriving factoring from a different content predicate.  The
+  case-bridges therefore carry exhaustiveness-content (one per
+  paper-case justification) rather than reduction-content.
 
   *Status / Cat 3 sub-type.*  Cat 3 `structuralEquation` per
   v6 §3.4.3: paper-stated definitional reduction tying paper
-  hypothesis (H) to the paper-faithful `WarrantFeatureType`
-  taxonomy.  The two `prw_warrantInternalToE_excludes_typeC3`
-  and `prw_warrantInternalToE_excludes_typeC4b` excluder axioms
-  of v0.8.0 R5 Issue 2 are now derivable theorems (by `decide`
-  on `WarrantFeatureType` decidable-equality) rather than
-  axioms — see `Impossibility.lean` for the derivations.
+  hypothesis (H) + Definition `\label{def:warrant}` E-internality
+  clause to the paper-faithful `WarrantFeatureType` taxonomy.
+  The two `prw_warrantInternalToE_excludes_typeC3` and
+  `prw_warrantInternalToE_excludes_typeC4b` excluder theorems
+  remain derivable via `.1.1` / `.1.2` projection (tag-exclusion
+  conjunct is the first component of the conjunction; see
+  `Impossibility.lean`).
 -/
 def ArbitrationProcedure.warrantInternalToE
     {FolkObj Tcls : Type}
     {Part : MutuallyUnrankedPartition FolkObj}
     (A : ArbitrationProcedure FolkObj Tcls Part) : Prop :=
-  A.warrantForm ≠ WarrantFeatureType.typeC3_external ∧
-  A.warrantForm ≠ WarrantFeatureType.typeC4b_external_track
+  (A.warrantForm ≠ WarrantFeatureType.typeC3_external ∧
+   A.warrantForm ≠ WarrantFeatureType.typeC4b_external_track) ∧
+  (∃ (memberClass : FolkObj → Fin Part.n)
+    (featByClass : Fin Part.n → A.warrant.FeatureSpace),
+    ∀ (x : Tcls) (f : FolkObj),
+      A.exhibits x f →
+        A.warrant.featureExtract x = featByClass (memberClass f))
 
 /--
   *Fails adjudication* — concretized as paper-faithful decidable
