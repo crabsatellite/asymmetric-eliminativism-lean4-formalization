@@ -2679,9 +2679,8 @@ def gap_R1_does_not_fire_on_yes_weak_weak_CLOSED : GapEntry := {
     "non-firing on the LLM-row pattern"
   attackHistory := []
   scope :=
-    "(R1) does NOT fire on `(yes, weak, weak)`.  This is why the " ++
-    "LLM-row verdict relies on (R2) and is labelled preliminary " ++
-    "in the paper."
+    "(R1) does NOT fire on `(yes, weak, weak)`. The LLM row is " ++
+    "therefore suspended and routed to the prospective-test flag."
 }
 
 def gap_R2_pattern_fires_on_yes_weak_weak_CLOSED : GapEntry := {
@@ -2695,7 +2694,7 @@ def gap_R2_pattern_fires_on_yes_weak_weak_CLOSED : GapEntry := {
   attackHistory := []
   scope :=
     "(R2)'s Boolean pattern fires on `(yes, weak, weak)`; the " ++
-    "full (R2) verdict additionally requires the counterfactual-" ++
+    "full prospective-test flag additionally requires the counterfactual-" ++
     "independence side-condition."
 }
 
@@ -2713,19 +2712,19 @@ def gap_predictsEliminate_of_all_yes_CLOSED : GapEntry := {
     "eliminated cases."
 }
 
-def gap_predictsEliminate_of_yes_weak_weak_with_indep_CLOSED : GapEntry := {
-  name := "predictsEliminate_of_yes_weak_weak_with_indep"
+def gap_requiresProspectiveTest_of_yes_weak_weak_with_indep_CLOSED : GapEntry := {
+  name := "requiresProspectiveTest_of_yes_weak_weak_with_indep"
   status := GapStatus.gapClosed
   inputCategory := InputCategory.notInput
   cat3SubType := Cat3SubType.notCat3
   paperSource :=
-    "Li 2026, `\\label{def:discriminator}` (R2) eliminate verdict " ++
-    "on the LLM-row pattern under counterfactual independence"
+    "Li 2026, `\\label{def:discriminator}` (R2) prospective-test " ++
+    "flag on the LLM-row pattern under counterfactual independence"
   attackHistory := []
   scope :=
     "Compose: (R2) Boolean pattern + counterfactual-independence " ++
-    "side-condition ⟹ eliminate verdict on `(yes, weak, weak)`.  " ++
-    "Captures the LLM-row preliminary-elimination structure."
+    "side-condition ⟹ prospective-test posture on `(yes, weak, weak)`. " ++
+    "The result carries no eliminate-trajectory conclusion."
 }
 
 def gap_not_R2_satisfied_without_indep_CLOSED : GapEntry := {
@@ -2739,8 +2738,7 @@ def gap_not_R2_satisfied_without_indep_CLOSED : GapEntry := {
   attackHistory := []
   scope :=
     "Without counterfactual independence, the LLM-row pattern " ++
-    "does NOT yield an (R2)-licensed verdict.  This is the " ++
-    "framework's defeasibility-margin built into (R2)."
+    "does NOT yield the full (R2) prospective-test flag."
 }
 
 /-! ### Impossibility-theorem corollaries. -/
@@ -3555,7 +3553,7 @@ def allGaps : List GapEntry := [
   gap_R1_does_not_fire_on_yes_weak_weak_CLOSED,
   gap_R2_pattern_fires_on_yes_weak_weak_CLOSED,
   gap_predictsEliminate_of_all_yes_CLOSED,
-  gap_predictsEliminate_of_yes_weak_weak_with_indep_CLOSED,
+  gap_requiresProspectiveTest_of_yes_weak_weak_with_indep_CLOSED,
   gap_not_R2_satisfied_without_indep_CLOSED,
   -- Impossibility-theorem corollaries
   gap_no_partition_independent_admissible_warrant_CLOSED,

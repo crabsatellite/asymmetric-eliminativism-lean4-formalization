@@ -21,7 +21,8 @@
     * Structural lemmas: R1 fires on `(yes, yes, yes)` and on
       `(yes, yes, weak)` etc.; R2 fires on `(yes, weak, weak)` only
       under the counterfactual-independence side-condition.
-    * The combined discriminator verdict.
+    * The strict eliminate-trajectory classification and the distinct
+      prospective-test flag.
 -/
 
 import AsymmetricEliminativism.Basic
@@ -34,7 +35,7 @@ namespace AsymmetricEliminativism
 
   * `yes`  — the sub-condition clearly holds;
   * `no`   — the sub-condition clearly fails;
-  * `weak` — the sub-condition partially holds.
+  * `weak` — the available evidence is incomplete, mixed, or unstable.
 
   *On `weak`.*  The paper's `weak` rating is itself a disjunction of
   three readings (property obtains in some respects but not others;
@@ -92,8 +93,8 @@ def DiscriminatorRow.R1_strictTwoOfThree (r : DiscriminatorRow) : Bool :=
   decide (r.numYes ≥ 2)
 
 /--
-  Rule (R2) — *one-strong-plus-two-weak*: the discriminator's
-  eliminate-trajectory verdict fires when exactly one of D1, D2,
+  Rule (R2) — *one-strong-plus-two-weak*: a prospective-test flag
+  fires when exactly one of D1, D2,
   D3 registers `yes` and the other two both register `weak`,
   provided the counterfactual-independence side-condition holds.
 
@@ -108,18 +109,22 @@ def DiscriminatorRow.R2_oneStrongPlusTwoWeak (r : DiscriminatorRow) : Bool :=
   decide (r.numYes = 1 ∧ r.numWeak = 2)
 
 /--
-  Full (R2) verdict: Boolean pattern AND counterfactual
-  independence.
+  Full (R2) prospective-test flag: Boolean pattern AND
+  counterfactual independence.
 -/
 def DiscriminatorRow.R2_satisfied (r : DiscriminatorRow) : Prop :=
   r.R2_oneStrongPlusTwoWeak = true ∧ r.counterfactualIndependence
 
 /--
-  Combined discriminator verdict: the row predicts the eliminate
-  trajectory iff either (R1) or the full (R2) verdict fires.
+  Strict discriminator classification: only validated rule (R1)
+  predicts the eliminate trajectory.  R2 is deliberately excluded.
 -/
 def DiscriminatorRow.predictsEliminate (r : DiscriminatorRow) : Prop :=
-  r.R1_strictTwoOfThree = true ∨ r.R2_satisfied
+  r.R1_strictTwoOfThree = true
+
+/-- Prospective-test posture: the unvalidated R2 pattern is present. -/
+def DiscriminatorRow.requiresProspectiveTest (r : DiscriminatorRow) : Prop :=
+  r.R2_satisfied
 
 /-! ### Structural sanity-check theorems about the threshold rules. -/
 
@@ -189,9 +194,8 @@ theorem R1_fires_on_yes_yes_weak
   decide
 
 /-- (R1) does *not* fire on the `(yes, weak, weak)` row (matching
-    the LLM-row pattern in the paper's calibration table).  The
-    eliminate verdict on the LLM row therefore relies on (R2)
-    plus the counterfactual-independence side-condition. -/
+    the LLM-row pattern in the paper's calibration table). The row is
+    therefore not assigned an eliminate-trajectory classification. -/
 theorem R1_does_not_fire_on_yes_weak_weak
     (r : DiscriminatorRow)
     (h1 : r.D1 = DiagnosticRating.yes)
@@ -204,7 +208,7 @@ theorem R1_does_not_fire_on_yes_weak_weak
   decide
 
 /-- (R2)'s Boolean-pattern check *does* fire on the `(yes, weak,
-    weak)` row — the LLM-row pattern.  The full (R2) verdict
+    weak)` row — the LLM-row pattern.  The full (R2) test flag
     additionally requires the counterfactual-independence side-
     condition. -/
 theorem R2_pattern_fires_on_yes_weak_weak
@@ -226,25 +230,21 @@ theorem predictsEliminate_of_all_yes
     (h2 : r.D2 = DiagnosticRating.yes)
     (h3 : r.D3 = DiagnosticRating.yes) :
     r.predictsEliminate :=
-  Or.inl (R1_fires_on_all_yes r h1 h2 h3)
+  R1_fires_on_all_yes r h1 h2 h3
 
-/-- (R2)-licensed verdict on the LLM-row pattern: predicts
-    elimination *provided* counterfactual independence holds. -/
-theorem predictsEliminate_of_yes_weak_weak_with_indep
+/-- The R2 LLM-row pattern requires prospective testing when
+    counterfactual independence holds; it does not predict elimination. -/
+theorem requiresProspectiveTest_of_yes_weak_weak_with_indep
     (r : DiscriminatorRow)
     (h1 : r.D1 = DiagnosticRating.yes)
     (h2 : r.D2 = DiagnosticRating.weak)
     (h3 : r.D3 = DiagnosticRating.weak)
     (hIndep : r.counterfactualIndependence) :
-    r.predictsEliminate :=
-  Or.inr ⟨R2_pattern_fires_on_yes_weak_weak r h1 h2 h3, hIndep⟩
+    r.requiresProspectiveTest :=
+  ⟨R2_pattern_fires_on_yes_weak_weak r h1 h2 h3, hIndep⟩
 
 /-- Without counterfactual independence, the LLM-row pattern does
-    *not* yield an (R2)-licensed verdict: the predicate
-    `R2_satisfied` is rejected.  Combined with (R1)-non-firing
-    (above), this means the discriminator does *not* predict
-    elimination on `(yes, weak, weak)` rows that fail the
-    counterfactual-independence test. -/
+    *not* yield the full R2 prospective-test flag. -/
 theorem not_R2_satisfied_without_indep
     (r : DiscriminatorRow)
     (_h1 : r.D1 = DiagnosticRating.yes)

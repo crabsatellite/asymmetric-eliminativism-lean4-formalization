@@ -207,7 +207,7 @@
         R1_does_not_fire_on_yes_weak_weak,
         R2_pattern_fires_on_yes_weak_weak,
         predictsEliminate_of_all_yes,
-        predictsEliminate_of_yes_weak_weak_with_indep,
+        requiresProspectiveTest_of_yes_weak_weak_with_indep,
         not_R2_satisfied_without_indep,
         prw_uniform_to_pr (R24 derived theorem),
         prw_typeA_to_pr (R24 derived theorem),
@@ -353,7 +353,7 @@ import AsymmetricEliminativism
 #print axioms AsymmetricEliminativism.R1_does_not_fire_on_yes_weak_weak
 #print axioms AsymmetricEliminativism.R2_pattern_fires_on_yes_weak_weak
 #print axioms AsymmetricEliminativism.predictsEliminate_of_all_yes
-#print axioms AsymmetricEliminativism.predictsEliminate_of_yes_weak_weak_with_indep
+#print axioms AsymmetricEliminativism.requiresProspectiveTest_of_yes_weak_weak_with_indep
 #print axioms AsymmetricEliminativism.not_R2_satisfied_without_indep
 
 -- Nine derived theorems for Lemma `\label{lem:prw}` per-case
